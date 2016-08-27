@@ -1,0 +1,8 @@
+github "realm/realm-cocoa"
+github "ReactiveX/RxSwift"
+github "nixzhu/KeyboardMan"
+github "delba/Permission"
+github "Alamofire/Alamofire"
+github "onevcat/Kingfisher"
+github "fdzsergio/SFFocusViewLayout"
+github "delba/TextAttributes"
