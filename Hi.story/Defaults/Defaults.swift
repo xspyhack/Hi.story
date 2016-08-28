@@ -40,6 +40,7 @@ struct Defaults {
     
     static let perPage: Int = 30
     
+    static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
     static let tabBarHeight: CGFloat = 44.0
     static let rowHeight: CGFloat = 48.0
     

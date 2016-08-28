@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 import RxSwift
 import RxCocoa
 
@@ -21,7 +22,7 @@ final class MatterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.xh_registerReusableCell(MatterCell)
+        tableView.hi.registerReusableCell(MatterCell)
         
         tableView.rx_itemSelected
             .subscribeNext { [weak self] indexPath in }

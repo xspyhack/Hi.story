@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 import Kingfisher
 
 class StorybookCell: UICollectionViewCell, Reusable {

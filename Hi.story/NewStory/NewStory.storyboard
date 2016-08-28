@@ -91,7 +91,7 @@
                                 <items>
                                     <navigationItem title="New Story" id="l0V-IF-wvd">
                                         <barButtonItem key="leftBarButtonItem" title="CANCEL" id="nYc-Ig-UJ8"/>
-                                        <barButtonItem key="rightBarButtonItem" title="POST" id="XB5-R0-5SN"/>
+                                        <barButtonItem key="rightBarButtonItem" title="POST" style="done" id="XB5-R0-5SN"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

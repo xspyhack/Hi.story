@@ -25,7 +25,7 @@ class ProfileViewController: BaseViewController {
             storybookCollectionView.scrollIndicatorInsets.top = maximumHeaderHeight
             storybookCollectionView.contentInset.bottom = Defaults.tabBarHeight
             storybookCollectionView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
-            storybookCollectionView.xh_registerReusableCell(StorybookCell)
+            storybookCollectionView.hi.registerReusableCell(StorybookCell)
         }
     }
     
@@ -36,7 +36,7 @@ class ProfileViewController: BaseViewController {
             matterTableView.contentInset.bottom = Defaults.tabBarHeight
             matterTableView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
             matterTableView.rowHeight = Constant.matterRowHeight
-            matterTableView.xh_registerReusableCell(MatterCell)
+            matterTableView.hi.registerReusableCell(MatterCell)
         }
     }
     
@@ -87,8 +87,8 @@ class ProfileViewController: BaseViewController {
                 storybookCollectionView.hidden = false
                 matterTableView.hidden = true
                 
-                //matterTableView.xh_forceStop()
-                //storybookCollectionView.xh_scrollToTop(animated: false)
+                //matterTableView.hi.forceStop()
+                //storybookCollectionView.hi.scrollToTop(animated: false)
                 
                 // 为了提供更好的用户体验，切换 channel 后，不进行 headerView 高度的改变。
                 // 而是保持之前的状态，所以只需要调整 contentOffset 即可。
@@ -99,8 +99,8 @@ class ProfileViewController: BaseViewController {
                 matterTableView.hidden = false
                 storybookCollectionView.hidden = true
                 
-                //storybookCollectionView.xh_forceStop()
-                //matterTableView.xh_scrollToTop(animated: false)
+                //storybookCollectionView.hi.forceStop()
+                //matterTableView.hi.scrollToTop(animated: false)
                 
                 // 同上
                 let contentOffsetY = storybookCollectionView.contentOffset.y
@@ -192,7 +192,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: StorybookCell = collectionView.xh_dequeueReusableCell(for: indexPath)
+        let cell: StorybookCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         return cell
     }
 }
@@ -240,7 +240,7 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: MatterCell = tableView.xh_dequeueReusableCell(for: indexPath)
+        let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
         return cell
     }
 }

@@ -22,7 +22,7 @@ class ShareViewController: SLComposeServiceViewController {
     private lazy var titleItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
         item.title = "Title"
-        item.value = NSDate().xh_yearMonthDay
+        item.value = NSDate().hi.yearMonthDay
         item.tapHandler = { [weak self] in
             if let vc = self?.storyboard?.instantiateViewControllerWithIdentifier(StoryboardIdentifier.TitleViewController.rawValue) as? TitleViewController {
                 vc.pickAction = { [weak self](title) in

@@ -33,7 +33,7 @@ struct StorysViewModel {
         ]
         switch type {
         case .Single(let date):
-            params["date"] = date.xh_yearMonthDay
+            params["date"] = date.hi.yearMonthDay
         case .Range(let from, let to):
             params["from"] = "\(from)"
             params["to"] = "\(to)"

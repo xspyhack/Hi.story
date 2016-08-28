@@ -15,7 +15,7 @@ final class RestrospectiveViewController: UIViewController {
 
     @IBOutlet private weak var storyCollectionView: UICollectionView! {
         didSet {
-            storyCollectionView.xh_registerReusableCell(CollectionCell)
+            storyCollectionView.hi.registerReusableCell(CollectionCell)
             storyCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         }
     }
@@ -89,7 +89,7 @@ extension RestrospectiveViewController: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell: CollectionCell = collectionView.xh_dequeueReusableCell(for: indexPath)
+        let cell: CollectionCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         
         return cell
     }

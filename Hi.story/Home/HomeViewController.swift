@@ -74,7 +74,7 @@ final class HomeViewController: UIViewController {
     
     private func handleNewStory(story: Story) {
         DispatchQueue.async(on: .Main) {
-            self.imageView.kf_setImage(withURL: NSURL(string: story.attachment?.URLString ?? ""))
+            self.imageView.hi.setImage(withURL: NSURL(string: story.attachment?.URLString ?? ""))
         }
     }
 }

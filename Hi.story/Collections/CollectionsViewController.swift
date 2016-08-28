@@ -12,10 +12,16 @@ import RxCocoa
 import RxSwift
 
 final class CollectionsViewController: BaseViewController {
+    
+    private lazy var presentationTransitionManager: PresentationTransitionManager = {
+        let manager = PresentationTransitionManager()
+        manager.presentedViewHeight = self.view.bounds.height
+        return manager
+    }()
 
     @IBOutlet private weak var collectionView: UICollectionView! {
         didSet {
-            collectionView.xh_registerReusableCell(CollectionCell)
+            collectionView.hi.registerReusableCell(CollectionCell)
         }
     }
     @IBOutlet private weak var addItem: UIBarButtonItem!
@@ -27,7 +33,7 @@ final class CollectionsViewController: BaseViewController {
         
         addItem.rx_tap
             .subscribeNext { [weak self] in
-                self?.performSegue(withIdentifier: .ShowRestrospective, sender: nil)
+                self?.showActionSheet()
             }
             .addDisposableTo(disposeBag)
     }
@@ -35,6 +41,33 @@ final class CollectionsViewController: BaseViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func showActionSheet() {
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let matterAction = UIAlertAction(title: "Matter", style: .Default) { [weak self] (action) in
+            self?.tryToShowNewMatter()
+        }
+        alertController.addAction(matterAction)
+        
+        let storyAction = UIAlertAction(title: "Story", style: .Default) { [weak self] (action) in
+            self?.tryToShowNewStory()
+        }
+        alertController.addAction(storyAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    private func tryToShowNewStory() {
+        performSegue(withIdentifier: .PresentNewStory, sender: nil)
+    }
+    
+    private func tryToShowNewMatter() {
+        performSegue(withIdentifier: .PresentNewMatter, sender: nil)
     }
 }
 
@@ -44,6 +77,8 @@ extension CollectionsViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case ShowRestrospective
+        case PresentNewMatter
+        case PresentNewStory
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -55,6 +90,14 @@ extension CollectionsViewController: SegueHandlerType {
         case .ShowRestrospective:
             let viewController = segue.destinationViewController as! RestrospectiveViewController
             viewController.hidesBottomBarWhenPushed = true
+        case .PresentNewMatter:
+            let viewController = segue.destinationViewController as! NewMatterViewController
+            
+            viewController.modalPresentationStyle = .Custom
+            viewController.transitioningDelegate = presentationTransitionManager
+            
+        case .PresentNewStory:
+            break
         }
     }
 }
@@ -72,7 +115,7 @@ extension CollectionsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell: CollectionCell = collectionView.xh_dequeueReusableCell(for: indexPath)
+        let cell: CollectionCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         return cell
     }
 }

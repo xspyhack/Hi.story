@@ -108,11 +108,20 @@
                         <outlet property="addItem" destination="2f5-lo-vhG" id="oU5-fP-lfW"/>
                         <outlet property="collectionView" destination="oFx-ja-50G" id="RAv-w4-aQg"/>
                         <segue destination="aIb-pP-TVB" kind="show" identifier="ShowRestrospective" id="Qjm-sU-E2J"/>
+                        <segue destination="DvL-4J-Mpz" kind="presentation" identifier="PresentNewMatter" id="q6g-tq-l4U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xy0-GF-clq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="586" y="489"/>
+            <point key="canvasLocation" x="616" y="489"/>
+        </scene>
+        <!--NewMatterViewController-->
+        <scene sceneID="Sbd-y8-dfO">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewMatter" referencedIdentifier="NewMatterViewController" id="DvL-4J-Mpz" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IjQ-BC-vc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="616.5" y="1005"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BC5-z6-DCr">

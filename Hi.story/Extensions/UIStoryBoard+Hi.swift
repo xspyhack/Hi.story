@@ -7,16 +7,20 @@
 //
 
 import UIKit
+import Hikit
 
 extension UIStoryboard {
     
     enum StoryBoard: String {
         case Main
     }
+}
+
+extension X where Base: UIStoryboard {
     
-    func storyBoard(board: StoryBoard) -> UIStoryboard {
+    static func storyBoard(board: UIStoryboard.StoryBoard) -> UIStoryboard {
         
         return UIStoryboard(name: board.rawValue, bundle: nil)
     }
+    
 }
-

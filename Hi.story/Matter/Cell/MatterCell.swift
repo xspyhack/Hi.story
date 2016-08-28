@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 
 class MatterCell: UITableViewCell, Reusable {
 

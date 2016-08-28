@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 import Hiconfig
 
 class TagsViewController: UITableViewController {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 import Kingfisher
 
 typealias CollectionPresentable = protocol<TextPresentable, DescriptionPresentable, ImagePresentable>
@@ -57,7 +58,7 @@ extension CollectionCell: Configurable {
     func configure(withPresenter presenter: CollectionCellModelType) {
         titleLabel.text = presenter.title
         descriptionLabel.text = presenter.description
-        imageView.kf_setImage(withURL: presenter.coverImageURL)
+        imageView.hi.setImage(withURL: presenter.coverImageURL)
     }
 }
 

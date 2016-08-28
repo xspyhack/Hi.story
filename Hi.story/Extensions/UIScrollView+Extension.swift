@@ -7,22 +7,23 @@
 //
 
 import UIKit
+import Hikit
 
-extension UIScrollView {
+extension Hi where Base: UIScrollView {
     
-    func xh_isAtTop() -> Bool {
-        return contentOffset.y == -contentInset.top
+    func isAtTop() -> Bool {
+        return base.contentOffset.y == -base.contentInset.top
     }
     
-    func xh_scrollToTop(animated aimate: Bool = true) {
-        let topPoint = CGPoint(x: 0, y: -contentInset.top)
-        setContentOffset(topPoint, animated: aimate)
+    func scrollToTop(animated aimate: Bool = true) {
+        let topPoint = CGPoint(x: 0, y: -base.contentInset.top)
+        base.setContentOffset(topPoint, animated: aimate)
     }
     
-    func xh_forceStop() {
+    func forceStop() {
         //scrollEnabled = false
         //scrollEnabled = true
         
-        setContentOffset(contentOffset, animated: false)
+        base.setContentOffset(base.contentOffset, animated: false)
     }
 }
