@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// We need to extension Any struct/class, not only AnyObject, such as String
+/// You can use <Base: AnyObject>
 public struct Hi<Base: AnyObject> {
     public let base: Base
     public init(_ base: Base) {
@@ -18,5 +20,18 @@ public struct Hi<Base: AnyObject> {
 public extension NSObjectProtocol {
     public var hi: Hi<Self> {
         return Hi(self)
+    }
+}
+
+public struct X<Base: AnyObject> {
+    
+    public static var base: Base.Type {
+        return Base.self
+    }
+}
+
+public extension NSObjectProtocol {
+    public static var hi: X<Self>.Type {
+        return X.self
     }
 }
