@@ -25,7 +25,10 @@
                                 <items/>
                             </tabBar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVn-YD-PQY">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="kma-Pa-MXm"/>
+                                </constraints>
                                 <items>
                                     <navigationItem id="gZ4-ua-09s"/>
                                 </items>
@@ -35,8 +38,8 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="kGt-0d-nu1" secondAttribute="trailing" id="0TQ-4L-4ss"/>
                             <constraint firstAttribute="bottom" secondItem="kGt-0d-nu1" secondAttribute="bottom" constant="-5" id="5og-4v-xVj"/>
-                            <constraint firstItem="hVn-YD-PQY" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="TVz-WY-LLI"/>
                             <constraint firstItem="hVn-YD-PQY" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="UOc-Jn-l95"/>
+                            <constraint firstItem="hVn-YD-PQY" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="VQC-3C-IPP"/>
                             <constraint firstAttribute="trailing" secondItem="hVn-YD-PQY" secondAttribute="trailing" id="e01-wN-6h7"/>
                             <constraint firstItem="kGt-0d-nu1" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="rph-Fv-0t5"/>
                         </constraints>
