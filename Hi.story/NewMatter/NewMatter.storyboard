@@ -24,15 +24,6 @@
                                     <outlet property="delegate" destination="VN1-Kd-jiz" id="QPj-U9-ZlM"/>
                                 </connections>
                             </tableView>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Y1j-k0-K2G">
-                                <rect key="frame" x="0.0" y="380" width="600" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="E7w-NK-hgb"/>
-                                </constraints>
-                                <date key="date" timeIntervalSinceReferenceDate="494054075.77500999">
-                                    <!--2016-08-28 05:14:35 +0000-->
-                                </date>
-                            </datePicker>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="atb-nc-6OE">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <constraints>
@@ -49,21 +40,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="atb-nc-6OE" secondAttribute="trailing" id="6Gd-do-kFR"/>
-                            <constraint firstItem="m2O-xq-YlM" firstAttribute="top" secondItem="Y1j-k0-K2G" secondAttribute="bottom" constant="20" id="7Op-ev-9ZC"/>
                             <constraint firstItem="atb-nc-6OE" firstAttribute="leading" secondItem="ULB-C7-lm5" secondAttribute="leading" id="C6f-RU-6Qc"/>
                             <constraint firstItem="atb-nc-6OE" firstAttribute="top" secondItem="ULB-C7-lm5" secondAttribute="top" id="JTs-SP-6Nc"/>
                             <constraint firstItem="RKy-gN-HSA" firstAttribute="top" secondItem="ULB-C7-lm5" secondAttribute="top" id="MOq-h7-pZC"/>
                             <constraint firstAttribute="bottom" secondItem="RKy-gN-HSA" secondAttribute="bottom" id="Qup-06-E1p"/>
                             <constraint firstAttribute="trailing" secondItem="RKy-gN-HSA" secondAttribute="trailing" id="T1i-MJ-hWT"/>
-                            <constraint firstItem="Y1j-k0-K2G" firstAttribute="leading" secondItem="ULB-C7-lm5" secondAttribute="leading" id="Uhe-HP-dW9"/>
                             <constraint firstItem="RKy-gN-HSA" firstAttribute="leading" secondItem="ULB-C7-lm5" secondAttribute="leading" id="Via-3Q-O5c"/>
-                            <constraint firstAttribute="trailing" secondItem="Y1j-k0-K2G" secondAttribute="trailing" id="ZVE-qU-6qm"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cancelItem" destination="8oo-Dt-OpA" id="aqh-PM-3Lv"/>
-                        <outlet property="datePicker" destination="Y1j-k0-K2G" id="szi-dq-KdL"/>
-                        <outlet property="datePickerBottomConstraint" destination="7Op-ev-9ZC" id="wvd-PU-7sB"/>
                         <outlet property="navigationBar" destination="atb-nc-6OE" id="FhQ-J5-dVX"/>
                         <outlet property="postItem" destination="2L5-1y-QfS" id="hgf-is-DlU"/>
                         <outlet property="tableView" destination="RKy-gN-HSA" id="Mta-e9-rNf"/>
