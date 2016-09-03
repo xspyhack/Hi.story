@@ -24,7 +24,7 @@ public extension Hi where Base: NSDate {
     }
     
     public var yearMonthDay: String {
-        Date.formatter.dateFormat = "yyyy-MM-dd"
+        Date.formatter.dateFormat = "yyyy/MM/dd"
         return Date.formatter.stringFromDate(base)
     }
     

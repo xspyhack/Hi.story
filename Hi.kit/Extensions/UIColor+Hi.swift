@@ -37,3 +37,22 @@ public extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
+
+public extension X where Base: UIColor {
+    
+    public static var textColor: UIColor {
+        return UIColor(hex: "#363636")
+    }
+    
+    public static var lightTextColor: UIColor {
+        return UIColor(hex: "#8F8F8F")
+    }
+    public static var placeholderColor: UIColor {
+        return UIColor(hex: "#C7C7C7")
+    }
+    
+    public static var titleColor: UIColor {
+        return UIColor(hex: "#1F1F1F")
+    }
+}
+
