@@ -243,6 +243,8 @@ final class TagCell: UITableViewCell, Reusable {
         }
     }
     
+    var pickedAction: ((Tag) -> Void)?
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.titleColor
@@ -323,7 +325,7 @@ extension TagCell: UICollectionViewDataSource {
 extension TagCell: UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? TagItemCell else { return }
+        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? TagItemCell, item = items[safe: indexPath.item] else { return }
         
         let visibleCells = collectionView.visibleCells()
         
@@ -332,6 +334,8 @@ extension TagCell: UICollectionViewDelegate {
         }
         
         cell.setSelected(true, animated: false)
+        
+        pickedAction?(item)
     }
 }
 
@@ -397,7 +401,7 @@ final class NewMatterViewController: BaseViewController {
             isDirty = !subject.isEmpty
         }
     }
-    private var tag: Tag?
+    private var tag: Tag = .None
     
     private var isDirty = false {
         willSet {
@@ -442,14 +446,22 @@ final class NewMatterViewController: BaseViewController {
     
     private func tryToPostNewMatter() {
         guard let subject = subject else { return }
+        
         let matter = Matter()
         matter.title = subject
+        matter.tag = tag.rawValue
+        matter.happenedUnixTime = pickedDate.timeIntervalSince1970
+        
+        if let bodyCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: Section.Body.rawValue)) as? InfoInputableCell {
+            matter.body = bodyCell.textView.text
+        }
         
         guard let realm = try? Realm() else { return }
         
-        let _ = try? realm.write {
-            print("add")
-            realm.add(matter)
+        MatterService.sharedService.synchronize(matter, toRealm: realm)
+        
+        delay(0.1) { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
@@ -571,7 +583,7 @@ extension NewMatterViewController: UITableViewDataSource {
             let cell: InputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.textField.placeholder = "What's the Matter"
             cell.changedAction = { [weak self] text in
-                
+                self?.subject = text
             }
             cell.didBeginInputingAction = { [weak self] in
                 self?.hideInlineDatePicker()
@@ -581,6 +593,9 @@ extension NewMatterViewController: UITableViewDataSource {
             let cell: TagCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = section.annotation
             cell.items = Tag.tags
+            cell.pickedAction = { [weak self] tag in
+                self?.tag = tag
+            }
             return cell
         case .Body:
             let cell: InfoInputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
@@ -643,8 +658,4 @@ extension NewMatterViewController: UITableViewDelegate {
             return indexPath.section == Section.Body.rawValue ? Constant.notesRowHeight : Defaults.rowHeight
         }
     }
-}
-
-extension NewMatterViewController: UIPickerViewDelegate {
-    
 }
