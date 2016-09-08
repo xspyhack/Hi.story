@@ -21,6 +21,7 @@
 		78409A511D5222DA00354650 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A501D5222DA00354650 /* RealmSwift.framework */; };
 		784E86211CEEB45B00E24B36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 784E861F1CEEB45B00E24B36 /* Main.storyboard */; };
 		784E86261CEEB45B00E24B36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 784E86241CEEB45B00E24B36 /* LaunchScreen.storyboard */; };
+		785872521D7B130D00A21F8C /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785872511D7B130D00A21F8C /* RxDataSources.framework */; };
 		786190D01D1589D1005680B3 /* Hikit.h in Headers */ = {isa = PBXBuildFile; fileRef = 786190CF1D1589D1005680B3 /* Hikit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		786190D71D1589D1005680B3 /* Hikit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786190CD1D1589D1005680B3 /* Hikit.framework */; };
 		786190DE1D1589D1005680B3 /* HikitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786190DD1D1589D1005680B3 /* HikitTests.swift */; };
@@ -316,6 +317,7 @@
 		784E86201CEEB45B00E24B36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		784E86251CEEB45B00E24B36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		784E86271CEEB45B00E24B36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		785872511D7B130D00A21F8C /* RxDataSources.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxDataSources.framework; path = Carthage/Build/iOS/RxDataSources.framework; sourceTree = "<group>"; };
 		786190CD1D1589D1005680B3 /* Hikit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hikit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		786190CF1D1589D1005680B3 /* Hikit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hikit.h; sourceTree = "<group>"; };
 		786190D11D1589D1005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				785872521D7B130D00A21F8C /* RxDataSources.framework in Frameworks */,
 				786A26A61D53A7B9002CC8E1 /* RealmSwift.framework in Frameworks */,
 				786A26A51D53A7AC002CC8E1 /* Realm.framework in Frameworks */,
 				786A26A41D53A7A1002CC8E1 /* RxCocoa.framework in Frameworks */,
@@ -530,6 +533,7 @@
 		01B28DE88696B5C820F5F774 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				785872511D7B130D00A21F8C /* RxDataSources.framework */,
 				786A26A11D53A772002CC8E1 /* SFFocusViewLayout.framework */,
 				786A269F1D53A75F002CC8E1 /* KeyboardMan.framework */,
 				786A269D1D53A74C002CC8E1 /* Permission.framework */,
@@ -1515,6 +1519,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/KeyboardMan.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SFFocusViewLayout.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Permission.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxDataSources.framework",
 			);
 			outputPaths = (
 			);

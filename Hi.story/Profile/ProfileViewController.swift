@@ -156,7 +156,7 @@ class ProfileViewController: BaseViewController {
     }
     
     private func tryToShowSettings() {
-        
+        performSegue(withIdentifier: .ShowMatters, sender: nil)
     }
 }
 
@@ -165,6 +165,7 @@ extension ProfileViewController: SegueHandlerType {
     enum SegueIdentifier: String {
         case Edit
         case ShowQRCode
+        case ShowMatters
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -173,6 +174,8 @@ extension ProfileViewController: SegueHandlerType {
         case .Edit:
             print("edit")
         case .ShowQRCode:
+            break
+        case .ShowMatters:
             break
         }
     }

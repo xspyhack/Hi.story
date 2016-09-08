@@ -11,9 +11,7 @@ import Hikit
 import RxCocoa
 import RxSwift
 
-class FeedsViewController: UIViewController {
-
-    private let disposeBag = DisposeBag()
+final class FeedsViewController: BaseViewController {
     
     private lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()

@@ -26,6 +26,8 @@ final class CollectionsViewController: BaseViewController {
     }
     @IBOutlet private weak var addItem: UIBarButtonItem!
     
+    @IBOutlet private weak var switchItem: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,6 +36,11 @@ final class CollectionsViewController: BaseViewController {
         addItem.rx_tap
             .subscribeNext { [weak self] in
                 self?.showActionSheet()
+            }
+            .addDisposableTo(disposeBag)
+        
+        switchItem.rx_tap
+            .subscribeNext { [weak self] in
             }
             .addDisposableTo(disposeBag)
     }
