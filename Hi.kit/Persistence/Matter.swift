@@ -70,7 +70,7 @@ public enum Tag: Int {
 
 public class Matter: Object {
     
-    public dynamic var matterID: String = ""
+    public dynamic var matterID: String = NSUUID().UUIDString
     
     public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     public dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
@@ -78,6 +78,7 @@ public class Matter: Object {
     public dynamic var creator: User?
     public dynamic var title: String = ""
     public dynamic var body: String = ""
+    public dynamic var happenedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     
     public dynamic var kind: Int = MatterKind.Coming.rawValue
     public dynamic var location: Location?

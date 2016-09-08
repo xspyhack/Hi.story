@@ -22,19 +22,22 @@ public extension UIColor {
         }
         
         if hex.characters.count != 6 {
-            fatalError()
+            //fatalError()
+            // clear color
+            self.init(white: 0.0, alpha: 0.0)
+        } else {
+            var rgbValue: UInt32 = 0
+            let scanner = NSScanner.init(string: hex)
+            scanner.scanLocation = 0
+            scanner.scanHexInt(&rgbValue)
+            
+            let red = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
+            let green = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
+            let blue = CGFloat(rgbValue & 0xFF) / 255.0
+            
+            self.init(red: red, green: green, blue: blue, alpha: alpha)
         }
         
-        var rgbValue: UInt32 = 0
-        let scanner = NSScanner.init(string: hex)
-        scanner.scanLocation = 0
-        scanner.scanHexInt(&rgbValue)
-        
-        let red = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
-        let green = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
-        let blue = CGFloat(rgbValue & 0xFF) / 255.0
-        
-        self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
 

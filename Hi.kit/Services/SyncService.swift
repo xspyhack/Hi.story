@@ -19,6 +19,25 @@ public protocol Synchronizable {
     func fetchAll(fromRealm realm: Realm) -> [T]
 }
 
+extension Synchronizable where T: Object {
+    
+    public func synchronize(resource: T, toRealm realm: Realm) {
+        
+        let _ = try? realm.write {
+            print("add")
+            realm.add(resource)
+        }
+    }
+    
+    public func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> T? {
+        return realm.objects(T).filter(predicate).first
+    }
+    
+    public func fetchAll(fromRealm realm: Realm) -> [T] {
+        return realm.objects(T).flatMap { $0 }
+    }
+}
+
 public struct Promise {
     
     let predicate: NSPredicate
@@ -47,5 +66,16 @@ public class StoryService: Synchronizable {
     
     public func fetchLatest(fromRealm realm: Realm) -> Story? {
         return realm.objects(Story).sorted("updatedUnixTime", ascending: false).flatMap { $0 }.first
+    }
+}
+
+public class MatterService: Synchronizable {
+    
+    public typealias T = Matter
+    
+    public static let sharedService = MatterService()
+    
+    public func fetchAll(fromRealm realm: Realm) -> [T] {
+        return realm.objects(Matter).sorted("updatedUnixTime", ascending: true).flatMap { $0 }
     }
 }
