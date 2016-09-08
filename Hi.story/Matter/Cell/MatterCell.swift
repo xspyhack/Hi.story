@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-class MatterCell: UITableViewCell, Reusable {
+final class MatterCell: UITableViewCell, Reusable {
 
     private lazy var daysLabel: UILabel = {
         let label = UILabel()
@@ -58,7 +58,7 @@ extension MatterCell: Configurable {
     
     func configure(withPresenter presenter: MatterCellModelType) {
         textLabel?.text = presenter.title
-        daysLabel.text = "\(presenter.days)"
+        daysLabel.text = (presenter.days > 0) ? "+\(presenter.days)" : "\(presenter.days)"
         daysLabel.textColor = UIColor(hex: presenter.tag)
     }
 }

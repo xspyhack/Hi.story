@@ -23,7 +23,7 @@ struct MatterCellModel: MatterCellModelType {
     
     init(matter: Matter) {
         self.title = matter.title
-        self.days = NSDate().hi.days(withDate: NSDate(timeIntervalSince1970: matter.createdUnixTime))
+        self.days = NSDate().hi.days(withDate: NSDate(timeIntervalSince1970: matter.happenedUnixTime))
         self.tag = (Tag(rawValue: matter.tag) ?? .Red) .value
     }
 }
