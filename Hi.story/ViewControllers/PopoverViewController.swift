@@ -9,11 +9,27 @@
 import UIKit
 
 class PopoverViewController: UIViewController {
-
+    
+    var tips: String? {
+        didSet {
+            tipsLabel.text = tips
+        }
+    }
+    
+    private lazy var tipsLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .Center
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        preferredContentSize = CGSize(width: 200, height: 100)
+        
+        setup()
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +37,20 @@ class PopoverViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func setup() {
+        
+        view.addSubview(tipsLabel)
+        tipsLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views = [
+            "tipsLabel": tipsLabel,
+        ]
+        
+        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[tipsLabel]-|", options: [], metrics: nil, views: views)
+        
+        let centerY = NSLayoutConstraint(item: tipsLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1.0, constant: 0.0)
+        
+        NSLayoutConstraint.activateConstraints(H)
+        NSLayoutConstraint.activateConstraints([centerY])
     }
-    */
-
 }
