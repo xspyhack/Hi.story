@@ -111,11 +111,20 @@
                         <outlet property="switchItem" destination="MEw-IN-6eG" id="rOF-Kw-EQw"/>
                         <segue destination="aIb-pP-TVB" kind="show" identifier="ShowRestrospective" id="Qjm-sU-E2J"/>
                         <segue destination="DvL-4J-Mpz" kind="presentation" identifier="PresentNewMatter" id="q6g-tq-l4U"/>
+                        <segue destination="4bW-fQ-7LX" kind="show" identifier="ShowMatters" id="TZB-xb-7ai"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xy0-GF-clq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="616" y="489"/>
+        </scene>
+        <!--MattersViewController-->
+        <scene sceneID="DoW-nG-MfC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Matters" referencedIdentifier="MattersViewController" id="4bW-fQ-7LX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Nr-xN-vLJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="398.5" y="1005"/>
         </scene>
         <!--NewMatterViewController-->
         <scene sceneID="Sbd-y8-dfO">
@@ -123,7 +132,7 @@
                 <viewControllerPlaceholder storyboardName="NewMatter" referencedIdentifier="NewMatterViewController" id="DvL-4J-Mpz" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IjQ-BC-vc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="616.5" y="1005"/>
+            <point key="canvasLocation" x="834.5" y="1005"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BC5-z6-DCr">

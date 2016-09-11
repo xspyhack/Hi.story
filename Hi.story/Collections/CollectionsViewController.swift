@@ -41,6 +41,7 @@ final class CollectionsViewController: BaseViewController {
         
         switchItem.rx_tap
             .subscribeNext { [weak self] in
+                self?.tryToShowMatters()
             }
             .addDisposableTo(disposeBag)
     }
@@ -76,6 +77,10 @@ final class CollectionsViewController: BaseViewController {
     private func tryToShowNewMatter() {
         performSegue(withIdentifier: .PresentNewMatter, sender: nil)
     }
+    
+    private func tryToShowMatters() {
+        performSegue(withIdentifier: .ShowMatters, sender: nil)
+    }
 }
 
 // MARK: - Navigation
@@ -84,6 +89,7 @@ extension CollectionsViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case ShowRestrospective
+        case ShowMatters
         case PresentNewMatter
         case PresentNewStory
     }
@@ -104,6 +110,8 @@ extension CollectionsViewController: SegueHandlerType {
             viewController.transitioningDelegate = presentationTransitionManager
             
         case .PresentNewStory:
+            break
+        case .ShowMatters:
             break
         }
     }
