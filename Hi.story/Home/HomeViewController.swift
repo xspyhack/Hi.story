@@ -7,30 +7,24 @@
 //
 
 import UIKit
-import TextAttributes
-import Kingfisher
 import Hikit
-import Alamofire
-import Himarkdown
-import RealmSwift
+import RxCocoa
+import RxSwift
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
     
-    @IBOutlet private weak var imageView: UIImageView!
-    
-    private lazy var blurEffect = UIBlurEffect(style: .Light)
-    private lazy var blurEffectView: UIVisualEffectView = {
-        return UIVisualEffectView()
-    }()
-    
-    private var isFace: Bool = false
-    
-    private lazy var presentationTransitionManager: PresentationTransitionManager = {
-        let manager = PresentationTransitionManager()
-        manager.presentedViewHeight = self.view.bounds.height
-        return manager
-    }()
+    @IBOutlet private weak var segmentedControl: UISegmentedControl!
+    @IBOutlet private weak var scrollView: UIScrollView!
 
+    private enum Channel: Int {
+        case Today = 0
+        case History
+        
+        var index: Int {
+            return rawValue
+        }
+    }
+    
     // MARK: Lift cycle
     
     override func viewDidLoad() {
@@ -38,13 +32,11 @@ final class HomeViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        if let realm = try? Realm(), latestStory = StoryService.sharedService.fetchLatest(fromRealm: realm) {
-            handleNewStory(latestStory)
-        }
-        
-        Kingfisher.ImageCache.defaultCache.calculateDiskCacheSizeWithCompletionHandler { (size) in
-            print("cache size: \(size)")
-        }
+        segmentedControl.rx_value
+            .subscribeNext { [weak self] index in
+                self?.selecting(at: index)
+            }
+            .addDisposableTo(disposeBag)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,51 +54,35 @@ final class HomeViewController: UIViewController {
     
     // MARK: Public
     
-    func tryToTellStory() {
-        performSegue(withIdentifier: .PresentNewStory, sender: nil)
+    private func selecting(at index: Int) {
+        guard let channel = Channel(rawValue: index) else { return }
+        
+        selectingChannel(channel)
     }
     
-    // MARK: - Private setup
-    
-    @objc private func showNewStory(sender: UITapGestureRecognizer) {
-        tryToTellStory()
+    private func selectingChannel(channel: Channel) {
+        
+        let width = view.bounds.width
+        
+        scrollView.setContentOffset(CGPoint(x: width * CGFloat(channel.index), y: 0.0), animated: true)
     }
     
-    private func handleNewStory(story: Story) {
-        DispatchQueue.async(on: .Main) {
-            self.imageView.hi.setImage(withURL: NSURL(string: story.attachment?.URLString ?? ""))
-        }
+    private func selecting(at offset: CGFloat) {
+        
+        let width = view.bounds.width
+        
+        let index = Int(offset / width)
+        
+        segmentedControl.selectedSegmentIndex = index
     }
 }
 
-extension HomeViewController: SegueHandlerType {
+extension HomeViewController: UIScrollViewDelegate {
     
-    enum SegueIdentifier: String {
-        case PresentNewStory
-    }
     
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
-        let viewController = segue.destinationViewController as! NewStoryViewController
-        
-        viewController.modalPresentationStyle = .Custom
-        viewController.transitioningDelegate = presentationTransitionManager
-        
-        viewController.tellStoryDidSuccessAction = { [weak self] (story) in
-            self?.handleNewStory(story)
-            print(story)
-        }
+        selecting(at: scrollView.contentOffset.x)
     }
 }
 
-extension HomeViewController: Refreshable {
-    
-    func refresh() {
-        imageView.image = nil
-    }
-}

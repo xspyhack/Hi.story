@@ -14,6 +14,8 @@ class TodayViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        title = "Today"
     }
 
     override func didReceiveMemoryWarning() {
