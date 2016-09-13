@@ -26,6 +26,7 @@ class PopoverViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.backgroundColor = UIColor.whiteColor()
         
         preferredContentSize = CGSize(width: 200, height: 100)
         

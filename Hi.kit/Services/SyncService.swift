@@ -16,7 +16,7 @@ public protocol Synchronizable {
     
     func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> T?
     
-    func fetchAll(fromRealm realm: Realm) -> [T]
+    func fetchAll(sortby property: String?, fromRealm realm: Realm) -> [T]
 }
 
 extension Synchronizable where T: Object {
@@ -33,7 +33,7 @@ extension Synchronizable where T: Object {
         return realm.objects(T).filter(predicate).first
     }
     
-    public func fetchAll(fromRealm realm: Realm) -> [T] {
+    public func fetchAll(sortby property: String? = nil, fromRealm realm: Realm) -> [T] {
         return realm.objects(T).flatMap { $0 }
     }
 }
