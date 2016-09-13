@@ -8,7 +8,13 @@
 
 import UIKit
 
-class PresentationTransitionManager: NSObject {
+protocol PresentationRepresentation {
+    
+    var presentationTransition: PresentationTransitionManager { get }
+}
+
+final class PresentationTransitionManager: NSObject {
+    
     var duration: NSTimeInterval = 0.4
     
     enum TransitionType {
