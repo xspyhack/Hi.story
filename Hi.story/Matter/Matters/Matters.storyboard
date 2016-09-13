@@ -35,11 +35,20 @@
                     <connections>
                         <outlet property="addItem" destination="U3Z-pK-GBn" id="vQs-3i-N1f"/>
                         <outlet property="tableView" destination="FnI-4x-fma" id="a32-7e-ESm"/>
+                        <segue destination="Loh-tL-dDo" kind="presentation" identifier="PresentNewMatter" id="7un-Nj-QML"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRx-kg-22O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="946" y="157"/>
+        </scene>
+        <!--NewMatterViewController-->
+        <scene sceneID="8sy-6q-Hor">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewMatter" referencedIdentifier="NewMatterViewController" id="Loh-tL-dDo" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4pE-n9-sDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1476.5" y="157"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E6D-Tb-Bbn">

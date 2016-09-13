@@ -27,6 +27,12 @@ final class MattersViewController: BaseViewController {
     
     private var viewModel: MattersViewModel?
     
+    lazy var presentationTransition: PresentationTransitionManager = {
+        let manager = PresentationTransitionManager()
+        manager.presentedViewHeight = self.view.bounds.height
+        return manager
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,8 +48,18 @@ final class MattersViewController: BaseViewController {
             return cell
         }
         
+        addItem.rx_tap
+            .bindTo(viewModel.addAction)
+            .addDisposableTo(disposeBag)
+        
         viewModel.sections
             .drive(tableView.rx_itemsWithDataSource(dataSource))
+            .addDisposableTo(disposeBag)
+        
+        viewModel.showNewMatterViewModel
+            .driveNext { [weak self] viewModel in
+                self?.performSegue(withIdentifier: .PresentNewMatter, sender: Wrapper<NewMatterViewModel>(bullet: viewModel))
+            }
             .addDisposableTo(disposeBag)
         
         tableView.rx_itemDeleted
@@ -74,7 +90,6 @@ final class MattersViewController: BaseViewController {
     private func show() {
         
         let viewController = PopoverViewController()
-        viewController.view.backgroundColor = UIColor.redColor()
         viewController.tips = "Look at me!"
         
         viewController.modalPresentationStyle = .Popover
@@ -83,7 +98,31 @@ final class MattersViewController: BaseViewController {
 
         presentViewController(viewController, animated: true, completion: nil)
     }
+}
+
+extension MattersViewController: PresentationRepresentation {
+}
+
+extension MattersViewController: SegueHandlerType {
     
+    enum SegueIdentifier: String {
+        case PresentNewMatter
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        switch segueIdentifier(forSegue: segue) {
+        case .PresentNewMatter:
+            let viewController = segue.destinationViewController as? NewMatterViewController
+            
+            viewController?.modalPresentationStyle = .Custom
+            viewController?.transitioningDelegate = presentationTransition
+            
+            if let wrapper = sender as? Wrapper<NewMatterViewModel> {
+                viewController?.viewModel = wrapper.candy
+            }
+        }
+    }
 }
 
 extension MattersViewController: UIPopoverPresentationControllerDelegate {

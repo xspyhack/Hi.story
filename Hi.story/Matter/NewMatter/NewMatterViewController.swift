@@ -366,6 +366,8 @@ final class DisclosureCell: UITableViewCell, Reusable {
 // MARK: - NewMatterViewController
 
 final class NewMatterViewController: BaseViewController {
+    
+    var viewModel: NewMatterViewModel?
 
     @IBOutlet private weak var navigationBar: UINavigationBar!
     @IBOutlet private weak var tableView: UITableView! {

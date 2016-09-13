@@ -34,6 +34,8 @@ struct MattersViewModel: MattersViewModelType {
     
     let sections: Driver<[MattersViewSection]>
     
+    let showNewMatterViewModel: Driver<NewMatterViewModel>
+    
     init(realm: Realm) {
         
         let matters = Variable<[Matter]>(MatterService.sharedService.fetchAll(fromRealm: realm))
@@ -52,13 +54,33 @@ struct MattersViewModel: MattersViewModelType {
         
         self.itemDeleted
             .subscribeNext { indexPath in
-                let matter = matters.value[indexPath.row]
+                if let matter = matters.value[safe: indexPath.row] {
+                    Matter.didDelete.onNext(matter)
+                }
             }
             .addDisposableTo(disposeBag)
         
-        Matter.didDelete.subscribeNext { matter in
-            self.matters.value.indexOf(ma)
-        }
+        self.showNewMatterViewModel = self.addAction.asObservable()
+            .map {
+                NewMatterViewModel()
+            }
+            .asDriver(onErrorJustReturn: NewMatterViewModel())
+        
+        // Services
+        
+        Matter.didCreate
+            .subscribeNext { matter in
+                self.matters.value.insert(matter, atIndex: 0)
+            }
+            .addDisposableTo(disposeBag)
+        
+        Matter.didDelete
+            .subscribeNext { matter in
+                if let index = self.matters.value.indexOf(matter) {
+                    self.matters.value.removeAtIndex(index)
+                }
+            }
+            .addDisposableTo(disposeBag)
     }
 }
 
