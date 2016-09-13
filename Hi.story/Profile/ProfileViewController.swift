@@ -7,17 +7,19 @@
 //
 
 import UIKit
-import Permission
-import MobileCoreServices.UTType
 import Hikit
 import RxSwift
 import RxCocoa
+import RealmSwift
+import RxDataSources
+import Permission
+import MobileCoreServices.UTType
 
 private let maximumHeaderHeight: CGFloat = 360.0
 private let minimumHeaderHeight: CGFloat = 220.0
 private let maximumAvatarWidth: CGFloat = 120.0
 
-class ProfileViewController: BaseViewController {
+final class ProfileViewController: BaseViewController {
 
     @IBOutlet private weak var storybookCollectionView: UICollectionView! {
         didSet {
@@ -121,6 +123,11 @@ class ProfileViewController: BaseViewController {
     private var matters: [Matter]?
     private var storybooks: [Storybook]?
     
+    // Matters
+    
+    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
+    private var viewModel: MattersViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -151,6 +158,24 @@ class ProfileViewController: BaseViewController {
             .subscribeNext { [weak self] in
                 self?.tryToShowSettings()
             }
+            .addDisposableTo(disposeBag)
+        
+        guard let realm = try? Realm() else { return }
+        
+        let viewModel = MattersViewModel(realm: realm)
+        
+        dataSource.configureCell = { _, tableView, indexPath, viewModel in
+            let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
+            cell.configure(withPresenter: viewModel)
+            return cell
+        }
+        
+        viewModel.sections
+            .drive(matterTableView.rx_itemsWithDataSource(dataSource))
+            .addDisposableTo(disposeBag)
+        
+        matterTableView.rx_itemSelected
+            .bindTo(viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
     }
@@ -227,40 +252,6 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         let itemWidth = (collectionViewWidth - Constant.gap - CGFloat((Constant.numberOfRow - 1)) * Constant.gap) / CGFloat(Constant.numberOfRow)
         
         return CGSize(width: itemWidth, height: itemWidth / Constant.ratio)
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension ProfileViewController: UITableViewDataSource {
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
-        return cell
-    }
-}
-
-// MARK: - UITableViewDelegate
-
-extension ProfileViewController: UITableViewDelegate {
-    
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        //guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? MatterCell, matter = matters?[safe: indexPath.row] else { return }
-        
-        //let matterCellModel = MatterCellModel(matter: matter)
-        //cell.configure(withPresenter: matterCellModel)
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
     }
 }
 
