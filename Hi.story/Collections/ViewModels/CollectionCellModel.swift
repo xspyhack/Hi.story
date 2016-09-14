@@ -12,26 +12,26 @@ protocol CollectionCellModelType {
     
     var title: String { get }
     var description: String { get }
-    var coverImageURL: NSURL? { get }
+    var coverImageURL: URL? { get }
 }
 
 struct CollectionCellModel: CollectionCellModelType {
     
-    private(set) var title: String
+    fileprivate(set) var title: String
     
-    private(set) var description: String
+    fileprivate(set) var description: String
     
-    private(set) var coverImageURL: NSURL?
+    fileprivate(set) var coverImageURL: URL?
     
     init(collection: Collection) {
         self.title = collection.title
         self.description = collection.description
-        self.coverImageURL = collection.coverImageURL
+        self.coverImageURL = collection.coverImageURL as URL
     }
     
     init(restrospective: Restrospective) {
         self.title = restrospective.title
         self.description = restrospective.description
-        self.coverImageURL = restrospective.imageURL
+        self.coverImageURL = restrospective.imageURL as URL?
     }
 }

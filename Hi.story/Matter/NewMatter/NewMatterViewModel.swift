@@ -26,7 +26,7 @@ struct NewMatterViewModel: NewMatterViewModelType {
     
     var title: Variable<String>
     var tag: Variable<Tag>
-    var happenedUnixTime: Variable<NSDate>
+    var happenedUnixTime: Variable<Date>
     var body: Variable<String>
     
     var postAction = PublishSubject<Void>()
@@ -34,14 +34,14 @@ struct NewMatterViewModel: NewMatterViewModelType {
     
     // Output
     let postButtonEnabled: Driver<Bool>
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     init() {
      
         // Default value
         self.title = Variable("")
-        self.tag = Variable(.None)
-        self.happenedUnixTime = Variable(NSDate())
+        self.tag = Variable(.none)
+        self.happenedUnixTime = Variable(Date())
         self.body = Variable("")
         
         self.postButtonEnabled = self.title.asDriver()

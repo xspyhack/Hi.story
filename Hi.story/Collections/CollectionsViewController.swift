@@ -13,20 +13,20 @@ import RxSwift
 
 final class CollectionsViewController: BaseViewController {
     
-    private lazy var presentationTransitionManager: PresentationTransitionManager = {
+    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
 
-    @IBOutlet private weak var collectionView: UICollectionView! {
+    @IBOutlet fileprivate weak var collectionView: UICollectionView! {
         didSet {
             collectionView.hi.registerReusableCell(CollectionCell)
         }
     }
-    @IBOutlet private weak var addItem: UIBarButtonItem!
+    @IBOutlet fileprivate weak var addItem: UIBarButtonItem!
     
-    @IBOutlet private weak var switchItem: UIBarButtonItem!
+    @IBOutlet fileprivate weak var switchItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,34 +51,34 @@ final class CollectionsViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func showActionSheet() {
+    fileprivate func showActionSheet() {
         
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
-        let matterAction = UIAlertAction(title: "Matter", style: .Default) { [weak self] (action) in
+        let matterAction = UIAlertAction(title: "Matter", style: .default) { [weak self] (action) in
             self?.tryToShowNewMatter()
         }
         alertController.addAction(matterAction)
         
-        let storyAction = UIAlertAction(title: "Story", style: .Default) { [weak self] (action) in
+        let storyAction = UIAlertAction(title: "Story", style: .default) { [weak self] (action) in
             self?.tryToShowNewStory()
         }
         alertController.addAction(storyAction)
         
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
-    private func tryToShowNewStory() {
+    fileprivate func tryToShowNewStory() {
         performSegue(withIdentifier: .PresentNewStory, sender: nil)
     }
     
-    private func tryToShowNewMatter() {
+    fileprivate func tryToShowNewMatter() {
         performSegue(withIdentifier: .PresentNewMatter, sender: nil)
     }
     
-    private func tryToShowMatters() {
+    fileprivate func tryToShowMatters() {
         performSegue(withIdentifier: .ShowMatters, sender: nil)
     }
 }
@@ -95,18 +95,18 @@ extension CollectionsViewController: SegueHandlerType {
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
         case .ShowRestrospective:
-            let viewController = segue.destinationViewController as! RestrospectiveViewController
+            let viewController = segue.destination as! RestrospectiveViewController
             viewController.hidesBottomBarWhenPushed = true
         case .PresentNewMatter:
-            let viewController = segue.destinationViewController as! NewMatterViewController
+            let viewController = segue.destination as! NewMatterViewController
             
-            viewController.modalPresentationStyle = .Custom
+            viewController.modalPresentationStyle = .custom
             viewController.transitioningDelegate = presentationTransitionManager
             
         case .PresentNewStory:
@@ -121,15 +121,15 @@ extension CollectionsViewController: SegueHandlerType {
 
 extension CollectionsViewController: UICollectionViewDataSource {
  
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: CollectionCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         return cell
     }
@@ -139,14 +139,14 @@ extension CollectionsViewController: UICollectionViewDataSource {
 
 extension CollectionsViewController: UICollectionViewDelegate {
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
 }
 
 extension CollectionsViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width
         return CGSize(width: width, height: width / 2.0)
     }

@@ -12,7 +12,7 @@ import Hikit
 
 extension Hi where Base: UIImageView {
     
-    func setImage(withURL URL: NSURL?, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: Kingfisher.CompletionHandler? = nil) -> RetrieveImageTask
+    func setImage(withURL URL: Foundation.URL?, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: Kingfisher.CompletionHandler? = nil) -> RetrieveImageTask
     {
         var options: KingfisherOptionsInfo = []
         options.append(.TargetCache(ImageStorage.sharedCache))
@@ -28,9 +28,9 @@ extension Hi where Base: UIImageView {
     
 }
 
-extension X where Base: NSURL {
+extension X where Base: URL {
     
-    static func imageURL(withPath path: String) -> NSURL {
-        return NSURL(string: "http://blessingsoft.com/hi/images/" + path)!
+    static func imageURL(withPath path: String) -> URL {
+        return URL(string: "http://blessingsoft.com/hi/images/" + path)!
     }
 }

@@ -15,13 +15,13 @@ import RealmSwift
 
 final class MatterViewController: BaseViewController {
     
-    @IBOutlet private weak var tableView: UITableView! {
+    @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
             tableView.hi.registerReusableCell(MatterCell)
         }
     }
     
-    private let dataSource = RxTableViewSectionedReloadDataSource<MatterViewSection>()
+    fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MatterViewSection>()
     
     var viewModel: MatterViewModel?
 

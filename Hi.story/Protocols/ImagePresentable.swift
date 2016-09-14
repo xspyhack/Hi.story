@@ -13,7 +13,7 @@ protocol ImagePresentable {
     
     var imageURLString: String? { get }
     
-    func updateImageView(imageView: UIImageView)
+    func updateImageView(_ imageView: UIImageView)
 }
 
 extension ImagePresentable {
@@ -21,7 +21,7 @@ extension ImagePresentable {
     
     var imageURLString: String? { return nil }
     
-    func updateImageView(imageView: UIImageView) {
+    func updateImageView(_ imageView: UIImageView) {
         if let imageName = imageName {
             imageView.image = UIImage(named: imageName)
         } else {

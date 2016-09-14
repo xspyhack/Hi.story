@@ -11,13 +11,13 @@ import UIKit
 class TabBarController: UITabBarController {
     
     enum Tab: Int {
-        case Home = 0
-        case Feeds
-        case Collections
-        case Profile
+        case home = 0
+        case feeds
+        case collections
+        case profile
     }
     
-    var selectedTab: Tab = .Home {
+    var selectedTab: Tab = .home {
         didSet {
             selectedIndex = selectedTab.rawValue
         }
@@ -34,7 +34,7 @@ class TabBarController: UITabBarController {
         configureItem()
     }
 
-    private func configureItem() {
+    fileprivate func configureItem() {
         guard let items = tabBar.items else {
             return
         }
@@ -62,7 +62,7 @@ class TabBarController: UITabBarController {
 
 extension TabBarController: UITabBarControllerDelegate {
     
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let tab = Tab(rawValue: selectedIndex) else {
             return false
         }
@@ -74,9 +74,9 @@ extension TabBarController: UITabBarControllerDelegate {
         return true
     }
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let tab = Tab(rawValue: selectedIndex),
-            nvc = viewController as? UINavigationController
+            let nvc = viewController as? UINavigationController
             else {
                 return
         }

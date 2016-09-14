@@ -1389,6 +1389,7 @@
 					784E86171CEEB45B00E24B36 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1401,37 +1402,46 @@
 					786190CC1D1589D1005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
+						LastSwiftMigration = 0800;
 					};
 					786190D51D1589D1005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 784E86171CEEB45B00E24B36;
 					};
 					7861911B1D159835005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
+						LastSwiftMigration = 0800;
 					};
 					786191241D159835005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 784E86171CEEB45B00E24B36;
 					};
 					786191611D18452F005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
+						LastSwiftMigration = 0800;
 					};
 					7861916A1D18452F005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 784E86171CEEB45B00E24B36;
 					};
 					78CEFD051D157EF50098516A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
+						LastSwiftMigration = 0800;
 					};
 					78CFB1FF1D563AE1009D7293 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
+						LastSwiftMigration = 0800;
 					};
 					78CFB20B1D563AE1009D7293 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -1952,6 +1962,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hi.story/Support/Hi.story-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1973,6 +1984,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Hi.story/Support/Hi.story-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1998,6 +2010,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hikit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2024,6 +2037,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hikit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2036,6 +2050,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HikitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
 			};
 			name = Debug;
@@ -2047,6 +2062,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HikitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
 			};
 			name = Release;
@@ -2068,6 +2084,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hiconfig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2090,6 +2107,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hiconfig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2102,6 +2120,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HiconfigTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
 			};
 			name = Debug;
@@ -2113,6 +2132,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HiconfigTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
 			};
 			name = Release;
@@ -2136,6 +2156,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2159,6 +2180,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Himarkdown;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2171,6 +2193,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HimarkdownTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
 			};
 			name = Debug;
@@ -2182,6 +2205,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HimarkdownTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
 			};
 			name = Release;
@@ -2200,6 +2224,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History.Hishare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -2217,6 +2242,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History.Hishare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -2232,6 +2258,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -2249,6 +2276,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -2263,6 +2291,7 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -2277,6 +2306,7 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};

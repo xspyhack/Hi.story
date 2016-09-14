@@ -11,5 +11,5 @@ import Foundation
 struct Restrospective {
     let title: String
     let description: String
-    let imageURL: NSURL?
+    let imageURL: URL?
 }

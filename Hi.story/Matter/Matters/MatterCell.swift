@@ -11,9 +11,9 @@ import Hikit
 
 final class MatterCell: UITableViewCell, Reusable {
 
-    private lazy var daysLabel: UILabel = {
+    fileprivate lazy var daysLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(32.0, weight: UIFontWeightMedium)
+        label.font = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightMedium)
         label.text = "+333"
         return label
     }()
@@ -28,7 +28,7 @@ final class MatterCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setup() {
+    fileprivate func setup() {
         
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -39,16 +39,16 @@ final class MatterCell: UITableViewCell, Reusable {
             "daysLabel": daysLabel,
         ]
         
-        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:[daysLabel]-16-|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint(item: daysLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:[daysLabel]-16-|", options: [], metrics: nil, views: views)
+        let V = NSLayoutConstraint(item: daysLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
-        NSLayoutConstraint.activateConstraints(H)
-        NSLayoutConstraint.activateConstraints([V])
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate([V])
     }
     
     override var layoutMargins: UIEdgeInsets {
         get {
-            return UIEdgeInsetsZero
+            return UIEdgeInsets.zero
         }
         set {}
     }

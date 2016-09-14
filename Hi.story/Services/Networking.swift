@@ -17,28 +17,28 @@ struct Networking: Authorizable {
         case OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT
     }
     
-    static func sendAuthRequest<T: Serializable>(authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: Result<T> -> Void) {
+    static func sendAuthRequest<T: Serializable>(_ authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: (Result<T>) -> Void) {
         Networking(authRequest: authRequest).sendRequest(parameters: parameters) { (result: Result<T>) in
             completionHandler(result)
         }
     }
     
-    static func sendAuthRequest<T: Serializable>(authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: Result<[T]> -> Void) {
+    static func sendAuthRequest<T: Serializable>(_ authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: (Result<[T]>) -> Void) {
         Networking(authRequest: authRequest).sendRequest(parameters: parameters) { (result: Result<[T]>) in
             completionHandler(result)
         }
     }
     
-    static func sendAuthRequest(authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: Result<Bool> -> Void) {
+    static func sendAuthRequest(_ authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: (Result<Bool>) -> Void) {
         Networking(authRequest: authRequest).sendRequest(parameters: parameters) { (result: Result<Bool>) in
             completionHandler(result)
         }
     }
     
-    func sendRequest<T: Serializable>(parameters parameters: JSONDictionary? = nil, completionHandler: Result<T> -> Void) {
+    func sendRequest<T: Serializable>(parameters: JSONDictionary? = nil, completionHandler: (Result<T>) -> Void) {
         Request.shareRequest.request(authRequest, parameters: parameters) { (_, _, responseJson, error) in
             
-            guard let json = responseJson as? JSONDictionary, value = T(json: json)
+            guard let json = responseJson as? JSONDictionary, let value = T(json: json)
                 else {
                     completionHandler(.Failure(error?.localizedDescription))
                     return
@@ -48,7 +48,7 @@ struct Networking: Authorizable {
         }
     }
     
-    func sendRequest<T: Serializable>(parameters parameters: JSONDictionary? = nil, completionHandler: Result<[T]> -> Void) {
+    func sendRequest<T: Serializable>(parameters: JSONDictionary? = nil, completionHandler: (Result<[T]>) -> Void) {
         Request.shareRequest.request(authRequest) { (_, _, responseJson, error) in
             
             guard let json = responseJson as? [JSONDictionary] else {
@@ -61,7 +61,7 @@ struct Networking: Authorizable {
         }
     }
     
-    func sendRequest(parameters parameters: JSONDictionary? = nil, completionHandler: Result<Bool> -> Void) {
+    func sendRequest(parameters: JSONDictionary? = nil, completionHandler: (Result<Bool>) -> Void) {
         Request.shareRequest.request(authRequest, parameters: parameters) { (_, response, responseJSON, error) in
             if response?.statusCode < 300 && response?.statusCode >= 200 {
                 completionHandler(.Success(true))
@@ -73,9 +73,9 @@ struct Networking: Authorizable {
         }
     }
     
-    private let authRequest: NSMutableURLRequest
+    fileprivate let authRequest: NSMutableURLRequest
     
-    private init(authRequest: NSMutableURLRequest) {
+    fileprivate init(authRequest: NSMutableURLRequest) {
         self.authRequest = authRequest
     }
     
@@ -84,11 +84,11 @@ struct Networking: Authorizable {
         self.init(authRequest: authRequest)
     }
     
-    func authRequest(URLString URLString: String, method: Method) -> Networking {
-        let URL = NSURL(string: URLString)!
+    func authRequest(URLString: String, method: Method) -> Networking {
+        let URL = Foundation.URL(string: URLString)!
         
-        let mutableURLRequest = NSMutableURLRequest(URL: URL)
-        mutableURLRequest.HTTPMethod = method.rawValue
+        let mutableURLRequest = NSMutableURLRequest(url: URL)
+        mutableURLRequest.httpMethod = method.rawValue
         if let token = token {
             mutableURLRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
@@ -98,21 +98,21 @@ struct Networking: Authorizable {
 
 extension Networking: Wrapable {
     
-    func wrap(json: JSONDictionary) -> String? {
-        guard let result = json["result"] as? String where result == "SUCCESS" else {
+    func wrap(_ json: JSONDictionary) -> String? {
+        guard let result = json["result"] as? String , result == "SUCCESS" else {
             return json["result"] as? String
         }
         return nil
     }
     
-    func errorHandler(json: JSONDictionary) -> String {
+    func errorHandler(_ json: JSONDictionary) -> String {
         return ""
     }
 }
 
 protocol Wrapable {
     
-    func wrap(json: JSONDictionary) -> String?
+    func wrap(_ json: JSONDictionary) -> String?
     
-    func errorHandler(json: JSONDictionary) -> String
+    func errorHandler(_ json: JSONDictionary) -> String
 }

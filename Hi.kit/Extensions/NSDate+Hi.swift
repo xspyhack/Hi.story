@@ -11,55 +11,55 @@ import Foundation
 
 private let d_DAY: Int = 86400
 
-public extension Hi where Base: NSDate {
+public extension Hi where Base: Foundation.Date {
     
     public var timestamp: String {
-        Date.formatter.dateFormat = NSDate.timestampFormatString
-        return Date.formatter.stringFromDate(base)
+        Date.formatter.dateFormat = Foundation.Date.timestampFormatString
+        return Date.formatter.string(from: base)
     }
     
     public var monthDayYear: String {
-        Date.formatter.dateFormat = NSDate.mdyDateFormatString
-        return Date.formatter.stringFromDate(base)
+        Date.formatter.dateFormat = Foundation.Date.mdyDateFormatString
+        return Date.formatter.string(from: base)
     }
     
     public var yearMonthDay: String {
         Date.formatter.dateFormat = "yyyy/MM/dd"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var year: String {
         Date.formatter.dateFormat = "yyyy"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var month: String {
         Date.formatter.dateFormat = "MM"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var day: String {
         Date.formatter.dateFormat = "dd"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var hour: String {
         Date.formatter.dateFormat = "HH"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var minute: String {
         Date.formatter.dateFormat = "mm"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var time: String {
         Date.formatter.dateFormat = "HH:mm"
-        return Date.formatter.stringFromDate(base)
+        return Date.formatter.string(from: base)
     }
     
     public var weekIndex: Int {
-        return NSDate().hi.weekOfYear()
+        return Foundation.Date().hi.weekOfYear()
     }
     
     public var weekday: String {
@@ -83,82 +83,82 @@ public extension Hi where Base: NSDate {
         }
     }
     
-    public func days(withDate comparingDate: NSDate) -> Int {
+    public func days(withDate comparingDate: Foundation.Date) -> Int {
         
-        return NSDate.hi.daysOffset(between: base, with: comparingDate)
+        return Foundation.Date.hi.daysOffset(between: base, with: comparingDate)
     }
     
     // @returns 0...6
     // `0`: Sunday and `6`: Saturday
     public func weekdayIndex() -> Int {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Calendar, .Weekday, .WeekdayOrdinal], fromDate: base)
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components([.calendar, .weekday, .weekdayOrdinal], from: base)
         return components.weekday - 1
     }
     
     public func weekOfYear() -> Int {
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Calendar, .WeekOfYear], fromDate: base)
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components([.calendar, .weekOfYear], from: base)
         return components.weekOfYear
     }
     
-    public func dateByAddingDays(days: Int) -> NSDate {
-        let timeInterval = base.timeIntervalSinceReferenceDate + NSTimeInterval(d_DAY * days)
-        let newDate = NSDate(timeIntervalSinceReferenceDate: timeInterval)
+    public func dateByAddingDays(_ days: Int) -> Foundation.Date {
+        let timeInterval = base.timeIntervalSinceReferenceDate + TimeInterval(d_DAY * days)
+        let newDate = Foundation.Date(timeIntervalSinceReferenceDate: timeInterval)
         return newDate
     }
     
-    public func dateWithDaysFromNow(days: Int) -> NSDate {
-        return NSDate().hi.dateByAddingDays(days)
+    public func dateWithDaysFromNow(_ days: Int) -> Foundation.Date {
+        return Foundation.Date().hi.dateByAddingDays(days)
     }
     
-    public func dateBySubtractingDays(days: Int) -> NSDate {
+    public func dateBySubtractingDays(_ days: Int) -> Foundation.Date {
         return dateByAddingDays(days * -1)
     }
     
-    public func dateWithDaysBeforeNow(days: Int) -> NSDate {
-        return NSDate().hi.dateBySubtractingDays(days)
+    public func dateWithDaysBeforeNow(_ days: Int) -> Foundation.Date {
+        return Foundation.Date().hi.dateBySubtractingDays(days)
     }
 }
 
-public extension X where Base: NSDate {
+public extension X where Base: Foundation.Date {
     
-    public static func daysOffset(between startDate: NSDate, with endDate: NSDate) -> Int {
-        let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+    public static func daysOffset(between startDate: Foundation.Date, with endDate: Foundation.Date) -> Int {
+        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
         
-        let comps = gregorian?.components(.Day, fromDate: startDate, toDate: endDate, options: .WrapComponents)
+        let comps = (gregorian as NSCalendar?)?.components(.day, from: startDate, to: endDate, options: .wrapComponents)
         return (comps?.day ?? 0)
     }
     
-    public static func dateFromString(aString: String, withFormat format: String = NSDate.timestampFormatString) -> NSDate? {
-        let inputFormatter = NSDateFormatter()
+    public static func dateFromString(_ aString: String, withFormat format: String = Foundation.Date.timestampFormatString) -> Foundation.Date? {
+        let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = format
         
-        return inputFormatter.dateFromString(aString)
+        return inputFormatter.date(from: aString)
     }
 }
 
 private struct Date {
-    static let formatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.locale = NSLocale(localeIdentifier: "en_US") // No localized string
+    static let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US") // No localized string
         return formatter
     }()
 }
 
-public extension NSDate {
+public extension Foundation.Date {
     
-    private struct Date {
-        static let formatter: NSDateFormatter = {
-            let formatter = NSDateFormatter()
-            formatter.locale = NSLocale(localeIdentifier: "en_US") // No localized string
+    fileprivate struct Date {
+        static let formatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US") // No localized string
             return formatter
         }()
     }
     
-    private static let dateFormatString = "yyyy-MM-dd"
-    private static let mdyDateFormatString = "MMM dd, yyy"
-    private static let timeFormatString = "HH:mm:ss"
-    private static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
+    fileprivate static let dateFormatString = "yyyy-MM-dd"
+    fileprivate static let mdyDateFormatString = "MMM dd, yyy"
+    fileprivate static let timeFormatString = "HH:mm:ss"
+    fileprivate static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
 
 }

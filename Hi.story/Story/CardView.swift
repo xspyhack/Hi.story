@@ -12,11 +12,11 @@ class CardView: UIView {
 
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private lazy var contentView: UIView = {
+    fileprivate lazy var contentView: UIView = {
         return UIView()
     }()
     
@@ -26,7 +26,7 @@ class CardView: UIView {
         configure()
     }
     
-    private func configure() {
+    fileprivate func configure() {
         
         addSubview(imageView)
         addSubview(contentView)
@@ -38,16 +38,16 @@ class CardView: UIView {
             "contentView": contentView
         ]
         
-        let hImageViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: [], metrics: nil, views: views)
-        let vImageViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: views)
+        let hImageViewConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: [], metrics: nil, views: views)
+        let vImageViewConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: [], metrics: nil, views: views)
         
-        let hContentViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[contentView]|", options: [], metrics: nil, views: views)
-        let vContentViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[contentView]|", options: [], metrics: nil, views: views)
+        let hContentViewConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[contentView]|", options: [], metrics: nil, views: views)
+        let vContentViewConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[contentView]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(hImageViewConstraints)
-        NSLayoutConstraint.activateConstraints(vImageViewConstraints)
-        NSLayoutConstraint.activateConstraints(hContentViewConstraints)
-        NSLayoutConstraint.activateConstraints(vContentViewConstraints)
+        NSLayoutConstraint.activate(hImageViewConstraints)
+        NSLayoutConstraint.activate(vImageViewConstraints)
+        NSLayoutConstraint.activate(hContentViewConstraints)
+        NSLayoutConstraint.activate(vContentViewConstraints)
     }
 
 }

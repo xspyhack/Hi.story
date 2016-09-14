@@ -11,7 +11,7 @@ import UIKit
 @objc protocol PresentingControllerDelegate {
     func sourceImageView() -> UIImageView
     func sourceFrame() -> CGRect
-    optional func transitionDidComplete(transitionType: TransitionType)
+    @objc optional func transitionDidComplete(_ transitionType: TransitionType)
 }
 
 protocol PresentedControllerDelegate: class {
@@ -20,11 +20,11 @@ protocol PresentedControllerDelegate: class {
 }
 
 @objc enum TransitionType: Int {
-    case Present, Dismiss
+    case present, dismiss
 }
 
 class ImagePreviewTransitionManager: NSObject {
-    var duration: NSTimeInterval = 0.4
+    var duration: TimeInterval = 0.4
     
     weak var presentedDelegate: PresentedControllerDelegate?
     weak var presentingDelegate: PresentingControllerDelegate?
@@ -34,105 +34,105 @@ class ImagePreviewTransitionManager: NSObject {
 
 extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if transitionType == .Present {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        if transitionType == .present {
             presentWithAnimateTransition(transitionContext)
         } else {
             dismissWithAnmatedTransition(transitionContext)
         }
     }
     
-    private func presentWithAnimateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView(),
-            toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+    fileprivate func presentWithAnimateTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        guard let containerView = transitionContext.containerView,
+            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
-        guard let presentingDelegate = presentingDelegate, presentedDelegate = presentedDelegate else {
+        guard let presentingDelegate = presentingDelegate, let presentedDelegate = presentedDelegate else {
             assert(false, "Must set PresentedControllerDelegate & PresentingControllerDelegate")
             return
         }
         
         let toView = toViewController.view
         containerView.addSubview(toView)
-        containerView.bringSubviewToFront(toView)
+        containerView.bringSubview(toFront: toView)
         
         let sourceImageView = presentingDelegate.sourceImageView()
         
-        let original = sourceImageView.convertPoint(CGPoint.zero, toView: nil)
+        let original = sourceImageView.convert(CGPoint.zero, to: nil)
         let coverImageView = UIImageView(frame: CGRect(origin: original, size: sourceImageView.bounds.size))
         
-        coverImageView.contentMode = .ScaleAspectFit
+        coverImageView.contentMode = .scaleAspectFit
         coverImageView.image = sourceImageView.image
         containerView.addSubview(coverImageView)
         
-        let finalFrame = transitionContext.finalFrameForViewController(toViewController)
+        let finalFrame = transitionContext.finalFrame(for: toViewController)
         
-        toView.frame = finalFrame
-        toView.alpha = 0.0
+        toView?.frame = finalFrame
+        toView?.alpha = 0.0
         
-        UIView.animateWithDuration(duration, animations: { 
-            toView.alpha = 1.0
+        UIView.animate(withDuration: duration, animations: { 
+            toView?.alpha = 1.0
             let destinationFrame = presentedDelegate.destinationFrame()
             coverImageView.frame = destinationFrame
             
-        }) { (finished) in
+        }, completion: { (finished) in
             coverImageView.removeFromSuperview()
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) 
     }
     
-    private func dismissWithAnmatedTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView(),
-            toView = transitionContext.viewForKey(UITransitionContextToViewKey),
-            fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+    fileprivate func dismissWithAnmatedTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        guard let containerView = transitionContext.containerView,
+            let toView = transitionContext.view(forKey: UITransitionContextViewKey.to),
+            let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else {
                 return
         }
         
-        guard let presentingDelegate = presentingDelegate, presentedDelegate = presentedDelegate else {
+        guard let presentingDelegate = presentingDelegate, let presentedDelegate = presentedDelegate else {
             assert(false, "Must set PresentedControllerDelegate & PresentingControllerDelegate")
             return
         }
         
         containerView.addSubview(toView)
-        containerView.sendSubviewToBack(toView)
+        containerView.sendSubview(toBack: toView)
         
         let destinationImage = presentedDelegate.destinationImage()
         let coverImageView = UIImageView(frame: presentedDelegate.destinationFrame())
         
-        coverImageView.contentMode = .ScaleAspectFit
+        coverImageView.contentMode = .scaleAspectFit
         coverImageView.image = destinationImage
         containerView.addSubview(coverImageView)
         
-        UIView.animateWithDuration(duration - 0.1, animations: { () -> Void in
+        UIView.animate(withDuration: duration - 0.1, animations: { () -> Void in
             fromViewController.view.alpha = 0.0
             coverImageView.frame = presentingDelegate.sourceFrame()
-        }) { (finished) -> Void in
-            UIView.animateWithDuration(0.1, animations: {
+        }, completion: { (finished) -> Void in
+            UIView.animate(withDuration: 0.1, animations: {
                 toView.alpha = 1.0
-            }) { (finished) -> Void in
+            }, completion: { (finished) -> Void in
                 coverImageView.removeFromSuperview()
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-            }
-        }
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+            }) 
+        }) 
     }
 }
 
 extension ImagePreviewTransitionManager: UIViewControllerTransitioningDelegate {
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .Present
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transitionType = .present
         return self
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .Dismiss
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transitionType = .dismiss
         
         return self
     }

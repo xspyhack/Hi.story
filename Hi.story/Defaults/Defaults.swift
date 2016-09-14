@@ -11,7 +11,7 @@ import TextAttributes
 
 struct Defaults {
     
-    static let userDefaults = NSUserDefaults.standardUserDefaults()
+    static let userDefaults = UserDefaults.standard
     
     struct Color {
         static let tintColor = "#1BBBBB"
@@ -27,10 +27,10 @@ struct Defaults {
         static let tokenKey = "History.Authentication.Token"
         static var token: String? {
             get {
-                return userDefaults.objectForKey(tokenKey) as? String
+                return userDefaults.object(forKey: tokenKey) as? String
             }
             set {
-                userDefaults.setObject(newValue, forKey: tokenKey)
+                userDefaults.set(newValue, forKey: tokenKey)
             }
         }
 
@@ -48,22 +48,22 @@ struct Defaults {
     
     static let statusBarHeight: CGFloat = 20.0
     
-    static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 60.0
+    static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
     
     static var textAttributes: TextAttributes = {
         return TextAttributes()
-            .font(UIFont.systemFontOfSize(16.0, weight: UIFontWeightMedium))
+            .font(UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightMedium))
             .lineSpacing(6.0)
-            .alignment(.Left)
-            .foregroundColor(.blackColor())
+            .alignment(.left)
+            .foregroundColor(.black())
     }()
     
     static var TellerRecordName: String {
         get {
-            return userDefaults.objectForKey("com.xspyhack.Histroy.TellerRecordName") as? String ?? "_2a8756cfa0c606aa6f49c5532ad6a935"
+            return userDefaults.object(forKey: "com.xspyhack.Histroy.TellerRecordName") as? String ?? "_2a8756cfa0c606aa6f49c5532ad6a935"
         }
         set {
-            userDefaults.setObject(newValue, forKey: "com.xspyhack.Histroy.TellerRecordName")
+            userDefaults.set(newValue, forKey: "com.xspyhack.Histroy.TellerRecordName")
         }
     }
 }
@@ -84,14 +84,14 @@ class Wrapper<T> {
 
 struct DispatchAsyncQueue {
     
-    static func Main(block: dispatch_block_t) {
-        dispatch_async(dispatch_get_main_queue()) { 
+    static func Main(_ block: @escaping ()->()) {
+        DispatchQueue.main.async { 
             block()
         }
     }
     
-    static func Default(block: dispatch_block_t) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { 
+    static func Default(_ block: @escaping ()->()) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async { 
             block()
         }
     }

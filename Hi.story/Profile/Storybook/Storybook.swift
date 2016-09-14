@@ -10,5 +10,5 @@ import Foundation
 
 struct Storybook {
     var name: String
-    var coverImageURL: NSURL?
+    var coverImageURL: URL?
 }

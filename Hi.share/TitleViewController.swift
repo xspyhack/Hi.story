@@ -11,7 +11,7 @@ import UIKit
 class TitleViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
-    var pickAction: ((title: String) -> Void)?
+    var pickAction: ((_ title: String) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +19,8 @@ class TitleViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         title = "Input Title"
-        view.backgroundColor = UIColor.clearColor()
-        titleTextField.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
+        titleTextField.backgroundColor = UIColor.clear
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,23 +28,23 @@ class TitleViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         titleTextField.becomeFirstResponder()
         preferredContentSize = CGSize(width: view.bounds.width, height: 100.0)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if let title = titleTextField.text where !title.isEmpty {
-            pickAction?(title: title)
+        if let title = titleTextField.text , !title.isEmpty {
+            pickAction?(title)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
         view.endEditing(true)
     }
@@ -53,7 +53,7 @@ class TitleViewController: UIViewController {
 
 extension TitleViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }

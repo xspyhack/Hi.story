@@ -11,18 +11,18 @@ import UIKit
 
 extension String {
     
-    private enum FileKey: UInt {
-        case Record
-        case ProgramsList
-        case HadCachedProgramsList
-        case AudioPlayState
+    fileprivate enum FileKey: UInt {
+        case record
+        case programsList
+        case hadCachedProgramsList
+        case audioPlayState
     }
     
     enum Folder {
-        case Document
-        case Caches
-        case Tmp
-        case Home
+        case document
+        case caches
+        case tmp
+        case home
         
         var homeDirectory: NSString {
             return (NSHomeDirectory() as NSString)
@@ -30,40 +30,40 @@ extension String {
         
         var path: String {
             switch self {
-            case .Home:
+            case .home:
                 return homeDirectory as String
-            case .Tmp:
-                return homeDirectory.stringByAppendingPathComponent("tmp")
-            case .Document:
-                return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
-            case .Caches:
-                return homeDirectory.stringByAppendingPathComponent("Library/Caches")
+            case .tmp:
+                return homeDirectory.appendingPathComponent("tmp")
+            case .document:
+                return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            case .caches:
+                return homeDirectory.appendingPathComponent("Library/Caches")
             }
         }
         
     }
     
-    static func hi_isExistFile(fileName: String) -> Bool {
-        return NSFileManager.defaultManager().fileExistsAtPath(fileName)
+    static func hi_isExistFile(_ fileName: String) -> Bool {
+        return FileManager.default.fileExists(atPath: fileName)
     }
     
     static func hi_path(for folderName: String) -> String {
-        return (Folder.Home.path as NSString).stringByAppendingPathComponent(folderName)
+        return (Folder.home.path as NSString).appendingPathComponent(folderName)
     }
     
     static func hi_path(for folder: Folder, fileName: String) -> String {
-        return (folder.path as NSString).stringByAppendingPathComponent(fileName)
+        return (folder.path as NSString).appendingPathComponent(fileName)
     }
     
     static var hi_documentsPath: String {
-        return Folder.Document.path
+        return Folder.document.path
     }
     
     static func hi_cachesPath() -> String {
-        return Folder.Caches.path
+        return Folder.caches.path
     }
     
     static func hi_tmpFolderPath() -> String {
-        return Folder.Tmp.path
+        return Folder.tmp.path
     }
 }

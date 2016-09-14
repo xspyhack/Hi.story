@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 indirect enum Markdown {
-    case Ita([Markdown])
-    case Bold([Markdown])
-    case Header(Int, [Markdown])
-    case InlineCode([Markdown])
-    case CodeBlock(String)
-    case Links([Markdown], String)
-    case Plain(String)
-    case Refer([Markdown])
-    case Delete([Markdown])
+    case ita([Markdown])
+    case bold([Markdown])
+    case header(Int, [Markdown])
+    case inlineCode([Markdown])
+    case codeBlock(String)
+    case links([Markdown], String)
+    case plain(String)
+    case refer([Markdown])
+    case delete([Markdown])
 }
 
 public protocol MarkdownConfigurable {
@@ -28,7 +28,7 @@ public protocol MarkdownConfigurable {
 }
 
 public protocol HeaderStyleConfigurable {
-    var fontSize: (Int -> Int)? { get set }
+    var fontSize: ((Int) -> Int)? { get set }
 }
 
 public struct TrivialStyle: MarkdownConfigurable {
@@ -41,39 +41,39 @@ public struct HeaderStyle: MarkdownConfigurable, HeaderStyleConfigurable {
     public var fontName: UIFont
     public var foregroundColor: UIColor?
     public var backgroundColor: UIColor?
-    public var fontSize: (Int -> Int)?
+    public var fontSize: ((Int) -> Int)?
 }
 
 typealias MD = MarkdownParser
 
-public class MarkdownParser {
+open class MarkdownParser {
     
     let reserved = "`*#[(~"
     
-    public var boldStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.boldSystemFontOfSize(18), foregroundColor: nil, backgroundColor: nil)
-    public var italicsStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.italicSystemFontOfSize(17), foregroundColor: nil, backgroundColor: nil)
-    public var inlineCodeStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.systemFontOfSize(17), foregroundColor: nil, backgroundColor: UIColor.hexColor(0xdddddd))
+    open var boldStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.boldSystemFont(ofSize: 18), foregroundColor: nil, backgroundColor: nil)
+    open var italicsStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.italicSystemFont(ofSize: 17), foregroundColor: nil, backgroundColor: nil)
+    open var inlineCodeStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.systemFont(ofSize: 17), foregroundColor: nil, backgroundColor: UIColor.hexColor(0xdddddd))
     
-    public var linksStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.systemFontOfSize(17), foregroundColor: UIColor.blueColor(), backgroundColor: nil)
+    open var linksStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.systemFont(ofSize: 17), foregroundColor: UIColor.blue, backgroundColor: nil)
     
-    public var plainTextStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.systemFontOfSize(17), foregroundColor: nil, backgroundColor: nil)
+    open var plainTextStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.systemFont(ofSize: 17), foregroundColor: nil, backgroundColor: nil)
     
-    public var referTextStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.systemFontOfSize(17), foregroundColor: nil, backgroundColor: UIColor.hexColor(0xeff5fe))
+    open var referTextStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.systemFont(ofSize: 17), foregroundColor: nil, backgroundColor: UIColor.hexColor(0xeff5fe))
     
     
-    public var codeBlockStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.systemFontOfSize(17), foregroundColor: UIColor.whiteColor(), backgroundColor: UIColor.quickRGB(r: 33, g: 37, b: 43))
+    open var codeBlockStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.systemFont(ofSize: 17), foregroundColor: UIColor.white, backgroundColor: UIColor.quickRGB(r: 33, g: 37, b: 43))
     
-    public var deleteStyle: MarkdownConfigurable =
-        TrivialStyle(fontName: UIFont.systemFontOfSize(17), foregroundColor: nil, backgroundColor: nil)
+    open var deleteStyle: MarkdownConfigurable =
+        TrivialStyle(fontName: UIFont.systemFont(ofSize: 17), foregroundColor: nil, backgroundColor: nil)
     
-    public var headerStyle: HeaderStyleConfigurable = HeaderStyle(fontName: UIFont.boldSystemFontOfSize(18), foregroundColor: nil, backgroundColor: nil) { (NthHeader) -> Int in
+    open var headerStyle: HeaderStyleConfigurable = HeaderStyle(fontName: UIFont.boldSystemFont(ofSize: 18), foregroundColor: nil, backgroundColor: nil) { (NthHeader) -> Int in
         return 28 + (6 - 2 * NthHeader)
     }
     
@@ -81,7 +81,7 @@ public class MarkdownParser {
         
     }
     
-    public func convert(string: String) -> NSAttributedString {
+    open func convert(_ string: String) -> NSAttributedString {
         let result = self.parserEntry().parse(string)
         if result.count <= 0 {
             return NSAttributedString(string: "Parsing failed")
@@ -108,7 +108,7 @@ public class MarkdownParser {
         return (pureHeader() >>= { h in
             self.markdowns() >>= { mds in
                 var tmds:[Markdown] = mds
-                tmds.insert(h, atIndex: 0)
+                tmds.insert(h, at: 0)
                 return pure(tmds)
             }
         }) +++ markdowns()
@@ -117,72 +117,72 @@ public class MarkdownParser {
 
 extension MarkdownParser {
     
-    private func reservedHandler() -> Parser<Markdown> {
-        func pred(c : Character) -> Bool{
-            return reserved.characters.indexOf(c) != nil
+    fileprivate func reservedHandler() -> Parser<Markdown> {
+        func pred(_ c : Character) -> Bool{
+            return reserved.characters.index(of: c) != nil
         }
         
         return satisfy(pred) >>= { c in
-            pure(.Plain(String(c)))
+            pure(.plain(String(c)))
         }
     }
     
-    private func header() -> Parser<Markdown> {
+    fileprivate func header() -> Parser<Markdown> {
         return many1loop(self.fakeNewline()) >>= { _ in
             self.pureHeader()
         }
     }
     
-    private func pureHeader() -> Parser<Markdown>{
+    fileprivate func pureHeader() -> Parser<Markdown>{
         return many1loop(parserChar("#")) >>= { cs in
             line() >>= { str in
                 var tmds: [Markdown] = self.pureStringParse(str)
-                tmds.insert(.Plain("\n"), atIndex: 0)
-                tmds.append(.Plain("\n"))
-                return pure(.Header(cs.count, tmds))
+                tmds.insert(.plain("\n"), at: 0)
+                tmds.append(.plain("\n"))
+                return pure(.header(cs.count, tmds))
             }
         }
     }
     
-    private func ita() -> Parser<Markdown> {
+    fileprivate func ita() -> Parser<Markdown> {
         return pair("*") >>= { str in
             let mds = self.pureStringParse(str)
-            return pure(.Ita(mds))
+            return pure(.ita(mds))
         }
     }
     
-    private func delete() -> Parser<Markdown> {
+    fileprivate func delete() -> Parser<Markdown> {
         return pair("~~") >>= { str in
             let mds = self.pureStringParse(str)
-            return pure(.Delete(mds))
+            return pure(.delete(mds))
         }
     }
     
-    private func bold() -> Parser<Markdown> {
+    fileprivate func bold() -> Parser<Markdown> {
         return pair("**") >>= { str in
             let mds = self.pureStringParse(str)
-            return pure(.Bold(mds))
+            return pure(.bold(mds))
         }
     }
     
-    private func inlineCode() -> Parser<Markdown> {
+    fileprivate func inlineCode() -> Parser<Markdown> {
         return pair("`") >>= { str in
             let mds = self.pureStringParse(str)
-            return pure(.InlineCode(mds))
+            return pure(.inlineCode(mds))
         }
     }
     
-    private func links() -> Parser<Markdown> {
+    fileprivate func links() -> Parser<Markdown> {
         return pair("[", sepa2: "]") >>= { str in
             pair("(", sepa2: ")") >>= { str1 in
                 let mds = self.pureStringParse(str)
-                return pure(.Links(mds,str1))
+                return pure(.links(mds,str1))
                 
             }
         }
     }
     
-    private func markdownNewlineBreak() ->Parser<String> {
+    fileprivate func markdownNewlineBreak() ->Parser<String> {
         let p = trimedSatisfy(isNewline)
         return p >>= { _ in
             many1loop(p) >>= { _ in
@@ -191,19 +191,19 @@ extension MarkdownParser {
         }
     }
     
-    private func newline() -> Parser<Markdown> {
+    fileprivate func newline() -> Parser<Markdown> {
         return markdownNewlineBreak() >>= { str in
-            pure(.Plain(str))
+            pure(.plain(str))
         }
     }
     
-    private func fakeNewline() -> Parser<Markdown> {
+    fileprivate func fakeNewline() -> Parser<Markdown> {
         return trimedSatisfy(isNewline) >>= { _ in
-            pure(.Plain(" "))
+            pure(.plain(" "))
         }
     }
     
-    private func markdownLineStr() ->Parser<String> {
+    fileprivate func markdownLineStr() ->Parser<String> {
         return Parser { str in
             var result = ""
             var rest = str
@@ -235,21 +235,21 @@ extension MarkdownParser {
         }
     }
     
-    private func plain() -> Parser<Markdown> {
-        func pred(c : Character) -> Bool{
+    fileprivate func plain() -> Parser<Markdown> {
+        func pred(_ c : Character) -> Bool{
             
-            if reserved.characters.indexOf(c) != nil{
+            if reserved.characters.index(of: c) != nil{
                 return false
             }
             return isNotNewline(c)
         }
         
         return many1loop(satisfy(pred)) >>= { cs in
-            pure(.Plain(String(cs)))
+            pure(.plain(String(cs)))
         }
     }
     
-    private func pureStringParse(string : String) -> [Markdown] {
+    fileprivate func pureStringParse(_ string : String) -> [Markdown] {
         let result = self.markdowns().parse(string)
         if result.count > 0 {
             return result[0].0
@@ -258,26 +258,26 @@ extension MarkdownParser {
         }
     }
     
-    private func refer() -> Parser<Markdown> {
+    fileprivate func refer() -> Parser<Markdown> {
         return many1loop(self.fakeNewline()) >>= { _ in
             space(false) >>= { _ in
                 symbol(">") >>= { _ in
                     self.markdownLineStr() >>= { str in
                         var mds:[Markdown] = self.pureStringParse(str)
                         //mds.insert(.Plain("\n"), atIndex: 0)
-                        mds.append(.Plain("\n"))
-                        return pure(.Refer(mds))
+                        mds.append(.plain("\n"))
+                        return pure(.refer(mds))
                     }
                 }
             }
         }
     }
     
-    private func codeblock() -> Parser<Markdown> {
+    fileprivate func codeblock() -> Parser<Markdown> {
         return symbol("```") >>= { _ in
             ((lineStr() >>= {_ in space(true)} ) +++ space(true)) >>= { _ in
                 until("```") >>= { str in
-                    symbol("```") >>= {_ in pure(.CodeBlock(str))}
+                    symbol("```") >>= {_ in pure(.codeBlock(str))}
                 }
             }
         }
@@ -285,11 +285,11 @@ extension MarkdownParser {
 }
 
 extension MarkdownParser {
-    func render(arr: [Markdown]) -> NSAttributedString {
+    func render(_ arr: [Markdown]) -> NSAttributedString {
         return renderHelper(arr, parentAttribute: nil)
     }
     
-    func renderHelper(arr: [Markdown], parentAttribute: [String: AnyObject]?) -> NSAttributedString {
+    func renderHelper(_ arr: [Markdown], parentAttribute: [String: AnyObject]?) -> NSAttributedString {
         let attributedString: NSMutableAttributedString = NSMutableAttributedString()
         
         for m in arr {
@@ -302,40 +302,40 @@ extension MarkdownParser {
             }
             
             switch m {
-            case .Bold(let mds):
+            case .bold(let mds):
                 var tAttr:[String:AnyObject] = baseAttribute
                 if tAttr[NSFontAttributeName] != nil {
                     let font = tAttr[NSFontAttributeName]!.pointSize
-                    tAttr[NSFontAttributeName] = UIFont.boldSystemFontOfSize(font)
+                    tAttr[NSFontAttributeName] = UIFont.boldSystemFont(ofSize: font!)
                     
                 } else {
                     tAttr[NSFontAttributeName] = boldStyle.fontName
                 }
                 
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
                 
-            case .Ita(let mds):
+            case .ita(let mds):
                 var tAttr:[String:AnyObject] = baseAttribute
                 
                 if tAttr[NSFontAttributeName]  != nil {
                     let font = tAttr[NSFontAttributeName]!.pointSize
-                    tAttr[NSFontAttributeName] = UIFont.italicSystemFontOfSize(font)
+                    tAttr[NSFontAttributeName] = UIFont.italicSystemFont(ofSize: font!)
                     
                 } else {
                     tAttr[NSFontAttributeName] = italicsStyle.fontName
                 }
                 
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
                 
-            case .Header(let level, let mds):
+            case .header(let level, let mds):
                 var tAttr: [String: AnyObject] = baseAttribute
-                tAttr[NSFontAttributeName] = UIFont.boldSystemFontOfSize(CGFloat(headerStyle.fontSize!(level)))
+                tAttr[NSFontAttributeName] = UIFont.boldSystemFont(ofSize: CGFloat(headerStyle.fontSize!(level)))
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
                 
-            case .InlineCode(let mds):
+            case .inlineCode(let mds):
                 
                 var tAttr: [String:AnyObject] = baseAttribute
                 
@@ -345,28 +345,28 @@ extension MarkdownParser {
                 
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
                 
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
                 
-            case .Links(let mds, let links):
+            case .links(let mds, let links):
                 var tAttr:[String: AnyObject] = baseAttribute
                 
-                tAttr[NSLinkAttributeName] = links
-                tAttr[NSUnderlineStyleAttributeName] = NSUnderlineStyle.StyleSingle.rawValue
+                tAttr[NSLinkAttributeName] = links as AnyObject?
+                tAttr[NSUnderlineStyleAttributeName] = NSUnderlineStyle.styleSingle.rawValue as AnyObject?
                 tAttr[NSForegroundColorAttributeName] = linksStyle.foregroundColor
                 tAttr[NSBackgroundColorAttributeName] = linksStyle.backgroundColor
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
                 
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
                 
-            case .Plain(let str):
+            case .plain(let str):
                 if baseAttribute[NSFontAttributeName] == nil{
                     baseAttribute[NSFontAttributeName] = plainTextStyle.fontName
                 }
                 
-                attributedString.appendAttributedString(NSAttributedString(string: str, attributes: baseAttribute))
+                attributedString.append(NSAttributedString(string: str, attributes: baseAttribute))
                 
-            case .Refer(let mds):
-                attributedString.appendAttributedString(NSAttributedString(string: "\n\n"))
+            case .refer(let mds):
+                attributedString.append(NSAttributedString(string: "\n\n"))
                 
                 var tAttr:[String:AnyObject] = baseAttribute
                 tAttr[NSBackgroundColorAttributeName] = referTextStyle.backgroundColor
@@ -374,24 +374,24 @@ extension MarkdownParser {
                 let paras = NSMutableParagraphStyle()
                 paras.paragraphSpacing = 10
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
                 
-            case .CodeBlock(let code):
-                attributedString.appendAttributedString(NSAttributedString(string: "\n"))
+            case .codeBlock(let code):
+                attributedString.append(NSAttributedString(string: "\n"))
                 let backgroundColor = codeBlockStyle.backgroundColor
                 let foregroundColor = codeBlockStyle.foregroundColor
                 let paras = NSMutableParagraphStyle()
                 paras.paragraphSpacing = 0
-                attributedString.appendAttributedString(NSAttributedString(string: code, attributes: [NSBackgroundColorAttributeName: backgroundColor!, NSForegroundColorAttributeName: foregroundColor!, NSParagraphStyleAttributeName: paras]))
+                attributedString.append(NSAttributedString(string: code, attributes: [NSBackgroundColorAttributeName: backgroundColor!, NSForegroundColorAttributeName: foregroundColor!, NSParagraphStyleAttributeName: paras]))
                 
-            case .Delete(let mds):
+            case .delete(let mds):
                 var tAttr: [String: AnyObject] = baseAttribute
                 if tAttr[NSFontAttributeName] == nil {
                     tAttr[NSFontAttributeName] = deleteStyle.fontName
                 }
-                tAttr[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.StyleDouble.rawValue
+                tAttr[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleDouble.rawValue as AnyObject?
                 let subAttrString = renderHelper(mds, parentAttribute: tAttr)
-                attributedString.appendAttributedString(subAttrString)
+                attributedString.append(subAttrString)
             }
         }
         
@@ -401,11 +401,11 @@ extension MarkdownParser {
 
 extension UIColor {
     
-    static func hexColor(value: Int, alpha: CGFloat = 1.0) -> UIColor {
+    static func hexColor(_ value: Int, alpha: CGFloat = 1.0) -> UIColor {
         return UIColor(red: CGFloat((value & 0xFF0000) >> 16) / 255.0, green: CGFloat((value & 0xFF00) >> 8) / 255.0, blue: CGFloat(value & 0xFF) / 255.0, alpha: alpha)
     }
     
-    static func quickRGB(r r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) -> UIColor {
+    static func quickRGB(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) -> UIColor {
         return UIColor(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
     }
 }

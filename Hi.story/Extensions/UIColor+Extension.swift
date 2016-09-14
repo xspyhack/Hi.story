@@ -26,7 +26,7 @@ extension UIColor {
         var white: CGFloat = 0
         getWhite(&white, alpha: nil)
         
-        return white > 0.92 ? UIColor.blackColor() : UIColor.whiteColor()
+        return white > 0.92 ? UIColor.black : UIColor.white
     }
     
     var yep_prettyColor: UIColor {

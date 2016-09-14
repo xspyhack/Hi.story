@@ -10,6 +10,6 @@ import Foundation
 
 extension Array {
     subscript(safe index: Int) -> Element? {
-        return indices ~= index ? self[index] : .None
+        return indices ~= index ? self[index] : .none
     }
 }

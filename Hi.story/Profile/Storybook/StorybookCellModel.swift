@@ -11,16 +11,16 @@ import Foundation
 protocol StorybookCellModelType {
     
     var name: String { get }
-    var coverImageURL: NSURL? { get }
+    var coverImageURL: URL? { get }
 }
 
 struct StorybookCellModel: StorybookCellModelType {
     
-    private(set) var name: String
-    private(set) var coverImageURL: NSURL?
+    fileprivate(set) var name: String
+    fileprivate(set) var coverImageURL: URL?
     
     init(storybook: Storybook) {
         self.name = storybook.name
-        self.coverImageURL = storybook.coverImageURL
+        self.coverImageURL = storybook.coverImageURL as URL?
     }
 }

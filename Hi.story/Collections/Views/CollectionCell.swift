@@ -10,27 +10,27 @@ import UIKit
 import Hikit
 import Kingfisher
 
-typealias CollectionPresentable = protocol<TextPresentable, DescriptionPresentable, ImagePresentable>
+typealias CollectionPresentable = TextPresentable & DescriptionPresentable & ImagePresentable
 
 class CollectionCell: UICollectionViewCell, NibReusable {
 
-    @IBOutlet private weak var overlayView: UIView!
-    @IBOutlet private weak var imageView: UIImageView!
-    @IBOutlet private weak var descriptionLabel: UILabel!
-    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet fileprivate weak var overlayView: UIView!
+    @IBOutlet fileprivate weak var imageView: UIImageView!
+    @IBOutlet fileprivate weak var descriptionLabel: UILabel!
+    @IBOutlet fileprivate weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
-    override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
-        super.applyLayoutAttributes(layoutAttributes)
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
         
         let featuredHeight: CGFloat = Constant.featuredHeight
         let standardHeight: CGFloat = Constant.standardHegiht
         
-        let delta = 1 - (featuredHeight - CGRectGetHeight(frame)) / (featuredHeight - standardHeight)
+        let delta = 1 - (featuredHeight - frame.height) / (featuredHeight - standardHeight)
         
         let minAlpha: CGFloat = Constant.minAlpha
         let maxAlpha: CGFloat = Constant.maxAlpha
@@ -39,7 +39,7 @@ class CollectionCell: UICollectionViewCell, NibReusable {
         overlayView.alpha = alpha
         
         let scale = max(delta, 0.5)
-        titleLabel.transform = CGAffineTransformMakeScale(scale, scale)
+        titleLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
         
         descriptionLabel.alpha = delta
     }

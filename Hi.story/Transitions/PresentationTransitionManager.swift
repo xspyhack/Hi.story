@@ -15,10 +15,10 @@ protocol PresentationRepresentation {
 
 final class PresentationTransitionManager: NSObject {
     
-    var duration: NSTimeInterval = 0.4
+    var duration: TimeInterval = 0.4
     
     enum TransitionType {
-        case Present, Dismiss
+        case present, dismiss
     }
     
     var presentedViewHeight: CGFloat = Defaults.presentedViewControllerHeight
@@ -28,72 +28,72 @@ final class PresentationTransitionManager: NSObject {
 
 extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
 
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if transitionType == .Present {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        if transitionType == .present {
             animatePresentWithTransition(transitionContext)
         } else {
             animateDismissWithTransition(transitionContext)
         }
     }
     
-    private func animatePresentWithTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView(),
-            toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+    fileprivate func animatePresentWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        guard let containerView = transitionContext.containerView,
+            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
         containerView.addSubview(toViewController.view)
-        let finalFrame = transitionContext.finalFrameForViewController(toViewController)
+        let finalFrame = transitionContext.finalFrame(for: toViewController)
 
         toViewController.view.frame = finalFrame
         toViewController.view.center.y += containerView.bounds.height
-        UIView.animateWithDuration(duration, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .AllowUserInteraction, animations: { () -> Void in
+        UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .allowUserInteraction, animations: { () -> Void in
             toViewController.view.frame = finalFrame
             toViewController.view.center.y += Defaults.statusBarHeight
             
             }) { (finished) -> Void in
                 print("finish")
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
-    private func animateDismissWithTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView(),
-            fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+    fileprivate func animateDismissWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        guard let containerView = transitionContext.containerView,
+            let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else {
                 return
         }
         
-        UIView.animateWithDuration(duration, animations: { () -> Void in
+        UIView.animate(withDuration: duration, animations: { () -> Void in
             fromViewController.view.center.y += containerView.bounds.height
             
-            }) { (finished) -> Void in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
+            }, completion: { (finished) -> Void in
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) 
     }
 }
 
 extension PresentationTransitionManager: UIViewControllerTransitioningDelegate {
     
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
-        let presentedViewController = PresentationController(presentedViewController: presented, presentingViewController: presenting)
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        let presentedViewController = PresentationController(presentedViewController: presented, presenting: presenting)
         presentedViewController.presentedViewHeight = presentedViewHeight
         return presentedViewController
     }
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .Present
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transitionType = .present
         
         return self
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .Dismiss
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transitionType = .dismiss
         
         return self
     }

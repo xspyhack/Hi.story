@@ -10,12 +10,12 @@ import Foundation
 import Alamofire
 import Hikit
 
-typealias CompletionHandler = (NSURLRequest?, NSHTTPURLResponse?, AnyObject?, NSError?) -> Void
+typealias CompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, NSError?) -> Void
 
 protocol Requestable {
-    func request(URLString URLString: String, method: Alamofire.Method, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: CompletionHandler?)
-    func request(URLRequest: NSMutableURLRequest, parameters: JSONDictionary?, completionHandler: CompletionHandler?)
-    func authRequest(URLString URLString: String, method: Alamofire.Method) -> NSMutableURLRequest
+    func request(URLString: String, method: Alamofire.Method, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: CompletionHandler?)
+    func request(_ URLRequest: NSMutableURLRequest, parameters: JSONDictionary?, completionHandler: CompletionHandler?)
+    func authRequest(URLString: String, method: Alamofire.Method) -> NSMutableURLRequest
 }
 
 protocol Authorizable {
@@ -30,14 +30,14 @@ struct Request: Requestable {
     
     static let shareRequest = Request()
     
-    func request(URLString URLString: String, method: Alamofire.Method, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = .URL, completionHandler: CompletionHandler?) {
+    func request(URLString: String, method: Alamofire.Method, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = .URL, completionHandler: CompletionHandler?) {
         
         Alamofire.request(method, URLString, parameters: parameters, encoding: encoding).responseJSON { response in
             completionHandler?(response.request, response.response, response.result.value, response.result.error)
         }
     }
     
-    func request(URLRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: CompletionHandler?) {
+    func request(_ URLRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: CompletionHandler?) {
         let encodedURLRequest = Alamofire.ParameterEncoding.URLEncodedInURL.encode(URLRequest, parameters: parameters).0
         
         Alamofire.request(encodedURLRequest).responseJSON { response in
@@ -45,10 +45,10 @@ struct Request: Requestable {
         }
     }
     
-    func authRequest(URLString URLString: String, method: Alamofire.Method) -> NSMutableURLRequest {
-        let URL = NSURL(string: URLString)!
+    func authRequest(URLString: String, method: Alamofire.Method) -> NSMutableURLRequest {
+        let URL = Foundation.URL(string: URLString)!
         
-        let mutableURLRequest = NSMutableURLRequest(URL: URL)
+        let mutableURLRequest = NSMutableURLRequest(url: URL)
         mutableURLRequest.HTTPMethod = method.rawValue
 
         return mutableURLRequest

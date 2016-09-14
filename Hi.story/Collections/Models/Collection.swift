@@ -12,7 +12,7 @@ struct Collection {
     
     let title: String
     let description: String
-    let coverImageURL: NSURL
+    let coverImageURL: URL
     
     let count: Int
 }

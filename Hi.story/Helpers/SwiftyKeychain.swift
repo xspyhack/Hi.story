@@ -39,20 +39,20 @@ struct Keychain: OptionsType {
     
     var comment: String? { return options.comment }
     
-    private var options: Options
+    fileprivate var options: Options
     
     init(service: String, accessGroup: String? = nil) {
         let options = Options(service: service, accessGroup: accessGroup)
         self.init(opts: options)
     }
     
-    private init(opts: Options) {
+    fileprivate init(opts: Options) {
         self.options = opts
     }
     
     init() {
         var service = ""
-        if let identifier = NSBundle.mainBundle().bundleIdentifier {
+        if let identifier = Bundle.main.bundleIdentifier {
             service = identifier
         }
 
@@ -60,25 +60,25 @@ struct Keychain: OptionsType {
         self.init(opts: options)
     }
     
-    func identifier(id: String) -> Keychain {
+    func identifier(_ id: String) -> Keychain {
         var options = self.options
         options.identifier = id
         return Keychain(opts: options)
     }
     
-    func label(label: String) -> Keychain {
+    func label(_ label: String) -> Keychain {
         var options = self.options
         options.label = label
         return Keychain(opts: options)
     }
     
-    func comment(comment: String) -> Keychain {
+    func comment(_ comment: String) -> Keychain {
         var options = self.options
         options.comment = comment
         return Keychain(opts: options)
     }
     
-    func attributes(attrs: [String: AnyObject]) -> Keychain {
+    func attributes(_ attrs: [String: AnyObject]) -> Keychain {
         var options = self.options
         options.attributes = attrs
         return Keychain(opts: options)
@@ -86,35 +86,35 @@ struct Keychain: OptionsType {
     
     // getter
     
-    func get(key: String) throws -> String? {
+    func get(_ key: String) throws -> String? {
         return try getString(key)
     }
     
-    func getString(key: String) throws -> String? {
+    func getString(_ key: String) throws -> String? {
         guard let data = try getData(key) else {
             return nil
         }
-        guard let string = NSString(data: data, encoding: NSUTF8StringEncoding) as? String else {
+        guard let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String else {
             throw NSError(domain: kSwiftyKeychainDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to convert data to string."])
         }
         return string
     }
     
-    func getData(key: String) throws -> NSData? {
+    func getData(_ key: String) throws -> Data? {
         var query = genericQuery()
         
         query[String(kSecMatchLimit)] = String(kSecMatchLimitOne)
-        query[String(kSecReturnData)] = true
-        query[String(kSecAttrAccount)] = key
+        query[String(kSecReturnData)] = true as AnyObject?
+        query[String(kSecAttrAccount)] = key as AnyObject?
         
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(&result) {
-            SecItemCopyMatching(query, UnsafeMutablePointer($0))
+        let status = withUnsafeMutablePointer(to: &result) {
+            SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0))
         }
         
         switch status {
         case errSecSuccess:
-            guard let data = result as? NSData else {
+            guard let data = result as? Data else {
                 throw NSError(domain: kSwiftyKeychainDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Unexpected error."])
             }
             return data
@@ -125,18 +125,18 @@ struct Keychain: OptionsType {
         }
     }
     
-    func get<T>(key: String, @noescape handler: KeychainAttributes? -> T) throws -> T {
+    func get<T>(_ key: String, handler: (KeychainAttributes?) -> T) throws -> T {
         var query = genericQuery()
         
         query[String(kSecMatchLimit)] = String(kSecMatchLimitOne)
-        query[String(kSecReturnAttributes)] = true
-        query[String(kSecReturnRef)] = true
-        query[String(kSecReturnData)] = true
-        query[String(kSecAttrAccount)] = key
+        query[String(kSecReturnAttributes)] = true as AnyObject?
+        query[String(kSecReturnRef)] = true as AnyObject?
+        query[String(kSecReturnData)] = true as AnyObject?
+        query[String(kSecAttrAccount)] = key as AnyObject?
         
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(&result) {
-            SecItemCopyMatching(query, UnsafeMutablePointer($0))
+        let status = withUnsafeMutablePointer(to: &result) {
+            SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0))
         }
         
         switch status {
@@ -154,27 +154,27 @@ struct Keychain: OptionsType {
     
     // setter
     
-    func set(value: String, forKey key: String) throws {
-        guard let data = value.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
+    func set(_ value: String, forKey key: String) throws {
+        guard let data = value.data(using: String.Encoding.utf8, allowLossyConversion: false) else {
             throw NSError(domain: kSwiftyKeychainDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to convert string to data."])
         }
         try set(data, forKey: key)
     }
     
-    func set(value: NSCoding, forKey key: String) throws {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(value)
+    func set(_ value: NSCoding, forKey key: String) throws {
+        let data = NSKeyedArchiver.archivedData(withRootObject: value)
         try set(data, forKey: key)
     }
     
-    func set(value: NSData, forKey key: String) throws {
+    func set(_ value: Data, forKey key: String) throws {
         var query = genericQuery()
-        query[String(kSecAttrAccount)] = key
+        query[String(kSecAttrAccount)] = key as AnyObject?
         
-        var status = SecItemCopyMatching(query, nil)
+        var status = SecItemCopyMatching(query as CFDictionary, nil)
         switch status {
         case errSecSuccess, errSecInteractionNotAllowed:
             var query = genericQuery()
-            query[String(kSecAttrAccount)] = key
+            query[String(kSecAttrAccount)] = key as AnyObject?
             var (attrs, error) = genericAttributes(key: nil, value: value)
             if let error = error {
                 throw error
@@ -185,7 +185,7 @@ struct Keychain: OptionsType {
                     try remove(key)
                     try set(value, forKey: key)
                 } else {
-                    status = SecItemUpdate(query, attrs)
+                    status = SecItemUpdate(query as CFDictionary, attrs as CFDictionary)
                     if status != errSecSuccess {
                         throw NSError(domain: kSwiftyKeychainDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "OSStatus error: \(status)."])
                     }
@@ -202,7 +202,7 @@ struct Keychain: OptionsType {
                 throw error
             }
             attributes.forEach { attrs.updateValue($1, forKey: $0) }
-            status = SecItemAdd(attrs, nil)
+            status = SecItemAdd(attrs as CFDictionary, nil)
             if status != errSecSuccess {
                 throw NSError(domain: kSwiftyKeychainDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "\(status)."])
             }
@@ -211,11 +211,11 @@ struct Keychain: OptionsType {
         }
     }
     
-    func remove(key: String) throws {
+    func remove(_ key: String) throws {
         var query = genericQuery()
-        query[String(kSecAttrAccount)] = key
+        query[String(kSecAttrAccount)] = key as AnyObject?
         
-        let status = SecItemDelete(query)
+        let status = SecItemDelete(query as CFDictionary)
         if status != errSecSuccess && status != errSecItemNotFound {
             throw NSError(domain: kSwiftyKeychainDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "OSStatus error: \(status)."])
         }
@@ -227,7 +227,7 @@ struct Keychain: OptionsType {
             query[String(kSecMatchLimit)] = String(kSecMatchLimitAll)
         #endif
         
-        let status = SecItemDelete(query)
+        let status = SecItemDelete(query as CFDictionary)
         if status != errSecSuccess && status != errSecItemNotFound {
             throw NSError(domain: kSwiftyKeychainDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "OSStatus error: \(status)."])
         }
@@ -255,7 +255,7 @@ struct Keychain: OptionsType {
         }
     }
     
-    subscript(data key: String) -> NSData? {
+    subscript(data key: String) -> Data? {
         get {
             return (try? getData(key))?.flatMap { $0 }
         }
@@ -276,8 +276,8 @@ struct Keychain: OptionsType {
 }
 
 struct KeychainAttributes {
-    var data: NSData? {
-        return attributes[String(kSecValueData)] as? NSData
+    var data: Data? {
+        return attributes[String(kSecValueData)] as? Data
     }
     
     var label: String? {
@@ -300,23 +300,23 @@ struct KeychainAttributes {
         return attributes[String(kSecAttrAccessGroup)] as? String
     }
     
-    var ref: NSData? {
-        return attributes[String(kSecValueRef)] as? NSData
+    var ref: Data? {
+        return attributes[String(kSecValueRef)] as? Data
     }
     
     var accessible: String? {
         return attributes[String(kSecAttrAccessible)] as? String
     }
     
-    var generic: NSData? {
-        return attributes[String(kSecAttrGeneric)] as? NSData
+    var generic: Data? {
+        return attributes[String(kSecAttrGeneric)] as? Data
     }
     
     var description: String? {
         return attributes[String(kSecAttrDescription)] as? String
     }
     
-    private let attributes: [String: AnyObject]
+    fileprivate let attributes: [String: AnyObject]
     
     init(attrs: [String: AnyObject]) {
         self.attributes = attrs
@@ -340,13 +340,13 @@ protocol OptionsType {
     
     func genericQuery() -> [String: AnyObject]
     
-    func genericAttributes(key key: String?, value: NSData) -> ([String: AnyObject], NSError?)
+    func genericAttributes(key: String?, value: Data) -> ([String: AnyObject], NSError?)
 }
 
 extension OptionsType {
     var itemClass: String { return String(kSecClassGenericPassword) }
     
-    var accessibility: Accessibility { return .AfterFirstUnlock }
+    var accessibility: Accessibility { return .afterFirstUnlock }
     var label: String? { return nil }
     var comment: String? { return nil }
     
@@ -355,8 +355,8 @@ extension OptionsType {
     func genericQuery() -> [String: AnyObject] {
         var query = [String: AnyObject]()
         
-        query[String(kSecClass)] = itemClass
-        query[String(kSecAttrService)] = service
+        query[String(kSecClass)] = itemClass as AnyObject?
+        query[String(kSecAttrService)] = service as AnyObject?
         
         #if (!arch(i386) && !arch(x86_64)) || (!os(iOS) && !os(watchOS) && !os(tvOS)) // TARGET_IPHONE_SIMULATOR TARGET_OS_SIMULATOR
             if let accessGroup = accessGroup {
@@ -366,27 +366,27 @@ extension OptionsType {
         return query
     }
     
-    func genericAttributes(key key: String?, value: NSData) -> ([String: AnyObject], NSError?) {
+    func genericAttributes(key: String?, value: Data) -> ([String: AnyObject], NSError?) {
         var attributes: [String: AnyObject]
         
         if let key = key {
             attributes = genericQuery()
-            attributes[String(kSecAttrAccount)] = key
+            attributes[String(kSecAttrAccount)] = key as AnyObject?
         } else {
             attributes = [String: AnyObject]()
         }
         
-        attributes[String(kSecValueData)] = value
+        attributes[String(kSecValueData)] = value as AnyObject?
         
         if let label = label {
-            attributes[String(kSecAttrLabel)] = label
+            attributes[String(kSecAttrLabel)] = label as AnyObject?
         }
         
         if let comment = comment {
-            attributes[String(kSecAttrComment)] = comment
+            attributes[String(kSecAttrComment)] = comment as AnyObject?
         }
         
-        attributes[String(kSecAttrAccessible)] = accessibility.rawValue
+        attributes[String(kSecAttrAccessible)] = accessibility.rawValue as AnyObject?
         return (attributes, nil)
     }
 }
@@ -408,12 +408,12 @@ struct Options: OptionsType {
 }
 
 enum Accessibility {
-    case WhenUnlocked
-    case AfterFirstUnlock
-    case Always
-    case WhenUnlockedThisDeviceOnly
-    case AfterFirstUnlockedThisDeviceOnly
-    case AlwaysThisDeviceOnly
+    case whenUnlocked
+    case afterFirstUnlock
+    case always
+    case whenUnlockedThisDeviceOnly
+    case afterFirstUnlockedThisDeviceOnly
+    case alwaysThisDeviceOnly
 }
 
 extension Accessibility: RawRepresentable {
@@ -421,17 +421,17 @@ extension Accessibility: RawRepresentable {
     
     var rawValue: RawValue {
         switch self {
-        case .WhenUnlocked:
+        case .whenUnlocked:
             return String(kSecAttrAccessibleWhenUnlocked)
-        case .AfterFirstUnlock:
+        case .afterFirstUnlock:
             return String(kSecAttrAccessibleAfterFirstUnlock)
-        case .Always:
+        case .always:
             return String(kSecAttrAccessibleAlways)
-        case .WhenUnlockedThisDeviceOnly:
+        case .whenUnlockedThisDeviceOnly:
             return String(kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
-        case .AfterFirstUnlockedThisDeviceOnly:
+        case .afterFirstUnlockedThisDeviceOnly:
             return String(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
-        case .AlwaysThisDeviceOnly:
+        case .alwaysThisDeviceOnly:
             return String(kSecAttrAccessibleAlwaysThisDeviceOnly)
         }
     }
@@ -439,17 +439,17 @@ extension Accessibility: RawRepresentable {
     init?(rawValue: RawValue) {
         switch rawValue {
         case String(kSecAttrAccessibleWhenUnlocked):
-            self = .WhenUnlocked
+            self = .whenUnlocked
         case String(kSecAttrAccessibleAfterFirstUnlock):
-            self = .AfterFirstUnlock
+            self = .afterFirstUnlock
         case String(kSecAttrAccessibleAlways):
-            self = .Always
+            self = .always
         case String(kSecAttrAccessibleWhenUnlockedThisDeviceOnly):
-            self = .AlwaysThisDeviceOnly
+            self = .alwaysThisDeviceOnly
         case String(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly):
-            self = .AfterFirstUnlockedThisDeviceOnly
+            self = .afterFirstUnlockedThisDeviceOnly
         case String(kSecAttrAccessibleAlwaysThisDeviceOnly):
-            self = .AlwaysThisDeviceOnly
+            self = .alwaysThisDeviceOnly
         default:
             return nil
         }

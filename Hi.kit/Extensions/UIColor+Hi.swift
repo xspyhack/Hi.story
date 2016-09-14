@@ -15,10 +15,10 @@ public extension UIColor {
     }
     
     public convenience init(hex: String, alpha: CGFloat = 1.0) {
-        var hex = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercaseString
+        var hex = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercased()
         
         if hex.hasPrefix("#") {
-            hex = (hex as NSString).substringFromIndex(1)
+            hex = (hex as NSString).substring(from: 1)
         }
         
         if hex.characters.count != 6 {
@@ -27,9 +27,9 @@ public extension UIColor {
             self.init(white: 0.0, alpha: 0.0)
         } else {
             var rgbValue: UInt32 = 0
-            let scanner = NSScanner.init(string: hex)
+            let scanner = Scanner.init(string: hex)
             scanner.scanLocation = 0
-            scanner.scanHexInt(&rgbValue)
+            scanner.scanHexInt32(&rgbValue)
             
             let red = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
             let green = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0

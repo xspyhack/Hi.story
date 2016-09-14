@@ -15,19 +15,19 @@ import RealmSwift
 
 protocol MatterViewModelType {
     
-    var itemDeleted: PublishSubject<NSIndexPath> { get }
-    var itemDidSelect: PublishSubject<NSIndexPath> { get }
+    var itemDeleted: PublishSubject<IndexPath> { get }
+    var itemDidSelect: PublishSubject<IndexPath> { get }
 }
 
 typealias MatterViewSection = SectionModel<String, MatterCellModelType>
 
 struct MatterViewModel: MatterViewModelType {
     
-    var itemDeleted = PublishSubject<NSIndexPath>()
-    var itemDidSelect = PublishSubject<NSIndexPath>()
+    var itemDeleted = PublishSubject<IndexPath>()
+    var itemDidSelect = PublishSubject<IndexPath>()
     
-    private let disposeBag = DisposeBag()
-    private var matters: Variable<[Matter]>
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate var matters: Variable<[Matter]>
     
     let sections: Driver<[MatterViewSection]>
     
@@ -38,10 +38,10 @@ struct MatterViewModel: MatterViewModelType {
         
         self.sections = matters.asObservable()
             .map { matters in
-                let commingCellModels = matters.filter { $0.happenedUnixTime > NSDate().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
+                let commingCellModels = matters.filter { $0.happenedUnixTime > Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
                 let commingSection = MatterViewSection(model: "Comming", items: commingCellModels)
                 
-                let pastCellModels = matters.filter { $0.happenedUnixTime <= NSDate().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
+                let pastCellModels = matters.filter { $0.happenedUnixTime <= Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
                 let pastSection = MatterViewSection(model: "Past", items: pastCellModels)
                 return [commingSection, pastSection]
             }

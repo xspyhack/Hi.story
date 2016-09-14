@@ -10,20 +10,20 @@ import Foundation
 import Hikit
 
 enum StoryFetchType {
-    case Single(NSDate)
-    case Range(Int, Int)
-    case All
+    case single(Date)
+    case range(Int, Int)
+    case all
 }
 
 struct StorysViewModel {
     
     var storyViewModels: [StoryViewModel] = []
     
-    var type: StoryFetchType = .All
+    var type: StoryFetchType = .all
     
     let completion: () -> Void
     
-    init(completion: () -> Void) {
+    init(completion: @escaping () -> Void) {
         self.completion = completion
     }
     
@@ -32,18 +32,18 @@ struct StorysViewModel {
             "uuid": UUID.uuid
         ]
         switch type {
-        case .Single(let date):
+        case .single(let date):
             params["date"] = date.hi.yearMonthDay
-        case .Range(let from, let to):
+        case .range(let from, let to):
             params["from"] = "\(from)"
             params["to"] = "\(to)"
-        case .All:
+        case .all:
             break
         }
         fetch(parameters: params)
     }
     
-    private mutating func fetch(parameters params: JSONDictionary) {
+    fileprivate mutating func fetch(parameters params: JSONDictionary) {
         
     }
 }

@@ -13,12 +13,12 @@ import RxSwift
 
 final class HomeViewController: BaseViewController {
     
-    @IBOutlet private weak var segmentedControl: UISegmentedControl!
-    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet fileprivate weak var segmentedControl: UISegmentedControl!
+    @IBOutlet fileprivate weak var scrollView: UIScrollView!
 
-    private enum Channel: Int {
-        case Today = 0
-        case History
+    fileprivate enum Channel: Int {
+        case today = 0
+        case history
         
         var index: Int {
             return rawValue
@@ -39,11 +39,11 @@ final class HomeViewController: BaseViewController {
             .addDisposableTo(disposeBag)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
@@ -54,20 +54,20 @@ final class HomeViewController: BaseViewController {
     
     // MARK: Public
     
-    private func selecting(at index: Int) {
+    fileprivate func selecting(at index: Int) {
         guard let channel = Channel(rawValue: index) else { return }
         
         selectingChannel(channel)
     }
     
-    private func selectingChannel(channel: Channel) {
+    fileprivate func selectingChannel(_ channel: Channel) {
         
         let width = view.bounds.width
         
         scrollView.setContentOffset(CGPoint(x: width * CGFloat(channel.index), y: 0.0), animated: true)
     }
     
-    private func selecting(at offset: CGFloat) {
+    fileprivate func selecting(at offset: CGFloat) {
         
         let width = view.bounds.width
         
@@ -80,7 +80,7 @@ final class HomeViewController: BaseViewController {
 extension HomeViewController: UIScrollViewDelegate {
     
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         selecting(at: scrollView.contentOffset.x)
     }

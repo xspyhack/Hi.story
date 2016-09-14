@@ -13,7 +13,7 @@ import RealmSwift
 
 final class RestrospectiveViewController: UIViewController {
 
-    @IBOutlet private weak var storyCollectionView: UICollectionView! {
+    @IBOutlet fileprivate weak var storyCollectionView: UICollectionView! {
         didSet {
             storyCollectionView.hi.registerReusableCell(CollectionCell)
             storyCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
@@ -31,7 +31,7 @@ final class RestrospectiveViewController: UIViewController {
         
         title = "Restrospective"
         
-        edgesForExtendedLayout = UIRectEdge.None
+        edgesForExtendedLayout = UIRectEdge()
         
         viewModel = StorysViewModel() { [weak self] in
             self?.storyCollectionView.reloadData()
@@ -44,7 +44,7 @@ final class RestrospectiveViewController: UIViewController {
         
     }
     
-    private func handleNewStories(stories: [Story]) {
+    fileprivate func handleNewStories(_ stories: [Story]) {
         self.stories = stories
         self.storyCollectionView.reloadData()
     }
@@ -61,13 +61,13 @@ extension RestrospectiveViewController: SegueHandlerType {
     // MARK: Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
         case .ShowStory:
-            let viewController = segue.destinationViewController as? StoryViewController
+            let viewController = segue.destination as? StoryViewController
             if let wrapper: Wrapper<Story> = sender as? Wrapper {
                 viewController?.story = wrapper.candy
             }
@@ -79,15 +79,15 @@ extension RestrospectiveViewController: SegueHandlerType {
 
 extension RestrospectiveViewController: UICollectionViewDataSource {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stories?.count ?? 10
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell: CollectionCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         
@@ -99,30 +99,30 @@ extension RestrospectiveViewController: UICollectionViewDataSource {
 
 extension RestrospectiveViewController: UICollectionViewDelegate {
     
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        guard let story = stories?[safe: indexPath.item], cell = cell as? CollectionCell else {
+        guard let story = stories?[safe: (indexPath as NSIndexPath).item], let cell = cell as? CollectionCell else {
             return
         }
         
-        let restrospective = Restrospective(title: story.title, description: story.body, imageURL: NSURL(string: story.attachment?.URLString ?? ""))
+        let restrospective = Restrospective(title: story.title, description: story.body, imageURL: URL(string: story.attachment?.URLString ?? ""))
         
         let collectionCellModel = CollectionCellModel(restrospective: restrospective)
         
         cell.configure(withPresenter: collectionCellModel)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let focusViewLayout = collectionView.collectionViewLayout as? SFFocusViewLayout else {
             fatalError("error casting focus layout from collection view")
         }
         
-        let offset = focusViewLayout.dragOffset * CGFloat(indexPath.item)
+        let offset = focusViewLayout.dragOffset * CGFloat((indexPath as NSIndexPath).item)
         if collectionView.contentOffset.y != offset {
             collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
         } else {
-            guard let story = stories?[safe: indexPath.item] else {
+            guard let story = stories?[safe: (indexPath as NSIndexPath).item] else {
                 return
             }
             performSegue(withIdentifier: .ShowStory, sender: Wrapper(bullet: story))

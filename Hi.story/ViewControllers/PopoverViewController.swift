@@ -16,9 +16,9 @@ class PopoverViewController: UIViewController {
         }
     }
     
-    private lazy var tipsLabel: UILabel = {
+    fileprivate lazy var tipsLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .Center
+        label.textAlignment = .center
         return label
     }()
     
@@ -26,7 +26,7 @@ class PopoverViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         
         preferredContentSize = CGSize(width: 200, height: 100)
         
@@ -38,7 +38,7 @@ class PopoverViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
         view.addSubview(tipsLabel)
         tipsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -47,11 +47,11 @@ class PopoverViewController: UIViewController {
             "tipsLabel": tipsLabel,
         ]
         
-        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[tipsLabel]-|", options: [], metrics: nil, views: views)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[tipsLabel]-|", options: [], metrics: nil, views: views)
         
-        let centerY = NSLayoutConstraint(item: tipsLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1.0, constant: 0.0)
+        let centerY = NSLayoutConstraint(item: tipsLabel, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
-        NSLayoutConstraint.activateConstraints(H)
-        NSLayoutConstraint.activateConstraints([centerY])
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate([centerY])
     }
 }

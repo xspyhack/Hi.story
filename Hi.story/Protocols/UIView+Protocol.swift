@@ -19,9 +19,9 @@ extension Shakeable where Self: UIView {
         animation.duration = 0.05
         animation.repeatCount = 6
         animation.autoreverses = true
-        animation.fromValue = NSValue(CGPoint: CGPoint(x: center.x - 4.0, y: center.y))
-        animation.toValue = NSValue(CGPoint: CGPoint(x: center.x + 4.0, y: center.y))
-        layer.addAnimation(animation, forKey: "shake")
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: center.x - 4.0, y: center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + 4.0, y: center.y))
+        layer.add(animation, forKey: "shake")
     }
     
 }
@@ -37,9 +37,9 @@ extension Scaleable where Self: UIView {
         animation.duration = 0.05
         animation.repeatCount = 1
         animation.autoreverses = true
-        animation.fromValue = NSNumber(float: 1.0)
-        animation.toValue = NSNumber(float: Float(value))
-        layer.addAnimation(animation, forKey: "scale")
+        animation.fromValue = NSNumber(value: 1.0 as Float)
+        animation.toValue = NSNumber(value: Float(value) as Float)
+        layer.add(animation, forKey: "scale")
     }
 }
 

@@ -17,33 +17,33 @@ public enum StoryKind: String {
 }
 
 public enum Visible: Int {
-    case Public = 0
-    case Private
+    case `public` = 0
+    case `private`
 }
 
-public class Story: Object {
+open class Story: Object {
     
-    public dynamic var storyID: String = ""
-    public dynamic var allowComment: Bool = true
+    open dynamic var storyID: String = ""
+    open dynamic var allowComment: Bool = true
     
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var updatedUnixTime: TimeInterval = Date().timeIntervalSince1970
     
-    public dynamic var creator: User?
-    public dynamic var title: String = ""
-    public dynamic var body: String = ""
+    open dynamic var creator: User?
+    open dynamic var title: String = ""
+    open dynamic var body: String = ""
     
-    public dynamic var attachment: Attachment?
+    open dynamic var attachment: Attachment?
     
-    public dynamic var kind: String = StoryKind.PlainText.rawValue
-    public dynamic var location: Location?
+    open dynamic var kind: String = StoryKind.PlainText.rawValue
+    open dynamic var location: Location?
     
-    public dynamic var tag: String? = ""
+    open dynamic var tag: String? = ""
     
-    public dynamic var likesCount: Int = 0
-    public dynamic var visible: Int = Visible.Public.rawValue
+    open dynamic var likesCount: Int = 0
+    open dynamic var visible: Int = Visible.public.rawValue
     
-    public override class func indexedProperties() -> [String] {
+    open override class func indexedProperties() -> [String] {
         return ["storyID"]
     }
 }

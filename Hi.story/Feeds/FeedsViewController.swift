@@ -13,15 +13,15 @@ import RxSwift
 
 final class FeedsViewController: BaseViewController {
     
-    private lazy var presentationTransitionManager: PresentationTransitionManager = {
+    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
     
-    private var feeds: [Feed]?
+    fileprivate var feeds: [Feed]?
     
-    private lazy var newItem: UIBarButtonItem = {
+    fileprivate lazy var newItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage(named: "nav_new")
         return item
@@ -46,17 +46,17 @@ final class FeedsViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func tryToShowNewStory() {
+    fileprivate func tryToShowNewStory() {
         performSegue(withIdentifier: .PresentNewStory, sender: nil)
     }
     
-    private func handleNewFeeds(feeds: [Feed]) {
-        dispatch_async(dispatch_get_main_queue()) { 
+    fileprivate func handleNewFeeds(_ feeds: [Feed]) {
+        DispatchQueue.main.async { 
             print(feeds)
         }
     }
     
-    private func handleNewStory(story: Story) {
+    fileprivate func handleNewStory(_ story: Story) {
         
     }
 
@@ -71,15 +71,15 @@ extension FeedsViewController: SegueHandlerType {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
         case .PresentNewStory:
-            let viewController = segue.destinationViewController as! NewStoryViewController
+            let viewController = segue.destination as! NewStoryViewController
             
-            viewController.modalPresentationStyle = .Custom
+            viewController.modalPresentationStyle = .custom
             viewController.transitioningDelegate = presentationTransitionManager
             
             viewController.tellStoryDidSuccessAction = { [weak self](story) in

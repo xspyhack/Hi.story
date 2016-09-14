@@ -10,6 +10,6 @@ import Foundation
 
 struct Teller {
     let name: String
-    let avatarURL: NSURL
+    let avatarURL: URL
     let bio: String?
 }

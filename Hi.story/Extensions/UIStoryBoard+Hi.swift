@@ -18,7 +18,7 @@ extension UIStoryboard {
 
 extension X where Base: UIStoryboard {
     
-    static func storyBoard(board: UIStoryboard.StoryBoard) -> UIStoryboard {
+    static func storyBoard(_ board: UIStoryboard.StoryBoard) -> UIStoryboard {
         
         return UIStoryboard(name: board.rawValue, bundle: nil)
     }

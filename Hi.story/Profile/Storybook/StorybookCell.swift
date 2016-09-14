@@ -12,24 +12,24 @@ import Kingfisher
 
 class StorybookCell: UICollectionViewCell, Reusable {
     
-    private lazy var imageView: UIImageView = {
+    fileprivate lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "album")
         return imageView
     }()
     
-    private lazy var overlayView: UIView = {
+    fileprivate lazy var overlayView: UIView = {
        let view = UIView()
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         return view
     }()
     
-    private lazy var textLabel: UILabel = {
+    fileprivate lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.text = "Storybook"
-        label.textColor = UIColor.whiteColor()
+        label.textColor = UIColor.white
         return label
     }()
     
@@ -43,7 +43,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
         contentView.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,23 +60,23 @@ class StorybookCell: UICollectionViewCell, Reusable {
             "textLabel": textLabel,
         ]
         
-        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: [], metrics: nil, views: views)
-        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: views)
+        let imageViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: [], metrics: nil, views: views)
+        let imageViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: [], metrics: nil, views: views)
         
-        let overlayViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[overlayView]|", options: [], metrics: nil, views: views)
-        let overlayViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[overlayView]|", options: [], metrics: nil, views: views)
+        let overlayViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[overlayView]|", options: [], metrics: nil, views: views)
+        let overlayViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[overlayView]|", options: [], metrics: nil, views: views)
         
-        let textLabelConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[textLabel]|", options: [], metrics: nil, views: views)
-        let textLabelCenterY = NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0.0)
+        let textLabelConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[textLabel]|", options: [], metrics: nil, views: views)
+        let textLabelCenterY = NSLayoutConstraint(item: textLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
-        NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
-        NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
+        NSLayoutConstraint.activate(imageViewConstraintsH)
+        NSLayoutConstraint.activate(imageViewConstraintsV)
         
-        NSLayoutConstraint.activateConstraints(overlayViewConstraintsH)
-        NSLayoutConstraint.activateConstraints(overlayViewConstraintsV)
+        NSLayoutConstraint.activate(overlayViewConstraintsH)
+        NSLayoutConstraint.activate(overlayViewConstraintsV)
         
-        NSLayoutConstraint.activateConstraints(textLabelConstraintsH)
-        NSLayoutConstraint.activateConstraints([textLabelCenterY])
+        NSLayoutConstraint.activate(textLabelConstraintsH)
+        NSLayoutConstraint.activate([textLabelCenterY])
     }
 }
 

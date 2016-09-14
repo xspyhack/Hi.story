@@ -13,38 +13,38 @@ class ActivityIndicator {
     
     static let sharedInstance = ActivityIndicator()
     
-    private init() {
+    fileprivate init() {
     }
     
-    var dismissAfter: NSTimer?
-    private var isShowing = false
+    var dismissAfter: Timer?
+    fileprivate var isShowing = false
     
-    private lazy var containerView: UIView = {
+    fileprivate lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         return view
     }()
     
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .white)
         return view
     }()
     
-    func show(blockingUI: Bool = true) {
+    func show(_ blockingUI: Bool = true) {
         if self.isShowing {
             return
         }
         
         DispatchQueue.async { 
 
-            if let delegate = UIApplication.sharedApplication().delegate as? AppDelegate, window = delegate.window {
+            if let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window {
                 self.isShowing = true
-                self.containerView.userInteractionEnabled = blockingUI
+                self.containerView.isUserInteractionEnabled = blockingUI
                 self.containerView.alpha = 0.0
                 window.addSubview(self.containerView)
                 self.containerView.frame = window.bounds
                 
-                UIView.animateWithDuration(0.2, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     self.containerView.alpha = 1.0
                     }, completion: { (finished) in
                         self.containerView.addSubview(self.activityIndicator)
@@ -52,19 +52,19 @@ class ActivityIndicator {
                         self.activityIndicator.startAnimating()
                         
                         self.activityIndicator.alpha = 0.0
-                        self.activityIndicator.transform = CGAffineTransformMakeScale(0.001, 0.001)
+                        self.activityIndicator.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
                         
-                        UIView.animateWithDuration(0.2, animations: {
-                            self.activityIndicator.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.activityIndicator.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                             self.activityIndicator.alpha = 1.0
                             }, completion: { (finished) in
-                                self.activityIndicator.transform = CGAffineTransformIdentity
+                                self.activityIndicator.transform = CGAffineTransform.identity
                                 
                                 if let dismissAfter = self.dismissAfter {
                                     dismissAfter.invalidate()
                                 }
                                 
-                                self.dismissAfter = NSTimer.scheduledTimerWithTimeInterval(Defaults.forcedHideActivityIndicatorTimeInterval, target: self, selector: #selector(self.forcedHide), userInfo: nil, repeats: false)
+                                self.dismissAfter = Timer.scheduledTimer(timeInterval: Defaults.forcedHideActivityIndicatorTimeInterval, target: self, selector: #selector(self.forcedHide), userInfo: nil, repeats: false)
                         })
                 })
                 
@@ -72,20 +72,20 @@ class ActivityIndicator {
         }
     }
     
-    func hide(completion: (() -> Void)? = nil) {
+    func hide(_ completion: (() -> Void)? = nil) {
         
         DispatchQueue.async {
             
             if self.isShowing {
-                self.activityIndicator.transform = CGAffineTransformIdentity
+                self.activityIndicator.transform = CGAffineTransform.identity
                 
-                UIView.animateWithDuration(0.2, animations: {
-                    self.activityIndicator.transform = CGAffineTransformMakeScale(0.001, 0.001)
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.activityIndicator.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
                     self.activityIndicator.alpha = 0.0
                     }, completion: { (finished) in
                         self.activityIndicator.removeFromSuperview()
                         
-                        UIView.animateWithDuration(0.1, animations: {
+                        UIView.animate(withDuration: 0.1, animations: {
                             self.containerView.alpha = 0.0
                             }, completion: { (finished) in
                                 self.containerView.removeFromSuperview()
@@ -96,7 +96,7 @@ class ActivityIndicator {
         }
     }
     
-    @objc private func forcedHide() {
+    @objc fileprivate func forcedHide() {
         hide()
     }
 }

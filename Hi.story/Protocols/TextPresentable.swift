@@ -13,15 +13,15 @@ protocol TextPresentable {
     var textColor: UIColor { get }
     var font: UIFont { get }
     
-    func updateTextLabel(label: UILabel)
+    func updateTextLabel(_ label: UILabel)
 }
 
 extension TextPresentable {
     
-    var font: UIFont { return .systemFontOfSize(36.0, weight: UIFontWeightMedium) }
-    var textColor: UIColor { return .whiteColor() }
+    var font: UIFont { return .systemFont(ofSize: 36.0, weight: UIFontWeightMedium) }
+    var textColor: UIColor { return .white() }
     
-    func updateTextLabel(label: UILabel) {
+    func updateTextLabel(_ label: UILabel) {
         label.text = text
         label.textColor = textColor
         label.font = font

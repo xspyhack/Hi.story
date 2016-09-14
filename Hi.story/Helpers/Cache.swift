@@ -47,14 +47,14 @@ class ImageStorage {
     
     static let sharedStorage = ImageStorage()
     
-    private let cache = ImageCache(name: cacheName, path: String.hi_documentsPath)
+    fileprivate let cache = ImageCache(name: cacheName, path: String.hi_documentsPath)
     
-    func storeImage(image: Image, forKey key: String, completionHandler: (() -> Void)? = nil) {
+    func storeImage(_ image: Image, forKey key: String, completionHandler: (() -> Void)? = nil) {
         
         cache.storeImage(image, forKey: key, toDisk: true, completionHandler: completionHandler)
     }
     
-    func retrieveImageInDiskCacheForKey(key: String, scale: CGFloat = 1.0) -> Image? {
+    func retrieveImageInDiskCacheForKey(_ key: String, scale: CGFloat = 1.0) -> Image? {
         return cache.retrieveImageInDiskCacheForKey(key, scale: scale)
     }
     

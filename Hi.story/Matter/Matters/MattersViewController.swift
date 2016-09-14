@@ -15,17 +15,17 @@ import RealmSwift
 
 final class MattersViewController: BaseViewController {
     
-    @IBOutlet private weak var tableView: UITableView! {
+    @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
             tableView.hi.registerReusableCell(MatterCell)
         }
     }
     
-    @IBOutlet private weak var addItem: UIBarButtonItem!
+    @IBOutlet fileprivate weak var addItem: UIBarButtonItem!
     
-    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
+    fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
     
-    private var viewModel: MattersViewModel?
+    fileprivate var viewModel: MattersViewModel?
     
     lazy var presentationTransition: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
@@ -81,22 +81,22 @@ final class MattersViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         show()
     }
     
-    private func show() {
+    fileprivate func show() {
         
         let viewController = PopoverViewController()
         viewController.tips = "Look at me!"
         
-        viewController.modalPresentationStyle = .Popover
+        viewController.modalPresentationStyle = .popover
         viewController.popoverPresentationController?.barButtonItem = addItem
         viewController.popoverPresentationController?.delegate = self
 
-        presentViewController(viewController, animated: true, completion: nil)
+        present(viewController, animated: true, completion: nil)
     }
 }
 
@@ -109,13 +109,13 @@ extension MattersViewController: SegueHandlerType {
         case PresentNewMatter
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segueIdentifier(forSegue: segue) {
         case .PresentNewMatter:
-            let viewController = segue.destinationViewController as? NewMatterViewController
+            let viewController = segue.destination as? NewMatterViewController
             
-            viewController?.modalPresentationStyle = .Custom
+            viewController?.modalPresentationStyle = .custom
             viewController?.transitioningDelegate = presentationTransition
             
             if let wrapper = sender as? Wrapper<NewMatterViewModel> {
@@ -127,7 +127,7 @@ extension MattersViewController: SegueHandlerType {
 
 extension MattersViewController: UIPopoverPresentationControllerDelegate {
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .None
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
     }
 }

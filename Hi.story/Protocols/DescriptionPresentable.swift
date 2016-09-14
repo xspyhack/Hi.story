@@ -13,14 +13,14 @@ protocol DescriptionPresentable {
     var descriptionTextColor: UIColor { get }
     var descriptionFont: UIFont { get }
     
-    func updateDescriptionLabel(label: UILabel)
+    func updateDescriptionLabel(_ label: UILabel)
 }
 
 extension DescriptionPresentable {
-    var descriptionTextColor: UIColor { return .whiteColor() }
-    var descriptionFont: UIFont { return .systemFontOfSize(14.0) }
+    var descriptionTextColor: UIColor { return .white() }
+    var descriptionFont: UIFont { return .systemFont(ofSize: 14.0) }
     
-    func updateDescriptionLabel(label: UILabel) {
+    func updateDescriptionLabel(_ label: UILabel) {
         label.text = description
         label.textColor = descriptionTextColor
         label.font = descriptionFont

@@ -15,8 +15,8 @@ import RealmSwift
 protocol MattersViewModelType {
     
     var addAction: PublishSubject<Void> { get }
-    var itemDeleted: PublishSubject<NSIndexPath> { get }
-    var itemDidSelect: PublishSubject<NSIndexPath> { get }
+    var itemDeleted: PublishSubject<IndexPath> { get }
+    var itemDidSelect: PublishSubject<IndexPath> { get }
     
     var sections: Driver<[MattersViewSection]> { get }
 }
@@ -25,12 +25,12 @@ typealias MattersViewSection = SectionModel<String, MatterCellModelType>
 
 struct MattersViewModel: MattersViewModelType {
     
-    private(set) var addAction = PublishSubject<Void>()
-    private(set) var itemDeleted = PublishSubject<NSIndexPath>()
-    private(set) var itemDidSelect = PublishSubject<NSIndexPath>()
+    fileprivate(set) var addAction = PublishSubject<Void>()
+    fileprivate(set) var itemDeleted = PublishSubject<IndexPath>()
+    fileprivate(set) var itemDidSelect = PublishSubject<IndexPath>()
     
-    private let disposeBag = DisposeBag()
-    private var matters: Variable<[Matter]>
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate var matters: Variable<[Matter]>
     
     let sections: Driver<[MattersViewSection]>
     
@@ -43,10 +43,10 @@ struct MattersViewModel: MattersViewModelType {
         
         self.sections = matters.asObservable()
             .map { matters in
-                let commingCellModels = matters.filter { $0.happenedUnixTime > NSDate().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
+                let commingCellModels = matters.filter { $0.happenedUnixTime > Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
                 let commingSection = MattersViewSection(model: "Comming", items: commingCellModels)
                 
-                let pastCellModels = matters.filter { $0.happenedUnixTime <= NSDate().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
+                let pastCellModels = matters.filter { $0.happenedUnixTime <= Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
                 let pastSection = MattersViewSection(model: "Past", items: pastCellModels)
                 return [commingSection, pastSection]
             }
@@ -54,7 +54,7 @@ struct MattersViewModel: MattersViewModelType {
         
         self.itemDeleted
             .subscribeNext { indexPath in
-                if let matter = matters.value[safe: indexPath.row] {
+                if let matter = matters.value[safe: (indexPath as NSIndexPath).row] {
                     Matter.didDelete.onNext(matter)
                 }
             }
@@ -69,7 +69,7 @@ struct MattersViewModel: MattersViewModelType {
         
         Matter.didCreate
             .subscribeNext { matter in
-                self.matters.value.insert(matter, atIndex: 0)
+                self.matters.value.insert(matter, at: 0)
             }
             .addDisposableTo(disposeBag)
         

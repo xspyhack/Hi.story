@@ -21,12 +21,12 @@ final class InputableCell: UITableViewCell, Reusable {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
-        textField.textAlignment = .Center
+        textField.textAlignment = .center
         textField.textColor = UIColor.hi.textColor
         return textField
     }()
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,7 +38,7 @@ final class InputableCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
         textLabel?.textColor = UIColor.hi.titleColor
         
@@ -55,21 +55,21 @@ final class InputableCell: UITableViewCell, Reusable {
             "textField": textField,
         ]
         
-        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:|[textField]|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint.constraintsWithVisualFormat("V:|[textField]|", options: [], metrics: nil, views: views)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|[textField]|", options: [], metrics: nil, views: views)
+        let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|[textField]|", options: [], metrics: nil, views: views)
         
-        NSLayoutConstraint.activateConstraints(H)
-        NSLayoutConstraint.activateConstraints(V)
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate(V)
     }
 }
 
 extension InputableCell: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         didBeginInputingAction?()
     }
 }
@@ -86,18 +86,18 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         return label
     }()
     
-    private let textViewMinixumHeight: CGFloat = 30.0
+    fileprivate let textViewMinixumHeight: CGFloat = 30.0
     
-    private lazy var textView: UITextView = {
+    fileprivate lazy var textView: UITextView = {
         let textView = UITextView()
         textView.delegate = self
-        textView.scrollEnabled = false
+        textView.isScrollEnabled = false
         textView.textColor = UIColor.hi.textColor
-        textView.font = UIFont.systemFontOfSize(14.0)
+        textView.font = UIFont.systemFont(ofSize: 14.0)
         return textView
     }()
     
-    private var textViewHeightConstraint: NSLayoutConstraint!
+    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -109,7 +109,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
         textLabel?.textColor = UIColor.hi.titleColor
         
@@ -122,29 +122,29 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         let views = [
             "titleLabel": titleLabel,
             "textView": textView,
-        ]
+        ] as [String : Any]
         
-        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[textView]-20-|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[titleLabel(30)]-10-[textView(>=30)]-20-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[textView]-20-|", options: [], metrics: nil, views: views)
+        let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[titleLabel(30)]-10-[textView(>=30)]-20-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
         
-        NSLayoutConstraint.activateConstraints(H)
-        NSLayoutConstraint.activateConstraints(V)
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate(V)
     }
 }
 
 extension InfoInputableCell: UITextViewDelegate {
     
-    func textViewDidEndEditing(textView: UITextView) {
-        let text = textView.text.trimming(.WhitespaceAndNewline)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let text = textView.text.trimming(.whitespaceAndNewline)
         textView.text = text
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         didBeginInputingAction?()
     }
     
-    func textViewDidChange(textView: UITextView) {
-        let size = textView.sizeThatFits(CGSize(width: CGRectGetWidth(textView.frame), height: CGFloat.max))
+    func textViewDidChange(_ textView: UITextView) {
+        let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
         //var bounds = textView.bounds
         //bounds.size = size
         //textView.bounds = bounds
@@ -162,28 +162,28 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         }
     }
     
-    private lazy var outerView: UIView = {
+    fileprivate lazy var outerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         view.layer.cornerRadius = Constant.outerSize.width / 2.0
         return view
     }()
 
-    private lazy var gapView: UIView = {
+    fileprivate lazy var gapView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         view.layer.cornerRadius = Constant.gapSize.width / 2.0
-        view.hidden = true
+        view.isHidden = true
         return view
     }()
-    private lazy var innerView: UIView = {
+    fileprivate lazy var innerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         view.layer.cornerRadius = Constant.innerSize.width / 2.0
         return view
     }()
     
-    private struct Constant {
+    fileprivate struct Constant {
         static let outerSize = CGSize(width: 16.0, height: 16.0)
         static let gapSize = CGSize(width: 14.0, height: 14.0)
         static let innerSize = CGSize(width: 10.0, height: 10.0)
@@ -199,7 +199,7 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
         contentView.addSubview(outerView)
         contentView.addSubview(gapView)
@@ -209,29 +209,29 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         gapView.translatesAutoresizingMaskIntoConstraints = false
         innerView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activateConstraints(makeSize(item: outerView, constant: Constant.outerSize))
-        NSLayoutConstraint.activateConstraints(makeSize(item: gapView, constant: Constant.gapSize))
-        NSLayoutConstraint.activateConstraints(makeSize(item: innerView, constant: Constant.innerSize))
+        NSLayoutConstraint.activate(makeSize(item: outerView, constant: Constant.outerSize))
+        NSLayoutConstraint.activate(makeSize(item: gapView, constant: Constant.gapSize))
+        NSLayoutConstraint.activate(makeSize(item: innerView, constant: Constant.innerSize))
         
-        NSLayoutConstraint.activateConstraints(makeCenter(item: outerView))
-        NSLayoutConstraint.activateConstraints(makeCenter(item: gapView))
-        NSLayoutConstraint.activateConstraints(makeCenter(item: innerView))
+        NSLayoutConstraint.activate(makeCenter(item: outerView))
+        NSLayoutConstraint.activate(makeCenter(item: gapView))
+        NSLayoutConstraint.activate(makeCenter(item: innerView))
     }
     
-    private func makeSize(item item: UIView, constant: CGSize) -> [NSLayoutConstraint] {
-        let width = NSLayoutConstraint(item: item, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: constant.width)
-        let height =  NSLayoutConstraint(item: item, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: constant.height)
+    fileprivate func makeSize(item: UIView, constant: CGSize) -> [NSLayoutConstraint] {
+        let width = NSLayoutConstraint(item: item, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: constant.width)
+        let height =  NSLayoutConstraint(item: item, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: constant.height)
         return [width, height]
     }
     
-    private func makeCenter(item item: UIView) -> [NSLayoutConstraint] {
-        let centerX = NSLayoutConstraint(item: item, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0.0)
-        let centerY = NSLayoutConstraint(item: item, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0.0)
+    fileprivate func makeCenter(item: UIView) -> [NSLayoutConstraint] {
+        let centerX = NSLayoutConstraint(item: item, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0)
+        let centerY = NSLayoutConstraint(item: item, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         return [centerX, centerY]
     }
     
-    func setSelected(flag: Bool, animated: Bool) {
-        gapView.hidden = !flag
+    func setSelected(_ flag: Bool, animated: Bool) {
+        gapView.isHidden = !flag
     }
 }
 
@@ -251,20 +251,20 @@ final class TagCell: UITableViewCell, Reusable {
         return label
     }()
     
-    private struct Constant {
+    fileprivate struct Constant {
         static let margin: CGFloat = 20.0
     }
     
-    private lazy var collectionView: UICollectionView = {
+    fileprivate lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .Horizontal
+        flowLayout.scrollDirection = .horizontal
         flowLayout.minimumLineSpacing = 0.0
         flowLayout.minimumInteritemSpacing = 0.0
         
         let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = UIColor.clearColor()
+        collectionView.backgroundColor = UIColor.clear
         collectionView.showsHorizontalScrollIndicator = false
     
         return collectionView
@@ -280,7 +280,7 @@ final class TagCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
         collectionView.hi.registerReusableCell(TagItemCell)
         
@@ -293,28 +293,28 @@ final class TagCell: UITableViewCell, Reusable {
         let views = [
             "titleLabel": titleLabel,
             "collectionView": collectionView,
-        ]
+        ] as [String : Any]
         
-        let V = NSLayoutConstraint.constraintsWithVisualFormat("V:|[collectionView]|", options: [], metrics: nil, views: views)
-        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[titleLabel]-20-[collectionView]-20-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|[collectionView]|", options: [], metrics: nil, views: views)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLabel]-20-[collectionView]-20-|", options: [.alignAllCenterY], metrics: nil, views: views)
         
-        NSLayoutConstraint.activateConstraints(H)
-        NSLayoutConstraint.activateConstraints(V)
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate(V)
     }
 }
 
 extension TagCell: UICollectionViewDataSource {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        guard let tag = items[safe: indexPath.item] else { return TagItemCell() }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let tag = items[safe: (indexPath as NSIndexPath).item] else { return TagItemCell() }
         
         let cell: TagItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         cell.itemColor = UIColor(hex: tag.value)
@@ -324,10 +324,10 @@ extension TagCell: UICollectionViewDataSource {
 
 extension TagCell: UICollectionViewDelegate {
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? TagItemCell, item = items[safe: indexPath.item] else { return }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TagItemCell, let item = items[safe: (indexPath as NSIndexPath).item] else { return }
         
-        let visibleCells = collectionView.visibleCells()
+        let visibleCells = collectionView.visibleCells
         
         for cell in visibleCells {
             (cell as? TagItemCell)?.setSelected(false, animated: true)
@@ -341,7 +341,7 @@ extension TagCell: UICollectionViewDelegate {
 
 extension TagCell: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width / CGFloat(items.count)
         let height = collectionView.bounds.height
         return CGSize(width: width, height: height)
@@ -350,9 +350,9 @@ extension TagCell: UICollectionViewDelegateFlowLayout {
 
 final class DisclosureCell: UITableViewCell, Reusable {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .Value1, reuseIdentifier: reuseIdentifier)
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
         
-        accessoryType = .DisclosureIndicator
+        accessoryType = .disclosureIndicator
         
         textLabel?.textColor = UIColor.hi.titleColor
         detailTextLabel?.textColor = UIColor.hi.textColor
@@ -369,8 +369,8 @@ final class NewMatterViewController: BaseViewController {
     
     var viewModel: NewMatterViewModel?
 
-    @IBOutlet private weak var navigationBar: UINavigationBar!
-    @IBOutlet private weak var tableView: UITableView! {
+    @IBOutlet fileprivate weak var navigationBar: UINavigationBar!
+    @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
             tableView.hi.registerReusableCell(InputableCell)
             tableView.hi.registerReusableCell(InfoInputableCell)
@@ -380,38 +380,38 @@ final class NewMatterViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private weak var cancelItem: UIBarButtonItem!
-    @IBOutlet private weak var postItem: UIBarButtonItem!
+    @IBOutlet fileprivate weak var cancelItem: UIBarButtonItem!
+    @IBOutlet fileprivate weak var postItem: UIBarButtonItem!
     
-    private struct Constant {
+    fileprivate struct Constant {
         static let pickerRowHeight: CGFloat = 200.0
         static var notesRowHeight: CGFloat = 120.0
     }
     
-    private var pickedDate: NSDate = NSDate() {
+    fileprivate var pickedDate: Date = Date() {
         willSet {
             guard newValue != pickedDate else { return }
             
-            let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: Section.When.rawValue))
+            let cell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.when.rawValue))
             cell?.detailTextLabel?.text = newValue.hi.yearMonthDay
         }
     }
     
-    private var subject: String? {
+    fileprivate var subject: String? {
         didSet {
             guard let subject = subject else { return }
             isDirty = !subject.isEmpty
         }
     }
-    private var tag: Tag = .None
+    fileprivate var tag: Tag = .none
     
-    private var isDirty = false {
+    fileprivate var isDirty = false {
         willSet {
-            postItem.enabled = newValue
+            postItem.isEnabled = newValue
         }
     }
     
-    private var datePickerIndexPath: NSIndexPath?
+    fileprivate var datePickerIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -421,7 +421,7 @@ final class NewMatterViewController: BaseViewController {
         view.layer.cornerRadius = 8.0
         view.clipsToBounds = true
         
-        postItem.enabled = false
+        postItem.isEnabled = false
         
         tableView.contentInset.top = Defaults.navigationBarWithoutStatusBarHeight
         
@@ -429,7 +429,7 @@ final class NewMatterViewController: BaseViewController {
         
         cancelItem.rx_tap
             .subscribeNext { [weak self] in
-                self?.dismissViewControllerAnimated(true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
         
@@ -446,7 +446,7 @@ final class NewMatterViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func tryToPostNewMatter() {
+    fileprivate func tryToPostNewMatter() {
         
         guard let subject = subject else { return }
         
@@ -455,7 +455,7 @@ final class NewMatterViewController: BaseViewController {
         matter.tag = tag.rawValue
         matter.happenedUnixTime = pickedDate.timeIntervalSince1970
         
-        if let bodyCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: Section.Body.rawValue)) as? InfoInputableCell {
+        if let bodyCell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.body.rawValue)) as? InfoInputableCell {
             matter.body = bodyCell.textView.text
         }
         
@@ -464,61 +464,61 @@ final class NewMatterViewController: BaseViewController {
         MatterService.sharedService.synchronize(matter, toRealm: realm)
         
         delay(0.1) { [weak self] in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
     // MARK: Picker
     
-    private func hasInlineDatePicker() -> Bool {
+    fileprivate func hasInlineDatePicker() -> Bool {
         return datePickerIndexPath != nil
     }
     
-    private func indexPathHasPicker(indexPath: NSIndexPath) -> Bool {
-        return (hasInlineDatePicker() && datePickerIndexPath?.row == indexPath.row)
+    fileprivate func indexPathHasPicker(_ indexPath: IndexPath) -> Bool {
+        return (hasInlineDatePicker() && (datePickerIndexPath as NSIndexPath?)?.row == (indexPath as NSIndexPath).row)
     }
     
-    private func hasPicker(for indexPath: NSIndexPath) -> Bool {
-        let targetedRow = indexPath.row + 1
+    fileprivate func hasPicker(for indexPath: IndexPath) -> Bool {
+        let targetedRow = (indexPath as NSIndexPath).row + 1
         
-        let checkDatePickerCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: targetedRow, inSection: indexPath.section))
+        let checkDatePickerCell = tableView.cellForRow(at: IndexPath(row: targetedRow, section: (indexPath as NSIndexPath).section))
         let checkDatePicker = checkDatePickerCell?.viewWithTag(datePickerTag) as? UIDatePicker
         
         return (checkDatePicker != nil)
     }
         
-    private func toggleDatePicker(for selectedIndexPath: NSIndexPath) {
+    fileprivate func toggleDatePicker(for selectedIndexPath: IndexPath) {
         tableView.beginUpdates()
         
         // date picker index path
-        let indexPaths = [NSIndexPath(forRow: selectedIndexPath.row + 1, inSection: selectedIndexPath.section)]
+        let indexPaths = [IndexPath(row: (selectedIndexPath as NSIndexPath).row + 1, section: (selectedIndexPath as NSIndexPath).section)]
         
         // check if 'indexPath' has an attached date picker below it
         if hasPicker(for: selectedIndexPath) {
             // found a picker below it, so remove it
-            tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+            tableView.deleteRows(at: indexPaths, with: .fade)
             datePickerIndexPath = nil
         } else {
             // didn't find a picker below it, so we should insert it
-            tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+            tableView.insertRows(at: indexPaths, with: .fade)
             datePickerIndexPath = indexPaths.first
         }
         
         tableView.endUpdates()
     }
     
-    private func displayInlineDatePicker(for indexPath: NSIndexPath) {
+    fileprivate func displayInlineDatePicker(for indexPath: IndexPath) {
         
         toggleDatePicker(for: indexPath)
     }
     
-    private func hideInlineDatePicker() {
+    fileprivate func hideInlineDatePicker() {
         
         if hasInlineDatePicker(), let indexPath = datePickerIndexPath {
             
             tableView.beginUpdates()
             
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             datePickerIndexPath = nil
             
             tableView.endUpdates()
@@ -547,42 +547,42 @@ extension NewMatterViewController: SegueHandlerType {
 
 extension NewMatterViewController: UITableViewDataSource {
     
-    private enum Section: Int {
-        case Title = 0
-        case Tag
-        case When
-        case Body
+    fileprivate enum Section: Int {
+        case title = 0
+        case tag
+        case when
+        case body
         
         static var count: Int {
-            return Section.Body.rawValue + 1
+            return Section.body.rawValue + 1
         }
         
         var annotation: String {
             switch self {
-            case .Title: return "Title"
-            case .Tag: return "Tag"
-            case .When: return "Happen"
-            case .Body: return "Notes"
+            case .title: return "Title"
+            case .tag: return "Tag"
+            case .when: return "Happen"
+            case .body: return "Notes"
             }
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return Section.count
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (section == Section.When.rawValue && hasInlineDatePicker()) ? 2 : 1
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (section == Section.when.rawValue && hasInlineDatePicker()) ? 2 : 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("*** Fatal error *** in tableView(_:cellForRowAtIndexPath:)")
         }
         
         switch section {
-        case .Title:
+        case .title:
             let cell: InputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.textField.placeholder = "What's the Matter"
             cell.changedAction = { [weak self] text in
@@ -592,7 +592,7 @@ extension NewMatterViewController: UITableViewDataSource {
                 self?.hideInlineDatePicker()
             }
             return cell
-        case .Tag:
+        case .tag:
             let cell: TagCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = section.annotation
             cell.items = Tag.tags
@@ -600,7 +600,7 @@ extension NewMatterViewController: UITableViewDataSource {
                 self?.tag = tag
             }
             return cell
-        case .Body:
+        case .body:
             let cell: InfoInputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = section.annotation
             
@@ -615,11 +615,11 @@ extension NewMatterViewController: UITableViewDataSource {
                 }
             }
             return cell
-        case .When:
+        case .when:
             if indexPathHasPicker(indexPath) {
                 let cell: DatePickerCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.pickedAction = { [weak self] date in
-                    self?.pickedDate = date
+                    self?.pickedDate = date as Date
                 }
                 return cell
             } else {
@@ -634,14 +634,14 @@ extension NewMatterViewController: UITableViewDataSource {
 
 extension NewMatterViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         
         // Selected date cell
-        if indexPath.section == Section.When.rawValue && indexPath.row == 0 {
+        if (indexPath as NSIndexPath).section == Section.when.rawValue && (indexPath as NSIndexPath).row == 0 {
             
             view.endEditing(true)
             
@@ -653,12 +653,12 @@ extension NewMatterViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath == datePickerIndexPath {
             return Constant.pickerRowHeight
         } else {
             
-            return indexPath.section == Section.Body.rawValue ? Constant.notesRowHeight : Defaults.rowHeight
+            return (indexPath as NSIndexPath).section == Section.body.rawValue ? Constant.notesRowHeight : Defaults.rowHeight
         }
     }
 }

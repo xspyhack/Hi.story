@@ -15,16 +15,16 @@ let datePickerTag = 99
 
 class DatePickerCell: UITableViewCell, Reusable {
     
-    var pickedAction: ((NSDate) -> Void)?
+    var pickedAction: ((Date) -> Void)?
     
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.tag = datePickerTag
-        datePicker.datePickerMode = .Date
+        datePicker.datePickerMode = .date
         return datePicker
     }()
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,7 +36,7 @@ class DatePickerCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
     
         datePicker.rx_date
             .subscribeNext { [weak self] (date) in
@@ -49,10 +49,10 @@ class DatePickerCell: UITableViewCell, Reusable {
         
         let views = ["datePicker": datePicker]
         
-        let H = NSLayoutConstraint.constraintsWithVisualFormat("H:|[datePicker]|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint.constraintsWithVisualFormat("V:|[datePicker]|", options: [], metrics: nil, views: views)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|[datePicker]|", options: [], metrics: nil, views: views)
+        let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|[datePicker]|", options: [], metrics: nil, views: views)
         
-        NSLayoutConstraint.activateConstraints(H)
-        NSLayoutConstraint.activateConstraints(V)
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate(V)
     }
 }

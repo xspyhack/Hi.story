@@ -14,47 +14,47 @@ import Hiconfig
 
 class ShareViewController: SLComposeServiceViewController {
     
-    private enum StoryboardIdentifier: String {
+    fileprivate enum StoryboardIdentifier: String {
         case TitleViewController
         case TagsViewController
     }
     
-    private lazy var titleItem: SLComposeSheetConfigurationItem = {
+    fileprivate lazy var titleItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
-        item.title = "Title"
-        item.value = NSDate().hi.yearMonthDay
-        item.tapHandler = { [weak self] in
-            if let vc = self?.storyboard?.instantiateViewControllerWithIdentifier(StoryboardIdentifier.TitleViewController.rawValue) as? TitleViewController {
+        item?.title = "Title"
+        item?.value = Date().hi.yearMonthDay
+        item?.tapHandler = { [weak self] in
+            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.TitleViewController.rawValue) as? TitleViewController {
                 vc.pickAction = { [weak self](title) in
                     DispatchQueue.async {
-                        item.value = title
+                        item?.value = title
                     }
                 }
                 self?.pushConfigurationViewController(vc)
             }
         }
-        return item
+        return item!
     }()
     
-    private lazy var tagItem: SLComposeSheetConfigurationItem = {
+    fileprivate lazy var tagItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
-        item.title = "Tag"
-        item.value = "Default"
-        item.tapHandler = { [weak self] in
-            if let vc = self?.storyboard?.instantiateViewControllerWithIdentifier(StoryboardIdentifier.TagsViewController.rawValue) as? TagsViewController {
+        item?.title = "Tag"
+        item?.value = "Default"
+        item?.tapHandler = { [weak self] in
+            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.TagsViewController.rawValue) as? TagsViewController {
                 vc.pickAction = { [weak self](tag) in
                     self?.popConfigurationViewController()
                     DispatchQueue.async {
-                        item.value = tag
+                        item?.value = tag
                     }
                 }
                 self?.pushConfigurationViewController(vc)
             }
         }
-        return item
+        return item!
     }()
     
-    private var images: [UIImage] = []
+    fileprivate var images: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ class ShareViewController: SLComposeServiceViewController {
         view.tintColor = UIColor(hex: HiConfig.Color.tintColor)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
@@ -91,17 +91,17 @@ class ShareViewController: SLComposeServiceViewController {
         let body = contentText ?? ""
         let title = titleItem.value
         if let image = images.first {
-            shareType = .Image(title: title, body: body, image: image)
+            shareType = .image(title: title!, body: body, image: image)
         } else {
-            shareType = .PlainText(title: title, body: body)
+            shareType = .plainText(title: title!, body: body)
         }
         
         post(shareType: shareType) { [weak self](finished) in
-            self?.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
+            self?.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
         }
     }
 
-    override func configurationItems() -> [AnyObject]! {
+    override func configurationItems() -> [Any]! {
         // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
         return [titleItem, tagItem]
     }
@@ -109,30 +109,30 @@ class ShareViewController: SLComposeServiceViewController {
     
     // MARK: - Private
     
-    private enum ShareType {
+    fileprivate enum ShareType {
         
-        case PlainText(title: String, body: String)
-        case Image(title: String, body: String, image: UIImage)
+        case plainText(title: String, body: String)
+        case image(title: String, body: String, image: UIImage)
         
         var body: String {
             switch self {
-            case .PlainText(_, let body): return body
-            case .Image(_, let body, _): return body
+            case .plainText(_, let body): return body
+            case .image(_, let body, _): return body
             }
         }
         
         var title: String {
             switch self {
-            case .PlainText(let title, _): return title
-            case .Image(let title, _, _): return title
+            case .plainText(let title, _): return title
+            case .image(let title, _, _): return title
             }
         }
     }
     
-    private func post(shareType shareType: ShareType, completion: (finished: Bool) -> Void) {
+    fileprivate func post(shareType: ShareType, completion: (_ finished: Bool) -> Void) {
         let content = shareType.body
         let title = shareType.title
-        let imageURL = NSURL(string: "")!
+        let imageURL = URL(string: "")!
         
     }
 
@@ -140,38 +140,38 @@ class ShareViewController: SLComposeServiceViewController {
 
 extension ShareViewController {
     
-    private func imagesFromExtensionContext(extensionContext: NSExtensionContext, completion: (images: [UIImage]) -> Void) {
+    fileprivate func imagesFromExtensionContext(_ extensionContext: NSExtensionContext, completion: @escaping (_ images: [UIImage]) -> Void) {
         
         var images: [UIImage] = []
         
         guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
-            return completion(images: [])
+            return completion([])
         }
         
         let imageTypeIdentifier = kUTTypeImage as String
         
-        let group = dispatch_group_create()
+        let group = DispatchGroup()
         
         for extensionItem in extensionItems {
             for attachment in extensionItem.attachments as! [NSItemProvider] {
                 if attachment.hasItemConformingToTypeIdentifier(imageTypeIdentifier) {
                     
-                    dispatch_group_enter(group)
+                    group.enter()
                     
-                    attachment.loadItemForTypeIdentifier(imageTypeIdentifier, options: nil) { secureCoding, error in
+                    attachment.loadItem(forTypeIdentifier: imageTypeIdentifier, options: nil) { secureCoding, error in
                         
-                        if let fileURL = secureCoding as? NSURL, image = UIImage(contentsOfFile: fileURL.path!) {
+                        if let fileURL = secureCoding as? URL, let image = UIImage(contentsOfFile: fileURL.path) {
                             images.append(image)
                         }
                         
-                        dispatch_group_leave(group)
+                        group.leave()
                     }
                 }
             }
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
-            completion(images: images)
+        group.notify(queue: DispatchQueue.main) {
+            completion(images)
         }
     }
 

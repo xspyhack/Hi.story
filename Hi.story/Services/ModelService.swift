@@ -18,8 +18,8 @@ struct ModelService<Model: ModelType> {
     let didUpdate = PublishSubject<Model>()
     let didDelete = PublishSubject<Model>()
     
-    static func instance(modelClass: Model.Type) -> ModelService<Model> {
-        let key = String(modelClass)
+    static func instance(_ modelClass: Model.Type) -> ModelService<Model> {
+        let key = String(describing: modelClass)
         if let stream = _instances[key] as? ModelService<Model> {
             return stream
         }

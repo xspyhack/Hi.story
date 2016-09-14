@@ -21,7 +21,7 @@ private let maximumAvatarWidth: CGFloat = 120.0
 
 final class ProfileViewController: BaseViewController {
 
-    @IBOutlet private weak var storybookCollectionView: UICollectionView! {
+    @IBOutlet fileprivate weak var storybookCollectionView: UICollectionView! {
         didSet {
             storybookCollectionView.contentInset.top = maximumHeaderHeight
             storybookCollectionView.scrollIndicatorInsets.top = maximumHeaderHeight
@@ -31,7 +31,7 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private weak var matterTableView: UITableView! {
+    @IBOutlet fileprivate weak var matterTableView: UITableView! {
         didSet {
             matterTableView.contentInset.top = maximumHeaderHeight
             matterTableView.scrollIndicatorInsets.top = maximumHeaderHeight
@@ -42,41 +42,41 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private weak var headerView: UIView!
-    @IBOutlet private weak var coverImageView: UIImageView!
-    @IBOutlet private weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var headerView: UIView!
+    @IBOutlet fileprivate weak var coverImageView: UIImageView!
+    @IBOutlet fileprivate weak var headerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var segmentedControl: UISegmentedControl!
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var bioLabel: UILabel!
+    @IBOutlet fileprivate weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var segmentedControl: UISegmentedControl!
+    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
+    @IBOutlet fileprivate weak var bioLabel: UILabel!
     
-    @IBOutlet private weak var bioContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var bioContainerHeightConstraint: NSLayoutConstraint!
     
-    private var headerHeight: CGFloat = 0.0
-    private var bioHeight: CGFloat = 30.0
+    fileprivate var headerHeight: CGFloat = 0.0
+    fileprivate var bioHeight: CGFloat = 30.0
     
-    private lazy var blurEffect = UIBlurEffect(style: .Light)
+    fileprivate lazy var blurEffect = UIBlurEffect(style: .light)
 
-    @IBOutlet private weak var blurEffectView: UIVisualEffectView! {
+    @IBOutlet fileprivate weak var blurEffectView: UIVisualEffectView! {
         didSet {
             blurEffectView.effect = blurEffect
         }
     }
     
-    private struct Constant {
+    fileprivate struct Constant {
         static let gap: CGFloat = 4.0
         static let numberOfRow = 4
         static let ratio: CGFloat = 3 / 4
         static let matterRowHeight: CGFloat = 64.0
     }
     
-    private enum Channel: Int {
-        case Storybook = 0
-        case Matter
+    fileprivate enum Channel: Int {
+        case storybook = 0
+        case matter
     }
     
-    private var channel: Channel = .Matter {
+    fileprivate var channel: Channel = .matter {
         willSet {
     
             guard newValue != channel else { return }
@@ -84,10 +84,10 @@ final class ProfileViewController: BaseViewController {
             // 这里或许需要手动调整 headerView 的高度，因为虽然使得 scrollView.scrollToTop() 了，但是不一定会调用 scrollViewDidScroll(_:) 方法。
             // 即 headerView 不一定会跟随 contentOffset.y 来调整高度，所以可能会出现空白。
             switch newValue {
-            case .Storybook:
+            case .storybook:
                 
-                storybookCollectionView.hidden = false
-                matterTableView.hidden = true
+                storybookCollectionView.isHidden = false
+                matterTableView.isHidden = true
                 
                 //matterTableView.hi.forceStop()
                 //storybookCollectionView.hi.scrollToTop(animated: false)
@@ -96,10 +96,10 @@ final class ProfileViewController: BaseViewController {
                 // 而是保持之前的状态，所以只需要调整 contentOffset 即可。
                 let contentOffsetY = matterTableView.contentOffset.y
                 storybookCollectionView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
-            case .Matter:
+            case .matter:
                 
-                matterTableView.hidden = false
-                storybookCollectionView.hidden = true
+                matterTableView.isHidden = false
+                storybookCollectionView.isHidden = true
                 
                 //storybookCollectionView.hi.forceStop()
                 //matterTableView.hi.scrollToTop(animated: false)
@@ -114,19 +114,19 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    private lazy var settingsItem: UIBarButtonItem = {
+    fileprivate lazy var settingsItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage(named: "nav_settings")
         return item
     }()
     
-    private var matters: [Matter]?
-    private var storybooks: [Storybook]?
+    fileprivate var matters: [Matter]?
+    fileprivate var storybooks: [Storybook]?
     
     // Matters
     
-    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
-    private var viewModel: MattersViewModel?
+    fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
+    fileprivate var viewModel: MattersViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,7 +180,7 @@ final class ProfileViewController: BaseViewController {
         
     }
     
-    private func tryToShowSettings() {
+    fileprivate func tryToShowSettings() {
         performSegue(withIdentifier: .ShowMatters, sender: nil)
     }
 }
@@ -193,7 +193,7 @@ extension ProfileViewController: SegueHandlerType {
         case ShowMatters
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segueIdentifier(forSegue: segue) {
         case .Edit:
@@ -211,15 +211,15 @@ extension ProfileViewController: SegueHandlerType {
 
 extension ProfileViewController: UICollectionViewDataSource {
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 100
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: StorybookCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         return cell
     }
@@ -229,14 +229,14 @@ extension ProfileViewController: UICollectionViewDataSource {
 
 extension ProfileViewController: UICollectionViewDelegate {
     
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         //guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StorybookCell, storybook = storybooks?[safe: indexPath.item] else { return }
         
         //let storybookCellModel = StorybookCellModel(storybook: storybook)
         //cell.configure(withPresenter: storybookCellModel)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
 }
@@ -245,7 +245,7 @@ extension ProfileViewController: UICollectionViewDelegate {
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let collectionViewWidth = collectionView.bounds.width
         
@@ -259,7 +259,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProfileViewController {
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let offsetY = scrollView.contentOffset.y
         
@@ -277,7 +277,7 @@ extension ProfileViewController {
         bioContainerHeightConstraint.constant = bioHeight * ((headerHeight - minimumHeaderHeight) / (maximumHeaderHeight - minimumHeaderHeight))
         
         if animate {
-            UIView.animateWithDuration(0.35, delay: 0.0, options: [.CurveLinear], animations: {
+            UIView.animate(withDuration: 0.35, delay: 0.0, options: [.curveLinear], animations: {
                 self.headerView.layoutIfNeeded()
                 self.avatarImageView.layoutIfNeeded()
             }, completion: nil)

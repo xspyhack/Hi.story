@@ -10,6 +10,6 @@ import Foundation
 
 public struct UserDefaults {
     
-    private static let userDefaults = NSUserDefaults.standardUserDefaults()
+    fileprivate static let userDefaults = Foundation.UserDefaults.standard
 
 }

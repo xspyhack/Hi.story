@@ -19,7 +19,7 @@ func configureShortcuts() {
             type: type,
             localizedTitle: NSLocalizedString("New Story", comment: ""),
             localizedSubtitle: nil,
-            icon: UIApplicationShortcutIcon(type: .Compose),
+            icon: UIApplicationShortcutIcon(type: .compose),
             userInfo: nil
         )
         
@@ -54,10 +54,10 @@ func configureShortcuts() {
         shortcutItems.append(item)
     }
     
-    UIApplication.sharedApplication().shortcutItems = shortcutItems
+    UIApplication.shared.shortcutItems = shortcutItems
 }
 
-func tryHandleQuickAction(shortcutItem shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
+func tryHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
     
     guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
         return
@@ -69,25 +69,25 @@ func tryHandleQuickAction(shortcutItem shortcutItem: UIApplicationShortcutItem, 
     
     if let nvc = tabBarController.selectedViewController as? UINavigationController {
         if nvc.viewControllers.count > 1 {
-            nvc.popToRootViewControllerAnimated(false)
+            nvc.popToRootViewController(animated: false)
         }
     }
     
     switch shortcutType {
     case .NewStory:
-        tabBarController.selectedTab = .Home
+        tabBarController.selectedTab = .home
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? HomeViewController {
                 //vc.tryToTellStory()
             }
         }
     case .Feeds:
-        tabBarController.selectedTab = .Feeds
+        tabBarController.selectedTab = .feeds
     case .Collections:
-        tabBarController.selectedTab = .Collections
+        tabBarController.selectedTab = .collections
     }
 }
 
 func clearDynamicShortcuts() {
-    UIApplication.sharedApplication().shortcutItems = nil
+    UIApplication.shared.shortcutItems = nil
 }

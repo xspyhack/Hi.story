@@ -12,9 +12,9 @@ import Hiconfig
 
 class TagsViewController: UITableViewController {
     
-    var pickAction: ((tag: String) -> Void)?
+    var pickAction: ((_ tag: String) -> Void)?
     
-    private var tags: [String] = [
+    fileprivate var tags: [String] = [
         "tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7"
     ]
 
@@ -24,7 +24,7 @@ class TagsViewController: UITableViewController {
         // Do any additional setup after loading the view.
         
         title = "Choose Tag"
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
         
         tableView.tableFooterView = UIView()
         tableView.rowHeight = CGFloat(HiConfig.rowHeight)
@@ -35,13 +35,13 @@ class TagsViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         preferredContentSize = CGSize(width: view.bounds.width, height: CGFloat(HiConfig.rowHeight) * CGFloat(tags.count))
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
     }
@@ -49,26 +49,26 @@ class TagsViewController: UITableViewController {
 
 extension TagsViewController {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tags.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TagCell", forIndexPath: indexPath)
-        cell.textLabel?.text = tags[indexPath.row]
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TagCell", for: indexPath)
+        cell.textLabel?.text = tags[(indexPath as NSIndexPath).row]
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        let tag = tags[indexPath.row]
-        pickAction?(tag: tag)
+        let tag = tags[(indexPath as NSIndexPath).row]
+        pickAction?(tag)
     }
 }

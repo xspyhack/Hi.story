@@ -9,10 +9,10 @@
 import Foundation
 
 struct Parser<T> {
-    let parse: String -> [(T, String)]
+    let parse: (String) -> [(T, String)]
 }
 
-func isAlpha(c: Character) -> Bool {
+func isAlpha(_ c: Character) -> Bool {
     if (c >= "a" && c >= "z") || (c >= "A" && c <= "Z") {
         return true
     } else {
@@ -20,36 +20,36 @@ func isAlpha(c: Character) -> Bool {
     }
 }
 
-func isDigit(c: Character) -> Bool {
+func isDigit(_ c: Character) -> Bool {
     let s = String(c)
     return Int(s) != nil
 }
 
-func isSpace(c: Character) -> Bool {
+func isSpace(_ c: Character) -> Bool {
     let s = String(c)
-    return s.rangeOfCharacterFromSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) != nil
+    return s.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) != nil
 }
 
 // without newline
-func isPureSpace(c: Character) -> Bool {
+func isPureSpace(_ c: Character) -> Bool {
     let s = String(c)
-    return s.rangeOfCharacterFromSet(NSCharacterSet.whitespaceCharacterSet()) != nil
+    return s.rangeOfCharacter(from: CharacterSet.whitespaces) != nil
 }
 
-func isNotNewline(c: Character) -> Bool {
+func isNotNewline(_ c: Character) -> Bool {
     return !isNewline(c)
 }
 
-func isNewline(c: Character) -> Bool {
+func isNewline(_ c: Character) -> Bool {
     let s = String(c)
-    return s.rangeOfCharacterFromSet(NSCharacterSet.newlineCharacterSet()) != nil
+    return s.rangeOfCharacter(from: CharacterSet.newlines) != nil
 }
 
 //MARK: Basic Element
 
 infix operator >>= { associativity left precedence 150 }
 
-func >>= <T, U>(p: Parser<T>, f: T -> Parser<U>) -> Parser<U> {
+func >>= <T, U>(p: Parser<T>, f: @escaping (T) -> Parser<U>) -> Parser<U> {
     return Parser { cs in
         let p1 = parse(p, input: cs)
         guard p1.count > 0 else {
@@ -70,42 +70,42 @@ func mzero<T>() -> Parser<T> {
     return Parser { xs in [] }
 }
 
-func pure<T>(item: T) -> Parser<T> {
+func pure<T>(_ item: T) -> Parser<T> {
     return Parser { cs in [(item, cs)] }
 }
 
-func satisfy(condition: Character -> Bool) -> Parser<Character> {
+func satisfy(_ condition: @escaping (Character) -> Bool) -> Parser<Character> {
     return Parser { x in
-        guard let head = x.characters.first where condition(head) else {
+        guard let head = x.characters.first , condition(head) else {
             return []
         }
         return [(head, String(x.characters.dropFirst()))]
     }
 }
 
-func until(word: String, terminator: Character = "\0") -> Parser<String> {
+func until(_ word: String, terminator: Character = "\0") -> Parser<String> {
     return Parser { x in
-        let idx = x.rangeOfString(word)
-        let idxTer = x.rangeOfString(String(terminator))
+        let idx = x.range(of: word)
+        let idxTer = x.range(of: String(terminator))
         
         if idx == nil {
             return [(x,"")]
         } else if idxTer == nil {
-            return [(x.substringToIndex(idx!.startIndex), x.substringFromIndex(idx!.startIndex))]
+            return [(x.substring(to: idx!.lowerBound), x.substring(from: idx!.lowerBound))]
         } else {
             var finalIdx:String.CharacterView.Index
-            if idx!.startIndex > idxTer!.startIndex {
-                finalIdx = idxTer!.startIndex
+            if idx!.lowerBound > idxTer!.lowerBound {
+                finalIdx = idxTer!.lowerBound
             } else {
-                finalIdx = idx!.startIndex
+                finalIdx = idx!.lowerBound
             }
             
-            return [(x.substringToIndex(finalIdx) , x.substringFromIndex(finalIdx))]
+            return [(x.substring(to: finalIdx) , x.substring(from: finalIdx))]
         }
     }
 }
 
-func lineUntil(word : String) -> Parser<String> {
+func lineUntil(_ word : String) -> Parser<String> {
     return until(word, terminator: "\n")
 }
 
@@ -124,11 +124,11 @@ func +++ <T>(lhs: Parser<T>, rhs: Parser<T>) -> Parser<T> {
     }
 }
 
-func many<T>(p: Parser<T>) -> Parser<[T]> {
+func many<T>(_ p: Parser<T>) -> Parser<[T]> {
     return many1(p) +++ pure([])
 }
 
-func many1<T>(p: Parser<T>) -> Parser<[T]> {
+func many1<T>(_ p: Parser<T>) -> Parser<[T]> {
     return p >>= { x in
         many(p) >>= { xs in
             pure([x] + xs)
@@ -136,7 +136,7 @@ func many1<T>(p: Parser<T>) -> Parser<[T]> {
     }
 }
 
-func many1loop<T>(p: Parser<T>) -> Parser<[T]> {
+func many1loop<T>(_ p: Parser<T>) -> Parser<[T]> {
     return Parser { str in
         var result: [T] = []
         var curStr = str
@@ -160,9 +160,9 @@ func many1loop<T>(p: Parser<T>) -> Parser<[T]> {
 }
 
 
-func parserChar(c: Character) -> Parser<Character> {
+func parserChar(_ c: Character) -> Parser<Character> {
     return Parser { x in
-        guard let head = x.characters.first where head == c else {
+        guard let head = x.characters.first , head == c else {
             return []
         }
         return [(c, String(x.characters.dropFirst()))]
@@ -171,7 +171,7 @@ func parserChar(c: Character) -> Parser<Character> {
 
 func parserCharA() -> Parser<Character> {
     let parser = Parser<Character> { x in
-        guard let head = x.characters.first where head == "a" else {
+        guard let head = x.characters.first , head == "a" else {
             return []
         }
         return [("a", String(x.characters.dropFirst()))]
@@ -180,7 +180,7 @@ func parserCharA() -> Parser<Character> {
     return parser
 }
 
-func parse<T> (parser: Parser<T>, input: String) -> [(T, String)] {
+func parse<T> (_ parser: Parser<T>, input: String) -> [(T, String)] {
     var result: [(T,String)] = []
     for (x, s) in parser.parse(input) {
         result.append((x, s))
@@ -190,7 +190,7 @@ func parse<T> (parser: Parser<T>, input: String) -> [(T, String)] {
 
 //MARK: - Handle string
 
-func string(str: String) -> Parser<String> {
+func string(_ str: String) -> Parser<String> {
     guard str != "" else {
         return pure("")
     }
@@ -210,8 +210,8 @@ func line() -> Parser<String> {
     }
 }
 
-func lineWithout(c: Character) -> Parser<String> {
-    func pred(cc: Character) -> Bool{
+func lineWithout(_ c: Character) -> Parser<String> {
+    func pred(_ cc: Character) -> Bool{
         if cc == c {
             return false
         }
@@ -223,7 +223,7 @@ func lineWithout(c: Character) -> Parser<String> {
     }
 }
 
-func space(includeNewline : Bool = true) -> Parser<String> {
+func space(_ includeNewline : Bool = true) -> Parser<String> {
     if includeNewline {
         return many(satisfy(isSpace)) >>= { x in pure("") }
     } else {
@@ -231,7 +231,7 @@ func space(includeNewline : Bool = true) -> Parser<String> {
     }
 }
 
-func symbol(sym: String) -> Parser<String> {
+func symbol(_ sym: String) -> Parser<String> {
     return string(sym) >>= { sym in
         pure(sym)
     }
@@ -272,7 +272,7 @@ func >=<<T>(p: Parser<T>, op: Parser<(T, T) -> T>) -> Parser<T> {
     }
 }
 
-func rest<T>(p: Parser<T>, x: T, op: Parser<(T, T) -> T>) -> Parser<T> {
+func rest<T>(_ p: Parser<T>, x: T, op: Parser<(T, T) -> T>) -> Parser<T> {
     return op >>= { f in
         p >>= { y in
             rest(p, x: f(x,y), op: op)
@@ -280,7 +280,7 @@ func rest<T>(p: Parser<T>, x: T, op: Parser<(T, T) -> T>) -> Parser<T> {
     } +++ pure(x)
 }
 
-func pair(sepa: String) -> Parser<String> {
+func pair(_ sepa: String) -> Parser<String> {
     return symbol(sepa) >>= { _ in
         lineUntil(sepa) >>= { str in
             symbol(sepa) >>= { _ in pure(str) }
@@ -288,7 +288,7 @@ func pair(sepa: String) -> Parser<String> {
     }
 }
 
-func pair(sepa1: String, sepa2: String) -> Parser<String> {
+func pair(_ sepa1: String, sepa2: String) -> Parser<String> {
     return symbol(sepa1) >>= { _ in
         lineUntil(sepa2) >>= { str in
             symbol(sepa2) >>= { _ in pure(str) }
@@ -297,7 +297,7 @@ func pair(sepa1: String, sepa2: String) -> Parser<String> {
 }
 
 
-func trimedSatisfy(pred: Character -> Bool) -> Parser<Character> {
+func trimedSatisfy(_ pred: @escaping (Character) -> Bool) -> Parser<Character> {
     return space(false) >>= { _ in
         satisfy(pred) >>= { x in
             pure(x)

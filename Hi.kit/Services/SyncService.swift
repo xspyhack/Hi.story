@@ -12,7 +12,7 @@ import RealmSwift
 public protocol Synchronizable {
     
     associatedtype T
-    func synchronize(resource: T, toRealm realm: Realm)
+    func synchronize(_ resource: T, toRealm realm: Realm)
     
     func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> T?
     
@@ -21,7 +21,7 @@ public protocol Synchronizable {
 
 extension Synchronizable where T: Object {
     
-    public func synchronize(resource: T, toRealm realm: Realm) {
+    public func synchronize(_ resource: T, toRealm realm: Realm) {
         
         let _ = try? realm.write {
             print("add")
@@ -43,12 +43,12 @@ public struct Promise {
     let predicate: NSPredicate
 }
 
-public class StoryService: Synchronizable {
+open class StoryService: Synchronizable {
     
     public typealias T = Story
-    public static let sharedService = StoryService()
+    open static let sharedService = StoryService()
     
-    public func synchronize(resource: Story, toRealm realm: Realm) {
+    open func synchronize(_ resource: Story, toRealm realm: Realm) {
     
         let _ = try? realm.write {
             print("add")
@@ -56,26 +56,26 @@ public class StoryService: Synchronizable {
         }
     }
     
-    public func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> Story? {
+    open func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> Story? {
         return realm.objects(Story).filter(predicate).first
     }
     
-    public func fetchAll(fromRealm realm: Realm) -> [Story] {
+    open func fetchAll(fromRealm realm: Realm) -> [Story] {
         return realm.objects(Story).sorted("createdUnixTime", ascending: true).flatMap { $0 }
     }
     
-    public func fetchLatest(fromRealm realm: Realm) -> Story? {
+    open func fetchLatest(fromRealm realm: Realm) -> Story? {
         return realm.objects(Story).sorted("updatedUnixTime", ascending: false).flatMap { $0 }.first
     }
 }
 
-public class MatterService: Synchronizable {
+open class MatterService: Synchronizable {
     
     public typealias T = Matter
     
-    public static let sharedService = MatterService()
+    open static let sharedService = MatterService()
     
-    public func fetchAll(fromRealm realm: Realm) -> [T] {
+    open func fetchAll(fromRealm realm: Realm) -> [T] {
         return realm.objects(Matter).sorted("updatedUnixTime", ascending: true).flatMap { $0 }
     }
 }

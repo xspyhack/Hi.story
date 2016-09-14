@@ -11,16 +11,16 @@ import Foundation
 public extension String {
     
     public enum TrimmingType {
-        case Whitespace
-        case WhitespaceAndNewline
+        case whitespace
+        case whitespaceAndNewline
     }
     
-    public func trimming(trimmingType: TrimmingType) -> String {
+    public func trimming(_ trimmingType: TrimmingType) -> String {
         switch trimmingType {
-        case .Whitespace:
-            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        case .WhitespaceAndNewline:
-            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        case .whitespace:
+            return trimmingCharacters(in: CharacterSet.whitespaces)
+        case .whitespaceAndNewline:
+            return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
 }

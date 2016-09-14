@@ -9,10 +9,10 @@
 import UIKit
 
 class NonStatusBarTransitionManager: NSObject {
-    var duration: NSTimeInterval = 0.4
+    var duration: TimeInterval = 0.4
     
     enum TransitionType {
-        case Present, Dismiss
+        case present, dismiss
     }
     
     var transitionType: TransitionType?
@@ -20,69 +20,69 @@ class NonStatusBarTransitionManager: NSObject {
 
 extension NonStatusBarTransitionManager: UIViewControllerAnimatedTransitioning {
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if transitionType == .Present {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        if transitionType == .present {
             animatePresentWithTransition(transitionContext)
         } else {
             animateDismissWithTransition(transitionContext)
         }
     }
     
-    private func animatePresentWithTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView(),
-            toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+    fileprivate func animatePresentWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        guard let containerView = transitionContext.containerView,
+            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
         containerView.addSubview(toViewController.view)
-        let finalFrame = transitionContext.finalFrameForViewController(toViewController)
+        let finalFrame = transitionContext.finalFrame(for: toViewController)
         toViewController.view.frame = finalFrame
         toViewController.view.center.y += containerView.bounds.height
         
-        UIView.animateWithDuration(duration, animations: { () -> Void in
+        UIView.animate(withDuration: duration, animations: { () -> Void in
             toViewController.view.frame = finalFrame
-        }) { (finished) -> Void in
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
+        }, completion: { (finished) -> Void in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) 
     }
     
-    private func animateDismissWithTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView(),
-            fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),
-            toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+    fileprivate func animateDismissWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        guard let containerView = transitionContext.containerView,
+            let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
-        let finalFrame = transitionContext.finalFrameForViewController(toViewController)
+        let finalFrame = transitionContext.finalFrame(for: toViewController)
         toViewController.view.frame = finalFrame
         toViewController.view.center.y += Defaults.statusBarHeight
         containerView.addSubview(toViewController.view)
-        containerView.sendSubviewToBack(toViewController.view)
+        containerView.sendSubview(toBack: toViewController.view)
         
-        UIView.animateWithDuration(duration, animations: { () -> Void in
+        UIView.animate(withDuration: duration, animations: { () -> Void in
             fromViewController.view.center.y += containerView.bounds.height
-        }) { (finished) -> Void in
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
+        }, completion: { (finished) -> Void in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) 
     }
 }
 
 extension NonStatusBarTransitionManager: UIViewControllerTransitioningDelegate {
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .Present
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transitionType = .present
         
         return self
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .Dismiss
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transitionType = .dismiss
         
         return self
     }
