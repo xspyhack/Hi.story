@@ -22,13 +22,40 @@ protocol NewMatterViewModelType {
 
 struct NewMatterViewModel: NewMatterViewModelType {
     
+    // matter model
+    
+    var title: Variable<String>
+    var tag: Variable<Tag>
+    var happenedUnixTime: Variable<NSDate>
+    var body: Variable<String>
+    
     var postAction = PublishSubject<Void>()
     var cancelAction = PublishSubject<Void>()
     
+    // Output
+    let postButtonEnabled: Driver<Bool>
     private let disposeBag = DisposeBag()
     
     init() {
      
-        let a: Driver<Void> = self.postAction.asDriver()
+        // Default value
+        self.title = Variable("")
+        self.tag = Variable(.None)
+        self.happenedUnixTime = Variable(NSDate())
+        self.body = Variable("")
+        
+        self.postButtonEnabled = self.title.asDriver()
+            .map { !$0.isEmpty }
+            .asDriver(onErrorJustReturn: false)
+            .startWith(false)
+        
+        
+        
+        let didDone = self.postAction.asDriver()
+            .withLatestFrom(self.postButtonEnabled).filter { $0 }
+            .withLatestFrom(self.title.asDriver())
+            .map { title in
+                
+            }
     }
 }

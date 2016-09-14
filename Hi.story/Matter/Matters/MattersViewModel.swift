@@ -60,11 +60,10 @@ struct MattersViewModel: MattersViewModelType {
             }
             .addDisposableTo(disposeBag)
         
-        self.showNewMatterViewModel = self.addAction.asObservable()
+        self.showNewMatterViewModel = self.addAction.asDriver()
             .map {
                 NewMatterViewModel()
             }
-            .asDriver(onErrorJustReturn: NewMatterViewModel())
         
         // Services
         

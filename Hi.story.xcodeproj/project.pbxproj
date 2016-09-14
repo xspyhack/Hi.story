@@ -163,6 +163,7 @@
 		78F4D25B1CEF69AF00DAA210 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4D25A1CEF69AF00DAA210 /* Networking.swift */; };
 		78F4D25D1CEF779900DAA210 /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4D25C1CEF779900DAA210 /* StoryViewModel.swift */; };
 		78FF41CD1D85341800CAA097 /* NewMatterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FF41CC1D85341800CAA097 /* NewMatterViewModel.swift */; };
+		78FF41D11D88490B00CAA097 /* ObservableConvertibleType+Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FF41D01D88490B00CAA097 /* ObservableConvertibleType+Driver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -454,6 +455,7 @@
 		78F4D25A1CEF69AF00DAA210 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		78F4D25C1CEF779900DAA210 /* StoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
 		78FF41CC1D85341800CAA097 /* NewMatterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMatterViewModel.swift; sourceTree = "<group>"; };
+		78FF41D01D88490B00CAA097 /* ObservableConvertibleType+Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableConvertibleType+Driver.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -641,6 +643,7 @@
 				78D381C81D60DDB300AB844E /* Matter */,
 				78D3BCCF1D44BA6F00A155B6 /* ViewControllers */,
 				7838654D1CFC65D2005E1503 /* Views */,
+				78FF41CF1D8848F200CAA097 /* Rx */,
 				78F4D22F1CEEC48000DAA210 /* Services */,
 				789224F31CFAD16200A44040 /* Transitions */,
 				78F4D23F1CEEDDC300DAA210 /* Protocols */,
@@ -1148,6 +1151,14 @@
 			path = Story;
 			sourceTree = "<group>";
 		};
+		78FF41CF1D8848F200CAA097 /* Rx */ = {
+			isa = PBXGroup;
+			children = (
+				78FF41D01D88490B00CAA097 /* ObservableConvertibleType+Driver.swift */,
+			);
+			name = Rx;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1599,6 +1610,7 @@
 				78D257F21D84435E0032E4F5 /* MattersViewModel.swift in Sources */,
 				78EBD5381CF3484A0039AAE5 /* Delay.swift in Sources */,
 				78EBD5231CF0B9C20039AAE5 /* SwiftyKeychain.swift in Sources */,
+				78FF41D11D88490B00CAA097 /* ObservableConvertibleType+Driver.swift in Sources */,
 				78EBD52B1CF1DA800039AAE5 /* StoryTeller.swift in Sources */,
 				78782E4F1D687391008555C1 /* StorybookCellModel.swift in Sources */,
 				78D381C41D5CD19D00AB844E /* SettingsViewController.swift in Sources */,

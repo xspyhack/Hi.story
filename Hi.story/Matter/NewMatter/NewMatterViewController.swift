@@ -447,6 +447,7 @@ final class NewMatterViewController: BaseViewController {
     }
     
     private func tryToPostNewMatter() {
+        
         guard let subject = subject else { return }
         
         let matter = Matter()
