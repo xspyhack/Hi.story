@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7fQ-IO-rvG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="7fQ-IO-rvG">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Restrospective View Controller-->
@@ -13,12 +14,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Weq-be-tSq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="364-lu-HPQ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="afX-Qy-Fyz">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zre-YS-Vdd" customClass="SFFocusViewLayout" customModule="SFFocusViewLayout">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -32,7 +32,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="afX-Qy-Fyz" secondAttribute="bottom" id="Q66-nJ-DaS"/>
                             <constraint firstItem="afX-Qy-Fyz" firstAttribute="top" secondItem="364-lu-HPQ" secondAttribute="top" id="ROD-kI-hkt"/>
@@ -50,7 +50,7 @@
                     </view>
                     <connections>
                         <outlet property="storyCollectionView" destination="afX-Qy-Fyz" id="eJ2-39-wf1"/>
-                        <segue destination="w30-2d-oq7" kind="show" identifier="ShowStory" id="lxc-A9-KDe"/>
+                        <segue destination="w30-2d-oq7" kind="show" identifier="showStory" id="lxc-A9-KDe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SsV-ws-wBF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -74,12 +74,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Q0m-Ih-njm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XhN-v3-IPg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oFx-ja-50G">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="k86-4s-jp9">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -93,7 +92,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="oFx-ja-50G" firstAttribute="top" secondItem="XhN-v3-IPg" secondAttribute="top" id="6Z1-E5-cA0"/>
                             <constraint firstItem="oFx-ja-50G" firstAttribute="leading" secondItem="XhN-v3-IPg" secondAttribute="leading" id="Uh9-I0-UHR"/>
@@ -109,9 +108,9 @@
                         <outlet property="addItem" destination="2f5-lo-vhG" id="oU5-fP-lfW"/>
                         <outlet property="collectionView" destination="oFx-ja-50G" id="RAv-w4-aQg"/>
                         <outlet property="switchItem" destination="MEw-IN-6eG" id="rOF-Kw-EQw"/>
-                        <segue destination="aIb-pP-TVB" kind="show" identifier="ShowRestrospective" id="Qjm-sU-E2J"/>
-                        <segue destination="DvL-4J-Mpz" kind="presentation" identifier="PresentNewMatter" id="q6g-tq-l4U"/>
-                        <segue destination="4bW-fQ-7LX" kind="show" identifier="ShowMatters" id="TZB-xb-7ai"/>
+                        <segue destination="aIb-pP-TVB" kind="show" identifier="showRestrospective" id="Qjm-sU-E2J"/>
+                        <segue destination="DvL-4J-Mpz" kind="presentation" identifier="presentNewMatter" id="q6g-tq-l4U"/>
+                        <segue destination="4bW-fQ-7LX" kind="show" identifier="showMatters" id="TZB-xb-7ai"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xy0-GF-clq" userLabel="First Responder" sceneMemberID="firstResponder"/>

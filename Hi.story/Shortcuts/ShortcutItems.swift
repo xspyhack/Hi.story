@@ -13,7 +13,7 @@ func configureShortcuts() {
     var shortcutItems = [UIApplicationShortcutItem]()
 
     do {
-        let type = ShortcutType.NewStory.rawValue
+        let type = ShortcutType.newStory.rawValue
         
         let item = UIApplicationShortcutItem(
             type: type,
@@ -27,7 +27,7 @@ func configureShortcuts() {
     }
     
     do {
-        let type = ShortcutType.Feeds.rawValue
+        let type = ShortcutType.feeds.rawValue
         
         let item = UIApplicationShortcutItem(
             type: type,
@@ -41,7 +41,7 @@ func configureShortcuts() {
     }
     
     do {
-        let type = ShortcutType.Collections.rawValue
+        let type = ShortcutType.collections.rawValue
         
         let item = UIApplicationShortcutItem(
             type: type,
@@ -57,7 +57,7 @@ func configureShortcuts() {
     UIApplication.shared.shortcutItems = shortcutItems
 }
 
-func tryHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
+func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
     
     guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
         return
@@ -74,16 +74,16 @@ func tryHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow wind
     }
     
     switch shortcutType {
-    case .NewStory:
+    case .newStory:
         tabBarController.selectedTab = .home
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? HomeViewController {
-                //vc.tryToTellStory()
+                vc.tryToTellStory()
             }
         }
-    case .Feeds:
+    case .feeds:
         tabBarController.selectedTab = .feeds
-    case .Collections:
+    case .collections:
         tabBarController.selectedTab = .collections
     }
 }

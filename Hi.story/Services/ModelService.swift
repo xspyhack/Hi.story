@@ -33,14 +33,14 @@ struct ModelService<Model: ModelType> {
 extension ModelType {
     
     static var didCreate: PublishSubject<Self> {
-        return ModelService.instance(Self).didCreate
+        return ModelService.instance(Self.self).didCreate
     }
     
     static var didUpdate: PublishSubject<Self> {
-        return ModelService.instance(Self).didUpdate
+        return ModelService.instance(Self.self).didUpdate
     }
     
     static var didDelete: PublishSubject<Self> {
-        return ModelService.instance(Self).didDelete
+        return ModelService.instance(Self.self).didDelete
     }
 }

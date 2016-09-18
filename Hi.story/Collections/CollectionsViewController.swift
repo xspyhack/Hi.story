@@ -21,28 +21,28 @@ final class CollectionsViewController: BaseViewController {
 
     @IBOutlet fileprivate weak var collectionView: UICollectionView! {
         didSet {
-            collectionView.hi.registerReusableCell(CollectionCell)
+            collectionView.hi.register(reusableCell: CollectionCell.self)
         }
     }
-    @IBOutlet fileprivate weak var addItem: UIBarButtonItem!
+    @IBOutlet private weak var addItem: UIBarButtonItem!
     
-    @IBOutlet fileprivate weak var switchItem: UIBarButtonItem!
+    @IBOutlet private weak var switchItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        addItem.rx_tap
-            .subscribeNext { [weak self] in
+        addItem.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.showActionSheet()
-            }
+            })
             .addDisposableTo(disposeBag)
         
-        switchItem.rx_tap
-            .subscribeNext { [weak self] in
+        switchItem.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.tryToShowMatters()
-            }
+            })
             .addDisposableTo(disposeBag)
     }
 
@@ -71,15 +71,15 @@ final class CollectionsViewController: BaseViewController {
     }
     
     fileprivate func tryToShowNewStory() {
-        performSegue(withIdentifier: .PresentNewStory, sender: nil)
+        performSegue(withIdentifier: .presentNewStory, sender: nil)
     }
     
     fileprivate func tryToShowNewMatter() {
-        performSegue(withIdentifier: .PresentNewMatter, sender: nil)
+        performSegue(withIdentifier: .presentNewMatter, sender: nil)
     }
     
     fileprivate func tryToShowMatters() {
-        performSegue(withIdentifier: .ShowMatters, sender: nil)
+        performSegue(withIdentifier: .showMatters, sender: nil)
     }
 }
 
@@ -88,10 +88,10 @@ final class CollectionsViewController: BaseViewController {
 extension CollectionsViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
-        case ShowRestrospective
-        case ShowMatters
-        case PresentNewMatter
-        case PresentNewStory
+        case showRestrospective
+        case showMatters
+        case presentNewMatter
+        case presentNewStory
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -100,18 +100,18 @@ extension CollectionsViewController: SegueHandlerType {
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
-        case .ShowRestrospective:
+        case .showRestrospective:
             let viewController = segue.destination as! RestrospectiveViewController
             viewController.hidesBottomBarWhenPushed = true
-        case .PresentNewMatter:
+        case .presentNewMatter:
             let viewController = segue.destination as! NewMatterViewController
             
             viewController.modalPresentationStyle = .custom
             viewController.transitioningDelegate = presentationTransitionManager
             
-        case .PresentNewStory:
+        case .presentNewStory:
             break
-        case .ShowMatters:
+        case .showMatters:
             break
         }
     }

@@ -10,8 +10,8 @@ import CoreSpotlight
 
 public enum SearchableItemType: String {
 
-    case User
-    case Feed
+    case user
+    case feed
 }
 
 public func searchableItemID(searchableItemType itemType: SearchableItemType, itemID: String) -> String {
@@ -19,7 +19,7 @@ public func searchableItemID(searchableItemType itemType: SearchableItemType, it
     return "\(itemType)/\(itemID)"
 }
 
-public func searchableItem(searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
+public func searchableItem(with searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
 
     let parts = searchableItemID.components(separatedBy: "/")
 

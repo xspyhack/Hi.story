@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6qJ-OL-Wvt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6qJ-OL-Wvt">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Matters View Controller-->
+        <!--Matters-->
         <scene sceneID="Yck-NY-pGW">
             <objects>
-                <viewController storyboardIdentifier="MattersViewController" id="jJz-MU-zyH" customClass="MattersViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MattersViewController" title="Matters" id="jJz-MU-zyH" customClass="MattersViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oFN-aL-HUW"/>
                         <viewControllerLayoutGuide type="bottom" id="Oxx-Bi-bx9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="oKi-Nt-Ywm">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="36" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FnI-4x-fma">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="FnI-4x-fma" secondAttribute="trailing" id="GRv-Wz-wpy"/>
                             <constraint firstItem="FnI-4x-fma" firstAttribute="top" secondItem="oKi-Nt-Ywm" secondAttribute="top" id="PZq-Ca-lTF"/>
@@ -30,12 +30,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FEb-ay-4Qh">
-                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="add" id="U3Z-pK-GBn"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="U3Z-pK-GBn"/>
                     </navigationItem>
                     <connections>
                         <outlet property="addItem" destination="U3Z-pK-GBn" id="vQs-3i-N1f"/>
                         <outlet property="tableView" destination="FnI-4x-fma" id="a32-7e-ESm"/>
-                        <segue destination="Loh-tL-dDo" kind="presentation" identifier="PresentNewMatter" id="7un-Nj-QML"/>
+                        <segue destination="Loh-tL-dDo" kind="presentation" identifier="presentNewMatter" id="7un-Nj-QML"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRx-kg-22O" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -48,7 +48,7 @@
                 <viewControllerPlaceholder storyboardName="NewMatter" referencedIdentifier="NewMatterViewController" id="Loh-tL-dDo" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4pE-n9-sDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1476.5" y="157"/>
+            <point key="canvasLocation" x="1684" y="157"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E6D-Tb-Bbn">

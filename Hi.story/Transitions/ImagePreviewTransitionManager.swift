@@ -47,8 +47,7 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
     }
     
     fileprivate func presentWithAnimateTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView,
-            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
@@ -58,9 +57,10 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
             return
         }
         
+        let containerView = transitionContext.containerView
         let toView = toViewController.view
-        containerView.addSubview(toView)
-        containerView.bringSubview(toFront: toView)
+        containerView.addSubview(toView!)
+        containerView.bringSubview(toFront: toView!)
         
         let sourceImageView = presentingDelegate.sourceImageView()
         
@@ -88,8 +88,7 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
     }
     
     fileprivate func dismissWithAnmatedTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView,
-            let toView = transitionContext.view(forKey: UITransitionContextViewKey.to),
+        guard let toView = transitionContext.view(forKey: UITransitionContextViewKey.to),
             let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else {
                 return
@@ -100,6 +99,7 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
             return
         }
         
+        let containerView = transitionContext.containerView
         containerView.addSubview(toView)
         containerView.sendSubview(toBack: toView)
         

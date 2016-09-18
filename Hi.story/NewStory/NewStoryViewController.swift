@@ -9,7 +9,7 @@
 import UIKit
 import MobileCoreServices.UTType
 import KeyboardMan
-import Permission
+//import Permission
 import Hikit
 import RxSwift
 import RxCocoa
@@ -47,7 +47,7 @@ final class NewStoryViewController: BaseViewController {
     
     @IBOutlet fileprivate weak var cancelButtonItem: UIBarButtonItem!
     
-    fileprivate let keyboardMan = KeyboardMan
+    fileprivate let keyboardMan = KeyboardMan()
     
     fileprivate var canLocate = false
     fileprivate var address: String? = nil
@@ -112,21 +112,22 @@ final class NewStoryViewController: BaseViewController {
         
         // MARK: Config
         
-        postButtonItem.rx_tap
-            .subscribeNext { [weak self] in
+        postButtonItem.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.tryToPostNewStory()
-            }
+            })
             .addDisposableTo(disposeBag)
         
-        cancelButtonItem.rx_tap
-            .subscribeNext { [weak self] in
+        cancelButtonItem.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.handleDismiss()
-            }.addDisposableTo(disposeBag)
+            })
+            .addDisposableTo(disposeBag)
         
-        keyboardButton.rx_tap
-            .subscribeNext { [weak self] in
+        keyboardButton.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.view.endEditing(true)
-            }
+            })
             .addDisposableTo(disposeBag)
         
         tryToLocate()
@@ -182,7 +183,7 @@ final class NewStoryViewController: BaseViewController {
         
         ActivityIndicator.sharedInstance.show()
         
-        let title = titleTextField.text ?? Date().hi.yearMonthDay
+        let title = titleTextField.text ?? NSDate().hi.yearMonthDay
         
         let creationDate = Date().timeIntervalSince1970
         let story = Story()
@@ -193,10 +194,10 @@ final class NewStoryViewController: BaseViewController {
         story.visible = visible.rawValue
         
         if let image = imageView.image {
-            let URL = Foundation.URL.hi.imageURL(withPath: Date().hi.timestamp)
-            ImageStorage.sharedStorage.storeImage(image, forKey: URL.absoluteString)
+            let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
+            ImageStorage.sharedStorage.store(image, forKey: url.absoluteString)
             let attachment = Attachment()
-            attachment.URLString = URL.absoluteString
+            attachment.urlString = url.absoluteString
             story.attachment = attachment
         }
 
@@ -216,12 +217,12 @@ final class NewStoryViewController: BaseViewController {
         
         StoryService.sharedService.synchronize(story, toRealm: realm)
         
-        DispatchQueue.async(on: .main) {
+        DispatchQueue.main.async {
             ActivityIndicator.sharedInstance.hide()
         }
         
-        DispatchQueue.async(on: .main) { [weak self] in
-            self?.tellStoryDidSuccessAction?(story: story)
+        DispatchQueue.main.async { [weak self] in
+            self?.tellStoryDidSuccessAction?(story)
             self?.dismiss(animated: true, completion: nil)
         }
     }
@@ -240,19 +241,19 @@ final class NewStoryViewController: BaseViewController {
         
         canLocate = sender.isSelected
         if canLocate && coordinate == nil {
-            let permission: Permission = .LocationWhenInUse
-            permission.request { [weak self](status) in
-                switch permission.status {
-                case .authorized:
-                    self?.startLocating()
-                case .denied:
-                    print("denied")
-                case .disabled:
-                    print("disabled")
-                case .notDetermined:
-                    self?.startLocating()
-                }
-            }
+//            let permission: Permission = .LocationWhenInUse
+//            permission.request { [weak self](status) in
+//                switch permission.status {
+//                case .authorized:
+//                    self?.startLocating()
+//                case .denied:
+//                    print("denied")
+//                case .disabled:
+//                    print("disabled")
+//                case .notDetermined:
+//                    self?.startLocating()
+//                }
+//            }
         }
     }
     
@@ -262,10 +263,10 @@ final class NewStoryViewController: BaseViewController {
     }
     
     fileprivate func tryToLocate() {
-        let permission: Permission = .LocationWhenInUse
-        if permission.status == .authorized {
-            startLocating()
-        }
+//        let permission: Permission = .LocationWhenInUse
+//        if permission.status == .authorized {
+//            startLocating()
+//        }
     }
     
     fileprivate func startLocating() {
@@ -276,15 +277,13 @@ final class NewStoryViewController: BaseViewController {
     
     fileprivate func locateInBackground() {
         
-        DispatchQueue.async(on: .default) { 
-            
+        DispatchQueue.global(qos: .default).async {
             let service = LocationService.shareService
             service.turnOn()
             
             service.didLocateHandler = { [weak self] result in
-                
-                DispatchQueue.async(on: .main, forWork: { 
-                    
+            
+                DispatchQueue.main.sync {
                     self?.locationButton.isEnabled = true
                     
                     switch result {
@@ -298,9 +297,8 @@ final class NewStoryViewController: BaseViewController {
                     case .failure(let error):
                         print(error)
                     }
-                })
+                }
             }
-
         }
     }
     

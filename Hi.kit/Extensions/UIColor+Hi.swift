@@ -15,7 +15,7 @@ public extension UIColor {
     }
     
     public convenience init(hex: String, alpha: CGFloat = 1.0) {
-        var hex = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).uppercased()
+        var hex = hex.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).uppercased()
         
         if hex.hasPrefix("#") {
             hex = (hex as NSString).substring(from: 1)
@@ -43,18 +43,18 @@ public extension UIColor {
 
 public extension X where Base: UIColor {
     
-    public static var textColor: UIColor {
+    public static var text: UIColor {
         return UIColor(hex: "#363636")
     }
     
-    public static var lightTextColor: UIColor {
+    public static var lightText: UIColor {
         return UIColor(hex: "#8F8F8F")
     }
-    public static var placeholderColor: UIColor {
+    public static var placeholder: UIColor {
         return UIColor(hex: "#C7C7C7")
     }
     
-    public static var titleColor: UIColor {
+    public static var title: UIColor {
         return UIColor(hex: "#1F1F1F")
     }
 }

@@ -58,7 +58,7 @@ extension CollectionCell: Configurable {
     func configure(withPresenter presenter: CollectionCellModelType) {
         titleLabel.text = presenter.title
         descriptionLabel.text = presenter.description
-        imageView.hi.setImage(withURL: presenter.coverImageURL)
+        imageView.hi.setImage(with: presenter.coverImageURL)
     }
 }
 

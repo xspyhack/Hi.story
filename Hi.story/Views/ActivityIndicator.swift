@@ -35,7 +35,7 @@ class ActivityIndicator {
             return
         }
         
-        DispatchQueue.async { 
+        DispatchQueue.main.async {
 
             if let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window {
                 self.isShowing = true
@@ -74,7 +74,7 @@ class ActivityIndicator {
     
     func hide(_ completion: (() -> Void)? = nil) {
         
-        DispatchQueue.async {
+        DispatchQueue.main.async {
             
             if self.isShowing {
                 self.activityIndicator.transform = CGAffineTransform.identity

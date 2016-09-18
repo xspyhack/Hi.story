@@ -17,7 +17,7 @@ final class MatterViewController: BaseViewController {
     
     @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
-            tableView.hi.registerReusableCell(MatterCell)
+            tableView.hi.register(reusableCell: MatterCell.self)
         }
     }
     
@@ -41,14 +41,14 @@ final class MatterViewController: BaseViewController {
         }
     
         viewModel.sections
-            .drive(tableView.rx_itemsWithDataSource(dataSource))
+            .drive(tableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
         
-        tableView.rx_itemDeleted
+        tableView.rx.itemDeleted
             .bindTo(viewModel.itemDeleted)
             .addDisposableTo(disposeBag)
         
-        tableView.rx_itemSelected
+        tableView.rx.itemSelected
             .bindTo(viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         

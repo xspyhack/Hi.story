@@ -33,12 +33,12 @@ extension NonStatusBarTransitionManager: UIViewControllerAnimatedTransitioning {
     }
     
     fileprivate func animatePresentWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView,
-            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
+        let containerView = transitionContext.containerView
         containerView.addSubview(toViewController.view)
         let finalFrame = transitionContext.finalFrame(for: toViewController)
         toViewController.view.frame = finalFrame
@@ -52,13 +52,13 @@ extension NonStatusBarTransitionManager: UIViewControllerAnimatedTransitioning {
     }
     
     fileprivate func animateDismissWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView,
-            let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
             let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
+        let containerView = transitionContext.containerView
         let finalFrame = transitionContext.finalFrame(for: toViewController)
         toViewController.view.frame = finalFrame
         toViewController.view.center.y += Defaults.statusBarHeight

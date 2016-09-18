@@ -41,12 +41,12 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
     }
     
     fileprivate func animatePresentWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView,
-            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
         }
         
+        let containerView = transitionContext.containerView
         containerView.addSubview(toViewController.view)
         let finalFrame = transitionContext.finalFrame(for: toViewController)
 
@@ -63,12 +63,12 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
     }
     
     fileprivate func animateDismissWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView,
-            let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else {
                 return
         }
         
+        let containerView = transitionContext.containerView
         UIView.animate(withDuration: duration, animations: { () -> Void in
             fromViewController.view.center.y += containerView.bounds.height
             

@@ -5,7 +5,7 @@
 //  Created by bl4ckra1sond3tre on 6/20/16.
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
 //
-
+/*
 import Foundation
 import UIKit
 
@@ -409,3 +409,4 @@ extension UIColor {
         return UIColor(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
     }
 }
+*/

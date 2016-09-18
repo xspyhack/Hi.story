@@ -12,7 +12,11 @@ import Hikit
 extension UIStoryboard {
     
     enum StoryBoard: String {
-        case Main
+        case main
+        
+        var value: String {
+            return self.rawValue.uppercased()
+        }
     }
 }
 
@@ -20,7 +24,7 @@ extension X where Base: UIStoryboard {
     
     static func storyBoard(_ board: UIStoryboard.StoryBoard) -> UIStoryboard {
         
-        return UIStoryboard(name: board.rawValue, bundle: nil)
+        return UIStoryboard(name: board.value, bundle: nil)
     }
     
 }

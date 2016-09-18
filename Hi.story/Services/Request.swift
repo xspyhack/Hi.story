@@ -10,12 +10,12 @@ import Foundation
 import Alamofire
 import Hikit
 
-typealias CompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, NSError?) -> Void
+typealias CompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, Error?) -> Void
 
 protocol Requestable {
-    func request(URLString: String, method: Alamofire.Method, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: CompletionHandler?)
-    func request(_ URLRequest: NSMutableURLRequest, parameters: JSONDictionary?, completionHandler: CompletionHandler?)
-    func authRequest(URLString: String, method: Alamofire.Method) -> NSMutableURLRequest
+    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: CompletionHandler?)
+    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary?, completionHandler: CompletionHandler?)
+    func authRequest(_ urlString: String, method: Alamofire.HTTPMethod) -> NSMutableURLRequest
 }
 
 protocol Authorizable {
@@ -27,38 +27,38 @@ extension Authorizable {
 }
 
 struct Request: Requestable {
-    
+
     static let shareRequest = Request()
     
-    func request(URLString: String, method: Alamofire.Method, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = .URL, completionHandler: CompletionHandler?) {
+    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = URLEncoding.default, completionHandler: CompletionHandler?) {
         
-        Alamofire.request(method, URLString, parameters: parameters, encoding: encoding).responseJSON { response in
-            completionHandler?(response.request, response.response, response.result.value, response.result.error)
+        Alamofire.request(urlString, method: method, parameters: parameters, encoding: encoding).responseJSON { response in
+            completionHandler?(response.request, response.response, response.result.value as AnyObject?, response.result.error)
         }
     }
     
-    func request(_ URLRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: CompletionHandler?) {
-        let encodedURLRequest = Alamofire.ParameterEncoding.URLEncodedInURL.encode(URLRequest, parameters: parameters).0
+    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary? = nil, completionHandler: CompletionHandler?) {
+        let encodedURLRequest = try! Alamofire.URLEncoding().encode(urlRequest as! URLRequestConvertible, with: parameters)
         
         Alamofire.request(encodedURLRequest).responseJSON { response in
-            completionHandler?(response.request, response.response, response.result.value, response.result.error)
+            completionHandler?(response.request, response.response, response.result.value as AnyObject?, response.result.error)
         }
     }
     
-    func authRequest(URLString: String, method: Alamofire.Method) -> NSMutableURLRequest {
-        let URL = Foundation.URL(string: URLString)!
+    func authRequest(_ urlString: String, method: Alamofire.HTTPMethod) -> NSMutableURLRequest {
+        let url = URL(string: urlString)!
         
-        let mutableURLRequest = NSMutableURLRequest(url: URL)
-        mutableURLRequest.HTTPMethod = method.rawValue
+        let mutableURLRequest = NSMutableURLRequest(url: url)
+        mutableURLRequest.httpMethod = method.rawValue
 
         return mutableURLRequest
     }
     
     /*
     func sendAuthRequest<T: Serializable>(authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: Result<T> -> Void) {
-        request(authRequest, parameters: parameters) { (_, _, responseJson, error) in
+        request(authRequest, parameters: parameters) { (_, _, responseJSON, error) in
             
-            guard let json = responseJson as? JSONDictionary, value = T(json: json)
+            guard let json = responseJSON as? JSONDictionary, value = T(json: json)
                 else {
                     completionHandler(.Failure(error?.localizedDescription))
                     return
@@ -69,9 +69,9 @@ struct Request: Requestable {
     }
     
     func sendAuthRequest<T: Serializable>(authRequest: NSMutableURLRequest, parameters: JSONDictionary? = nil, completionHandler: Result<[T]> -> Void) {
-        request(authRequest) { (_, _, responseJson, error) in
+        request(authRequest) { (_, _, responseJSON, error) in
             
-            guard let json = responseJson as? [JSONDictionary] else {
+            guard let json = responseJSON as? [JSONDictionary] else {
                 completionHandler(.Failure(error?.localizedDescription))
                 return
             }

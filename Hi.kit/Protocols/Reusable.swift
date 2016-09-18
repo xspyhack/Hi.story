@@ -18,13 +18,13 @@ public protocol NibReusable: Reusable {
 
 public extension Reusable {
     static var reuseIdentifier: String {
-        return String(describing: Self)
+        return String(describing: Self.self)
     }
 }
 
 public extension NibReusable {
     static var nib: UINib {
-        return UINib(nibName: String(describing: Self), bundle: nil)
+        return UINib(nibName: String(describing: Self.self), bundle: nil)
     }
 }
 
@@ -32,11 +32,11 @@ public extension NibReusable {
 
 public extension Hi where Base: UICollectionView {
     
-    public func registerReusableCell<T: UICollectionViewCell>(_ cellType: T.Type) where T: Reusable {
+    public func register<T: UICollectionViewCell>(reusableCell cellType: T.Type) where T: Reusable {
         base.register(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
     
-    public func registerReusableCell<T: UICollectionViewCell>(_ cellType: T.Type) where T: NibReusable {
+    public func register<T: UICollectionViewCell>(reusableCell cellType: T.Type) where T: NibReusable {
         base.register(T.nib, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
     
@@ -67,11 +67,11 @@ public extension Hi where Base: UICollectionView {
 
 public extension Hi where Base: UITableView {
     
-    public func registerReusableCell<T: UITableViewCell>(_ cellType: T.Type) where T: Reusable {
+    public func register<T: UITableViewCell>(reusableCell cellType: T.Type) where T: Reusable {
         base.register(T.self, forCellReuseIdentifier: T.reuseIdentifier)
     }
     
-    public func registerReusableCell<T: UITableViewCell>(_ cellType: T.Type) where T: NibReusable {
+    public func register<T: UITableViewCell>(reusableCell cellType: T.Type) where T: NibReusable {
         base.register(T.nib, forCellReuseIdentifier: T.reuseIdentifier)
     }
     

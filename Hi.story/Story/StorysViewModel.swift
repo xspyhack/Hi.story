@@ -10,7 +10,7 @@ import Foundation
 import Hikit
 
 enum StoryFetchType {
-    case single(Date)
+    case single(NSDate)
     case range(Int, Int)
     case all
 }
@@ -28,15 +28,15 @@ struct StorysViewModel {
     }
     
     mutating func fetchStorys() {
-        var params = [
-            "uuid": UUID.uuid
+        var params: JSONDictionary = [
+            "uuid": UUID.uuid as AnyObject
         ]
         switch type {
         case .single(let date):
-            params["date"] = date.hi.yearMonthDay
+            params["date"] = date.hi.yearMonthDay as AnyObject?
         case .range(let from, let to):
-            params["from"] = "\(from)"
-            params["to"] = "\(to)"
+            params["from"] = "\(from)" as AnyObject?
+            params["to"] = "\(to)" as AnyObject?
         case .all:
             break
         }

@@ -17,7 +17,7 @@ protocol DescriptionPresentable {
 }
 
 extension DescriptionPresentable {
-    var descriptionTextColor: UIColor { return .white() }
+    var descriptionTextColor: UIColor { return UIColor.white }
     var descriptionFont: UIFont { return .systemFont(ofSize: 14.0) }
     
     func updateDescriptionLabel(_ label: UILabel) {

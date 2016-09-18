@@ -21,7 +21,7 @@ final class FeedsViewController: BaseViewController {
     
     fileprivate var feeds: [Feed]?
     
-    fileprivate lazy var newItem: UIBarButtonItem = {
+    private lazy var newItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage(named: "nav_new")
         return item
@@ -34,10 +34,10 @@ final class FeedsViewController: BaseViewController {
         
         navigationItem.rightBarButtonItem = newItem
         
-        newItem.rx_tap
-            .subscribeNext { [weak self] in
+        newItem.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.tryToShowNewStory()
-            }
+            })
             .addDisposableTo(disposeBag)
     }
 
@@ -47,7 +47,7 @@ final class FeedsViewController: BaseViewController {
     }
     
     fileprivate func tryToShowNewStory() {
-        performSegue(withIdentifier: .PresentNewStory, sender: nil)
+        performSegue(withIdentifier: .presentNewStory, sender: nil)
     }
     
     fileprivate func handleNewFeeds(_ feeds: [Feed]) {
@@ -65,7 +65,7 @@ final class FeedsViewController: BaseViewController {
 extension FeedsViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
-        case PresentNewStory
+        case presentNewStory
     }
 
     // MARK: - Navigation
@@ -76,7 +76,7 @@ extension FeedsViewController: SegueHandlerType {
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
-        case .PresentNewStory:
+        case .presentNewStory:
             let viewController = segue.destination as! NewStoryViewController
             
             viewController.modalPresentationStyle = .custom

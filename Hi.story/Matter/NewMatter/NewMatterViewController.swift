@@ -22,7 +22,7 @@ final class InputableCell: UITableViewCell, Reusable {
         let textField = UITextField()
         textField.delegate = self
         textField.textAlignment = .center
-        textField.textColor = UIColor.hi.textColor
+        textField.textColor = UIColor.hi.text
         return textField
     }()
     
@@ -40,12 +40,12 @@ final class InputableCell: UITableViewCell, Reusable {
     
     fileprivate func setup() {
         
-        textLabel?.textColor = UIColor.hi.titleColor
+        textLabel?.textColor = UIColor.hi.title
         
-        textField.rx_text
-            .subscribeNext { [weak self] text in
+        textField.rx.text
+            .subscribe(onNext: { [weak self] text in
                 self?.changedAction?(text)
-            }
+            })
             .addDisposableTo(disposeBag)
         
         contentView.addSubview(textField)
@@ -76,13 +76,15 @@ extension InputableCell: UITextFieldDelegate {
 
 final class InfoInputableCell: UITableViewCell, Reusable {
     
+    var didEndEditing: ((String) -> Void)?
+    
     var didBeginInputingAction: (() -> Void)?
     
     var textViewDidChangeAction: ((CGFloat) -> Void)?
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hi.titleColor
+        label.textColor = UIColor.hi.title
         return label
     }()
     
@@ -92,7 +94,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         let textView = UITextView()
         textView.delegate = self
         textView.isScrollEnabled = false
-        textView.textColor = UIColor.hi.textColor
+        textView.textColor = UIColor.hi.text
         textView.font = UIFont.systemFont(ofSize: 14.0)
         return textView
     }()
@@ -111,7 +113,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
     
     fileprivate func setup() {
         
-        textLabel?.textColor = UIColor.hi.titleColor
+        textLabel?.textColor = UIColor.hi.title
         
         contentView.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -137,6 +139,8 @@ extension InfoInputableCell: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let text = textView.text.trimming(.whitespaceAndNewline)
         textView.text = text
+        
+        didEndEditing?(text)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -155,7 +159,7 @@ extension InfoInputableCell: UITextViewDelegate {
 
 final class TagItemCell: UICollectionViewCell, Reusable {
     
-    var itemColor: UIColor = UIColor.tintColor() {
+    var itemColor: UIColor = UIColor.tint {
         didSet {
             outerView.backgroundColor = itemColor
             innerView.backgroundColor = itemColor
@@ -247,7 +251,7 @@ final class TagCell: UITableViewCell, Reusable {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hi.titleColor
+        label.textColor = UIColor.hi.title
         return label
     }()
     
@@ -282,7 +286,7 @@ final class TagCell: UITableViewCell, Reusable {
     
     fileprivate func setup() {
         
-        collectionView.hi.registerReusableCell(TagItemCell)
+        collectionView.hi.register(reusableCell: TagItemCell.self)
         
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -354,8 +358,8 @@ final class DisclosureCell: UITableViewCell, Reusable {
         
         accessoryType = .disclosureIndicator
         
-        textLabel?.textColor = UIColor.hi.titleColor
-        detailTextLabel?.textColor = UIColor.hi.textColor
+        textLabel?.textColor = UIColor.hi.title
+        detailTextLabel?.textColor = UIColor.hi.text
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -372,11 +376,11 @@ final class NewMatterViewController: BaseViewController {
     @IBOutlet fileprivate weak var navigationBar: UINavigationBar!
     @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
-            tableView.hi.registerReusableCell(InputableCell)
-            tableView.hi.registerReusableCell(InfoInputableCell)
-            tableView.hi.registerReusableCell(TagCell)
-            tableView.hi.registerReusableCell(DisclosureCell)
-            tableView.hi.registerReusableCell(DatePickerCell)
+            tableView.hi.register(reusableCell: InputableCell.self)
+            tableView.hi.register(reusableCell: InfoInputableCell.self)
+            tableView.hi.register(reusableCell: TagCell.self)
+            tableView.hi.register(reusableCell: DisclosureCell.self)
+            tableView.hi.register(reusableCell: DatePickerCell.self)
         }
     }
     
@@ -388,30 +392,28 @@ final class NewMatterViewController: BaseViewController {
         static var notesRowHeight: CGFloat = 120.0
     }
     
-    fileprivate var pickedDate: Date = Date() {
+    fileprivate var pickedDate: NSDate = NSDate() {
         willSet {
             guard newValue != pickedDate else { return }
             
             let cell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.when.rawValue))
             cell?.detailTextLabel?.text = newValue.hi.yearMonthDay
         }
-    }
-    
-    fileprivate var subject: String? {
+        
         didSet {
-            guard let subject = subject else { return }
-            isDirty = !subject.isEmpty
+            happenedDate.value = pickedDate as Date
         }
     }
-    fileprivate var tag: Tag = .none
     
-    fileprivate var isDirty = false {
-        willSet {
-            postItem.isEnabled = newValue
-        }
-    }
+    fileprivate var subject: Variable<String> = Variable("")
+    
+    fileprivate var tag: Variable<Tag> = Variable(.none)
     
     fileprivate var datePickerIndexPath: IndexPath?
+    
+    private var happenedDate: Variable<Date> = Variable(Date())
+    
+    fileprivate var body: Variable<String> = Variable("")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -421,24 +423,47 @@ final class NewMatterViewController: BaseViewController {
         view.layer.cornerRadius = 8.0
         view.clipsToBounds = true
         
-        postItem.isEnabled = false
-        
         tableView.contentInset.top = Defaults.navigationBarWithoutStatusBarHeight
         
         // MARK: Setup
         
-        cancelItem.rx_tap
-            .subscribeNext { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
-            }
+        let viewModel = self.viewModel ?? NewMatterViewModel()
+        
+        cancelItem.rx.tap
+            .bindTo(viewModel.cancelAction)
             .addDisposableTo(disposeBag)
         
-        postItem.rx_tap
-            .map { [weak self] in self?.isDirty }
-            .subscribeNext { [weak self] in
-                self?.tryToPostNewMatter()
-            }
+        postItem.rx.tap
+            .bindTo(viewModel.postAction)
             .addDisposableTo(disposeBag)
+        
+        viewModel.postButtonEnabled
+            .drive(self.postItem.rx.enabled)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.dismissViewController
+            .drive(onNext: { [weak self] in
+                self?.view.endEditing(true)
+                self?.dismiss(animated: true, completion: nil)
+            })
+            .addDisposableTo(disposeBag)
+        
+        subject.asObservable()
+            .bindTo(viewModel.title)
+            .addDisposableTo(disposeBag)
+        
+        tag.asObservable()
+            .bindTo(viewModel.tag)
+            .addDisposableTo(disposeBag)
+        
+        happenedDate.asObservable()
+            .bindTo(viewModel.happenedUnixTime)
+            .addDisposableTo(disposeBag)
+        
+        body.asObservable()
+            .bindTo(viewModel.body)
+            .addDisposableTo(disposeBag)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -446,27 +471,27 @@ final class NewMatterViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    fileprivate func tryToPostNewMatter() {
-        
-        guard let subject = subject else { return }
-        
-        let matter = Matter()
-        matter.title = subject
-        matter.tag = tag.rawValue
-        matter.happenedUnixTime = pickedDate.timeIntervalSince1970
-        
-        if let bodyCell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.body.rawValue)) as? InfoInputableCell {
-            matter.body = bodyCell.textView.text
-        }
-        
-        guard let realm = try? Realm() else { return }
-        
-        MatterService.sharedService.synchronize(matter, toRealm: realm)
-        
-        delay(0.1) { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        }
-    }
+//    fileprivate func tryToPostNewMatter() {
+//        
+//        guard let subject = subject else { return }
+//        
+//        let matter = Matter()
+//        matter.title = subject
+//        matter.tag = tag.rawValue
+//        matter.happenedUnixTime = pickedDate.timeIntervalSince1970
+//        
+//        if let bodyCell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.body.rawValue)) as? InfoInputableCell {
+//            matter.body = bodyCell.textView.text
+//        }
+//        
+//        guard let realm = try? Realm() else { return }
+//        
+//        MatterService.sharedService.synchronize(matter, toRealm: realm)
+//        
+//        delay(0.1) { [weak self] in
+//            self?.dismiss(animated: true, completion: nil)
+//        }
+//    }
     
     // MARK: Picker
     
@@ -526,25 +551,6 @@ final class NewMatterViewController: BaseViewController {
     }
 }
 
-/*
-extension NewMatterViewController: SegueHandlerType {
- 
-    enum SegueIdentifier: String {
-        
-    }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-}
-*/
-
 extension NewMatterViewController: UITableViewDataSource {
     
     fileprivate enum Section: Int {
@@ -586,7 +592,7 @@ extension NewMatterViewController: UITableViewDataSource {
             let cell: InputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.textField.placeholder = "What's the Matter"
             cell.changedAction = { [weak self] text in
-                self?.subject = text
+                self?.subject.value = text
             }
             cell.didBeginInputingAction = { [weak self] in
                 self?.hideInlineDatePicker()
@@ -597,7 +603,7 @@ extension NewMatterViewController: UITableViewDataSource {
             cell.titleLabel.text = section.annotation
             cell.items = Tag.tags
             cell.pickedAction = { [weak self] tag in
-                self?.tag = tag
+                self?.tag.value = tag
             }
             return cell
         case .body:
@@ -614,12 +620,15 @@ extension NewMatterViewController: UITableViewDataSource {
                     tableView.endUpdates()
                 }
             }
+            cell.didEndEditing = { [weak self] body in
+                self?.body.value = body
+            }
             return cell
         case .when:
             if indexPathHasPicker(indexPath) {
                 let cell: DatePickerCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.pickedAction = { [weak self] date in
-                    self?.pickedDate = date as Date
+                    self?.pickedDate = date
                 }
                 return cell
             } else {

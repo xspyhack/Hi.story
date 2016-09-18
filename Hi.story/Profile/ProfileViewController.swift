@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import RxDataSources
-import Permission
+//import Permission
 import MobileCoreServices.UTType
 
 private let maximumHeaderHeight: CGFloat = 360.0
@@ -27,7 +27,7 @@ final class ProfileViewController: BaseViewController {
             storybookCollectionView.scrollIndicatorInsets.top = maximumHeaderHeight
             storybookCollectionView.contentInset.bottom = Defaults.tabBarHeight
             storybookCollectionView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
-            storybookCollectionView.hi.registerReusableCell(StorybookCell)
+            storybookCollectionView.hi.register(reusableCell: StorybookCell.self)
         }
     }
     
@@ -38,7 +38,7 @@ final class ProfileViewController: BaseViewController {
             matterTableView.contentInset.bottom = Defaults.tabBarHeight
             matterTableView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
             matterTableView.rowHeight = Constant.matterRowHeight
-            matterTableView.hi.registerReusableCell(MatterCell)
+            matterTableView.hi.register(reusableCell: MatterCell.self)
         }
     }
     
@@ -57,7 +57,7 @@ final class ProfileViewController: BaseViewController {
     fileprivate var bioHeight: CGFloat = 30.0
     
     fileprivate lazy var blurEffect = UIBlurEffect(style: .light)
-
+    
     @IBOutlet fileprivate weak var blurEffectView: UIVisualEffectView! {
         didSet {
             blurEffectView.effect = blurEffect
@@ -137,11 +137,11 @@ final class ProfileViewController: BaseViewController {
         
         navigationItem.rightBarButtonItem = settingsItem
         
-        segmentedControl.rx_value
+        segmentedControl.rx.value
             .observeOn(MainScheduler.instance)
-            .subscribeNext { [weak self] index in
+            .subscribe(onNext: { [weak self] index in
                 self?.channel = Channel(rawValue: index)!
-            }
+            })
             .addDisposableTo(disposeBag)
         
         if let flowLayout = storybookCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -154,10 +154,10 @@ final class ProfileViewController: BaseViewController {
         headerViewHeightConstraint.constant = maximumHeaderHeight
         bioContainerHeightConstraint.constant = bioHeight
         
-        settingsItem.rx_tap
-            .subscribeNext { [weak self] in
+        settingsItem.rx.tap
+            .subscribe(onNext: { [weak self] in
                 self?.tryToShowSettings()
-            }
+            })
             .addDisposableTo(disposeBag)
         
         guard let realm = try? Realm() else { return }
@@ -171,36 +171,36 @@ final class ProfileViewController: BaseViewController {
         }
         
         viewModel.sections
-            .drive(matterTableView.rx_itemsWithDataSource(dataSource))
+            .drive(matterTableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
         
-        matterTableView.rx_itemSelected
+        matterTableView.rx.itemSelected
             .bindTo(viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
     }
     
     fileprivate func tryToShowSettings() {
-        performSegue(withIdentifier: .ShowMatters, sender: nil)
+        performSegue(withIdentifier: .showMatters, sender: nil)
     }
 }
 
 extension ProfileViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
-        case Edit
-        case ShowQRCode
-        case ShowMatters
+        case edit
+        case showQRCode
+        case showMatters
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segueIdentifier(forSegue: segue) {
-        case .Edit:
+        case .edit:
             print("edit")
-        case .ShowQRCode:
+        case .showQRCode:
             break
-        case .ShowMatters:
+        case .showMatters:
             break
         }
     }

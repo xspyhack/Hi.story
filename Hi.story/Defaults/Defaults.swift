@@ -7,19 +7,18 @@
 //
 
 import UIKit
-import TextAttributes
 
 struct Defaults {
     
     static let userDefaults = UserDefaults.standard
     
     struct Color {
-        static let tintColor = "#1BBBBB"
-        static let fromColor = "#1EEEEE"
-        static let toColor = "#133333"
+        static let tint = "#1BBBBB"
+        static let from = "#1EEEEE"
+        static let to = "#133333"
         static let border = "#EEEEEE"
         static let separator = "#DDDDDD"
-        static let textColor = "#353535"
+        static let text = "#353535"
         static let placeholder = "#C7C7C7"
     }
     
@@ -50,13 +49,14 @@ struct Defaults {
     
     static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
     
+    /*
     static var textAttributes: TextAttributes = {
         return TextAttributes()
             .font(UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightMedium))
             .lineSpacing(6.0)
             .alignment(.left)
             .foregroundColor(.black())
-    }()
+    }()*/
     
     static var TellerRecordName: String {
         get {
@@ -69,8 +69,8 @@ struct Defaults {
 }
 
 extension UIColor {
-    static func tintColor() -> UIColor {
-        return UIColor(hex: Defaults.Color.tintColor)
+    static var tint: UIColor {
+        return UIColor(hex: Defaults.Color.tint)
     }
 }
 
@@ -79,20 +79,5 @@ class Wrapper<T> {
     
     init(bullet: T) {
         self.candy = bullet
-    }
-}
-
-struct DispatchAsyncQueue {
-    
-    static func Main(_ block: @escaping ()->()) {
-        DispatchQueue.main.async { 
-            block()
-        }
-    }
-    
-    static func Default(_ block: @escaping ()->()) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async { 
-            block()
-        }
     }
 }

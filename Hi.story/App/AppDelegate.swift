@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Appearence
         UITabBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = UIColor.white
-        UINavigationBar.appearance().tintColor = UIColor.tintColor()
+        UINavigationBar.appearance().tintColor = UIColor.tint
         
         // Static items, just for now.
         if window?.traitCollection.forceTouchCapability == .available {
@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) {
         
         if let window = window {
-            tryHandleQuickAction(shortcutItem: shortcutItem, inWindow: window)
+            tryToHandleQuickAction(shortcutItem: shortcutItem, inWindow: window)
         }
     }
 }

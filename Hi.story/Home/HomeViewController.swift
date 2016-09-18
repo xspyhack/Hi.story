@@ -16,7 +16,7 @@ final class HomeViewController: BaseViewController {
     @IBOutlet fileprivate weak var segmentedControl: UISegmentedControl!
     @IBOutlet fileprivate weak var scrollView: UIScrollView!
 
-    fileprivate enum Channel: Int {
+    private enum Channel: Int {
         case today = 0
         case history
         
@@ -32,10 +32,10 @@ final class HomeViewController: BaseViewController {
 
         // Do any additional setup after loading the view.
         
-        segmentedControl.rx_value
-            .subscribeNext { [weak self] index in
+        segmentedControl.rx.value
+            .subscribe(onNext: { [weak self] index in
                 self?.selecting(at: index)
-            }
+            })
             .addDisposableTo(disposeBag)
     }
     
@@ -53,6 +53,10 @@ final class HomeViewController: BaseViewController {
     }
     
     // MARK: Public
+    
+    func tryToTellStory() {
+        // ?? QuickAction
+    }
     
     fileprivate func selecting(at index: Int) {
         guard let channel = Channel(rawValue: index) else { return }

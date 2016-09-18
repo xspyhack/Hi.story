@@ -7,15 +7,14 @@
 //
 
 import UIKit
-import SFFocusViewLayout
 import Hikit
 import RealmSwift
 
-final class RestrospectiveViewController: UIViewController {
+final class RestrospectiveViewController: BaseViewController {
 
     @IBOutlet fileprivate weak var storyCollectionView: UICollectionView! {
         didSet {
-            storyCollectionView.hi.registerReusableCell(CollectionCell)
+            storyCollectionView.hi.register(reusableCell: CollectionCell.self)
             storyCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         }
     }
@@ -55,7 +54,7 @@ final class RestrospectiveViewController: UIViewController {
 extension RestrospectiveViewController: SegueHandlerType {
 
     enum SegueIdentifier: String {
-        case ShowStory
+        case showStory
     }
     
     // MARK: Navigation
@@ -66,7 +65,7 @@ extension RestrospectiveViewController: SegueHandlerType {
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
-        case .ShowStory:
+        case .showStory:
             let viewController = segue.destination as? StoryViewController
             if let wrapper: Wrapper<Story> = sender as? Wrapper {
                 viewController?.story = wrapper.candy
@@ -101,11 +100,11 @@ extension RestrospectiveViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        guard let story = stories?[safe: (indexPath as NSIndexPath).item], let cell = cell as? CollectionCell else {
+        guard let story = stories?[safe: indexPath.item], let cell = cell as? CollectionCell else {
             return
         }
         
-        let restrospective = Restrospective(title: story.title, description: story.body, imageURL: URL(string: story.attachment?.URLString ?? ""))
+        let restrospective = Restrospective(title: story.title, description: story.body, imageURL: URL(string: story.attachment?.urlString ?? ""))
         
         let collectionCellModel = CollectionCellModel(restrospective: restrospective)
         
@@ -125,7 +124,7 @@ extension RestrospectiveViewController: UICollectionViewDelegate {
             guard let story = stories?[safe: (indexPath as NSIndexPath).item] else {
                 return
             }
-            performSegue(withIdentifier: .ShowStory, sender: Wrapper(bullet: story))
+            performSegue(withIdentifier: .showStory, sender: Wrapper(bullet: story))
         }
     }
 }

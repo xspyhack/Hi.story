@@ -17,7 +17,7 @@ final class MattersViewController: BaseViewController {
     
     @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
-            tableView.hi.registerReusableCell(MatterCell)
+            tableView.hi.register(reusableCell: MatterCell.self)
         }
     }
     
@@ -25,7 +25,7 @@ final class MattersViewController: BaseViewController {
     
     fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
     
-    fileprivate var viewModel: MattersViewModel?
+    fileprivate var viewModel: MattersViewModel? // Reference it!!
     
     lazy var presentationTransition: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
@@ -42,31 +42,34 @@ final class MattersViewController: BaseViewController {
         
         let viewModel = MattersViewModel(realm: realm)
         
+        self.viewModel = viewModel
+        
         dataSource.configureCell = { _, tableView, indexPath, viewModel in
             let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.configure(withPresenter: viewModel)
             return cell
         }
         
-        addItem.rx_tap
+        addItem.rx.tap
             .bindTo(viewModel.addAction)
             .addDisposableTo(disposeBag)
         
         viewModel.sections
-            .drive(tableView.rx_itemsWithDataSource(dataSource))
+            .drive(tableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
         
         viewModel.showNewMatterViewModel
-            .driveNext { [weak self] viewModel in
-                self?.performSegue(withIdentifier: .PresentNewMatter, sender: Wrapper<NewMatterViewModel>(bullet: viewModel))
-            }
+            .drive(onNext: { [weak self] viewModel in
+                print("show new")
+                self?.performSegue(withIdentifier: .presentNewMatter, sender: Wrapper<NewMatterViewModel>(bullet: viewModel))
+            })
             .addDisposableTo(disposeBag)
         
-        tableView.rx_itemDeleted
+        tableView.rx.itemDeleted
             .bindTo(viewModel.itemDeleted)
             .addDisposableTo(disposeBag)
         
-        tableView.rx_itemSelected
+        tableView.rx.itemSelected
             .bindTo(viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
@@ -106,13 +109,13 @@ extension MattersViewController: PresentationRepresentation {
 extension MattersViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
-        case PresentNewMatter
+        case presentNewMatter
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segueIdentifier(forSegue: segue) {
-        case .PresentNewMatter:
+        case .presentNewMatter:
             let viewController = segue.destination as? NewMatterViewController
             
             viewController?.modalPresentationStyle = .custom

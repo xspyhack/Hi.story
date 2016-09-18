@@ -22,11 +22,11 @@ class ShareViewController: SLComposeServiceViewController {
     fileprivate lazy var titleItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
         item?.title = "Title"
-        item?.value = Date().hi.yearMonthDay
+        item?.value = NSDate().hi.yearMonthDay
         item?.tapHandler = { [weak self] in
             if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.TitleViewController.rawValue) as? TitleViewController {
                 vc.pickAction = { [weak self](title) in
-                    DispatchQueue.async {
+                    DispatchQueue.main.async {
                         item?.value = title
                     }
                 }
@@ -44,7 +44,7 @@ class ShareViewController: SLComposeServiceViewController {
             if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.TagsViewController.rawValue) as? TagsViewController {
                 vc.pickAction = { [weak self](tag) in
                     self?.popConfigurationViewController()
-                    DispatchQueue.async {
+                    DispatchQueue.main.async {
                         item?.value = tag
                     }
                 }

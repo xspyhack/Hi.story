@@ -17,7 +17,9 @@ protocol NewMatterViewModelType {
     
     var postAction: PublishSubject<Void> { get }
     var cancelAction: PublishSubject<Void> { get }
-    
+
+    var postButtonEnabled: Driver<Bool> { get }
+    var dismissViewController: Driver<Void> { get }
 }
 
 struct NewMatterViewModel: NewMatterViewModelType {
@@ -34,6 +36,8 @@ struct NewMatterViewModel: NewMatterViewModelType {
     
     // Output
     let postButtonEnabled: Driver<Bool>
+    let dismissViewController: Driver<Void>
+    
     fileprivate let disposeBag = DisposeBag()
     
     init() {
@@ -48,14 +52,30 @@ struct NewMatterViewModel: NewMatterViewModelType {
             .map { !$0.isEmpty }
             .asDriver(onErrorJustReturn: false)
             .startWith(false)
+
+        let matter = Driver.combineLatest(title.asDriver(),
+                                          tag.asDriver(),
+                                          happenedUnixTime.asDriver(),
+                                          body.asDriver()
+        ) { title, tag, happenedUnixTime, body -> Matter in
+            let matter = Matter()
+            matter.title = title
+            matter.tag = tag.rawValue
+            matter.happenedUnixTime = happenedUnixTime.timeIntervalSince1970
+            matter.body = body
+            return matter
+        }
         
-        
-        
-        let didDone = self.postAction.asDriver()
-            .withLatestFrom(self.postButtonEnabled).filter { $0 }
-            .withLatestFrom(self.title.asDriver())
-            .map { title in
-                
+        let didPost = self.postAction.asDriver()
+            .withLatestFrom(postButtonEnabled).filter{ $0 }
+            .withLatestFrom(matter)
+            .map { matter in
+                Matter.didCreate.onNext(matter)
             }
+            .asDriver()
+        
+        let didCancel = self.cancelAction.asDriver()
+        
+        self.dismissViewController = Driver.of(didPost, didCancel).merge()
     }
 }

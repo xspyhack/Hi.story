@@ -30,11 +30,11 @@ extension Synchronizable where T: Object {
     }
     
     public func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> T? {
-        return realm.objects(T).filter(predicate).first
+        return realm.objects(T.self).filter(predicate).first
     }
     
     public func fetchAll(sortby property: String? = nil, fromRealm realm: Realm) -> [T] {
-        return realm.objects(T).flatMap { $0 }
+        return realm.objects(T.self).flatMap { $0 }
     }
 }
 
@@ -43,7 +43,7 @@ public struct Promise {
     let predicate: NSPredicate
 }
 
-open class StoryService: Synchronizable {
+public class StoryService: Synchronizable {
     
     public typealias T = Story
     open static let sharedService = StoryService()
@@ -57,25 +57,25 @@ open class StoryService: Synchronizable {
     }
     
     open func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> Story? {
-        return realm.objects(Story).filter(predicate).first
+        return realm.objects(Story.self).filter(predicate).first
     }
     
     open func fetchAll(fromRealm realm: Realm) -> [Story] {
-        return realm.objects(Story).sorted("createdUnixTime", ascending: true).flatMap { $0 }
+        return realm.objects(Story.self).sorted(byProperty: "createdUnixTime", ascending: true).flatMap { $0 }
     }
     
     open func fetchLatest(fromRealm realm: Realm) -> Story? {
-        return realm.objects(Story).sorted("updatedUnixTime", ascending: false).flatMap { $0 }.first
+        return realm.objects(Story.self).sorted(byProperty: "updatedUnixTime", ascending: false).flatMap { $0 }.first
     }
 }
 
-open class MatterService: Synchronizable {
+public class MatterService: Synchronizable {
     
     public typealias T = Matter
     
     open static let sharedService = MatterService()
     
     open func fetchAll(fromRealm realm: Realm) -> [T] {
-        return realm.objects(Matter).sorted("updatedUnixTime", ascending: true).flatMap { $0 }
+        return realm.objects(Matter.self).sorted(byProperty: "updatedUnixTime", ascending: true).flatMap { $0 }
     }
 }

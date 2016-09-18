@@ -27,7 +27,7 @@ open class User: Object {
 
 open class Attachment: Object {    
     open dynamic var metadata: String = ""
-    open dynamic var URLString: String = ""
+    open dynamic var urlString: String = ""
 }
 
 open class Location: Object {

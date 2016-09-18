@@ -103,7 +103,7 @@ struct Keychain: OptionsType {
     func getData(_ key: String) throws -> Data? {
         var query = genericQuery()
         
-        query[String(kSecMatchLimit)] = String(kSecMatchLimitOne)
+        query[String(kSecMatchLimit)] = String(kSecMatchLimitOne) as AnyObject?
         query[String(kSecReturnData)] = true as AnyObject?
         query[String(kSecAttrAccount)] = key as AnyObject?
         
@@ -128,7 +128,7 @@ struct Keychain: OptionsType {
     func get<T>(_ key: String, handler: (KeychainAttributes?) -> T) throws -> T {
         var query = genericQuery()
         
-        query[String(kSecMatchLimit)] = String(kSecMatchLimitOne)
+        query[String(kSecMatchLimit)] = String(kSecMatchLimitOne) as AnyObject?
         query[String(kSecReturnAttributes)] = true as AnyObject?
         query[String(kSecReturnRef)] = true as AnyObject?
         query[String(kSecReturnData)] = true as AnyObject?
@@ -360,7 +360,7 @@ extension OptionsType {
         
         #if (!arch(i386) && !arch(x86_64)) || (!os(iOS) && !os(watchOS) && !os(tvOS)) // TARGET_IPHONE_SIMULATOR TARGET_OS_SIMULATOR
             if let accessGroup = accessGroup {
-                query[String(kSecAttrAccessGroup)] = accessGroup
+                query[String(kSecAttrAccessGroup)] = accessGroup as AnyObject?
             }
         #endif
         return query

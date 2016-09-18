@@ -10,7 +10,7 @@ import Foundation
 import Hiconfig
 
 enum ShortcutType: String {
-    case NewStory = "com.xspyhack.History.Shortcut.NewStory"
-    case Feeds = "com.xspyhack.History.Shortcut.Feeds"
-    case Collections = "com.xspyhack.History.Shortcut.Collections"
+    case newStory = "com.xspyhack.History.Shortcut.NewStory"
+    case feeds = "com.xspyhack.History.Shortcut.Feeds"
+    case collections = "com.xspyhack.History.Shortcut.Collections"
 }

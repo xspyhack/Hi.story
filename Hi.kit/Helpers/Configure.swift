@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Configure {
+public class Configure {
     
     static let appGroupIdentifier = "group.com.xspyhack.History"
 }

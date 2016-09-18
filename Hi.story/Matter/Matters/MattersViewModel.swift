@@ -53,11 +53,11 @@ struct MattersViewModel: MattersViewModelType {
             .asDriver(onErrorJustReturn: [])
         
         self.itemDeleted
-            .subscribeNext { indexPath in
-                if let matter = matters.value[safe: (indexPath as NSIndexPath).row] {
+            .subscribe(onNext: { indexPath in
+                if let matter = matters.value[safe: indexPath.row] {
                     Matter.didDelete.onNext(matter)
                 }
-            }
+            })
             .addDisposableTo(disposeBag)
         
         self.showNewMatterViewModel = self.addAction.asDriver()
@@ -68,17 +68,18 @@ struct MattersViewModel: MattersViewModelType {
         // Services
         
         Matter.didCreate
-            .subscribeNext { matter in
-                self.matters.value.insert(matter, at: 0)
-            }
+            .subscribe(onNext: { matter in
+                matters.value.insert(matter, at: 0)
+                MatterService.sharedService.synchronize(matter, toRealm: realm)
+            })
             .addDisposableTo(disposeBag)
         
         Matter.didDelete
-            .subscribeNext { matter in
-                if let index = self.matters.value.indexOf(matter) {
-                    self.matters.value.removeAtIndex(index)
+            .subscribe(onNext: { matter in
+                if let index = matters.value.index(of: matter) {
+                    matters.value.remove(at: index)
                 }
-            }
+            })
             .addDisposableTo(disposeBag)
     }
 }

@@ -19,7 +19,7 @@ protocol TextPresentable {
 extension TextPresentable {
     
     var font: UIFont { return .systemFont(ofSize: 36.0, weight: UIFontWeightMedium) }
-    var textColor: UIColor { return .white() }
+    var textColor: UIColor { return UIColor.white }
     
     func updateTextLabel(_ label: UILabel) {
         label.text = text

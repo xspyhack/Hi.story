@@ -35,3 +35,21 @@ public extension NSObjectProtocol {
         return X.self
     }
 }
+
+public struct K<Base: BaseType> {
+    public let base: Base
+    public init(_ base: Base) {
+        self.base = base
+    }
+}
+
+public typealias BaseType = BaseProtocol
+
+public protocol BaseProtocol {
+}
+
+public extension BaseProtocol {
+    public var hi: K<Self> {
+        return K(self)
+    }
+}

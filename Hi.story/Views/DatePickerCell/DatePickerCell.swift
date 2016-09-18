@@ -13,9 +13,9 @@ import RxSwift
 
 let datePickerTag = 99
 
-class DatePickerCell: UITableViewCell, Reusable {
+final class DatePickerCell: UITableViewCell, Reusable {
     
-    var pickedAction: ((Date) -> Void)?
+    var pickedAction: ((NSDate) -> Void)?
     
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -38,10 +38,10 @@ class DatePickerCell: UITableViewCell, Reusable {
     
     fileprivate func setup() {
     
-        datePicker.rx_date
-            .subscribeNext { [weak self] (date) in
-                self?.pickedAction?(date)
-            }
+        datePicker.rx.date
+            .subscribe(onNext: { [weak self] (date) in
+                self?.pickedAction?(date as NSDate)
+            })
             .addDisposableTo(disposeBag)
         
         contentView.addSubview(datePicker)

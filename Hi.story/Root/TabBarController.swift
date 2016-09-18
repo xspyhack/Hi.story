@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
     
     enum Tab: Int {
         case home = 0
@@ -30,11 +30,11 @@ class TabBarController: UITabBarController {
         
         delegate = self
         
-        tabBar.tintColor = UIColor(hex: Defaults.Color.tintColor)
+        tabBar.tintColor = UIColor(hex: Defaults.Color.tint)
         configureItem()
     }
 
-    fileprivate func configureItem() {
+    private func configureItem() {
         guard let items = tabBar.items else {
             return
         }

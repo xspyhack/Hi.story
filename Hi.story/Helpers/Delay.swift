@@ -10,6 +10,7 @@ import Foundation
 
 typealias Task = (_ cancel: Bool) -> Void
 
+@discardableResult
 func delay(_ time: TimeInterval, task: @escaping () -> Void) -> Task? {
     
     func dispatch_later(_ block: @escaping () -> Void) {
@@ -18,7 +19,7 @@ func delay(_ time: TimeInterval, task: @escaping () -> Void) -> Task? {
             execute: block)
     }
     
-    var closure: ()->()? = task
+    var closure: (() -> Void)? = task
     var result: Task?
     
     let delayedClosure: Task = { cancel in
