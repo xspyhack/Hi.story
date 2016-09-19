@@ -17,9 +17,13 @@ public protocol Synchronizable {
     func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> T?
     
     func fetchAll(sortby property: String?, fromRealm realm: Realm) -> [T]
+    
+    func remove(_ resource: T, fromRealm realm: Realm)
 }
 
 extension Synchronizable where T: Object {
+    
+    // Save
     
     public func synchronize(_ resource: T, toRealm realm: Realm) {
         
@@ -34,7 +38,20 @@ extension Synchronizable where T: Object {
     }
     
     public func fetchAll(sortby property: String? = nil, fromRealm realm: Realm) -> [T] {
-        return realm.objects(T.self).flatMap { $0 }
+        if let property = property {
+            return realm.objects(T.self).sorted(byProperty: property, ascending: true).flatMap { $0 }
+        } else {
+            return realm.objects(T.self).flatMap { $0 }
+        }
+    }
+    
+    // Delete
+    
+    public func remove(_ resource: T, fromRealm realm: Realm) {
+        
+        let _ = try? realm.write {
+            realm.delete(resource)
+        }
     }
 }
 
@@ -76,6 +93,6 @@ public class MatterService: Synchronizable {
     open static let sharedService = MatterService()
     
     open func fetchAll(fromRealm realm: Realm) -> [T] {
-        return realm.objects(Matter.self).sorted(byProperty: "updatedUnixTime", ascending: true).flatMap { $0 }
+        return realm.objects(Matter.self).sorted(byProperty: "createdUnixTime", ascending: true).flatMap { $0 }
     }
 }

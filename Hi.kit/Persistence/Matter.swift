@@ -55,7 +55,7 @@ public enum Tag: Int {
         case .blue: return "#0076FF"
         case .gray: return "#A4AAB3"
         case .white: return "#FFFFFF"
-        case .none: return "#"
+        case .none: return "#000000"
         }
     }
     
