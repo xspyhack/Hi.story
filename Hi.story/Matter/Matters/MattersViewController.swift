@@ -58,10 +58,21 @@ final class MattersViewController: BaseViewController {
             .drive(tableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
         
+        viewModel.showMatterViewModel
+            .drive(onNext: { [weak self] viewModel in
+                self?.performSegue(withIdentifier: .showMatter, sender: Wrapper<MatterViewModel>(bullet: viewModel))
+            })
+            .addDisposableTo(disposeBag)
+        
         viewModel.showNewMatterViewModel
             .drive(onNext: { [weak self] viewModel in
-                print("show new")
                 self?.performSegue(withIdentifier: .presentNewMatter, sender: Wrapper<NewMatterViewModel>(bullet: viewModel))
+            })
+            .addDisposableTo(disposeBag)
+        
+        viewModel.itemDidDeselect
+            .drive(onNext: { [weak self] indexPath in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
             })
             .addDisposableTo(disposeBag)
         
@@ -76,6 +87,10 @@ final class MattersViewController: BaseViewController {
         dataSource.titleForHeaderInSection = { dataSource, index in
             let section = dataSource.sectionAtIndex(index)
             return section.model
+        }
+
+        dataSource.canEditRowAtIndexPath = { _ in
+            return true
         }
     }
     
@@ -109,12 +124,19 @@ extension MattersViewController: PresentationRepresentation {
 extension MattersViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
+        case showMatter
         case presentNewMatter
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         switch segueIdentifier(forSegue: segue) {
+        case .showMatter:
+            let viewController = segue.destination as? MatterViewController
+            
+            if let wrapper = sender as? Wrapper<MatterViewModel> {
+                viewController?.viewModel = wrapper.candy
+            }
         case .presentNewMatter:
             let viewController = segue.destination as? NewMatterViewController
             

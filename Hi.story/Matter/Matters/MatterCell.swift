@@ -30,6 +30,8 @@ final class MatterCell: UITableViewCell, Reusable {
 
     fileprivate func setup() {
         
+        //selectionStyle = .none
+        
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         

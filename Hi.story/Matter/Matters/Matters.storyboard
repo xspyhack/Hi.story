@@ -36,6 +36,7 @@
                         <outlet property="addItem" destination="U3Z-pK-GBn" id="vQs-3i-N1f"/>
                         <outlet property="tableView" destination="FnI-4x-fma" id="a32-7e-ESm"/>
                         <segue destination="Loh-tL-dDo" kind="presentation" identifier="presentNewMatter" id="7un-Nj-QML"/>
+                        <segue destination="Xci-Lr-fUa" kind="show" identifier="showMatter" id="84N-Xi-rhz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRx-kg-22O" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,6 +50,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4pE-n9-sDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1684" y="157"/>
+        </scene>
+        <!--MatterViewController-->
+        <scene sceneID="kJU-uY-rvY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Matter" referencedIdentifier="MatterViewController" id="Xci-Lr-fUa" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FZ4-l3-xGh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1684" y="282"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E6D-Tb-Bbn">
