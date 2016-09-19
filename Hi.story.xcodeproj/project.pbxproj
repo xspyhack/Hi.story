@@ -139,6 +139,7 @@
 		78E179A51D58D7F5000641F2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E179A41D58D7F5000641F2 /* ProfileViewController.swift */; };
 		78E433891D8E4E050037D646 /* KeyboardMan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E433881D8E4E050037D646 /* KeyboardMan.framework */; };
 		78E4338A1D8E4E050037D646 /* KeyboardMan.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 78E433881D8E4E050037D646 /* KeyboardMan.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78E4338B1D8ECD040037D646 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D381C51D60D98600AB844E /* Matter.swift */; };
 		78EBD51F1CF038770039AAE5 /* UIView+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD51E1CF038770039AAE5 /* UIView+Protocol.swift */; };
 		78EBD5211CF0B4DC0039AAE5 /* StorysViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD5201CF0B4DC0039AAE5 /* StorysViewModel.swift */; };
 		78EBD5231CF0B9C20039AAE5 /* SwiftyKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD5221CF0B9C20039AAE5 /* SwiftyKeychain.swift */; };
@@ -1706,6 +1707,7 @@
 				7895AEB91D5245090004B8C3 /* Configure.swift in Sources */,
 				78D381C71D60DBBD00AB844E /* Models.swift in Sources */,
 				78B205431D71B4390057D722 /* String+Hi.swift in Sources */,
+				78E4338B1D8ECD040037D646 /* Matter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

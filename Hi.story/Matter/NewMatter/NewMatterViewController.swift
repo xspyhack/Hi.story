@@ -78,6 +78,8 @@ final class InfoInputableCell: UITableViewCell, Reusable {
     
     var didEndEditing: ((String) -> Void)?
     
+    var textdidChange: ((String) -> Void)?
+    
     var didBeginInputingAction: (() -> Void)?
     
     var textViewDidChangeAction: ((CGFloat) -> Void)?
@@ -154,7 +156,10 @@ extension InfoInputableCell: UITextViewDelegate {
         //textView.bounds = bounds
         //textViewHeightConstraint.constant = max(textViewMinixumHeight, size.height)
         textViewDidChangeAction?(size.height + 80.0)
+        
+        textdidChange?(textView.text)
     }
+
 }
 
 final class TagItemCell: UICollectionViewCell, Reusable {
@@ -471,28 +476,6 @@ final class NewMatterViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-//    fileprivate func tryToPostNewMatter() {
-//        
-//        guard let subject = subject else { return }
-//        
-//        let matter = Matter()
-//        matter.title = subject
-//        matter.tag = tag.rawValue
-//        matter.happenedUnixTime = pickedDate.timeIntervalSince1970
-//        
-//        if let bodyCell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.body.rawValue)) as? InfoInputableCell {
-//            matter.body = bodyCell.textView.text
-//        }
-//        
-//        guard let realm = try? Realm() else { return }
-//        
-//        MatterService.sharedService.synchronize(matter, toRealm: realm)
-//        
-//        delay(0.1) { [weak self] in
-//            self?.dismiss(animated: true, completion: nil)
-//        }
-//    }
-    
     // MARK: Picker
     
     fileprivate func hasInlineDatePicker() -> Bool {
@@ -621,6 +604,9 @@ extension NewMatterViewController: UITableViewDataSource {
                 }
             }
             cell.didEndEditing = { [weak self] body in
+                self?.body.value = body.trimming(.whitespaceAndNewline)
+            }
+            cell.textdidChange = { [weak self] body in
                 self?.body.value = body
             }
             return cell
