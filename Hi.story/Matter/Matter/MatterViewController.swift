@@ -15,47 +15,38 @@ import RealmSwift
 
 final class MatterViewController: BaseViewController {
     
-    @IBOutlet fileprivate weak var tableView: UITableView! {
-        didSet {
-            tableView.hi.register(reusableCell: MatterCell.self)
-        }
-    }
-    
-    fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MatterViewSection>()
+    @IBOutlet private weak var notesTextView: UITextView!
+    @IBOutlet private weak var whenLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
     
     var viewModel: MatterViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Matters"
+        title = "Matter"
         
-        guard let realm = try? Realm() else { return }
+        guard let viewModel = viewModel else { return }
         
-        let viewModel = MatterViewModel(realm: realm)
-        
-        dataSource.configureCell = { _, tableView, indexPath, viewModel in
-            let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
-            cell.configure(withPresenter: viewModel)
-            return cell
-        }
-    
-        viewModel.sections
-            .drive(tableView.rx.items(dataSource: dataSource))
+        viewModel.title
+            .drive(titleLabel.rx.text)
             .addDisposableTo(disposeBag)
         
-        tableView.rx.itemDeleted
-            .bindTo(viewModel.itemDeleted)
+        viewModel.when
+            .drive(whenLabel.rx.text)
             .addDisposableTo(disposeBag)
         
-        tableView.rx.itemSelected
-            .bindTo(viewModel.itemDidSelect)
+        viewModel.notes
+            .drive(notesTextView.rx.text)
             .addDisposableTo(disposeBag)
         
-        dataSource.titleForHeaderInSection = { dataSource, index in
-            let section = dataSource.sectionAtIndex(index)
-            return section.model
-        }
+        viewModel.tag
+            .drive(onNext: { [weak self] textColor in
+                self?.titleLabel.textColor = textColor
+                self?.whenLabel.textColor = textColor
+            })
+            .addDisposableTo(disposeBag)
+
     }
 
     override func didReceiveMemoryWarning() {

@@ -15,37 +15,27 @@ import RealmSwift
 
 protocol MatterViewModelType {
     
-    var itemDeleted: PublishSubject<IndexPath> { get }
-    var itemDidSelect: PublishSubject<IndexPath> { get }
 }
-
-typealias MatterViewSection = SectionModel<String, MatterCellModelType>
 
 struct MatterViewModel: MatterViewModelType {
     
-    var itemDeleted = PublishSubject<IndexPath>()
-    var itemDidSelect = PublishSubject<IndexPath>()
+    var title: Driver<String?>
+    var tag: Driver<UIColor?>
+    var when: Driver<String?>
+    var notes: Driver<String>
     
     fileprivate let disposeBag = DisposeBag()
-    fileprivate var matters: Variable<[Matter]>
     
-    let sections: Driver<[MatterViewSection]>
-    
-    init(realm: Realm) {
+    init(matter: Matter) {
         
-        let matters = Variable<[Matter]>(MatterService.sharedService.fetchAll(fromRealm: realm))
-        self.matters = matters
+        self.title = Driver.just(matter.title)
         
-        self.sections = matters.asObservable()
-            .map { matters in
-                let commingCellModels = matters.filter { $0.happenedUnixTime > Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
-                let commingSection = MatterViewSection(model: "Comming", items: commingCellModels)
-                
-                let pastCellModels = matters.filter { $0.happenedUnixTime <= Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
-                let pastSection = MatterViewSection(model: "Past", items: pastCellModels)
-                return [commingSection, pastSection]
-            }
-            .asDriver(onErrorJustReturn: [])
+        self.tag = Driver.just(UIColor(hex: Tag(rawValue: matter.tag)?.value ?? Tag.none.value))
+        
+        self.when = Driver.just((Date(timeIntervalSince1970: matter.happenedUnixTime) as NSDate).hi.yearMonthDay)
+        
+        self.notes = Driver.just(matter.body)
+        
     }
 }
 
