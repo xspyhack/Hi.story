@@ -32,14 +32,8 @@
 		786190EF1D158BDC005680B3 /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786190EE1D158BDC005680B3 /* TagsViewController.swift */; };
 		786190F01D158FDC005680B3 /* Hikit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786190CD1D1589D1005680B3 /* Hikit.framework */; };
 		786191151D1591E1005680B3 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786190EC1D158AE5005680B3 /* SegueHandlerType.swift */; };
-		786191261D159835005680B3 /* Hiconfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7861911C1D159835005680B3 /* Hiconfig.framework */; };
-		7861912D1D159835005680B3 /* HiconfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7861912C1D159835005680B3 /* HiconfigTests.swift */; };
-		786191311D159836005680B3 /* Hiconfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7861911C1D159835005680B3 /* Hiconfig.framework */; };
-		786191321D159836005680B3 /* Hiconfig.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7861911C1D159835005680B3 /* Hiconfig.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7861913A1D15B9C7005680B3 /* TitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786191391D15B9C7005680B3 /* TitleViewController.swift */; };
 		7861913F1D15BCC3005680B3 /* UIColor+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7861913D1D15BCA0005680B3 /* UIColor+Hi.swift */; };
-		786191401D15BD7A005680B3 /* HiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7861913B1D15BC23005680B3 /* HiConfig.swift */; };
-		786191411D15BD9D005680B3 /* Hiconfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7861911C1D159835005680B3 /* Hiconfig.framework */; };
 		786191491D15D0B4005680B3 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786191451D15D01B005680B3 /* Service.swift */; };
 		7861914C1D166642005680B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7861914B1D166642005680B3 /* Assets.xcassets */; };
 		786191541D16843F005680B3 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786191531D16843F005680B3 /* UserDefaults.swift */; };
@@ -189,27 +183,6 @@
 			remoteGlobalIDString = 786190CC1D1589D1005680B3;
 			remoteInfo = Hikit;
 		};
-		786191271D159835005680B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 784E86101CEEB45B00E24B36 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7861911B1D159835005680B3;
-			remoteInfo = Hiconfig;
-		};
-		786191291D159835005680B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 784E86101CEEB45B00E24B36 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 784E86171CEEB45B00E24B36;
-			remoteInfo = Hi.story;
-		};
-		7861912F1D159836005680B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 784E86101CEEB45B00E24B36 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7861911B1D159835005680B3;
-			remoteInfo = Hiconfig;
-		};
 		7861916D1D18452F005680B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 784E86101CEEB45B00E24B36 /* Project object */;
@@ -279,7 +252,6 @@
 				786191781D18452F005680B3 /* Himarkdown.framework in Embed Frameworks */,
 				786190E31D1589D1005680B3 /* Hikit.framework in Embed Frameworks */,
 				78E4338A1D8E4E050037D646 /* KeyboardMan.framework in Embed Frameworks */,
-				786191321D159836005680B3 /* Hiconfig.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,14 +310,7 @@
 		786190DF1D1589D1005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		786190EC1D158AE5005680B3 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		786190EE1D158BDC005680B3 /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
-		7861911C1D159835005680B3 /* Hiconfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hiconfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7861911E1D159835005680B3 /* Hiconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hiconfig.h; sourceTree = "<group>"; };
-		786191201D159835005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		786191251D159835005680B3 /* HiconfigTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HiconfigTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7861912C1D159835005680B3 /* HiconfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiconfigTests.swift; sourceTree = "<group>"; };
-		7861912E1D159835005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		786191391D15B9C7005680B3 /* TitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleViewController.swift; sourceTree = "<group>"; };
-		7861913B1D15BC23005680B3 /* HiConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HiConfig.swift; sourceTree = "<group>"; };
 		7861913D1D15BCA0005680B3 /* UIColor+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hi.swift"; sourceTree = "<group>"; };
 		786191421D15C036005680B3 /* NSDate+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Hi.swift"; sourceTree = "<group>"; };
 		786191451D15D01B005680B3 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -471,7 +436,6 @@
 				786A269C1D53A73E002CC8E1 /* Kingfisher.framework in Frameworks */,
 				786A26981D53A71E002CC8E1 /* Alamofire.framework in Frameworks */,
 				786190E21D1589D1005680B3 /* Hikit.framework in Frameworks */,
-				786191311D159836005680B3 /* Hiconfig.framework in Frameworks */,
 				78E433891D8E4E050037D646 /* KeyboardMan.framework in Frameworks */,
 				786191771D18452F005680B3 /* Himarkdown.framework in Frameworks */,
 			);
@@ -491,21 +455,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				786190D71D1589D1005680B3 /* Hikit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		786191181D159835005680B3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		786191221D159835005680B3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				786191261D159835005680B3 /* Hiconfig.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +479,6 @@
 			files = (
 				7895AEC31D5390A80004B8C3 /* Realm.framework in Frameworks */,
 				7895AEC21D5390980004B8C3 /* RealmSwift.framework in Frameworks */,
-				786191411D15BD9D005680B3 /* Hiconfig.framework in Frameworks */,
 				786190F01D158FDC005680B3 /* Hikit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,8 +551,6 @@
 				78CFB2101D563AE1009D7293 /* Hi.watch Extension */,
 				786190CE1D1589D1005680B3 /* Hi.kit */,
 				786190DC1D1589D1005680B3 /* Hi.kitTests */,
-				7861911D1D159835005680B3 /* Hi.config */,
-				7861912B1D159835005680B3 /* Hi.configTests */,
 				786191631D18452F005680B3 /* Hi.markdown */,
 				786191711D18452F005680B3 /* Hi.markdownTests */,
 				784E86191CEEB45B00E24B36 /* Products */,
@@ -619,8 +565,6 @@
 				78CEFD061D157EF50098516A /* Hi.share.appex */,
 				786190CD1D1589D1005680B3 /* Hikit.framework */,
 				786190D61D1589D1005680B3 /* HikitTests.xctest */,
-				7861911C1D159835005680B3 /* Hiconfig.framework */,
-				786191251D159835005680B3 /* HiconfigTests.xctest */,
 				786191621D18452F005680B3 /* Himarkdown.framework */,
 				7861916B1D18452F005680B3 /* HimarkdownTests.xctest */,
 				78CFB2001D563AE1009D7293 /* Hi.watch.app */,
@@ -716,25 +660,6 @@
 				786190EC1D158AE5005680B3 /* SegueHandlerType.swift */,
 			);
 			path = Protocols;
-			sourceTree = "<group>";
-		};
-		7861911D1D159835005680B3 /* Hi.config */ = {
-			isa = PBXGroup;
-			children = (
-				7861911E1D159835005680B3 /* Hiconfig.h */,
-				7861913B1D15BC23005680B3 /* HiConfig.swift */,
-				786191201D159835005680B3 /* Info.plist */,
-			);
-			path = Hi.config;
-			sourceTree = "<group>";
-		};
-		7861912B1D159835005680B3 /* Hi.configTests */ = {
-			isa = PBXGroup;
-			children = (
-				7861912C1D159835005680B3 /* HiconfigTests.swift */,
-				7861912E1D159835005680B3 /* Info.plist */,
-			);
-			path = Hi.configTests;
 			sourceTree = "<group>";
 		};
 		786191441D15CFBD005680B3 /* Services */ = {
@@ -1174,13 +1099,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		786191191D159835005680B3 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7861915F1D18452F005680B3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1209,7 +1127,6 @@
 			dependencies = (
 				78CEFD0F1D157EF50098516A /* PBXTargetDependency */,
 				786190E11D1589D1005680B3 /* PBXTargetDependency */,
-				786191301D159836005680B3 /* PBXTargetDependency */,
 				786191761D18452F005680B3 /* PBXTargetDependency */,
 				78CFB2191D563AE1009D7293 /* PBXTargetDependency */,
 			);
@@ -1253,43 +1170,6 @@
 			name = HikitTests;
 			productName = HikitTests;
 			productReference = 786190D61D1589D1005680B3 /* HikitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		7861911B1D159835005680B3 /* Hiconfig */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 786191331D159836005680B3 /* Build configuration list for PBXNativeTarget "Hiconfig" */;
-			buildPhases = (
-				786191171D159835005680B3 /* Sources */,
-				786191181D159835005680B3 /* Frameworks */,
-				786191191D159835005680B3 /* Headers */,
-				7861911A1D159835005680B3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Hiconfig;
-			productName = Hiconfig;
-			productReference = 7861911C1D159835005680B3 /* Hiconfig.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		786191241D159835005680B3 /* HiconfigTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 786191361D159836005680B3 /* Build configuration list for PBXNativeTarget "HiconfigTests" */;
-			buildPhases = (
-				786191211D159835005680B3 /* Sources */,
-				786191221D159835005680B3 /* Frameworks */,
-				786191231D159835005680B3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				786191281D159835005680B3 /* PBXTargetDependency */,
-				7861912A1D159835005680B3 /* PBXTargetDependency */,
-			);
-			name = HiconfigTests;
-			productName = HiconfigTests;
-			productReference = 786191251D159835005680B3 /* HiconfigTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		786191611D18452F005680B3 /* Himarkdown */ = {
@@ -1413,16 +1293,6 @@
 						LastSwiftMigration = 0800;
 						TestTargetID = 784E86171CEEB45B00E24B36;
 					};
-					7861911B1D159835005680B3 = {
-						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = DJ5N6T769K;
-						LastSwiftMigration = 0800;
-					};
-					786191241D159835005680B3 = {
-						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
-						TestTargetID = 784E86171CEEB45B00E24B36;
-					};
 					786191611D18452F005680B3 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
@@ -1469,8 +1339,6 @@
 				78CFB20B1D563AE1009D7293 /* Hi.watch Extension */,
 				786190CC1D1589D1005680B3 /* Hikit */,
 				786190D51D1589D1005680B3 /* HikitTests */,
-				7861911B1D159835005680B3 /* Hiconfig */,
-				786191241D159835005680B3 /* HiconfigTests */,
 				786191611D18452F005680B3 /* Himarkdown */,
 				7861916A1D18452F005680B3 /* HimarkdownTests */,
 			);
@@ -1507,20 +1375,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		786190D41D1589D1005680B3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7861911A1D159835005680B3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		786191231D159835005680B3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1711,22 +1565,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		786191171D159835005680B3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				786191401D15BD7A005680B3 /* HiConfig.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		786191211D159835005680B3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7861912D1D159835005680B3 /* HiconfigTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7861915D1D18452F005680B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1780,21 +1618,6 @@
 			isa = PBXTargetDependency;
 			target = 786190CC1D1589D1005680B3 /* Hikit */;
 			targetProxy = 786190E01D1589D1005680B3 /* PBXContainerItemProxy */;
-		};
-		786191281D159835005680B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7861911B1D159835005680B3 /* Hiconfig */;
-			targetProxy = 786191271D159835005680B3 /* PBXContainerItemProxy */;
-		};
-		7861912A1D159835005680B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 784E86171CEEB45B00E24B36 /* Hi.story */;
-			targetProxy = 786191291D159835005680B3 /* PBXContainerItemProxy */;
-		};
-		786191301D159836005680B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7861911B1D159835005680B3 /* Hiconfig */;
-			targetProxy = 7861912F1D159836005680B3 /* PBXContainerItemProxy */;
 		};
 		7861916E1D18452F005680B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2080,78 +1903,6 @@
 			};
 			name = Release;
 		};
-		786191341D159836005680B3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Hi.config/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hiconfig;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		786191351D159836005680B3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Hi.config/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hiconfig;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		786191371D159836005680B3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = HiconfigTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HiconfigTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
-			};
-			name = Debug;
-		};
-		786191381D159836005680B3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = HiconfigTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.HiconfigTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hi.story.app/Hi.story";
-			};
-			name = Release;
-		};
 		786191791D18452F005680B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2366,24 +2117,6 @@
 			buildConfigurations = (
 				786190E81D1589D2005680B3 /* Debug */,
 				786190E91D1589D2005680B3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		786191331D159836005680B3 /* Build configuration list for PBXNativeTarget "Hiconfig" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				786191341D159836005680B3 /* Debug */,
-				786191351D159836005680B3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		786191361D159836005680B3 /* Build configuration list for PBXNativeTarget "HiconfigTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				786191371D159836005680B3 /* Debug */,
-				786191381D159836005680B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
