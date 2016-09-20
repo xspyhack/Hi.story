@@ -57,5 +57,14 @@ public extension X where Base: UIColor {
     public static var title: UIColor {
         return UIColor(hex: "#1F1F1F")
     }
+    
+    public static var border: UIColor {
+        return UIColor(hex: "#EEEEEE")
+    }
+    
+    public static var separator: UIColor {
+        return UIColor(hex: "#DDDDDD")
+    }
+    
 }
 
