@@ -540,10 +540,10 @@ extension NewMatterViewController: UITableViewDataSource {
         case title = 0
         case tag
         case when
-        case body
+        case notes
         
         static var count: Int {
-            return Section.body.rawValue + 1
+            return Section.notes.rawValue + 1
         }
         
         var annotation: String {
@@ -551,7 +551,7 @@ extension NewMatterViewController: UITableViewDataSource {
             case .title: return "Title"
             case .tag: return "Tag"
             case .when: return "Happen"
-            case .body: return "Notes"
+            case .notes: return "Notes"
             }
         }
     }
@@ -589,7 +589,7 @@ extension NewMatterViewController: UITableViewDataSource {
                 self?.tag.value = tag
             }
             return cell
-        case .body:
+        case .notes:
             let cell: InfoInputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = section.annotation
             
@@ -653,7 +653,7 @@ extension NewMatterViewController: UITableViewDelegate {
             return Constant.pickerRowHeight
         } else {
             
-            return (indexPath as NSIndexPath).section == Section.body.rawValue ? Constant.notesRowHeight : Defaults.rowHeight
+            return (indexPath as NSIndexPath).section == Section.notes.rawValue ? Constant.notesRowHeight : Defaults.rowHeight
         }
     }
 }
