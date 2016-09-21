@@ -164,7 +164,7 @@ extension InfoInputableCell: UITextViewDelegate {
 
 final class TagItemCell: UICollectionViewCell, Reusable {
     
-    var itemColor: UIColor = UIColor.tint {
+    var itemColor: UIColor = UIColor.hi.tint {
         didSet {
             outerView.backgroundColor = itemColor
             innerView.backgroundColor = itemColor

@@ -13,19 +13,19 @@ class ActivityIndicator {
     
     static let sharedInstance = ActivityIndicator()
     
-    fileprivate init() {
+    private init() {
     }
     
     var dismissAfter: Timer?
-    fileprivate var isShowing = false
+    private var isShowing = false
     
-    fileprivate lazy var containerView: UIView = {
+    private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         return view
     }()
     
-    fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .white)
         return view
     }()
@@ -96,7 +96,7 @@ class ActivityIndicator {
         }
     }
     
-    @objc fileprivate func forcedHide() {
+    @objc private func forcedHide() {
         hide()
     }
 }

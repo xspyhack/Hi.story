@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Appearence
         UITabBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = UIColor.white
-        UINavigationBar.appearance().tintColor = UIColor.tint
+        UINavigationBar.appearance().tintColor = UIColor.hi.tint
         
         // Static items, just for now.
         if window?.traitCollection.forceTouchCapability == .available {

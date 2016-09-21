@@ -10,5 +10,7 @@ import Foundation
 
 public class Configure {
     
-    static let appGroupIdentifier = "group.com.xspyhack.History"
+    public static let appGroupIdentifier = "group.com.xspyhack.History"
+    
+    public static let rowHeight: Float = 44.0
 }

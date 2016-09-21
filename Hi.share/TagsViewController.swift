@@ -8,7 +8,6 @@
 
 import UIKit
 import Hikit
-import Hiconfig
 
 class TagsViewController: UITableViewController {
     
@@ -27,7 +26,7 @@ class TagsViewController: UITableViewController {
         view.backgroundColor = UIColor.clear
         
         tableView.tableFooterView = UIView()
-        tableView.rowHeight = CGFloat(HiConfig.rowHeight)
+        tableView.rowHeight = CGFloat(Configure.rowHeight)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,7 +37,7 @@ class TagsViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        preferredContentSize = CGSize(width: view.bounds.width, height: CGFloat(HiConfig.rowHeight) * CGFloat(tags.count))
+        preferredContentSize = CGSize(width: view.bounds.width, height: CGFloat(Configure.rowHeight) * CGFloat(tags.count))
     }
     
     override func viewDidDisappear(_ animated: Bool) {

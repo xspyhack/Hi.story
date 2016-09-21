@@ -43,6 +43,10 @@ public extension UIColor {
 
 public extension X where Base: UIColor {
     
+    public static var tint: UIColor {
+        return UIColor(hex: "#1BBBBB")
+    }
+    
     public static var text: UIColor {
         return UIColor(hex: "#363636")
     }

@@ -10,13 +10,12 @@ import UIKit
 import Social
 import MobileCoreServices.UTType
 import Hikit
-import Hiconfig
 
 class ShareViewController: SLComposeServiceViewController {
     
     fileprivate enum StoryboardIdentifier: String {
-        case TitleViewController
-        case TagsViewController
+        case titleViewController = "TitleViewController"
+        case tagsViewController = "TagsViewController"
     }
     
     fileprivate lazy var titleItem: SLComposeSheetConfigurationItem = {
@@ -24,7 +23,7 @@ class ShareViewController: SLComposeServiceViewController {
         item?.title = "Title"
         item?.value = NSDate().hi.yearMonthDay
         item?.tapHandler = { [weak self] in
-            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.TitleViewController.rawValue) as? TitleViewController {
+            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.titleViewController.rawValue) as? TitleViewController {
                 vc.pickAction = { [weak self](title) in
                     DispatchQueue.main.async {
                         item?.value = title
@@ -41,7 +40,7 @@ class ShareViewController: SLComposeServiceViewController {
         item?.title = "Tag"
         item?.value = "Default"
         item?.tapHandler = { [weak self] in
-            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.TagsViewController.rawValue) as? TagsViewController {
+            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.tagsViewController.rawValue) as? TagsViewController {
                 vc.pickAction = { [weak self](tag) in
                     self?.popConfigurationViewController()
                     DispatchQueue.main.async {
@@ -59,7 +58,7 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.tintColor = UIColor(hex: HiConfig.Color.tintColor)
+        view.tintColor = UIColor.hi.tint
     }
     
     override func viewDidAppear(_ animated: Bool) {

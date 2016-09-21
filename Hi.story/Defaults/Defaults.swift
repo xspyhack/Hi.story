@@ -68,12 +68,6 @@ struct Defaults {
     }
 }
 
-extension UIColor {
-    static var tint: UIColor {
-        return UIColor(hex: Defaults.Color.tint)
-    }
-}
-
 class Wrapper<T> {
     let candy: T
     
