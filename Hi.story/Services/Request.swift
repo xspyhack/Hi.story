@@ -10,11 +10,11 @@ import Foundation
 import Alamofire
 import Hikit
 
-typealias CompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, Error?) -> Void
+typealias RequestCompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, Error?) -> Void
 
 protocol Requestable {
-    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: CompletionHandler?)
-    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary?, completionHandler: CompletionHandler?)
+    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: RequestCompletionHandler?)
+    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary?, completionHandler: RequestCompletionHandler?)
     func authRequest(_ urlString: String, method: Alamofire.HTTPMethod) -> NSMutableURLRequest
 }
 
@@ -30,14 +30,14 @@ struct Request: Requestable {
 
     static let shareRequest = Request()
     
-    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = URLEncoding.default, completionHandler: CompletionHandler?) {
+    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = URLEncoding.default, completionHandler: RequestCompletionHandler?) {
         
         Alamofire.request(urlString, method: method, parameters: parameters, encoding: encoding).responseJSON { response in
             completionHandler?(response.request, response.response, response.result.value as AnyObject?, response.result.error)
         }
     }
     
-    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary? = nil, completionHandler: CompletionHandler?) {
+    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary? = nil, completionHandler: RequestCompletionHandler?) {
         let encodedURLRequest = try! Alamofire.URLEncoding().encode(urlRequest as! URLRequestConvertible, with: parameters)
         
         Alamofire.request(encodedURLRequest).responseJSON { response in

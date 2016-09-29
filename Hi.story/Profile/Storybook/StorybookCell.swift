@@ -84,6 +84,6 @@ extension StorybookCell: Configurable {
     
     func configure(withPresenter presenter: StorybookCellModelType) {
         textLabel.text = presenter.name
-        imageView.kf_setImage(with: presenter.coverImageURL)
+        imageView.kf.setImage(with: presenter.coverImageURL)
     }
 }

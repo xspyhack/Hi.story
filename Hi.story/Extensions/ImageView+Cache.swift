@@ -10,22 +10,25 @@ import UIKit
 import Kingfisher
 import Hikit
 
-extension Hi where Base: UIImageView {
+extension ImageView {
     
     @discardableResult
-    func setImage(with url: URL?, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: Kingfisher.CompletionHandler? = nil) -> RetrieveImageTask
+    func setImage(with url: URL?, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: CompletionHandler? = nil) -> RetrieveImageTask
     {
         var options: KingfisherOptionsInfo = []
         options.append(.targetCache(ImageStorage.sharedCache))
         options.append(.transition(.fade(0.35)))
         options.append(.cacheMemoryOnly) // Don't cache second times
-
-        return base.kf_setImage(with: url,
+        
+        return kf.setImage(with: url,
                                 placeholder: placeholderImage,
                                 options: options,
                                 progressBlock: progressBlock,
                                 completionHandler: completionHandler)
     }
+}
+
+extension Hi where Base: UIImageView {
     
 }
 
