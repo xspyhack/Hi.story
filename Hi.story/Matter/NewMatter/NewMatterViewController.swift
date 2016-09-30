@@ -159,7 +159,6 @@ extension InfoInputableCell: UITextViewDelegate {
         
         textdidChange?(textView.text)
     }
-
 }
 
 final class TagItemCell: UICollectionViewCell, Reusable {

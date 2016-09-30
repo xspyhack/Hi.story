@@ -29,7 +29,7 @@ struct StorysViewModel {
     
     mutating func fetchStorys() {
         var params: JSONDictionary = [
-            "uuid": HiUUID.uuid as AnyObject
+            "uuid": UUID.uuid as AnyObject
         ]
         switch type {
         case .single(let date):

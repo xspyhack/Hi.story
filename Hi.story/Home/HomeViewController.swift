@@ -83,7 +83,6 @@ final class HomeViewController: BaseViewController {
 
 extension HomeViewController: UIScrollViewDelegate {
     
-    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         selecting(at: scrollView.contentOffset.x)

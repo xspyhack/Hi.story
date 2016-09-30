@@ -67,6 +67,7 @@
 		78782E4F1D687391008555C1 /* StorybookCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78782E4E1D687391008555C1 /* StorybookCellModel.swift */; };
 		78782E511D687915008555C1 /* String+Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78782E501D687915008555C1 /* String+Path.swift */; };
 		78782E531D6886F4008555C1 /* ImageView+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78782E521D6886F4008555C1 /* ImageView+Cache.swift */; };
+		788BCF371D9E46B300535519 /* UUID+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF361D9E46B300535519 /* UUID+Hi.swift */; };
 		789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224EF1CF7712F00A44040 /* UIImage+Extension.swift */; };
 		789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */; };
 		789224F81CFAD16200A44040 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F51CFAD16200A44040 /* PresentationController.swift */; };
@@ -138,7 +139,6 @@
 		78EBD51F1CF038770039AAE5 /* UIView+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD51E1CF038770039AAE5 /* UIView+Protocol.swift */; };
 		78EBD5211CF0B4DC0039AAE5 /* StorysViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD5201CF0B4DC0039AAE5 /* StorysViewModel.swift */; };
 		78EBD5231CF0B9C20039AAE5 /* SwiftyKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD5221CF0B9C20039AAE5 /* SwiftyKeychain.swift */; };
-		78EBD5251CF181520039AAE5 /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD5241CF181520039AAE5 /* UUID.swift */; };
 		78EBD52B1CF1DA800039AAE5 /* StoryTeller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD52A1CF1DA800039AAE5 /* StoryTeller.swift */; };
 		78EBD52F1CF21A770039AAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78EBD52E1CF21A770039AAE5 /* Assets.xcassets */; };
 		78EBD5361CF2DB9F0039AAE5 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD5351CF2DB9F0039AAE5 /* CardView.swift */; };
@@ -339,6 +339,7 @@
 		78782E4E1D687391008555C1 /* StorybookCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorybookCellModel.swift; sourceTree = "<group>"; };
 		78782E501D687915008555C1 /* String+Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Path.swift"; sourceTree = "<group>"; };
 		78782E521D6886F4008555C1 /* ImageView+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageView+Cache.swift"; sourceTree = "<group>"; };
+		788BCF361D9E46B300535519 /* UUID+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UUID+Hi.swift"; sourceTree = "<group>"; };
 		789224EF1CF7712F00A44040 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewTransitionManager.swift; sourceTree = "<group>"; };
 		789224F51CFAD16200A44040 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
@@ -401,7 +402,6 @@
 		78EBD51E1CF038770039AAE5 /* UIView+Protocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Protocol.swift"; sourceTree = "<group>"; };
 		78EBD5201CF0B4DC0039AAE5 /* StorysViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorysViewModel.swift; sourceTree = "<group>"; };
 		78EBD5221CF0B9C20039AAE5 /* SwiftyKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyKeychain.swift; sourceTree = "<group>"; };
-		78EBD5241CF181520039AAE5 /* UUID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUID.swift; sourceTree = "<group>"; };
 		78EBD52A1CF1DA800039AAE5 /* StoryTeller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryTeller.swift; sourceTree = "<group>"; };
 		78EBD52E1CF21A770039AAE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78EBD5351CF2DB9F0039AAE5 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -1009,7 +1009,6 @@
 			isa = PBXGroup;
 			children = (
 				78EBD5221CF0B9C20039AAE5 /* SwiftyKeychain.swift */,
-				78EBD5241CF181520039AAE5 /* UUID.swift */,
 				78EBD5371CF3484A0039AAE5 /* Delay.swift */,
 			);
 			path = Helpers;
@@ -1046,6 +1045,7 @@
 				78782E501D687915008555C1 /* String+Path.swift */,
 				78782E521D6886F4008555C1 /* ImageView+Cache.swift */,
 				78BF38781D9E33F800119F04 /* Kingfisher+Hi.swift */,
+				788BCF361D9E46B300535519 /* UUID+Hi.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1468,6 +1468,7 @@
 				78CEFCC81D02AD440098516A /* UIScrollView+Extension.swift in Sources */,
 				78782E4B1D68519D008555C1 /* Restrospective.swift in Sources */,
 				78F4D2551CEEEEB400DAA210 /* Array+Extension.swift in Sources */,
+				788BCF371D9E46B300535519 /* UUID+Hi.swift in Sources */,
 				78782E511D687915008555C1 /* String+Path.swift in Sources */,
 				78D257FE1D8444E20032E4F5 /* MatterViewModel.swift in Sources */,
 				789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */,
@@ -1505,7 +1506,6 @@
 				78F4D2261CEEBFF900DAA210 /* FeedsViewController.swift in Sources */,
 				78F4D25B1CEF69AF00DAA210 /* Networking.swift in Sources */,
 				78F4D2591CEF687600DAA210 /* Request.swift in Sources */,
-				78EBD5251CF181520039AAE5 /* UUID.swift in Sources */,
 				78F4D2451CEEE3C300DAA210 /* TextPresentable.swift in Sources */,
 				78D381D21D60E45000AB844E /* ModelType.swift in Sources */,
 				78BF387B1D9E35D900119F04 /* CacheService.swift in Sources */,
