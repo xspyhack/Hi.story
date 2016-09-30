@@ -58,7 +58,7 @@ public extension Result {
     }
 }
 
-public typealias JSONDictionary = [String: AnyObject]
+public typealias JSONDictionary = [String: Any]
 
 public protocol Serializable {
     init?(json: JSONDictionary)

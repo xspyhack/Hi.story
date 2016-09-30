@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Hiconfig
 
 enum ShortcutType: String {
     case newStory = "com.xspyhack.History.Shortcut.NewStory"

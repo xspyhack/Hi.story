@@ -47,7 +47,7 @@ class PresentationController: UIPresentationController {
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { (context) -> Void in
             self.dimmingView.alpha = 0
-            }, completion:nil)
+        }, completion:nil)
     }
     
     override func dismissalTransitionDidEnd(_ completed: Bool) {
@@ -72,12 +72,12 @@ class PresentationController: UIPresentationController {
         
         coordinator.animate(alongsideTransition: {(context: UIViewControllerTransitionCoordinatorContext!) -> Void in
             self.dimmingView.frame = containerView.bounds
-            }, completion:nil)
+        }, completion:nil)
     }
     
     // MARK: - Event
     
-    @objc fileprivate func handleTapDimmingView(_ sender: UITapGestureRecognizer) {
+    @objc private func handleTapDimmingView(_ sender: UITapGestureRecognizer) {
         presentedViewController.dismiss(animated: true, completion: nil)
     }
 }

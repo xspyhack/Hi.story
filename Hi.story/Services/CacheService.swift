@@ -1,8 +1,8 @@
 //
-//  Cache.swift
+//  CacheService.swift
 //  Hi.story
 //
-//  Created by bl4ckra1sond3tre on 5/30/16.
+//  Created by bl4ckra1sond3tre on 30/09/2016.
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
 //
 
@@ -11,16 +11,16 @@ import Kingfisher
 
 class Cache {
     
-    static let shareCache = Cache()
-
+    static let shared = Cache()
+    
 }
 
 private let cacheName = "Images"
 private let prefixIdentifier = "com.xspyhack.History"
 
-class ImageStorage {
+class CacheService {
     
-    static let sharedStorage = ImageStorage()
+    static let shared = CacheService()
     
     fileprivate let cache = ImageCache(name: cacheName, path: String.hi_documentsPath)
     
@@ -32,5 +32,5 @@ class ImageStorage {
         return cache.retrieveImageInDiskCache(forKey: key, options: [.scaleFactor(scale)])
     }
     
-    static let sharedCache = ImageStorage.sharedStorage.cache
+    static let sharedCache = CacheService.shared.cache
 }

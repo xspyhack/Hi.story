@@ -11,7 +11,7 @@ import Hikit
 
 class ActivityIndicator {
     
-    static let sharedInstance = ActivityIndicator()
+    static let shared = ActivityIndicator()
     
     private init() {
     }
@@ -46,26 +46,26 @@ class ActivityIndicator {
                 
                 UIView.animate(withDuration: 0.2, animations: {
                     self.containerView.alpha = 1.0
+                }, completion: { (finished) in
+                    self.containerView.addSubview(self.activityIndicator)
+                    self.activityIndicator.center = self.containerView.center
+                    self.activityIndicator.startAnimating()
+                    
+                    self.activityIndicator.alpha = 0.0
+                    self.activityIndicator.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+                    
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.activityIndicator.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                        self.activityIndicator.alpha = 1.0
                     }, completion: { (finished) in
-                        self.containerView.addSubview(self.activityIndicator)
-                        self.activityIndicator.center = self.containerView.center
-                        self.activityIndicator.startAnimating()
+                        self.activityIndicator.transform = CGAffineTransform.identity
+                    
+                        if let dismissAfter = self.dismissAfter {
+                            dismissAfter.invalidate()
+                        }
                         
-                        self.activityIndicator.alpha = 0.0
-                        self.activityIndicator.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-                        
-                        UIView.animate(withDuration: 0.2, animations: {
-                            self.activityIndicator.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                            self.activityIndicator.alpha = 1.0
-                            }, completion: { (finished) in
-                                self.activityIndicator.transform = CGAffineTransform.identity
-                                
-                                if let dismissAfter = self.dismissAfter {
-                                    dismissAfter.invalidate()
-                                }
-                                
-                                self.dismissAfter = Timer.scheduledTimer(timeInterval: Defaults.forcedHideActivityIndicatorTimeInterval, target: self, selector: #selector(self.forcedHide), userInfo: nil, repeats: false)
-                        })
+                        self.dismissAfter = Timer.scheduledTimer(timeInterval: Defaults.forcedHideActivityIndicatorTimeInterval, target: self, selector: #selector(self.forcedHide), userInfo: nil, repeats: false)
+                    })
                 })
                 
             }
@@ -82,15 +82,15 @@ class ActivityIndicator {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.activityIndicator.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
                     self.activityIndicator.alpha = 0.0
+                }, completion: { (finished) in
+                    self.activityIndicator.removeFromSuperview()
+                    
+                    UIView.animate(withDuration: 0.1, animations: {
+                        self.containerView.alpha = 0.0
                     }, completion: { (finished) in
-                        self.activityIndicator.removeFromSuperview()
-                        
-                        UIView.animate(withDuration: 0.1, animations: {
-                            self.containerView.alpha = 0.0
-                            }, completion: { (finished) in
-                                self.containerView.removeFromSuperview()
-                                completion?()
-                        })
+                        self.containerView.removeFromSuperview()
+                        completion?()
+                    })
                 })
             }
         }

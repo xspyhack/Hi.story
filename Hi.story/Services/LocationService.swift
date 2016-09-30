@@ -6,11 +6,11 @@
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
 //
 
-import CoreLocation
 import Hikit
+import CoreLocation
 
 class LocationService: NSObject {
-    static let shareService = LocationService()
+    static let shared = LocationService()
     
     fileprivate lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -44,7 +44,7 @@ extension LocationService: CLLocationManagerDelegate {
         
         locationManager.stopUpdatingLocation()
         
-        geocoder.reverseGeocodeLocation(newLocation) { [weak self](placemarks, error) in
+        geocoder.reverseGeocodeLocation(newLocation) { [weak self] (placemarks, error) in
             if let error = error {
                 self?.didLocateHandler?(.failure(error.localizedDescription))
             } else {

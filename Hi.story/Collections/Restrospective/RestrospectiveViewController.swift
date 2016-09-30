@@ -39,7 +39,7 @@ final class RestrospectiveViewController: BaseViewController {
         viewModel?.fetchStorys()
         
         guard let realm = try? Realm() else { return }
-        stories = StoryService.sharedService.fetchAll(fromRealm: realm)
+        stories = StoryService.shared.fetchAll(fromRealm: realm)
         
     }
     

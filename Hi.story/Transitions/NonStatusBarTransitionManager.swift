@@ -26,13 +26,13 @@ extension NonStatusBarTransitionManager: UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if transitionType == .present {
-            animatePresentWithTransition(transitionContext)
+            presentTransition(using: transitionContext)
         } else {
-            animateDismissWithTransition(transitionContext)
+            dismissalTransition(using: transitionContext)
         }
     }
     
-    fileprivate func animatePresentWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+    private func presentTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
@@ -51,7 +51,7 @@ extension NonStatusBarTransitionManager: UIViewControllerAnimatedTransitioning {
         }) 
     }
     
-    fileprivate func animateDismissWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+    private func dismissalTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
             let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
@@ -76,14 +76,14 @@ extension NonStatusBarTransitionManager: UIViewControllerAnimatedTransitioning {
 extension NonStatusBarTransitionManager: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .present
         
+        transitionType = .present
         return self
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .dismiss
         
+        transitionType = .dismiss
         return self
     }
 }

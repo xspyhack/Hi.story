@@ -10,6 +10,7 @@ import UIKit
 import Social
 import MobileCoreServices.UTType
 import Hikit
+import RealmSwift
 
 class ShareViewController: SLComposeServiceViewController {
     
@@ -24,7 +25,7 @@ class ShareViewController: SLComposeServiceViewController {
         item?.value = NSDate().hi.yearMonthDay
         item?.tapHandler = { [weak self] in
             if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.titleViewController.rawValue) as? TitleViewController {
-                vc.pickAction = { [weak self](title) in
+                vc.pickAction = { [weak self] (title) in
                     DispatchQueue.main.async {
                         item?.value = title
                     }
@@ -41,7 +42,7 @@ class ShareViewController: SLComposeServiceViewController {
         item?.value = "Default"
         item?.tapHandler = { [weak self] in
             if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.tagsViewController.rawValue) as? TagsViewController {
-                vc.pickAction = { [weak self](tag) in
+                vc.pickAction = { [weak self] (tag) in
                     self?.popConfigurationViewController()
                     DispatchQueue.main.async {
                         item?.value = tag
@@ -68,7 +69,7 @@ class ShareViewController: SLComposeServiceViewController {
     
     override func presentationAnimationDidFinish() {
         
-        imagesFromExtensionContext(extensionContext!) { [weak self] images in
+        images(from: extensionContext!) { [weak self] images in
             self?.images = images
             
             print("images: \(self?.images)")
@@ -95,7 +96,7 @@ class ShareViewController: SLComposeServiceViewController {
             shareType = .plainText(title: title!, body: body)
         }
         
-        post(shareType: shareType) { [weak self](finished) in
+        post(shareType: shareType) { [weak self] (finished) in
             self?.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
         }
     }
@@ -129,17 +130,29 @@ class ShareViewController: SLComposeServiceViewController {
     }
     
     fileprivate func post(shareType: ShareType, completion: (_ finished: Bool) -> Void) {
-        let content = shareType.body
-        let title = shareType.title
-        let imageURL = URL(string: "")!
         
+        guard let realm = try? Realm() else {
+            completion(false)
+            return
+        }
+        
+        let story = Story()
+        
+        story.body = shareType.body
+        story.title = shareType.title
+        
+        let attement = Attachment()
+        attement.urlString = ""
+        story.attachment = attement
+        
+        StoryService.shared.synchronize(story, toRealm: realm)
     }
 
 }
 
 extension ShareViewController {
     
-    fileprivate func imagesFromExtensionContext(_ extensionContext: NSExtensionContext, completion: @escaping (_ images: [UIImage]) -> Void) {
+    fileprivate func images(from extensionContext: NSExtensionContext, completion: @escaping (_ images: [UIImage]) -> Void) {
         
         var images: [UIImage] = []
         

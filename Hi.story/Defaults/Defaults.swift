@@ -35,7 +35,7 @@ struct Defaults {
 
     }
     
-    static let UUID = "com.xspyhack.History.UUID"
+    static let uuidKey = "com.xspyhack.History.uuid"
     
     static let perPage: Int = 30
     

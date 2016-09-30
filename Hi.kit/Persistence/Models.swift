@@ -25,6 +25,14 @@ open class User: Object {
     }
 }
 
+public extension User {
+    
+    public var current: User {
+        // TODO: - Fix me
+        return User()
+    }
+}
+
 open class Attachment: Object {    
     open dynamic var metadata: String = ""
     open dynamic var urlString: String = ""

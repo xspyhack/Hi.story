@@ -28,7 +28,7 @@ extension Authorizable {
 
 struct Request: Requestable {
 
-    static let shareRequest = Request()
+    static let shared = Request()
     
     func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary? = nil, encoding: ParameterEncoding = URLEncoding.default, completionHandler: RequestCompletionHandler?) {
         

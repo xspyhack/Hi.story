@@ -52,7 +52,7 @@ struct MattersViewModel: MattersViewModelType {
     
     init(realm: Realm) {
         
-        let matters = Variable<[Matter]>(MatterService.sharedService.fetchAll(fromRealm: realm).sorted(by: { (matter0, matter1) in
+        let matters = Variable<[Matter]>(MatterService.shared.fetchAll(fromRealm: realm).sorted(by: { (matter0, matter1) in
             matter0.happenedUnixTime > matter1.happenedUnixTime
         }))
         
@@ -123,7 +123,7 @@ struct MattersViewModel: MattersViewModelType {
         Matter.didCreate
             .subscribe(onNext: { matter in
                 matters.value.insert(matter, at: 0)
-                MatterService.sharedService.synchronize(matter, toRealm: realm)
+                MatterService.shared.synchronize(matter, toRealm: realm)
             })
             .addDisposableTo(disposeBag)
         
@@ -131,7 +131,7 @@ struct MattersViewModel: MattersViewModelType {
             .subscribe(onNext: { matter in
                 if let index = matters.value.index(of: matter) {
                     matters.value.remove(at: index)
-                    MatterService.sharedService.remove(matter, fromRealm: realm)
+                    MatterService.shared.remove(matter, fromRealm: realm)
                 }
             })
             .addDisposableTo(disposeBag)

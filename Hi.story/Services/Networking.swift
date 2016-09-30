@@ -40,7 +40,7 @@ struct Networking: Authorizable {
     }
     
     func sendRequest<T: Serializable>(parameters: JSONDictionary? = nil, completionHandler: @escaping (Result<T>) -> Void) {
-        Request.shareRequest.request(authRequest, parameters: parameters) { (_, _, responseJSON, error) in
+        Request.shared.request(authRequest, parameters: parameters) { (_, _, responseJSON, error) in
             
             guard let json = responseJSON as? JSONDictionary, let value = T(json: json)
                 else {
@@ -53,7 +53,7 @@ struct Networking: Authorizable {
     }
     
     func sendRequest<T: Serializable>(parameters: JSONDictionary? = nil, completionHandler: @escaping (Result<[T]>) -> Void) {
-        Request.shareRequest.request(authRequest) { (_, _, responseJSON, error) in
+        Request.shared.request(authRequest) { (_, _, responseJSON, error) in
             
             guard let json = responseJSON as? [JSONDictionary] else {
                 completionHandler(.failure(error?.localizedDescription))
@@ -66,7 +66,7 @@ struct Networking: Authorizable {
     }
     
     func sendRequest(parameters: JSONDictionary? = nil, completionHandler: @escaping (Result<Bool>) -> Void) {
-        Request.shareRequest.request(authRequest, parameters: parameters) { (_, response, responseJSON, error) in
+        Request.shared.request(authRequest, parameters: parameters) { (_, response, responseJSON, error) in
             if (response?.statusCode)! < 300 && (response?.statusCode)! >= 200 {
                 completionHandler(.success(true))
             } else if response?.statusCode == 404 {
@@ -84,7 +84,7 @@ struct Networking: Authorizable {
     }
     
     init(urlString: String, method: Method) {
-        let authRequest = Request.shareRequest.authRequest(urlString, method: .get)
+        let authRequest = Request.shared.authRequest(urlString, method: .get)
         self.init(authRequest: authRequest)
     }
     

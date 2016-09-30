@@ -11,7 +11,6 @@
 		782513DD1D8D04AD00749FC3 /* ObservableConvertibleType+Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782513DC1D8D04AD00749FC3 /* ObservableConvertibleType+Driver.swift */; };
 		782F9FFF1D2183110043F317 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 782F9FFE1D2183110043F317 /* Profile.storyboard */; };
 		782FA0021D2183600043F317 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA0011D2183600043F317 /* QRCodeViewController.swift */; };
-		7838654A1CFC0267005E1503 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865491CFC0267005E1503 /* Cache.swift */; };
 		7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */; };
 		7838654F1CFC660B005E1503 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654E1CFC660B005E1503 /* ActivityIndicator.swift */; };
 		783865511CFC73CD005E1503 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865501CFC73CD005E1503 /* LocationService.swift */; };
@@ -91,6 +90,8 @@
 		78B205421D71B4390057D722 /* String+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B205411D71B4390057D722 /* String+Hi.swift */; };
 		78B205431D71B4390057D722 /* String+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B205411D71B4390057D722 /* String+Hi.swift */; };
 		78B205481D72C3530057D722 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B205471D72C3530057D722 /* DatePickerCell.swift */; };
+		78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BF38781D9E33F800119F04 /* Kingfisher+Hi.swift */; };
+		78BF387B1D9E35D900119F04 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BF387A1D9E35D900119F04 /* CacheService.swift */; };
 		78CEFCC81D02AD440098516A /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CEFCC71D02AD440098516A /* UIScrollView+Extension.swift */; };
 		78CEFCCA1D02B1420098516A /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CEFCC91D02B1420098516A /* Refreshable.swift */; };
 		78CEFD091D157EF50098516A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CEFD081D157EF50098516A /* ShareViewController.swift */; };
@@ -286,7 +287,6 @@
 		782F9FFE1D2183110043F317 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		782FA0011D2183600043F317 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		782FA1A31D2FF3AB0043F317 /* Hi.story-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hi.story-Bridging-Header.h"; sourceTree = "<group>"; };
-		783865491CFC0267005E1503 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonStatusBarTransitionManager.swift; sourceTree = "<group>"; };
 		7838654E1CFC660B005E1503 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		783865501CFC73CD005E1503 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -356,6 +356,8 @@
 		78B205351D7180F60057D722 /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		78B205411D71B4390057D722 /* String+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Hi.swift"; sourceTree = "<group>"; };
 		78B205471D72C3530057D722 /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
+		78BF38781D9E33F800119F04 /* Kingfisher+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Kingfisher+Hi.swift"; sourceTree = "<group>"; };
+		78BF387A1D9E35D900119F04 /* CacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		78CEFCC71D02AD440098516A /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
 		78CEFCC91D02B1420098516A /* Refreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		78CEFD061D157EF50098516A /* Hi.share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hi.share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1009,7 +1011,6 @@
 				78EBD5221CF0B9C20039AAE5 /* SwiftyKeychain.swift */,
 				78EBD5241CF181520039AAE5 /* UUID.swift */,
 				78EBD5371CF3484A0039AAE5 /* Delay.swift */,
-				783865491CFC0267005E1503 /* Cache.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1021,6 +1022,7 @@
 				78F4D25A1CEF69AF00DAA210 /* Networking.swift */,
 				783865501CFC73CD005E1503 /* LocationService.swift */,
 				78D2580D1D8530B60032E4F5 /* ModelService.swift */,
+				78BF387A1D9E35D900119F04 /* CacheService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1043,6 +1045,7 @@
 				78D381D31D620FD500AB844E /* UIStoryBoard+Hi.swift */,
 				78782E501D687915008555C1 /* String+Path.swift */,
 				78782E521D6886F4008555C1 /* ImageView+Cache.swift */,
+				78BF38781D9E33F800119F04 /* Kingfisher+Hi.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1472,7 +1475,6 @@
 				78F4D25D1CEF779900DAA210 /* StoryViewModel.swift in Sources */,
 				78D257F41D8443F30032E4F5 /* MatterCell.swift in Sources */,
 				78F4D2321CEEC4EB00DAA210 /* Defaults.swift in Sources */,
-				7838654A1CFC0267005E1503 /* Cache.swift in Sources */,
 				78D257F21D84435E0032E4F5 /* MattersViewModel.swift in Sources */,
 				78EBD5381CF3484A0039AAE5 /* Delay.swift in Sources */,
 				78EBD5231CF0B9C20039AAE5 /* SwiftyKeychain.swift in Sources */,
@@ -1486,6 +1488,7 @@
 				786191571D168FF1005680B3 /* ShortcutType.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
 				78D2580C1D8465BE0032E4F5 /* PopoverViewController.swift in Sources */,
+				78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */,
 				7838655B1CFD710B005E1503 /* Teller.swift in Sources */,
 				78D258091D8449380032E4F5 /* HistoryViewController.swift in Sources */,
 				78CEFCCA1D02B1420098516A /* Refreshable.swift in Sources */,
@@ -1505,6 +1508,7 @@
 				78EBD5251CF181520039AAE5 /* UUID.swift in Sources */,
 				78F4D2451CEEE3C300DAA210 /* TextPresentable.swift in Sources */,
 				78D381D21D60E45000AB844E /* ModelType.swift in Sources */,
+				78BF387B1D9E35D900119F04 /* CacheService.swift in Sources */,
 				78782E531D6886F4008555C1 /* ImageView+Cache.swift in Sources */,
 				78F4D2211CEEBD7F00DAA210 /* HomeViewController.swift in Sources */,
 				789225021CFAD3EE00A44040 /* NewStoryViewController.swift in Sources */,

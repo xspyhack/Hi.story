@@ -63,7 +63,7 @@ public struct Promise {
 public class StoryService: Synchronizable {
     
     public typealias T = Story
-    open static let sharedService = StoryService()
+    open static let shared = StoryService()
     
     open func synchronize(_ resource: Story, toRealm realm: Realm) {
     
@@ -90,7 +90,7 @@ public class MatterService: Synchronizable {
     
     public typealias T = Matter
     
-    open static let sharedService = MatterService()
+    open static let shared = MatterService()
     
     open func fetchAll(fromRealm realm: Realm) -> [T] {
         return realm.objects(Matter.self).sorted(byProperty: "createdUnixTime", ascending: true).flatMap { $0 }

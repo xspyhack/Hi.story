@@ -40,13 +40,13 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if transitionType == .present {
-            presentWithAnimateTransition(transitionContext)
+            presentTransition(using: transitionContext)
         } else {
-            dismissWithAnmatedTransition(transitionContext)
+            dismissalTransition(using: transitionContext)
         }
     }
     
-    fileprivate func presentWithAnimateTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+    private func presentTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
@@ -87,7 +87,7 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
         }) 
     }
     
-    fileprivate func dismissWithAnmatedTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+    private func dismissalTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toView = transitionContext.view(forKey: UITransitionContextViewKey.to),
             let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else {
@@ -127,13 +127,14 @@ extension ImagePreviewTransitionManager: UIViewControllerAnimatedTransitioning {
 extension ImagePreviewTransitionManager: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
         transitionType = .present
         return self
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .dismiss
         
+        transitionType = .dismiss
         return self
     }
 }

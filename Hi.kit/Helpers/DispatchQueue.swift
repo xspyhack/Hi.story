@@ -16,7 +16,7 @@ public class SafeDispatch {
     private let mainQueueKey = DispatchSpecificKey<String>()
     private let mainQueueValue = "main"
     
-    private static let sharedSafeDispatch = SafeDispatch()
+    private static let shared = SafeDispatch()
     
     private init() {
         
@@ -25,7 +25,7 @@ public class SafeDispatch {
     
     public class func async(onQueue queue: DispatchQueue = .main, forWork block: @escaping ()->()) {
         if queue === DispatchQueue.main {
-            if DispatchQueue.getSpecific(key: sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
+            if DispatchQueue.getSpecific(key: shared.mainQueueKey) == shared.mainQueueValue {
                 block()
             } else {
                 DispatchQueue.main.async {

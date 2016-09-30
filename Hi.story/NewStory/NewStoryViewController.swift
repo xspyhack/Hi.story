@@ -181,7 +181,7 @@ final class NewStoryViewController: BaseViewController {
             return
         }
         
-        ActivityIndicator.sharedInstance.show()
+        ActivityIndicator.shared.show()
         
         let title = titleTextField.text ?? NSDate().hi.yearMonthDay
         
@@ -195,7 +195,7 @@ final class NewStoryViewController: BaseViewController {
         
         if let image = imageView.image {
             let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
-            ImageStorage.sharedStorage.store(image, forKey: url.absoluteString)
+            CacheService.shared.store(image, forKey: url.absoluteString)
             let attachment = Attachment()
             attachment.urlString = url.absoluteString
             story.attachment = attachment
@@ -215,10 +215,10 @@ final class NewStoryViewController: BaseViewController {
         
         guard let realm = try? Realm() else { return }
         
-        StoryService.sharedService.synchronize(story, toRealm: realm)
+        StoryService.shared.synchronize(story, toRealm: realm)
         
         DispatchQueue.main.async {
-            ActivityIndicator.sharedInstance.hide()
+            ActivityIndicator.shared.hide()
         }
         
         DispatchQueue.main.async { [weak self] in
@@ -242,7 +242,7 @@ final class NewStoryViewController: BaseViewController {
         canLocate = sender.isSelected
         if canLocate && coordinate == nil {
 //            let permission: Permission = .LocationWhenInUse
-//            permission.request { [weak self](status) in
+//            permission.request { [weak self] (status) in
 //                switch permission.status {
 //                case .authorized:
 //                    self?.startLocating()
@@ -278,7 +278,7 @@ final class NewStoryViewController: BaseViewController {
     fileprivate func locateInBackground() {
         
         DispatchQueue.global(qos: .default).async {
-            let service = LocationService.shareService
+            let service = LocationService.shared
             service.turnOn()
             
             service.didLocateHandler = { [weak self] result in

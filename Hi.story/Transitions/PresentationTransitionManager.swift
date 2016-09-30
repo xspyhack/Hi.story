@@ -34,13 +34,13 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if transitionType == .present {
-            animatePresentWithTransition(transitionContext)
+            presentTransition(using: transitionContext)
         } else {
-            animateDismissWithTransition(transitionContext)
+            dismissalTransition(using: transitionContext)
         }
     }
     
-    fileprivate func animatePresentWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+    private func presentTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
             else {
                 return
@@ -56,13 +56,13 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
             toViewController.view.frame = finalFrame
             toViewController.view.center.y += Defaults.statusBarHeight
             
-            }) { (finished) -> Void in
-                print("finish")
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) { (finished) -> Void in
+            print("finish")
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
     
-    fileprivate func animateDismissWithTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+    private func dismissalTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
             else {
                 return
@@ -72,8 +72,8 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: duration, animations: { () -> Void in
             fromViewController.view.center.y += containerView.bounds.height
             
-            }, completion: { (finished) -> Void in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }, completion: { (finished) -> Void in
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }) 
     }
 }
@@ -81,20 +81,21 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
 extension PresentationTransitionManager: UIViewControllerTransitioningDelegate {
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        
         let presentedViewController = PresentationController(presentedViewController: presented, presenting: presenting)
         presentedViewController.presentedViewHeight = presentedViewHeight
         return presentedViewController
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .present
         
+        transitionType = .present
         return self
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transitionType = .dismiss
         
+        transitionType = .dismiss
         return self
     }
 }
