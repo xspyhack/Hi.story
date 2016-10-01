@@ -102,7 +102,9 @@ final class MattersViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        show()
+        if !Defaults.isShowedNewMatterTip {
+            show()
+        }
     }
     
     fileprivate func show() {
