@@ -103,6 +103,7 @@ final class MattersViewController: BaseViewController {
         super.viewDidAppear(animated)
         
         if !Defaults.isShowedNewMatterTip {
+            Defaults.isShowedNewMatterTip = true
             show()
         }
     }
