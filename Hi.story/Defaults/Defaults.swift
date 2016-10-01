@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate let prefix = "com.xspyhack.History"
+
 struct Defaults {
     
     static let userDefaults = UserDefaults.standard
@@ -35,7 +37,7 @@ struct Defaults {
 
     }
     
-    static let uuidKey = "com.xspyhack.History.uuid"
+    static let uuidKey = prefix + ".uuid"
     
     static let perPage: Int = 30
     
@@ -64,6 +66,15 @@ struct Defaults {
         }
         set {
             userDefaults.set(newValue, forKey: "com.xspyhack.Histroy.TellerRecordName")
+        }
+    }
+    
+    static var isShowedNewMatterTip: Bool {
+        get {
+            return userDefaults.bool(forKey: prefix + ".isShowedNewMatterTip")
+        }
+        set {
+            userDefaults.set(newValue, forKey: prefix + ".isShowedNewMatterTip")
         }
     }
 }

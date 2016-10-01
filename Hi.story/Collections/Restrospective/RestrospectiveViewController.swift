@@ -19,8 +19,6 @@ final class RestrospectiveViewController: BaseViewController {
         }
     }
     
-    var viewModel: StorysViewModel?
-    
     var stories: [Story]?
     
     override func viewDidLoad() {
@@ -31,12 +29,6 @@ final class RestrospectiveViewController: BaseViewController {
         title = "Restrospective"
         
         edgesForExtendedLayout = UIRectEdge()
-        
-        viewModel = StorysViewModel() { [weak self] in
-            self?.storyCollectionView.reloadData()
-        }
-        
-        viewModel?.fetchStorys()
         
         guard let realm = try? Realm() else { return }
         stories = StoryService.shared.fetchAll(fromRealm: realm)

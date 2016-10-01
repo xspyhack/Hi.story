@@ -11,5 +11,4 @@ import Hikit
 
 struct Feed {
     let story: Story
-    let teller: Teller
 }
