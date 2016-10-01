@@ -16,8 +16,13 @@ extension Hi where Base: UIScrollView {
     }
     
     func scrollToTop(animated aimate: Bool = true) {
-        let topPoint = CGPoint(x: 0, y: -base.contentInset.top)
-        base.setContentOffset(topPoint, animated: aimate)
+        let topOffset = CGPoint(x: 0, y: -base.contentInset.top)
+        base.setContentOffset(topOffset, animated: aimate)
+    }
+    
+    func scrollToBottom(animated animate: Bool = true) {
+        let bottomOffset = CGPoint(x: 0, y: max(0, base.contentSize.height - base.bounds.height))
+        base.setContentOffset(bottomOffset, animated: true)
     }
     
     func forceStop() {

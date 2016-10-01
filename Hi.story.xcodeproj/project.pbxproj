@@ -12,7 +12,6 @@
 		782F9FFF1D2183110043F317 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 782F9FFE1D2183110043F317 /* Profile.storyboard */; };
 		782FA0021D2183600043F317 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA0011D2183600043F317 /* QRCodeViewController.swift */; };
 		7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */; };
-		7838654F1CFC660B005E1503 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654E1CFC660B005E1503 /* ActivityIndicator.swift */; };
 		783865511CFC73CD005E1503 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865501CFC73CD005E1503 /* LocationService.swift */; };
 		783865611CFD7BD6005E1503 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865601CFD7BD6005E1503 /* Feed.swift */; };
 		78409A4F1D5222C600354650 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A4E1D5222C600354650 /* Realm.framework */; };
@@ -68,6 +67,10 @@
 		788BCF5E1D9FFDD100535519 /* NewStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF5C1D9FFDD100535519 /* NewStoryViewController.swift */; };
 		788BCF621D9FFE1700535519 /* Story.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 788BCF601D9FFE1700535519 /* Story.storyboard */; };
 		788BCF631D9FFE1700535519 /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF611D9FFE1700535519 /* StoryViewController.swift */; };
+		788BCF6C1DA0043C00535519 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF671DA0043C00535519 /* TPKeyboardAvoidingScrollView.m */; };
+		788BCF6D1DA0043C00535519 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF691DA0043C00535519 /* TPKeyboardAvoidingTableView.m */; };
+		788BCF6E1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF6B1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		788BCF701DA0053400535519 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF6F1DA0053400535519 /* ActivityIndicator.swift */; };
 		789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224EF1CF7712F00A44040 /* UIImage+Extension.swift */; };
 		789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */; };
 		789224F81CFAD16200A44040 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F51CFAD16200A44040 /* PresentationController.swift */; };
@@ -284,7 +287,6 @@
 		782FA0011D2183600043F317 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		782FA1A31D2FF3AB0043F317 /* Hi.story-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hi.story-Bridging-Header.h"; sourceTree = "<group>"; };
 		7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonStatusBarTransitionManager.swift; sourceTree = "<group>"; };
-		7838654E1CFC660B005E1503 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		783865501CFC73CD005E1503 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		783865601CFD7BD6005E1503 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		78409A4E1D5222C600354650 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
@@ -336,6 +338,13 @@
 		788BCF5C1D9FFDD100535519 /* NewStoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewStoryViewController.swift; sourceTree = "<group>"; };
 		788BCF601D9FFE1700535519 /* Story.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Story.storyboard; sourceTree = "<group>"; };
 		788BCF611D9FFE1700535519 /* StoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
+		788BCF661DA0043C00535519 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		788BCF671DA0043C00535519 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		788BCF681DA0043C00535519 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		788BCF691DA0043C00535519 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		788BCF6A1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		788BCF6B1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		788BCF6F1DA0053400535519 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		789224EF1CF7712F00A44040 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewTransitionManager.swift; sourceTree = "<group>"; };
 		789224F51CFAD16200A44040 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
@@ -521,7 +530,8 @@
 		7838654D1CFC65D2005E1503 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7838654E1CFC660B005E1503 /* ActivityIndicator.swift */,
+				788BCF651DA0041300535519 /* KeyboardAvoiding */,
+				788BCF641DA0038700535519 /* ActivityIndicator */,
 				78B205461D72C3270057D722 /* DatePickerCell */,
 			);
 			path = Views;
@@ -723,6 +733,27 @@
 				788BCF611D9FFE1700535519 /* StoryViewController.swift */,
 			);
 			path = Story;
+			sourceTree = "<group>";
+		};
+		788BCF641DA0038700535519 /* ActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				788BCF6F1DA0053400535519 /* ActivityIndicator.swift */,
+			);
+			path = ActivityIndicator;
+			sourceTree = "<group>";
+		};
+		788BCF651DA0041300535519 /* KeyboardAvoiding */ = {
+			isa = PBXGroup;
+			children = (
+				788BCF661DA0043C00535519 /* TPKeyboardAvoidingScrollView.h */,
+				788BCF671DA0043C00535519 /* TPKeyboardAvoidingScrollView.m */,
+				788BCF681DA0043C00535519 /* TPKeyboardAvoidingTableView.h */,
+				788BCF691DA0043C00535519 /* TPKeyboardAvoidingTableView.m */,
+				788BCF6A1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				788BCF6B1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+			);
+			path = KeyboardAvoiding;
 			sourceTree = "<group>";
 		};
 		789224F31CFAD16200A44040 /* Transitions */ = {
@@ -1443,7 +1474,6 @@
 				783865611CFD7BD6005E1503 /* Feed.swift in Sources */,
 				78F4D22D1CEEC13C00DAA210 /* CollectionsViewController.swift in Sources */,
 				78D258071D84492C0032E4F5 /* TodayViewController.swift in Sources */,
-				7838654F1CFC660B005E1503 /* ActivityIndicator.swift in Sources */,
 				78D381D41D620FD500AB844E /* UIStoryBoard+Hi.swift in Sources */,
 				78CEFCC81D02AD440098516A /* UIScrollView+Extension.swift in Sources */,
 				78782E4B1D68519D008555C1 /* Restrospective.swift in Sources */,
@@ -1452,6 +1482,7 @@
 				78782E511D687915008555C1 /* String+Path.swift in Sources */,
 				78D257FE1D8444E20032E4F5 /* MatterViewModel.swift in Sources */,
 				789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */,
+				788BCF701DA0053400535519 /* ActivityIndicator.swift in Sources */,
 				78F4D2371CEEDB2100DAA210 /* RestrospectiveViewController.swift in Sources */,
 				78D257F41D8443F30032E4F5 /* MatterCell.swift in Sources */,
 				78F4D2321CEEC4EB00DAA210 /* Defaults.swift in Sources */,
@@ -1462,6 +1493,7 @@
 				78D381C41D5CD19D00AB844E /* SettingsViewController.swift in Sources */,
 				7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */,
 				789224F81CFAD16200A44040 /* PresentationController.swift in Sources */,
+				788BCF6C1DA0043C00535519 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				789224FD1CFAD38800A44040 /* AppDelegate.swift in Sources */,
 				786191571D168FF1005680B3 /* ShortcutType.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
@@ -1483,6 +1515,7 @@
 				78F4D2261CEEBFF900DAA210 /* FeedsViewController.swift in Sources */,
 				78F4D25B1CEF69AF00DAA210 /* Networking.swift in Sources */,
 				78F4D2591CEF687600DAA210 /* Request.swift in Sources */,
+				788BCF6E1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				78F4D2451CEEE3C300DAA210 /* TextPresentable.swift in Sources */,
 				78D381D21D60E45000AB844E /* ModelType.swift in Sources */,
 				78BF387B1D9E35D900119F04 /* CacheService.swift in Sources */,
@@ -1498,6 +1531,7 @@
 				78E179A51D58D7F5000641F2 /* ProfileViewController.swift in Sources */,
 				78F4D23D1CEEDD9D00DAA210 /* CollectionCell.swift in Sources */,
 				78782E4D1D687373008555C1 /* Storybook.swift in Sources */,
+				788BCF6D1DA0043C00535519 /* TPKeyboardAvoidingTableView.m in Sources */,
 				78F4D2471CEEE40200DAA210 /* ImagePresentable.swift in Sources */,
 				78B205481D72C3530057D722 /* DatePickerCell.swift in Sources */,
 			);
