@@ -378,7 +378,7 @@ final class NewMatterViewController: BaseViewController {
     var viewModel: NewMatterViewModel?
 
     @IBOutlet fileprivate weak var navigationBar: UINavigationBar!
-    @IBOutlet fileprivate weak var tableView: UITableView! {
+    @IBOutlet fileprivate weak var tableView: TPKeyboardAvoidingTableView! {
         didSet {
             tableView.hi.register(reusableCell: InputableCell.self)
             tableView.hi.register(reusableCell: InfoInputableCell.self)
@@ -393,8 +393,9 @@ final class NewMatterViewController: BaseViewController {
     
     fileprivate struct Constant {
         static let pickerRowHeight: CGFloat = 200.0
-        static var notesRowHeight: CGFloat = 120.0
     }
+    
+    fileprivate var notesRowHeight: CGFloat = 120.0
     
     fileprivate var pickedDate: NSDate = NSDate() {
         willSet {
@@ -595,11 +596,14 @@ extension NewMatterViewController: UITableViewDataSource {
             cell.didBeginInputingAction = { [weak self] in
                 self?.hideInlineDatePicker()
             }
-            cell.textViewDidChangeAction = { height in
-                if height != Constant.notesRowHeight && height >= 120 {
+            cell.textViewDidChangeAction = { [unowned self] height in
+                if height != self.notesRowHeight && height >= 120 {
                     tableView.beginUpdates()
-                    Constant.notesRowHeight = height
+                    self.notesRowHeight = height
                     tableView.endUpdates()
+                    // scroll to bottom
+                    //tableView.hi.scrollToBottom()
+                    (tableView as! TPKeyboardAvoidingTableView).tpKeyboardAvoiding_scrollToActiveTextField()
                 }
             }
             cell.didEndEditing = { [weak self] body in
@@ -652,7 +656,7 @@ extension NewMatterViewController: UITableViewDelegate {
             return Constant.pickerRowHeight
         } else {
             
-            return (indexPath as NSIndexPath).section == Section.notes.rawValue ? Constant.notesRowHeight : Defaults.rowHeight
+            return (indexPath as NSIndexPath).section == Section.notes.rawValue ? notesRowHeight : Defaults.rowHeight
         }
     }
 }
