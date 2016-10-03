@@ -21,29 +21,26 @@ public enum Visible: Int {
     case `private`
 }
 
-open class Story: Object {
+public class Story: Object {
     
-    open dynamic var storyID: String = ""
-    open dynamic var allowComment: Bool = true
+    public dynamic var id: String = ""
+    public dynamic var allowComment: Bool = true
     
-    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
-    open dynamic var updatedUnixTime: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
     
-    open dynamic var creator: User?
-    open dynamic var title: String = ""
-    open dynamic var body: String = ""
+    //public dynamic var creator: User?
+    public dynamic var title: String = ""
+    public dynamic var body: String = ""
     
-    open dynamic var attachment: Attachment?
+    public dynamic var attachment: Attachment?
     
-    open dynamic var kind: String = StoryKind.plainText.rawValue
-    open dynamic var location: Location?
+    public dynamic var kind: String = StoryKind.plainText.rawValue
+    public dynamic var location: Location?
     
-    open dynamic var tag: String? = ""
+    public dynamic var tag: String? = ""
     
-    open dynamic var likesCount: Int = 0
-    open dynamic var visible: Int = Visible.public.rawValue
-    
-    open override class func indexedProperties() -> [String] {
-        return ["storyID"]
+    public override class func indexedProperties() -> [String] {
+        return ["id"]
     }
 }

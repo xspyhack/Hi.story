@@ -68,22 +68,22 @@ public enum Tag: Int {
     }
 }
 
-open class Matter: Object {
+public class Matter: Object {
     
-    open dynamic var matterID: String = UUID().uuidString
+    public dynamic var id: String = UUID().uuidString
     
-    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
-    open dynamic var updatedUnixTime: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
     
-    open dynamic var creator: User?
-    open dynamic var title: String = ""
-    open dynamic var body: String = ""
-    open dynamic var happenedUnixTime: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var creator: User?
+    public dynamic var title: String = ""
+    public dynamic var body: String = ""
+    public dynamic var happenedAt: TimeInterval = Date().timeIntervalSince1970
     
-    open dynamic var kind: Int = MatterKind.coming.rawValue
-    open dynamic var location: Location?
+    public dynamic var kind: Int = MatterKind.coming.rawValue
+    public dynamic var location: Location?
     
-    open dynamic var tag: Int = Tag.none.rawValue // MAYBE COLOR
+    public dynamic var tag: Int = Tag.none.rawValue // MAYBE COLOR
 
-    open dynamic var story: Story? //  关联的 Story，在删除的时候需要注意，cascade delete
+    public dynamic var story: Story? //  关联的 Story，在删除的时候需要注意，cascade delete
 }

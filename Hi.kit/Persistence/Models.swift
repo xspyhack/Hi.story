@@ -10,56 +10,56 @@ import Foundation
 import MapKit
 import RealmSwift
 
-open class User: Object {
-    open dynamic var userID: String = ""
-    open dynamic var username: String = ""
-    open dynamic var nickname: String = ""
-    open dynamic var bio: String = ""
-    open dynamic var avatarURLString: String = ""
+public class User: Object {
+    public dynamic var id: String = ""
+    public dynamic var username: String = ""
+    public dynamic var nickname: String = ""
+    public dynamic var bio: String = ""
+    public dynamic var avatarURLString: String = ""
     
-    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
-    open dynamic var lastSignInUnixTime: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
+    public dynamic var lastSignInAt: TimeInterval = Date().timeIntervalSince1970
     
-    open override class func indexedProperties() -> [String] {
-        return ["userID"]
+    public override class func indexedProperties() -> [String] {
+        return ["id"]
     }
 }
 
 public extension User {
     
-    public var current: User {
+    public static var current: User {
         // TODO: - Fix me
         return User()
     }
 }
 
-open class Attachment: Object {    
-    open dynamic var metadata: String = ""
-    open dynamic var urlString: String = ""
+public class Attachment: Object {
+    public dynamic var metadata: String = ""
+    public dynamic var urlString: String = ""
 }
 
-open class Location: Object {
-    open dynamic var name: String = ""
-    open dynamic var coordinate: Coordinate?
+public class Location: Object {
+    public dynamic var name: String = ""
+    public dynamic var coordinate: Coordinate?
 }
 
-open class Coordinate: Object {
-    open dynamic var latitude: Double = 0    // 合法范围 (-90, 90)
-    open dynamic var longitude: Double = 0   // 合法范围 (-180, 180)
+public class Coordinate: Object {
+    public dynamic var latitude: Double = 0    // 合法范围 (-90, 90)
+    public dynamic var longitude: Double = 0   // 合法范围 (-180, 180)
     
     // NOTICE: always use safe version property
     
-    open var safeLatitude: Double {
+    public var safeLatitude: Double {
         return abs(latitude) > 90 ? 0 : latitude
     }
-    open var safeLongitude: Double {
+    public var safeLongitude: Double {
         return abs(longitude) > 180 ? 0 : longitude
     }
-    open var locationCoordinate: CLLocationCoordinate2D {
+    public var locationCoordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: safeLatitude, longitude: safeLongitude)
     }
     
-    open func safeConfigure(withLatitude latitude: Double, longitude: Double) {
+    public func safeConfigure(withLatitude latitude: Double, longitude: Double) {
         self.latitude = abs(latitude) > 90 ? 0 : latitude
         self.longitude = abs(longitude) > 180 ? 0 : longitude
     }

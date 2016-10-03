@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import Hikit
 import RealmSwift
 
-class Feed: Object {
-    dynamic var story: Story?
-    dynamic var creator: Hikit.User?
-    dynamic var likesCount: Int = 0
-    dynamic var visible: Int = Visible.public.rawValue
+public class Feed: Object {
+    public dynamic var story: Story?
+    public dynamic var creator: Hikit.User?
+    public dynamic var likesCount: Int = 0
+    public dynamic var visible: Int = Visible.public.rawValue
 }
