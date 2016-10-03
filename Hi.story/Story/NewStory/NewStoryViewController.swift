@@ -189,9 +189,9 @@ final class NewStoryViewController: BaseViewController {
         let story = Story()
         story.body = storyContent
         story.title = title
-        story.createdUnixTime = creationDate
-        story.updatedUnixTime = creationDate
-        story.visible = visible.rawValue
+        story.createdAt = creationDate
+        story.updatedAt = creationDate
+        //story.visible = visible.rawValue
         
         if let image = imageView.image {
             let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
