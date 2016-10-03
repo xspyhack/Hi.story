@@ -28,7 +28,7 @@ struct NewMatterViewModel: NewMatterViewModelType {
     
     var title: Variable<String>
     var tag: Variable<Tag>
-    var happenedUnixTime: Variable<Date>
+    var happenedAt: Variable<Date>
     var body: Variable<String>
     
     var postAction = PublishSubject<Void>()
@@ -45,7 +45,7 @@ struct NewMatterViewModel: NewMatterViewModelType {
         // Default value
         self.title = Variable("")
         self.tag = Variable(.none)
-        self.happenedUnixTime = Variable(Date())
+        self.happenedAt = Variable(Date())
         self.body = Variable("")
         
         self.postButtonEnabled = self.title.asDriver()
@@ -55,13 +55,13 @@ struct NewMatterViewModel: NewMatterViewModelType {
 
         let matter = Driver.combineLatest(title.asDriver(),
                                           tag.asDriver(),
-                                          happenedUnixTime.asDriver(),
+                                          happenedAt.asDriver(),
                                           body.asDriver()
-        ) { title, tag, happenedUnixTime, body -> Matter in
+        ) { title, tag, happenedAt, body -> Matter in
             let matter = Matter()
             matter.title = title
             matter.tag = tag.rawValue
-            matter.happenedUnixTime = happenedUnixTime.timeIntervalSince1970
+            matter.happenedAt = happenedAt.timeIntervalSince1970
             matter.body = body
             return matter
         }

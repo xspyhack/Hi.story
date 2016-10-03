@@ -53,7 +53,7 @@ struct MattersViewModel: MattersViewModelType {
     init(realm: Realm) {
         
         let matters = Variable<[Matter]>(MatterService.shared.fetchAll(fromRealm: realm).sorted(by: { (matter0, matter1) in
-            matter0.happenedUnixTime > matter1.happenedUnixTime
+            matter0.happenedAt > matter1.happenedAt
         }))
         
         self.matters = matters
@@ -61,10 +61,10 @@ struct MattersViewModel: MattersViewModelType {
         // 这样写，无法根据 section 来 delete 对应 matter，如果不怕牺牲性能，可以在删除的时候重新分组
         self.sections = matters.asObservable()
             .map { matters in
-                let commingCellModels = matters.filter { $0.happenedUnixTime > Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
+                let commingCellModels = matters.filter { $0.happenedAt > Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
                 let commingSection = MattersViewSection(model: Section.comming.title, items: commingCellModels)
                 
-                let pastCellModels = matters.filter { $0.happenedUnixTime <= Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
+                let pastCellModels = matters.filter { $0.happenedAt <= Date().timeIntervalSince1970 }.map(MatterCellModel.init) as [MatterCellModelType]
                 let pastSection = MattersViewSection(model: Section.past.title, items: pastCellModels)
                 return [commingSection, pastSection]
             }
@@ -76,13 +76,13 @@ struct MattersViewModel: MattersViewModelType {
                 guard let section = Section(rawValue: indexPath.section) else { return }
                 
                 if section == .comming {
-                    let commings = matters.value.filter { $0.happenedUnixTime > Date().timeIntervalSince1970 }
+                    let commings = matters.value.filter { $0.happenedAt > Date().timeIntervalSince1970 }
                     
                     if let matter = commings[safe: indexPath.row] {
                         Matter.didDelete.onNext(matter)
                     }
                 } else {
-                    let pasts = matters.value.filter{ $0.happenedUnixTime <= Date().timeIntervalSince1970 }
+                    let pasts = matters.value.filter{ $0.happenedAt <= Date().timeIntervalSince1970 }
                     
                     if let matter = pasts[safe: indexPath.row] {
                         Matter.didDelete.onNext(matter)
@@ -95,13 +95,13 @@ struct MattersViewModel: MattersViewModelType {
             .map { indexPath in
                 // 先分组
                 if indexPath.section == Section.comming.rawValue {
-                    let commings = matters.value.filter { $0.happenedUnixTime > Date().timeIntervalSince1970 }
+                    let commings = matters.value.filter { $0.happenedAt > Date().timeIntervalSince1970 }
                     
                     if let matter = commings[safe: indexPath.row] {
                         return MatterViewModel(matter: matter)
                     }
                 } else {
-                    let pasts = matters.value.filter{ $0.happenedUnixTime <= Date().timeIntervalSince1970 }
+                    let pasts = matters.value.filter{ $0.happenedAt <= Date().timeIntervalSince1970 }
                     
                     if let matter = pasts[safe: indexPath.row] {
                         return MatterViewModel(matter: matter)

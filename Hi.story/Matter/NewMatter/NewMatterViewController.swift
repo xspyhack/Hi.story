@@ -462,7 +462,7 @@ final class NewMatterViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         happenedDate.asObservable()
-            .bindTo(viewModel.happenedUnixTime)
+            .bindTo(viewModel.happenedAt)
             .addDisposableTo(disposeBag)
         
         body.asObservable()

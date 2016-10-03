@@ -32,7 +32,7 @@ struct MatterViewModel: MatterViewModelType {
         
         self.tag = Driver.just(UIColor(hex: Tag(rawValue: matter.tag)?.value ?? Tag.none.value))
         
-        self.when = Driver.just((Date(timeIntervalSince1970: matter.happenedUnixTime) as NSDate).hi.yearMonthDay)
+        self.when = Driver.just((Date(timeIntervalSince1970: matter.happenedAt) as NSDate).hi.yearMonthDay)
         
         self.notes = Driver.just(matter.body)
         
