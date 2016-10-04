@@ -78,11 +78,11 @@ public class StoryService: Synchronizable {
     }
     
     open func fetchAll(fromRealm realm: Realm) -> [Story] {
-        return realm.objects(Story.self).sorted(byProperty: "createdUnixTime", ascending: true).flatMap { $0 }
+        return realm.objects(Story.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
     }
     
     open func fetchLatest(fromRealm realm: Realm) -> Story? {
-        return realm.objects(Story.self).sorted(byProperty: "updatedUnixTime", ascending: false).flatMap { $0 }.first
+        return realm.objects(Story.self).sorted(byProperty: "updatedAt", ascending: false).flatMap { $0 }.first
     }
 }
 
@@ -93,6 +93,6 @@ public class MatterService: Synchronizable {
     open static let shared = MatterService()
     
     open func fetchAll(fromRealm realm: Realm) -> [T] {
-        return realm.objects(Matter.self).sorted(byProperty: "createdUnixTime", ascending: true).flatMap { $0 }
+        return realm.objects(Matter.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
     }
 }

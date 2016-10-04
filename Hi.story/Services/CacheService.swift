@@ -28,6 +28,10 @@ class CacheService {
         cache.store(image, forKey: key, toDisk: true, completionHandler: completionHandler)
     }
     
+    func removeIfExisting(forKey key: String) {
+        cache.removeImage(forKey: key, processorIdentifier: "", fromDisk: true, completionHandler: nil)
+    }
+    
     func retrieveImageInDiskCache(forKey key: String, scale: CGFloat = 1.0) -> Image? {
         return cache.retrieveImageInDiskCache(forKey: key, options: [.scaleFactor(scale)])
     }
