@@ -38,6 +38,8 @@ final class MattersViewController: BaseViewController {
         
         title = "Matters"
         
+        self.registerForPreviewing(with: self, sourceView: tableView)
+        
         guard let realm = try? Realm() else { return }
         
         let viewModel = MattersViewModel(realm: realm)
@@ -150,6 +152,28 @@ extension MattersViewController: SegueHandlerType {
                 viewController?.viewModel = wrapper.candy
             }
         }
+    }
+}
+
+extension MattersViewController: UIViewControllerPreviewingDelegate {
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+        
+        let viewController = UIStoryboard.hi.storyboard(.matter).instantiateViewController(withIdentifier: MatterViewController.identifier)
+        guard let matterViewController = viewController as? MatterViewController else { return nil }
+        
+        guard let matter = viewModel?.matters.value[safe: indexPath.row] else { return nil }
+        matterViewController.viewModel = MatterViewModel(matter: matter)
+        let cellRect = tableView.rectForRow(at: indexPath)
+        previewingContext.sourceRect = previewingContext.sourceView.convert(cellRect, from: tableView)
+
+        return matterViewController
     }
 }
 

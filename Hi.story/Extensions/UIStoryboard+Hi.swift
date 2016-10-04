@@ -14,8 +14,10 @@ extension UIStoryboard {
     enum StoryBoard: String {
         case main
         
+        case matter
+        
         var value: String {
-            return self.rawValue.uppercased()
+            return self.rawValue.capitalized
         }
     }
 }
