@@ -27,6 +27,8 @@ final class FeedsViewController: BaseViewController {
         return item
     }()
     
+    private var viewModel: FeedsViewModel? // Reference it!!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,9 +36,17 @@ final class FeedsViewController: BaseViewController {
         
         navigationItem.rightBarButtonItem = newItem
         
+        let viewModel = FeedsViewModel()
+        
+        self.viewModel = viewModel
+        
         newItem.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.tryToShowNewStory()
+            .bindTo(viewModel.addAction)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.showNewFeedViewModel
+            .drive(onNext: { [weak self] viewModel in
+                self?.performSegue(withIdentifier: .presentNewFeed, sender: viewModel)
             })
             .addDisposableTo(disposeBag)
     }
@@ -47,7 +57,7 @@ final class FeedsViewController: BaseViewController {
     }
     
     fileprivate func tryToShowNewStory() {
-        performSegue(withIdentifier: .presentNewStory, sender: nil)
+        performSegue(withIdentifier: .presentNewFeed, sender: nil)
     }
     
     fileprivate func handleNewFeeds(_ feeds: [Feed]) {
@@ -65,7 +75,7 @@ final class FeedsViewController: BaseViewController {
 extension FeedsViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
-        case presentNewStory
+        case presentNewFeed
     }
 
     // MARK: - Navigation
@@ -76,14 +86,14 @@ extension FeedsViewController: SegueHandlerType {
         // Pass the selected object to the new view controller.
         
         switch segueIdentifier(forSegue: segue) {
-        case .presentNewStory:
-            let viewController = segue.destination as! NewStoryViewController
+        case .presentNewFeed:
+            let viewController = segue.destination as! NewFeedViewController
             
             viewController.modalPresentationStyle = .custom
             viewController.transitioningDelegate = presentationTransitionManager
             
-            viewController.tellStoryDidSuccessAction = { [weak self](story) in
-                self?.handleNewStory(story)
+            if let viewModel = sender as? NewFeedViewModel {
+                viewController.viewModel = viewModel
             }
         }
     }

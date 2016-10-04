@@ -35,7 +35,13 @@ final class NewFeedViewController: BaseViewController {
             imageView.isHidden = true
         }
     }
-    @IBOutlet fileprivate weak var textView: UITextView!
+    @IBOutlet fileprivate weak var textView: NextTextView! {
+        didSet {
+            textView.attributedPlaceholder = NSAttributedString(string: placeholderOfStory, attributes: [NSForegroundColorAttributeName: UIColor.hi.placeholder])
+            textView.textColor = UIColor.hi.text
+            textView.tintColor = UIColor.hi.text
+        }
+    }
     @IBOutlet fileprivate weak var toolBarBottom: NSLayoutConstraint!
     
     @IBOutlet fileprivate weak var imageViewHeightConstraint: NSLayoutConstraint!
@@ -46,9 +52,9 @@ final class NewFeedViewController: BaseViewController {
     @IBOutlet private weak var markdownButton: UIButton!
     @IBOutlet private weak var photoButton: UIButton!
     @IBOutlet private weak var locationButton: UIButton!
-    @IBOutlet private weak var postItem: UIBarButtonItem!
     
-    @IBOutlet fileprivate weak var cancelItem: UIBarButtonItem!
+    @IBOutlet private weak var postItem: UIBarButtonItem!
+    @IBOutlet private weak var cancelItem: UIBarButtonItem!
     
     fileprivate struct Constant {
         static let scrollViewContentInsetTop = 44.0
@@ -59,22 +65,8 @@ final class NewFeedViewController: BaseViewController {
     private var canLocate = false
     private var address: String? = nil
     private var coordinate: CLLocationCoordinate2D?
-    private var visible: Visible = .public
     
     fileprivate let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
-    fileprivate var isNeverInputMessage = true
-    
-    fileprivate var isDirty = false {
-        willSet {
-            postItem.isEnabled = newValue
-            
-            if !newValue && isNeverInputMessage {
-                textView.text = placeholderOfStory
-            }
-            
-            textView.textColor = newValue ? UIColor(hex: "#353535") : UIColor(hex: "#C7C7C7")
-        }
-    }
     
     fileprivate lazy var transitionManager = NonStatusBarTransitionManager()
     
@@ -91,18 +83,20 @@ final class NewFeedViewController: BaseViewController {
         willSet {
             guard let image = newValue else { return }
             
+            self.attachmentImage.value = newValue
+            
             let width = image.size.width
             let height = image.size.height
             
             let imageViewHeight = contentView.bounds.width * height / width
-            contentViewHeightConstraint.constant = imageViewHeight + 500.0
+            contentViewHeightConstraint.constant = imageViewHeight + 500.0 - view.bounds.height
             imageViewHeightConstraint.constant = imageViewHeight
             
             contentView.layoutIfNeeded()
         }
     }
     
-    var tellStoryDidSuccessAction: ((_ story: Story) -> Void)?
+    private var attachmentImage: Variable<UIImage?> = Variable(nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,9 +109,16 @@ final class NewFeedViewController: BaseViewController {
         scrollView.contentInset.top = 44.0
         
         textView.textContainerInset = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
-        isDirty = false
         
         let viewModel = self.viewModel ?? NewFeedViewModel()
+        
+        visibleButton.rx.tap
+            .map { [unowned self] () -> Bool in
+                self.visibleButton.isSelected = !self.visibleButton.isSelected
+                return self.visibleButton.isSelected
+            }
+            .bindTo(viewModel.visible)
+            .addDisposableTo(disposeBag)
         
         cancelItem.rx.tap
             .bindTo(viewModel.cancelAction)
@@ -127,17 +128,19 @@ final class NewFeedViewController: BaseViewController {
             .bindTo(viewModel.postAction)
             .addDisposableTo(disposeBag)
         
+        visibleButton.rx.tap
+            .bindTo(viewModel.visibleAction)
+            .addDisposableTo(disposeBag)
+        
         viewModel.postButtonEnabled
             .drive(self.postItem.rx.enabled)
             .addDisposableTo(disposeBag)
         
         viewModel.dismissViewController
             .drive(onNext: { [weak self] in
-                self?.view.endEditing(true)
-                self?.dismiss(animated: true, completion: nil)
+                self?.dismiss()
             })
             .addDisposableTo(disposeBag)
-        
         
         titleTextField.rx.text
             .bindTo(viewModel.title)
@@ -146,15 +149,16 @@ final class NewFeedViewController: BaseViewController {
         textView.rx.text
             .bindTo(viewModel.body)
             .addDisposableTo(disposeBag)
-    
         
+        attachmentImage.asObservable()
+            .bindTo(viewModel.attachmentImage)
+            .addDisposableTo(disposeBag)
+    
         keyboardButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.view.endEditing(true)
             })
             .addDisposableTo(disposeBag)
-        
-        tryToLocate()
         
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
             if let sSelf = self {
@@ -169,6 +173,8 @@ final class NewFeedViewController: BaseViewController {
                 sSelf.view.layoutIfNeeded()
             }
         }
+        
+        tryToLocate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -197,62 +203,25 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
-    private func tryToPostNewFeed() {
-        
-        textView.resignFirstResponder()
-        
-        guard let storyContent = textView.text else {
-            return
-        }
-        
-        ActivityIndicator.shared.show()
-        
-        
-        if let image = imageView.image {
-            let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
-            CacheService.shared.store(image, forKey: url.absoluteString)
-            let attachment = Attachment()
-            attachment.urlString = url.absoluteString
-            story.attachment = attachment
-        }
-
-        guard let realm = try? Realm() else { return }
-        
-        StoryService.shared.synchronize(story, toRealm: realm)
-        
-        DispatchQueue.main.async {
-            ActivityIndicator.shared.hide()
-        }
- 
-    }
-    
-    @IBAction func visibleButtonTapped(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        if sender.isSelected {
-            visible = .public
-        } else {
-            visible = .private
-        }
-    }
-    
     @IBAction func locationButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
         canLocate = sender.isSelected
         if canLocate && coordinate == nil {
-//            let permission: Permission = .LocationWhenInUse
-//            permission.request { [weak self] (status) in
-//                switch permission.status {
-//                case .authorized:
-//                    self?.startLocating()
-//                case .denied:
-//                    print("denied")
-//                case .disabled:
-//                    print("disabled")
-//                case .notDetermined:
-//                    self?.startLocating()
-//                }
-//            }
+            /*
+            let permission: Permission = .LocationWhenInUse
+            permission.request { [weak self] (status) in
+                switch permission.status {
+                case .authorized:
+                    self?.startLocating()
+                case .denied:
+                    print("denied")
+                case .disabled:
+                    print("disabled")
+                case .notDetermined:
+                    self?.startLocating()
+                }
+            }*/
         }
     }
     
@@ -262,10 +231,11 @@ final class NewFeedViewController: BaseViewController {
     }
     
     fileprivate func tryToLocate() {
-//        let permission: Permission = .LocationWhenInUse
-//        if permission.status == .authorized {
-//            startLocating()
-//        }
+        /*
+        let permission: Permission = .LocationWhenInUse
+        if permission.status == .authorized {
+            startLocating()
+        }*/
     }
     
     fileprivate func startLocating() {
@@ -317,26 +287,6 @@ extension NewFeedViewController: UITextFieldDelegate {
 }
 
 extension NewFeedViewController: UITextViewDelegate {
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        
-        if !isDirty {
-            textView.text = ""
-        }
-        
-        isNeverInputMessage = false
-        
-        return true
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        
-        isDirty = NSString(string: textView.text).length > 0
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        
-    }
 }
 
 extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

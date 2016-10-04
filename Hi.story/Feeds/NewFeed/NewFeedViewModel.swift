@@ -18,7 +18,8 @@ protocol NewFeedViewModelType {
     
     var postAction: PublishSubject<Void> { get }
     var cancelAction: PublishSubject<Void> { get }
-    
+    var visibleAction: PublishSubject<Void> { get }
+
     var postButtonEnabled: Driver<Bool> { get }
     var dismissViewController: Driver<Void> { get }
 }
@@ -32,13 +33,15 @@ struct NewFeedViewModel: NewFeedViewModelType {
     var body: Variable<String>
     var tag: Variable<Tag>
     var location: Variable<(String, CLLocationCoordinate2D)?>
-    var attementURL: Variable<URL?>
+    var attachmentImage: Variable<UIImage?>
     
     // visible
-    var visible: Variable<Int>
+    var visible: Variable<Bool>
     
+    // Input
     var postAction = PublishSubject<Void>()
     var cancelAction = PublishSubject<Void>()
+    var visibleAction = PublishSubject<Void>()
     
     // Output
     let postButtonEnabled: Driver<Bool>
@@ -49,15 +52,29 @@ struct NewFeedViewModel: NewFeedViewModelType {
     init() {
         
         // Default value
-        self.title = Variable("")
+        self.title = Variable(NSDate().hi.yearMonthDay)
         self.body = Variable("")
         self.tag = Variable(.none)
         self.location = Variable(nil)
-        self.attementURL = Variable(nil)
         
-        self.visible = Variable(0)
+        self.visible = Variable(false)
         
-        self.postButtonEnabled = self.title.asDriver()
+        self.attachmentImage = Variable(nil)
+        
+        let attachmentURL = self.attachmentImage.asObservable()
+            .flatMapLatest { (image) -> Observable<URL?> in
+                let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
+                if let image = image {
+                    CacheService.shared.store(image, forKey: url.absoluteString)
+                    return Observable.just(url)
+                } else {
+                    CacheService.shared.removeIfExisting(forKey: url.absoluteString)
+                    return Observable.just(nil)
+                }
+            }
+            .asDriver(onErrorJustReturn: nil)
+        
+        self.postButtonEnabled = self.body.asDriver()
             .map { !$0.isEmpty }
             .asDriver(onErrorJustReturn: false)
             .startWith(false)
@@ -65,14 +82,14 @@ struct NewFeedViewModel: NewFeedViewModelType {
         let story = Driver.combineLatest(title.asDriver(),
                                          body.asDriver(),
                                          location.asDriver(),
-                                         attementURL.asDriver()
-        ) { title, body, locationInfo, attementURL -> Story in
+                                         attachmentURL
+        ) { title, body, locationInfo, attachmentURL -> Story in
             
             let story = Story()
             story.title = title
-            story.body = body
+            story.body = body.trimming(.whitespaceAndNewline)
             
-            if let url = attementURL {
+            if let url = attachmentURL {
                 let attachment = Attachment()
                 attachment.urlString = url.absoluteString
                 story.attachment = attachment
@@ -95,7 +112,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
         
         let feed = Driver.combineLatest(story,
                                         visible.asDriver()
-        ) { story, visible -> Feed in
+        ) { story, isVisible -> Feed in
             
             let feed = Feed()
             feed.story = story
@@ -103,7 +120,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             let creator = Hikit.User.current
             feed.creator = creator
             
-            feed.visible = visible
+            feed.visible = isVisible ? 0 : 1
             
             return feed
         }

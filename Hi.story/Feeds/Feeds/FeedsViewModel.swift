@@ -8,5 +8,27 @@
 
 import Foundation
 import Hikit
+import RxSwift
+import RxCocoa
+
+protocol FeedsViewModelType {
+    var addAction: PublishSubject<Void> { get }
+}
+
+struct FeedsViewModel: FeedsViewModelType {
+    
+    private(set) var addAction = PublishSubject<Void>()
+
+    let showNewFeedViewModel: Driver<NewFeedViewModel>
+    //let showFeedViewModel: Driver<FeedViewModel>
+    
+    init() {
+        
+        self.showNewFeedViewModel = self.addAction.asDriver()
+            .map {
+                NewFeedViewModel()
+            }
+    }
+}
 
 extension Feed: ModelType {}

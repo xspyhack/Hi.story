@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ORh-NH-B2U">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ORh-NH-B2U" customClass="TPKeyboardAvoidingScrollView">
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YX2-Vg-Evg">
                                         <subviews>
@@ -43,7 +43,7 @@
                                                     <constraint firstAttribute="height" constant="0.5" id="2bA-Sc-l0x"/>
                                                 </constraints>
                                             </view>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JWX-Zs-Xsq">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JWX-Zs-Xsq" customClass="NextTextView" customModule="Hi_story" customModuleProvider="target">
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="0.20784313730000001" green="0.20784313730000001" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -83,7 +83,7 @@
                                     <constraint firstAttribute="height" constant="44" id="rL7-6y-nnh"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="New Story" id="UBh-0D-Uj7">
+                                    <navigationItem title="New Feed" id="UBh-0D-Uj7">
                                         <barButtonItem key="leftBarButtonItem" title="CANCEL" id="4Sc-vT-RcF"/>
                                         <barButtonItem key="rightBarButtonItem" title="POST" style="done" id="90B-7t-pkS"/>
                                     </navigationItem>
@@ -117,9 +117,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svx-Kq-B1k">
                                         <state key="normal" image="visible"/>
                                         <state key="selected" image="visible_selected"/>
-                                        <connections>
-                                            <action selector="visibleButtonTapped:" destination="QHI-hn-Noi" eventType="touchUpInside" id="vp4-pW-10r"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BO6-TV-dwl">
                                         <constraints>
