@@ -10,6 +10,7 @@ import UIKit
 import Hikit
 import RxCocoa
 import RxSwift
+import RealmSwift
 
 final class FeedsViewController: BaseViewController {
     
@@ -36,7 +37,9 @@ final class FeedsViewController: BaseViewController {
         
         navigationItem.rightBarButtonItem = newItem
         
-        let viewModel = FeedsViewModel()
+        guard let realm = try? Realm() else { return }
+        
+        let viewModel = FeedsViewModel(realm: realm)
         
         self.viewModel = viewModel
         

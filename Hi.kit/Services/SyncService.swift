@@ -96,3 +96,10 @@ public class MatterService: Synchronizable {
         return realm.objects(Matter.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
     }
 }
+
+public class FeedService: Synchronizable {
+    
+    public typealias T = Feed
+    
+    open static let shared = FeedService()
+}

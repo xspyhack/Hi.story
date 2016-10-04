@@ -10,6 +10,7 @@ import Foundation
 import Hikit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 protocol FeedsViewModelType {
     var addAction: PublishSubject<Void> { get }
@@ -22,12 +23,29 @@ struct FeedsViewModel: FeedsViewModelType {
     let showNewFeedViewModel: Driver<NewFeedViewModel>
     //let showFeedViewModel: Driver<FeedViewModel>
     
-    init() {
+    private let disposeBag = DisposeBag()
+    
+    private(set) var feeds: Variable<[Feed]>
+    
+    init(realm: Realm) {
         
+        let feeds = Variable<[Feed]>(FeedService.shared.fetchAll(fromRealm: realm))
+        
+        self.feeds =  feeds
         self.showNewFeedViewModel = self.addAction.asDriver()
             .map {
                 NewFeedViewModel()
             }
+        
+        // Services
+        
+        Feed.didCreate
+            .subscribe(onNext: { feed in
+                feeds.value.insert(feed, at: 0)
+                FeedService.shared.synchronize(feed, toRealm: realm)
+            })
+            .addDisposableTo(disposeBag)
+
     }
 }
 
