@@ -35,7 +35,7 @@ final class CollectionsViewController: BaseViewController {
         
         addItem.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.showActionSheet()
+                self?.tryToShowNewStory()
             })
             .addDisposableTo(disposeBag)
         
@@ -51,31 +51,8 @@ final class CollectionsViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    fileprivate func showActionSheet() {
-        
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let matterAction = UIAlertAction(title: "Matter", style: .default) { [weak self] (action) in
-            self?.tryToShowNewMatter()
-        }
-        alertController.addAction(matterAction)
-        
-        let storyAction = UIAlertAction(title: "Story", style: .default) { [weak self] (action) in
-            self?.tryToShowNewStory()
-        }
-        alertController.addAction(storyAction)
-        
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    fileprivate func tryToShowNewStory() {
+    private func tryToShowNewStory() {
         performSegue(withIdentifier: .presentNewStory, sender: nil)
-    }
-    
-    fileprivate func tryToShowNewMatter() {
-        performSegue(withIdentifier: .presentNewMatter, sender: nil)
     }
     
     fileprivate func tryToShowMatters() {
@@ -90,7 +67,6 @@ extension CollectionsViewController: SegueHandlerType {
     enum SegueIdentifier: String {
         case showRestrospective
         case showMatters
-        case presentNewMatter
         case presentNewStory
     }
     
@@ -103,14 +79,13 @@ extension CollectionsViewController: SegueHandlerType {
         case .showRestrospective:
             let viewController = segue.destination as! RestrospectiveViewController
             viewController.hidesBottomBarWhenPushed = true
-        case .presentNewMatter:
-            let viewController = segue.destination as! NewMatterViewController
+
+        case .presentNewStory:
+            let viewController = segue.destination as! NewStoryViewController
             
             viewController.modalPresentationStyle = .custom
             viewController.transitioningDelegate = presentationTransitionManager
             
-        case .presentNewStory:
-            break
         case .showMatters:
             break
         }
