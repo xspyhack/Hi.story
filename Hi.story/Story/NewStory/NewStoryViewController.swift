@@ -88,7 +88,7 @@ final class NewStoryViewController: BaseViewController {
             let height = image.size.height
             
             let imageViewHeight = contentView.bounds.width * height / width
-            contentViewHeightConstraint.constant = imageViewHeight + 500.0
+            contentViewHeightConstraint.constant = imageViewHeight - view.bounds.height + 500.0
             imageViewHeightConstraint.constant = imageViewHeight
             
             contentView.layoutIfNeeded()
