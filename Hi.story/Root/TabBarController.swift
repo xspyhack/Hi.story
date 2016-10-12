@@ -13,7 +13,7 @@ final class TabBarController: UITabBarController {
     enum Tab: Int {
         case home = 0
         case feeds
-        case collections
+        case matters
         case profile
     }
     
