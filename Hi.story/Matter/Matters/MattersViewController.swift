@@ -36,8 +36,6 @@ final class MattersViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Matters"
-        
         self.registerForPreviewing(with: self, sourceView: tableView)
         
         guard let realm = try? Realm() else { return }
@@ -108,6 +106,10 @@ final class MattersViewController: BaseViewController {
             Defaults.isShowedNewMatterTip = true
             show()
         }
+    }
+    
+    func tryToAddNewMatter() {
+        
     }
     
     fileprivate func show() {
