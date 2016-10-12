@@ -10,6 +10,7 @@ import UIKit
 import MobileCoreServices.UTType
 import KeyboardMan
 //import Permission
+import CoreLocation
 import Hikit
 import RxSwift
 import RxCocoa
@@ -37,9 +38,10 @@ final class NewFeedViewController: BaseViewController {
     }
     @IBOutlet fileprivate weak var textView: NextTextView! {
         didSet {
-            textView.attributedPlaceholder = NSAttributedString(string: placeholderOfStory, attributes: [NSForegroundColorAttributeName: UIColor.hi.placeholder])
+            textView.attributedPlaceholder = NSAttributedString(string: placeholderOfStory, attributes: [NSForegroundColorAttributeName: UIColor.hi.placeholder, NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)])
             textView.textColor = UIColor.hi.text
             textView.tintColor = UIColor.hi.text
+            textView.font = UIFont.systemFont(ofSize: 14.0)
         }
     }
     @IBOutlet fileprivate weak var toolBarBottom: NSLayoutConstraint!

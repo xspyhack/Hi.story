@@ -21,6 +21,7 @@
                     <navigationItem key="navigationItem" title="Feeds" id="LdB-Ce-FKk"/>
                     <connections>
                         <segue destination="khL-1a-vsD" kind="presentation" identifier="presentNewFeed" id="pFN-Qf-dTK"/>
+                        <segue destination="TSq-Pn-9Yw" kind="show" identifier="showCollections" id="cuv-nC-gbd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q4K-XI-qa6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -34,6 +35,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rhr-oB-U2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1029" y="1822"/>
+        </scene>
+        <!--CollectionsViewController-->
+        <scene sceneID="FZk-cj-You">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Collections" referencedIdentifier="CollectionsViewController" id="TSq-Pn-9Yw" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wEe-di-EDT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1037" y="1948"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kFn-Uo-JrH">
