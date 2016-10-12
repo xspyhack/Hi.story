@@ -13,13 +13,13 @@ func configureShortcuts() {
     var shortcutItems = [UIApplicationShortcutItem]()
 
     do {
-        let type = ShortcutType.newStory.rawValue
+        let type = ShortcutType.history.rawValue
         
         let item = UIApplicationShortcutItem(
             type: type,
-            localizedTitle: NSLocalizedString("New Story", comment: ""),
+            localizedTitle: NSLocalizedString("History", comment: ""),
             localizedSubtitle: nil,
-            icon: UIApplicationShortcutIcon(type: .compose),
+            icon: UIApplicationShortcutIcon(type: .home),
             userInfo: nil
         )
         
@@ -27,11 +27,11 @@ func configureShortcuts() {
     }
     
     do {
-        let type = ShortcutType.feeds.rawValue
+        let type = ShortcutType.newFeed.rawValue
         
         let item = UIApplicationShortcutItem(
             type: type,
-            localizedTitle: NSLocalizedString("Feeds", comment: ""),
+            localizedTitle: NSLocalizedString("New Feed", comment: ""),
             localizedSubtitle: nil,
             icon: UIApplicationShortcutIcon(templateImageName: "tab_feeds_selected"),
             userInfo: nil
@@ -41,13 +41,13 @@ func configureShortcuts() {
     }
     
     do {
-        let type = ShortcutType.collections.rawValue
+        let type = ShortcutType.newMatter.rawValue
         
         let item = UIApplicationShortcutItem(
             type: type,
-            localizedTitle: NSLocalizedString("Collections", comment: ""),
+            localizedTitle: NSLocalizedString("New Matter", comment: ""),
             localizedSubtitle: nil,
-            icon: UIApplicationShortcutIcon(templateImageName: "tab_collections_selected"),
+            icon: UIApplicationShortcutIcon(type: .compose),
             userInfo: nil
         )
         
@@ -74,17 +74,27 @@ func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow wi
     }
     
     switch shortcutType {
-    case .newStory:
+    case .history:
         tabBarController.selectedTab = .home
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? HomeViewController {
                 vc.tryToTellStory()
             }
         }
-    case .feeds:
+    case .newFeed:
         tabBarController.selectedTab = .feeds
-    case .collections:
-        tabBarController.selectedTab = .collections
+        if let nvc = tabBarController.selectedViewController as? UINavigationController {
+            if let vc = nvc.topViewController as? FeedsViewController {
+                vc.tryToAddNewFeed()
+            }
+        }
+    case .newMatter:
+        tabBarController.selectedTab = .matters
+        if let nvc = tabBarController.selectedViewController as? UINavigationController {
+            if let vc = nvc.topViewController as? MattersViewController {
+                vc.tryToAddNewMatter()
+            }
+        }
     }
 }
 

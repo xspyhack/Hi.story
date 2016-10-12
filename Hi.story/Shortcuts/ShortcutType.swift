@@ -9,7 +9,9 @@
 import Foundation
 
 enum ShortcutType: String {
-    case newStory = "com.xspyhack.History.Shortcut.NewStory"
-    case feeds = "com.xspyhack.History.Shortcut.Feeds"
-    case collections = "com.xspyhack.History.Shortcut.Collections"
+    
+    case history = "com.xspyhack.History.Shortcut.History"
+    case newFeed = "com.xspyhack.History.Shortcut.NewFeed"
+    case newMatter = "com.xspyhack.History.Shortcut.NewMatter"
+    //case collections = "com.xspyhack.History.Shortcut.Collections"
 }
