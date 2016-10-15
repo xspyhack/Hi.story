@@ -46,10 +46,19 @@ public struct K<Base: BaseType> {
 public typealias BaseType = BaseProtocol
 
 public protocol BaseProtocol {
+    associatedtype Base
+    
+    var hi: Base { get }
+    static var hi: Base.Type { get }
 }
 
 public extension BaseProtocol {
+    
     public var hi: K<Self> {
         return K(self)
+    }
+    
+    public static var hi: K<Self>.Type {
+        return K.self
     }
 }
