@@ -44,3 +44,29 @@ public class Story: Object {
         return ["id"]
     }
 }
+
+public class StoryService: Synchronizable {
+    
+    public typealias T = Story
+    open static let shared = StoryService()
+    
+    open func synchronize(_ resource: Story, toRealm realm: Realm) {
+        
+        let _ = try? realm.write {
+            print("add")
+            realm.add(resource)
+        }
+    }
+    
+    open func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> Story? {
+        return realm.objects(Story.self).filter(predicate).first
+    }
+    
+    open func fetchAll(fromRealm realm: Realm) -> [Story] {
+        return realm.objects(Story.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
+    }
+    
+    open func fetchLatest(fromRealm realm: Realm) -> Story? {
+        return realm.objects(Story.self).sorted(byProperty: "updatedAt", ascending: false).flatMap { $0 }.first
+    }
+}

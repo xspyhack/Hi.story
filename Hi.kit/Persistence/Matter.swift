@@ -85,5 +85,19 @@ public class Matter: Object {
     
     public dynamic var tag: Int = Tag.none.rawValue // MAYBE COLOR
 
+    #if !os(watchOS)
     public dynamic var story: Story? //  关联的 Story，在删除的时候需要注意，cascade delete
+    #endif
 }
+
+public class MatterService: Synchronizable {
+    
+    public typealias T = Matter
+    
+    open static let shared = MatterService()
+    
+    open func fetchAll(fromRealm realm: Realm) -> [T] {
+        return realm.objects(Matter.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
+    }
+}
+
