@@ -31,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             configureShortcuts()
         }
         
+        // Transfer matters to watchApp
+        
+        
+        
         return true
     }
 

@@ -13,8 +13,6 @@
 		782FA0021D2183600043F317 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FA0011D2183600043F317 /* QRCodeViewController.swift */; };
 		7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */; };
 		783865511CFC73CD005E1503 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865501CFC73CD005E1503 /* LocationService.swift */; };
-		78409A4F1D5222C600354650 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A4E1D5222C600354650 /* Realm.framework */; };
-		78409A511D5222DA00354650 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A501D5222DA00354650 /* RealmSwift.framework */; };
 		784E86211CEEB45B00E24B36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 784E861F1CEEB45B00E24B36 /* Main.storyboard */; };
 		784E86261CEEB45B00E24B36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 784E86241CEEB45B00E24B36 /* LaunchScreen.storyboard */; };
 		785872521D7B130D00A21F8C /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785872511D7B130D00A21F8C /* RxDataSources.framework */; };
@@ -81,6 +79,28 @@
 		788BCF871DA21F6E00535519 /* NewFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF861DA21F6E00535519 /* NewFeedViewModel.swift */; };
 		788BCF891DA220BE00535519 /* FeedsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF881DA220BE00535519 /* FeedsViewModel.swift */; };
 		788BCF8C1DA384E900535519 /* NextTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF8B1DA384E900535519 /* NextTextView.swift */; };
+		788BCF931DB0EC7A00535519 /* MatterRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCF921DB0EC7A00535519 /* MatterRow.swift */; };
+		788BCFD61DB10EB000535519 /* Hiwatchkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 788BCFD41DB10EB000535519 /* Hiwatchkit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		788BCFD91DB10EB000535519 /* Hiwatchkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFD21DB10EB000535519 /* Hiwatchkit.framework */; };
+		788BCFDA1DB10EB000535519 /* Hiwatchkit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFD21DB10EB000535519 /* Hiwatchkit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		788BCFDE1DB10FB800535519 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEB41D5234FC0004B8C3 /* Models.swift */; };
+		788BCFDF1DB10FB800535519 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D381C51D60D98600AB844E /* Matter.swift */; };
+		788BCFE01DB10FB800535519 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEB61D5244680004B8C3 /* Configure.swift */; };
+		788BCFE11DB10FB800535519 /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEBD1D524B370004B8C3 /* SyncService.swift */; };
+		788BCFE81DB112E800535519 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFE61DB112E800535519 /* Realm.framework */; };
+		788BCFE91DB112E800535519 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFE71DB112E800535519 /* RealmSwift.framework */; };
+		788BCFEC1DB1F00A00535519 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFEA1DB1F00A00535519 /* Realm.framework */; };
+		788BCFED1DB1F00A00535519 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFEA1DB1F00A00535519 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		788BCFEE1DB1F00A00535519 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFEB1DB1F00A00535519 /* RealmSwift.framework */; };
+		788BCFEF1DB1F00A00535519 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 788BCFEB1DB1F00A00535519 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		788BCFF21DB1F24A00535519 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A4E1D5222C600354650 /* Realm.framework */; };
+		788BCFF31DB1F24A00535519 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A501D5222DA00354650 /* RealmSwift.framework */; };
+		788BCFF51DB204A000535519 /* Date+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786AD4B31D8D3688008709D2 /* Date+Hi.swift */; };
+		788BCFF61DB204A400535519 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B2052F1D7169DD0057D722 /* Base.swift */; };
+		788BCFF71DB205E700535519 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78409A521D52340800354650 /* RealmConfig.swift */; };
+		788BCFFC1DB218EB00535519 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCFFB1DB218EB00535519 /* WatchSessionService.swift */; };
+		788BCFFD1DB218EB00535519 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCFFB1DB218EB00535519 /* WatchSessionService.swift */; };
+		788BCFFE1DB21DBF00535519 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCFFB1DB218EB00535519 /* WatchSessionService.swift */; };
 		789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224EF1CF7712F00A44040 /* UIImage+Extension.swift */; };
 		789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */; };
 		789224F81CFAD16200A44040 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F51CFAD16200A44040 /* PresentationController.swift */; };
@@ -213,6 +233,13 @@
 			remoteGlobalIDString = 786191611D18452F005680B3;
 			remoteInfo = Himarkdown;
 		};
+		788BCFD71DB10EB000535519 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 784E86101CEEB45B00E24B36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 788BCFD11DB10EB000535519;
+			remoteInfo = Hiwatchkit;
+		};
 		78CEFD0E1D157EF50098516A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 784E86101CEEB45B00E24B36 /* Project object */;
@@ -237,6 +264,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		788BCFA51DB10CD200535519 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				788BCFED1DB1F00A00535519 /* Realm.framework in Embed Frameworks */,
+				788BCFDA1DB10EB000535519 /* Hiwatchkit.framework in Embed Frameworks */,
+				788BCFEF1DB1F00A00535519 /* RealmSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78CEFCFE1D1572F80098516A /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -362,6 +402,18 @@
 		788BCF861DA21F6E00535519 /* NewFeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedViewModel.swift; sourceTree = "<group>"; };
 		788BCF881DA220BE00535519 /* FeedsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsViewModel.swift; sourceTree = "<group>"; };
 		788BCF8B1DA384E900535519 /* NextTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextTextView.swift; sourceTree = "<group>"; };
+		788BCF921DB0EC7A00535519 /* MatterRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatterRow.swift; sourceTree = "<group>"; };
+		788BCFD21DB10EB000535519 /* Hiwatchkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hiwatchkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		788BCFD41DB10EB000535519 /* Hiwatchkit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hiwatchkit.h; sourceTree = "<group>"; };
+		788BCFD51DB10EB000535519 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		788BCFE61DB112E800535519 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/watchOS/Realm.framework; sourceTree = "<group>"; };
+		788BCFE71DB112E800535519 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/watchOS/RealmSwift.framework; sourceTree = "<group>"; };
+		788BCFEA1DB1F00A00535519 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/watchOS/Realm.framework; sourceTree = "<group>"; };
+		788BCFEB1DB1F00A00535519 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/watchOS/RealmSwift.framework; sourceTree = "<group>"; };
+		788BCFF81DB20A2D00535519 /* Hi.watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hi.watch.entitlements; sourceTree = "<group>"; };
+		788BCFF91DB20B7000535519 /* Hi.watch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Hi.watch Extension.entitlements"; sourceTree = "<group>"; };
+		788BCFFA1DB2128500535519 /* Hi.share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hi.share.entitlements; sourceTree = "<group>"; };
+		788BCFFB1DB218EB00535519 /* WatchSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionService.swift; sourceTree = "<group>"; };
 		789224EF1CF7712F00A44040 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewTransitionManager.swift; sourceTree = "<group>"; };
 		789224F51CFAD16200A44040 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
@@ -464,8 +516,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78409A511D5222DA00354650 /* RealmSwift.framework in Frameworks */,
-				78409A4F1D5222C600354650 /* Realm.framework in Frameworks */,
+				788BCFF21DB1F24A00535519 /* Realm.framework in Frameworks */,
+				788BCFF31DB1F24A00535519 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +544,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		788BCFCE1DB10EB000535519 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				788BCFE81DB112E800535519 /* Realm.framework in Frameworks */,
+				788BCFE91DB112E800535519 /* RealmSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78CEFD031D157EF50098516A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -506,6 +567,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				788BCFEC1DB1F00A00535519 /* Realm.framework in Frameworks */,
+				788BCFD91DB10EB000535519 /* Hiwatchkit.framework in Frameworks */,
+				788BCFEE1DB1F00A00535519 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +579,10 @@
 		01B28DE88696B5C820F5F774 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				788BCFEA1DB1F00A00535519 /* Realm.framework */,
+				788BCFEB1DB1F00A00535519 /* RealmSwift.framework */,
+				788BCFE61DB112E800535519 /* Realm.framework */,
+				788BCFE71DB112E800535519 /* RealmSwift.framework */,
 				78E433881D8E4E050037D646 /* KeyboardMan.framework */,
 				785872511D7B130D00A21F8C /* RxDataSources.framework */,
 				786A269B1D53A73E002CC8E1 /* Kingfisher.framework */,
@@ -563,6 +631,7 @@
 				78CFB2101D563AE1009D7293 /* Hi.watch Extension */,
 				786190CE1D1589D1005680B3 /* Hi.kit */,
 				786190DC1D1589D1005680B3 /* Hi.kitTests */,
+				788BCFD31DB10EB000535519 /* Hi.watchkit */,
 				786191631D18452F005680B3 /* Hi.markdown */,
 				786191711D18452F005680B3 /* Hi.markdownTests */,
 				784E86191CEEB45B00E24B36 /* Products */,
@@ -581,6 +650,7 @@
 				7861916B1D18452F005680B3 /* HimarkdownTests.xctest */,
 				78CFB2001D563AE1009D7293 /* Hi.watch.app */,
 				78CFB20C1D563AE1009D7293 /* Hi.watch Extension.appex */,
+				788BCFD21DB10EB000535519 /* Hiwatchkit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -677,6 +747,7 @@
 			children = (
 				786191451D15D01B005680B3 /* Service.swift */,
 				7895AEBD1D524B370004B8C3 /* SyncService.swift */,
+				788BCFFB1DB218EB00535519 /* WatchSessionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -810,6 +881,23 @@
 			path = NextTextView;
 			sourceTree = "<group>";
 		};
+		788BCF911DB0EC5D00535519 /* Matter */ = {
+			isa = PBXGroup;
+			children = (
+				788BCF921DB0EC7A00535519 /* MatterRow.swift */,
+			);
+			path = Matter;
+			sourceTree = "<group>";
+		};
+		788BCFD31DB10EB000535519 /* Hi.watchkit */ = {
+			isa = PBXGroup;
+			children = (
+				788BCFD41DB10EB000535519 /* Hiwatchkit.h */,
+				788BCFD51DB10EB000535519 /* Info.plist */,
+			);
+			path = Hi.watchkit;
+			sourceTree = "<group>";
+		};
 		789224F31CFAD16200A44040 /* Transitions */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,6 +952,7 @@
 		78CEFD071D157EF50098516A /* Hi.share */ = {
 			isa = PBXGroup;
 			children = (
+				788BCFFA1DB2128500535519 /* Hi.share.entitlements */,
 				78CEFD081D157EF50098516A /* ShareViewController.swift */,
 				786190EE1D158BDC005680B3 /* TagsViewController.swift */,
 				786191391D15B9C7005680B3 /* TitleViewController.swift */,
@@ -877,6 +966,7 @@
 		78CFB2011D563AE1009D7293 /* Hi.watch */ = {
 			isa = PBXGroup;
 			children = (
+				788BCFF81DB20A2D00535519 /* Hi.watch.entitlements */,
 				78CFB2021D563AE1009D7293 /* Interface.storyboard */,
 				78CFB2051D563AE1009D7293 /* Assets.xcassets */,
 				78CFB2071D563AE1009D7293 /* Info.plist */,
@@ -889,7 +979,9 @@
 			children = (
 				78CFB2111D563AE1009D7293 /* InterfaceController.swift */,
 				78CFB2131D563AE1009D7293 /* ExtensionDelegate.swift */,
+				788BCF911DB0EC5D00535519 /* Matter */,
 				78CFB2151D563AE1009D7293 /* Assets.xcassets */,
+				788BCFF91DB20B7000535519 /* Hi.watch Extension.entitlements */,
 				78CFB2171D563AE1009D7293 /* Info.plist */,
 			);
 			path = "Hi.watch Extension";
@@ -1176,6 +1268,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		788BCFCF1DB10EB000535519 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				788BCFD61DB10EB000535519 /* Hiwatchkit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1278,6 +1378,24 @@
 			productReference = 7861916B1D18452F005680B3 /* HimarkdownTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		788BCFD11DB10EB000535519 /* Hiwatchkit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 788BCFDB1DB10EB000535519 /* Build configuration list for PBXNativeTarget "Hiwatchkit" */;
+			buildPhases = (
+				788BCFCD1DB10EB000535519 /* Sources */,
+				788BCFCE1DB10EB000535519 /* Frameworks */,
+				788BCFCF1DB10EB000535519 /* Headers */,
+				788BCFD01DB10EB000535519 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hiwatchkit;
+			productName = Hiwatchkit;
+			productReference = 788BCFD21DB10EB000535519 /* Hiwatchkit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		78CEFD051D157EF50098516A /* Hi.share */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 78CEFD111D157EF50098516A /* Build configuration list for PBXNativeTarget "Hi.share" */;
@@ -1319,10 +1437,12 @@
 				78CFB2081D563AE1009D7293 /* Sources */,
 				78CFB2091D563AE1009D7293 /* Frameworks */,
 				78CFB20A1D563AE1009D7293 /* Resources */,
+				788BCFA51DB10CD200535519 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				788BCFD81DB10EB000535519 /* PBXTargetDependency */,
 			);
 			name = "Hi.watch Extension";
 			productName = "Hi.watch Extension";
@@ -1372,20 +1492,40 @@
 						LastSwiftMigration = 0800;
 						TestTargetID = 784E86171CEEB45B00E24B36;
 					};
+					788BCFD11DB10EB000535519 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = DJ5N6T769K;
+						ProvisioningStyle = Automatic;
+					};
 					78CEFD051D157EF50098516A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					78CFB1FF1D563AE1009D7293 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					78CFB20B1D563AE1009D7293 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = DJ5N6T769K;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1410,6 +1550,7 @@
 				786190D51D1589D1005680B3 /* HikitTests */,
 				786191611D18452F005680B3 /* Himarkdown */,
 				7861916A1D18452F005680B3 /* HimarkdownTests */,
+				788BCFD11DB10EB000535519 /* Hiwatchkit */,
 			);
 		};
 /* End PBXProject section */
@@ -1460,6 +1601,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		786191691D18452F005680B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		788BCFD01DB10EB000535519 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1616,6 +1764,7 @@
 				7895AEB71D5244680004B8C3 /* Configure.swift in Sources */,
 				786191491D15D0B4005680B3 /* Service.swift in Sources */,
 				7895AEB81D5244F60004B8C3 /* RealmConfig.swift in Sources */,
+				788BCFFC1DB218EB00535519 /* WatchSessionService.swift in Sources */,
 				786AD4B51D8D368E008709D2 /* Date+Hi.swift in Sources */,
 				78B205421D71B4390057D722 /* String+Hi.swift in Sources */,
 				78D3BCD81D44C19700A155B6 /* DispatchQueue.swift in Sources */,
@@ -1631,6 +1780,7 @@
 				788BCF851DA21C6B00535519 /* Feed.swift in Sources */,
 				786190DE1D1589D1005680B3 /* HikitTests.swift in Sources */,
 				786AD4B61D8D3693008709D2 /* Date+Hi.swift in Sources */,
+				788BCFFD1DB218EB00535519 /* WatchSessionService.swift in Sources */,
 				78D3BCDE1D44C6A300A155B6 /* Service.swift in Sources */,
 				7895AEBF1D5251750004B8C3 /* SyncService.swift in Sources */,
 				78D3BCD91D44C1C000A155B6 /* DispatchQueue.swift in Sources */,
@@ -1660,6 +1810,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		788BCFCD1DB10EB000535519 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				788BCFFE1DB21DBF00535519 /* WatchSessionService.swift in Sources */,
+				788BCFF71DB205E700535519 /* RealmConfig.swift in Sources */,
+				788BCFF61DB204A400535519 /* Base.swift in Sources */,
+				788BCFDE1DB10FB800535519 /* Models.swift in Sources */,
+				788BCFDF1DB10FB800535519 /* Matter.swift in Sources */,
+				788BCFF51DB204A000535519 /* Date+Hi.swift in Sources */,
+				788BCFE01DB10FB800535519 /* Configure.swift in Sources */,
+				788BCFE11DB10FB800535519 /* SyncService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78CEFD021D157EF50098516A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1675,6 +1840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78CFB2141D563AE1009D7293 /* ExtensionDelegate.swift in Sources */,
+				788BCF931DB0EC7A00535519 /* MatterRow.swift in Sources */,
 				78CFB2121D563AE1009D7293 /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1711,6 +1877,11 @@
 			isa = PBXTargetDependency;
 			target = 786191611D18452F005680B3 /* Himarkdown */;
 			targetProxy = 786191751D18452F005680B3 /* PBXContainerItemProxy */;
+		};
+		788BCFD81DB10EB000535519 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 788BCFD11DB10EB000535519 /* Hiwatchkit */;
+			targetProxy = 788BCFD71DB10EB000535519 /* PBXContainerItemProxy */;
 		};
 		78CEFD0F1D157EF50098516A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1914,6 +2085,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Hi.kit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1943,6 +2115,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Hi.kit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2056,9 +2229,75 @@
 			};
 			name = Release;
 		};
+		788BCFDC1DB10EB000535519 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DJ5N6T769K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Hi.watchkit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hiwatchkit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Debug;
+		};
+		788BCFDD1DB10EB000535519 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DJ5N6T769K;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Hi.watchkit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hiwatchkit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Release;
+		};
 		78CEFD121D157EF50098516A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Hi.share/Hi.share.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2077,6 +2316,7 @@
 		78CEFD131D157EF50098516A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Hi.share/Hi.share.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2097,6 +2337,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Hi.watch/Hi.watch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IBSC_MODULE = Hi_watch_Extension;
 				INFOPLIST_FILE = Hi.watch/Info.plist;
@@ -2115,6 +2356,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Hi.watch/Hi.watch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IBSC_MODULE = Hi_watch_Extension;
 				INFOPLIST_FILE = Hi.watch/Info.plist;
@@ -2131,7 +2373,12 @@
 		78CFB21D1D563AE1009D7293 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Hi.watch Extension/Hi.watch Extension.entitlements";
 				DEVELOPMENT_TEAM = DJ5N6T769K;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "Hi.watch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History.watchkitapp.watchkitextension;
@@ -2147,7 +2394,12 @@
 		78CFB21E1D563AE1009D7293 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Hi.watch Extension/Hi.watch Extension.entitlements";
 				DEVELOPMENT_TEAM = DJ5N6T769K;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "Hi.watch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History.watchkitapp.watchkitextension;
@@ -2216,6 +2468,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		788BCFDB1DB10EB000535519 /* Build configuration list for PBXNativeTarget "Hiwatchkit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				788BCFDC1DB10EB000535519 /* Debug */,
+				788BCFDD1DB10EB000535519 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		78CEFD111D157EF50098516A /* Build configuration list for PBXNativeTarget "Hi.share" */ = {
 			isa = XCConfigurationList;
