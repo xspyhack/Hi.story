@@ -8,13 +8,6 @@
 
 import WatchConnectivity
 
-@objc public protocol WatchSessionDelegate: class {
-    
-    @objc optional func didReceiveApplicationContext(applicationContext: [String : Any])
-    
-    @objc optional func didReceiveUserInfo(userInfo: [String : Any])
-}
-
 public class WatchSessionService: NSObject {
     
     public static let shared = WatchSessionService()
@@ -23,14 +16,15 @@ public class WatchSessionService: NSObject {
         super.init()
     }
     
-    public weak var delegate: WatchSessionDelegate?
+    private lazy var session: WCSession? = WCSession.isSupported() ? WCSession.default() : nil
     
-    private let session: WCSession? = WCSession.isSupported() ? WCSession.default() : nil
-    
-    public func start() {
+    public func start(withDelegate delegate: WCSessionDelegate) {
 
-        session?.delegate = self
-        session?.activate()
+        if session?.delegate == nil {
+            
+            session?.delegate = delegate
+        }
+        session!.activate()
     }
     
     private var valid: WCSession? {
@@ -50,7 +44,11 @@ public class WatchSessionService: NSObject {
     }
     
     public func update(withApplicationContext applicationContext: [String: Any]) {
-        try? valid?.updateApplicationContext(applicationContext)
+        do {
+            try session?.updateApplicationContext(applicationContext)
+        } catch {
+            print(error)
+        }
     }
     
     @discardableResult
@@ -66,32 +64,5 @@ public class WatchSessionService: NSObject {
     @discardableResult
     public func transfer(currentComplicationUserInfo userInfo: [String: Any]) -> WCSessionUserInfoTransfer? {
         return valid?.transferCurrentComplicationUserInfo(userInfo)
-    }
-}
-
-extension WatchSessionService: WCSessionDelegate {
-    
-    public func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
-    }
-    
-    /** ------------------------- iOS App State For Watch ------------------------ */
-    
-    /** Called when the session can no longer be used to modify or add any new transfers and, all interactive messages will be cancelled, but delegate callbacks for background transfers can still occur. This will happen when the selected watch is being changed. */
-    public func sessionDidBecomeInactive(_ session: WCSession) {
-        
-    }
-    
-    /** Called when all delegate callbacks for the previously selected watch has occurred. The session can be re-activated for the now selected watch using activateSession. */
-    public func sessionDidDeactivate(_ session: WCSession) {
-        
-    }
-    
-    public func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        delegate?.didReceiveUserInfo?(userInfo: userInfo)
-    }
-    
-    public func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        delegate?.didReceiveApplicationContext?(applicationContext: applicationContext)
     }
 }
