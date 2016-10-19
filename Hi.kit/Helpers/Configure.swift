@@ -13,4 +13,6 @@ public class Configure {
     public static let appGroupIdentifier = "group.com.xspyhack.History"
     
     public static let rowHeight: Float = 44.0
+    
+    public static let sharedMattersKey = "com.xspyhack.History.Matters"
 }

@@ -15,8 +15,6 @@ public func realmConfig() -> Realm.Configuration {
 
     let directory: URL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configure.appGroupIdentifier)!
     let realmFileURL = directory.appendingPathComponent("db.realm")
-    
-    print(realmFileURL)
 
     var config = Realm.Configuration()
     config.fileURL = realmFileURL
