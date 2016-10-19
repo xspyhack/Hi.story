@@ -21,7 +21,7 @@ struct MatterRowModel: MatterRowModelType {
     var days: Int
     var tag: String
     
-    init(matter: Matter) {
+    init(matter: SharedMatter) {
         self.title = matter.title
         self.days = Date().hi.days(withDate: Date(timeIntervalSince1970: matter.happenedAt))
         self.tag = "#233333"

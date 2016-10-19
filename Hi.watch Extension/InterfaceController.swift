@@ -9,11 +9,11 @@
 import WatchKit
 import Foundation
 import Hiwatchkit
-import RealmSwift
+import WatchConnectivity
 
 class InterfaceController: WKInterfaceController {
     
-    private var matters: [Matter] = []
+    //private var matters: [Matter] = []
 
     @IBOutlet private var tableView: WKInterfaceTable!
     override func awake(withContext context: Any?) {
@@ -21,21 +21,18 @@ class InterfaceController: WKInterfaceController {
         
         // Configure interface objects here.
         
-        guard let realm = try? Realm() else {
-            return
-        }
+        print("awake")
         
-        print(realm.objects(Matter.self).count)
-        
-        matters = MatterService.shared.fetchAll(fromRealm: realm)
-        
-        configureTableView()
+        WatchSessionService.shared.start(withDelegate: self)
     }
 
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         
+        print("activate")
+        
+        WatchSessionService.shared.start(withDelegate: self)
     }
 
     override func didDeactivate() {
@@ -43,7 +40,7 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
-    private func configureTableView() {
+    fileprivate func configure(with matters: [SharedMatter]) {
         
         tableView.setNumberOfRows(matters.count, withRowType: "MatterRow")
         
@@ -56,6 +53,16 @@ class InterfaceController: WKInterfaceController {
     }
 }
 
-extension InterfaceController {
+extension InterfaceController: WCSessionDelegate {
     
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        
+        guard let matters = applicationContext[Configure.sharedMattersKey] as? [SharedMatter] else { return }
+        
+        configure(with: matters)
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        
+    }
 }

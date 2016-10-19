@@ -7,15 +7,11 @@
 //
 
 import WatchKit
-import RealmSwift
-import Hiwatchkit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidFinishLaunching() {
-        // Perform any final initialization of your application.
-        
-        Realm.Configuration.defaultConfiguration = realmConfig()
+        // Perform any final initialization of your application.   
     }
 
     func applicationDidBecomeActive() {
