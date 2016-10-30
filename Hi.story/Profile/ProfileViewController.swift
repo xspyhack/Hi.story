@@ -15,7 +15,7 @@ import RxDataSources
 //import Permission
 import MobileCoreServices.UTType
 
-private let maximumHeaderHeight: CGFloat = 360.0
+private let maximumHeaderHeight: CGFloat = 332.0
 private let minimumHeaderHeight: CGFloat = 220.0
 private let maximumAvatarWidth: CGFloat = 120.0
 
@@ -54,7 +54,7 @@ final class ProfileViewController: BaseViewController {
     @IBOutlet fileprivate weak var bioContainerHeightConstraint: NSLayoutConstraint!
     
     fileprivate var headerHeight: CGFloat = 0.0
-    fileprivate var bioHeight: CGFloat = 30.0
+    fileprivate var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
     
     fileprivate lazy var blurEffect = UIBlurEffect(style: .light)
     
@@ -263,7 +263,7 @@ extension ProfileViewController {
         
         let offsetY = scrollView.contentOffset.y
         
-        headerHeight = max(min(-(offsetY), maximumHeaderHeight), minimumHeaderHeight) // 220 ~ 360
+        headerHeight = max(min(-(offsetY), maximumHeaderHeight), minimumHeaderHeight) // 220 ~ 332
         
         updateHeaderViewConstraints()
     }
