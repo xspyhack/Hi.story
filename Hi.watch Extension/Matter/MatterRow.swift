@@ -23,7 +23,7 @@ struct MatterRowModel: MatterRowModelType {
     
     init(matter: SharedMatter) {
         self.title = matter.title
-        self.days = Date().hi.days(withDate: Date(timeIntervalSince1970: matter.happenedAt))
+        self.days = Date().hi.days(with: Date(timeIntervalSince1970: matter.happenedAt))
         self.tag = "#233333"
     }
 }
