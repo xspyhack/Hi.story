@@ -18,6 +18,8 @@ final class MattersViewController: BaseViewController {
     @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
             tableView.hi.register(reusableCell: MatterCell.self)
+            tableView.rowHeight = Constant.rowHeight
+            tableView.estimatedRowHeight = Constant.rowHeight
         }
     }
     
@@ -32,6 +34,10 @@ final class MattersViewController: BaseViewController {
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
+    
+    private struct Constant {
+        static let rowHeight: CGFloat = 64.0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +91,7 @@ final class MattersViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         dataSource.titleForHeaderInSection = { dataSource, index in
-            let section = dataSource.sectionAtIndex(index)
+            let section = dataSource[index]
             return section.model
         }
 

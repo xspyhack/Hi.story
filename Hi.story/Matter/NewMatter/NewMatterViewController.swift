@@ -42,7 +42,7 @@ final class InputableCell: UITableViewCell, Reusable {
         
         textLabel?.textColor = UIColor.hi.title
         
-        textField.rx.text
+        textField.rx.text.orEmpty
             .subscribe(onNext: { [weak self] text in
                 self?.changedAction?(text)
             })
@@ -84,7 +84,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
     
     var textViewDidChangeAction: ((CGFloat) -> Void)?
     
-    lazy var titleLabel: UILabel = {
+    fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.title
         return label
@@ -253,7 +253,7 @@ final class TagCell: UITableViewCell, Reusable {
     
     var pickedAction: ((Tag) -> Void)?
     
-    lazy var titleLabel: UILabel = {
+    fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.title
         return label
@@ -357,6 +357,13 @@ extension TagCell: UICollectionViewDelegateFlowLayout {
 }
 
 final class DisclosureCell: UITableViewCell, Reusable {
+    
+    fileprivate lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.hi.title
+        return label
+    }()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
         
@@ -368,6 +375,22 @@ final class DisclosureCell: UITableViewCell, Reusable {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    fileprivate func setup() {
+
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String : Any] = [
+            "titleLabel": titleLabel,
+        ]
+        
+        let V = NSLayoutConstraint(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
+        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLabel]-20-|", options: [], metrics: nil, views: views)
+        
+        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate([V])
     }
 }
 
@@ -397,7 +420,7 @@ final class NewMatterViewController: BaseViewController {
     
     fileprivate var notesRowHeight: CGFloat = 120.0
     
-    fileprivate var pickedDate: NSDate = NSDate() {
+    fileprivate var pickedDate: Date = Date() {
         willSet {
             guard newValue != pickedDate else { return }
             
@@ -622,7 +645,7 @@ extension NewMatterViewController: UITableViewDataSource {
                 return cell
             } else {
                 let cell: DisclosureCell = tableView.hi.dequeueReusableCell(for: indexPath)
-                cell.textLabel?.text = section.annotation
+                cell.titleLabel.text = section.annotation
                 cell.detailTextLabel?.text = pickedDate.hi.yearMonthDay
                 return cell
             }
