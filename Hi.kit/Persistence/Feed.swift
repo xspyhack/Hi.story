@@ -16,7 +16,6 @@ public class Feed: Object {
     public dynamic var visible: Int = Visible.public.rawValue
 }
 
-
 public class FeedService: Synchronizable {
     
     public typealias T = Feed

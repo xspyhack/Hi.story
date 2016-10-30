@@ -93,6 +93,9 @@
 		788BD0061DB2317700535519 /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD0041DB2317200535519 /* Share.swift */; };
 		788BD0071DB2317800535519 /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD0041DB2317200535519 /* Share.swift */; };
 		788BD0081DB2331700535519 /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD0041DB2317200535519 /* Share.swift */; };
+		788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD0281DBC9E3000535519 /* FeedCell.swift */; };
+		788BD02B1DBC9E6600535519 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD02A1DBC9E6600535519 /* FeedImageCell.swift */; };
+		788BD02D1DBCA80100535519 /* FeedSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD02C1DBCA80100535519 /* FeedSectionHeaderView.swift */; };
 		789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224EF1CF7712F00A44040 /* UIImage+Extension.swift */; };
 		789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */; };
 		789224F81CFAD16200A44040 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789224F51CFAD16200A44040 /* PresentationController.swift */; };
@@ -404,6 +407,9 @@
 		788BCFFF1DB2286300535519 /* WatchSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionService.swift; sourceTree = "<group>"; };
 		788BD0011DB22F1600535519 /* WatchSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionService.swift; sourceTree = "<group>"; };
 		788BD0041DB2317200535519 /* Share.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
+		788BD0281DBC9E3000535519 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		788BD02A1DBC9E6600535519 /* FeedImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
+		788BD02C1DBCA80100535519 /* FeedSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSectionHeaderView.swift; sourceTree = "<group>"; };
 		789224EF1CF7712F00A44040 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewTransitionManager.swift; sourceTree = "<group>"; };
 		789224F51CFAD16200A44040 /* PresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
@@ -843,6 +849,7 @@
 				788BCF781DA213FF00535519 /* Feeds.storyboard */,
 				788BCF791DA213FF00535519 /* FeedsViewController.swift */,
 				788BCF881DA220BE00535519 /* FeedsViewModel.swift */,
+				788BD0271DBC9DBB00535519 /* Cells */,
 			);
 			path = Feeds;
 			sourceTree = "<group>";
@@ -879,6 +886,16 @@
 				788BCFD51DB10EB000535519 /* Info.plist */,
 			);
 			path = Hi.watchkit;
+			sourceTree = "<group>";
+		};
+		788BD0271DBC9DBB00535519 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				788BD0281DBC9E3000535519 /* FeedCell.swift */,
+				788BD02A1DBC9E6600535519 /* FeedImageCell.swift */,
+				788BD02C1DBCA80100535519 /* FeedSectionHeaderView.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		789224F31CFAD16200A44040 /* Transitions */ = {
@@ -1672,6 +1689,7 @@
 				788BCF371D9E46B300535519 /* UUID+Hi.swift in Sources */,
 				78782E511D687915008555C1 /* String+Path.swift in Sources */,
 				78D257FE1D8444E20032E4F5 /* MatterViewModel.swift in Sources */,
+				788BD02D1DBCA80100535519 /* FeedSectionHeaderView.swift in Sources */,
 				789224F01CF7712F00A44040 /* UIImage+Extension.swift in Sources */,
 				788BCF7B1DA213FF00535519 /* FeedsViewController.swift in Sources */,
 				788BCF701DA0053400535519 /* ActivityIndicator.swift in Sources */,
@@ -1688,6 +1706,7 @@
 				788BCF6C1DA0043C00535519 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				789224FD1CFAD38800A44040 /* AppDelegate.swift in Sources */,
 				786191571D168FF1005680B3 /* ShortcutType.swift in Sources */,
+				788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
 				78D2580C1D8465BE0032E4F5 /* PopoverViewController.swift in Sources */,
 				78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */,
@@ -1720,6 +1739,7 @@
 				78F4D2351CEEC55300DAA210 /* UIColor+Extension.swift in Sources */,
 				78D257FC1D8444C70032E4F5 /* MatterViewController.swift in Sources */,
 				788BCF5E1D9FFDD100535519 /* NewStoryViewController.swift in Sources */,
+				788BD02B1DBC9E6600535519 /* FeedImageCell.swift in Sources */,
 				788BCF7E1DA2142A00535519 /* FeedViewController.swift in Sources */,
 				78782E491D684AE9008555C1 /* Collection.swift in Sources */,
 				78E179A51D58D7F5000641F2 /* ProfileViewController.swift in Sources */,
@@ -2023,7 +2043,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Hi.story/Support/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2046,7 +2066,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Hi.story/Support/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.History;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2073,7 +2093,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Hi.kit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hikit;
@@ -2103,7 +2123,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Hi.kit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xspyhack.Hikit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2460,6 +2480,7 @@
 				788BCFDD1DB10EB000535519 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		78CEFD111D157EF50098516A /* Build configuration list for PBXNativeTarget "Hi.share" */ = {
 			isa = XCConfigurationList;
