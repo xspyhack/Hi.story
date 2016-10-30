@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Transfer matters to watchApp
-        WatchSessionService.shared.start(withDelegate: self)
+        //WatchSessionService.shared.start(withDelegate: self)
         
         return true
     }

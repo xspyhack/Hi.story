@@ -89,7 +89,7 @@
         <scene sceneID="f0I-JF-drM">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mid-aY-k6X" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Matters" image="tab_collections_normal" selectedImage="tab_collections_selected" id="qF3-d1-P9c"/>
+                    <tabBarItem key="tabBarItem" title="Matters" image="tab_matters_normal" selectedImage="tab_matters_selected" id="qF3-d1-P9c"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WY0-O8-aCB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -145,12 +145,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="tab_collections_normal" width="30" height="30"/>
-        <image name="tab_collections_selected" width="30" height="30"/>
         <image name="tab_feeds_normal" width="30" height="30"/>
         <image name="tab_feeds_selected" width="30" height="30"/>
         <image name="tab_home_normal" width="30" height="30"/>
         <image name="tab_home_selected" width="30" height="30"/>
+        <image name="tab_matters_normal" width="30" height="30"/>
+        <image name="tab_matters_selected" width="30" height="30"/>
         <image name="tab_profile_normal" width="30" height="30"/>
         <image name="tab_profile_selected" width="30" height="30"/>
     </resources>
