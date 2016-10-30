@@ -52,7 +52,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
     init() {
         
         // Default value
-        self.title = Variable(NSDate().hi.yearMonthDay)
+        self.title = Variable(Date().hi.yearMonthDay)
         self.body = Variable("")
         self.tag = Variable(.none)
         self.location = Variable(nil)
@@ -63,7 +63,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
         
         let attachmentURL = self.attachmentImage.asObservable()
             .flatMapLatest { (image) -> Observable<URL?> in
-                let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
+                let url = NSURL.hi.imageURL(withPath: Date().hi.timestamp)
                 if let image = image {
                     CacheService.shared.store(image, forKey: url.absoluteString)
                     return Observable.just(url)

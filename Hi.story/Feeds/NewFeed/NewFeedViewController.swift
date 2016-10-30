@@ -144,11 +144,11 @@ final class NewFeedViewController: BaseViewController {
             })
             .addDisposableTo(disposeBag)
         
-        titleTextField.rx.text
+        titleTextField.rx.text.orEmpty
             .bindTo(viewModel.title)
             .addDisposableTo(disposeBag)
         
-        textView.rx.text
+        textView.rx.text.orEmpty
             .bindTo(viewModel.body)
             .addDisposableTo(disposeBag)
         
