@@ -14,13 +14,21 @@ import RealmSwift
 
 final class FeedsViewController: BaseViewController {
     
+    @IBOutlet private weak var collectionView: UICollectionView! {
+        didSet {
+            collectionView.hi.register(reusableCell: FeedCell.self)
+            collectionView.hi.register(reusableCell: FeedImageCell.self)
+            collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: FeedSectionHeaderView.self)
+        }
+    }
+    
     fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
     
-    fileprivate var feeds: [Feed]?
+    fileprivate var feeds: [Feed] = []
     
     private lazy var newItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
@@ -45,6 +53,11 @@ final class FeedsViewController: BaseViewController {
         
         navigationItem.leftBarButtonItem = collectionsItem
         
+        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.minimumLineSpacing = 18.0
+            flowLayout.minimumInteritemSpacing = 0.0
+        }
+        
         collectionsItem.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.performSegue(withIdentifier: .showCollections, sender: nil)
@@ -54,6 +67,8 @@ final class FeedsViewController: BaseViewController {
         guard let realm = try? Realm() else { return }
         
         let viewModel = FeedsViewModel(realm: realm)
+        
+        feeds = FeedService.shared.fetchAll(fromRealm: realm)
         
         self.viewModel = viewModel
         
@@ -83,8 +98,89 @@ final class FeedsViewController: BaseViewController {
             print(feeds)
         }
     }
-
 }
+
+// MARK: - UICollectionViewDataSource
+
+extension FeedsViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return feeds.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let feed = feeds[safe: indexPath.section] else { return UICollectionViewCell() }
+        
+        if feed.story?.attachment != nil {
+            let cell: FeedImageCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            return cell
+        } else {
+            let cell: FeedCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let view: FeedSectionHeaderView = collectionView.hi.dequeueReusableSupplementaryView(ofKind: kind, for: indexPath)
+        return view
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension FeedsViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let story = feeds[safe: indexPath.section]?.story else { return }
+        
+        if story.attachment != nil {
+            guard let cell = cell as? FeedImageCell else { return }
+            let viewModel = FeedImageCellModel(story: story)
+            cell.configure(withPresenter: viewModel)
+        } else {
+            guard let cell = cell as? FeedCell else { return }
+            let viewModel = FeedCellModel(story: story)
+            cell.configure(withPresenter: viewModel)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        guard let view = view as? FeedSectionHeaderView, let user = feeds[safe: indexPath.section]?.creator else { return }
+        
+        let viewModel = FeedSectionHeaderViewModel(user: user)
+        view.configure(withPresenter: viewModel)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension FeedsViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let story = feeds[safe: indexPath.section]?.story else { return CGSize.zero }
+        
+        if story.attachment != nil {
+            return CGSize(width: collectionView.bounds.width, height: 380.0)
+        } else {
+            return CGSize(width: collectionView.bounds.width, height: 140.0)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 48.0)
+    }
+}
+
+// MARK: - SegueHandlerType
 
 extension FeedsViewController: SegueHandlerType {
     
@@ -115,3 +211,4 @@ extension FeedsViewController: SegueHandlerType {
         }
     }
 }
+

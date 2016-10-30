@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgW-OO-Jjw">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,10 +17,33 @@
                     <view key="view" contentMode="scaleToFill" id="wVF-wf-6vK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ont-GJ-w8j">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Q02-jc-iu0">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Dh6-66-HMT" id="AkD-5v-FqR"/>
+                                    <outlet property="delegate" destination="Dh6-66-HMT" id="qcy-Dp-PI1"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Ont-GJ-w8j" firstAttribute="leading" secondItem="wVF-wf-6vK" secondAttribute="leading" id="JFi-ay-R7G"/>
+                            <constraint firstAttribute="trailing" secondItem="Ont-GJ-w8j" secondAttribute="trailing" id="gWS-aE-NtJ"/>
+                            <constraint firstAttribute="bottom" secondItem="Ont-GJ-w8j" secondAttribute="bottom" id="jQn-RP-hN5"/>
+                            <constraint firstItem="Ont-GJ-w8j" firstAttribute="top" secondItem="wVF-wf-6vK" secondAttribute="top" id="xk9-S0-bEU"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Feeds" id="LdB-Ce-FKk"/>
                     <connections>
+                        <outlet property="collectionView" destination="Ont-GJ-w8j" id="CjQ-B2-Kgd"/>
                         <segue destination="khL-1a-vsD" kind="presentation" identifier="presentNewFeed" id="pFN-Qf-dTK"/>
                         <segue destination="TSq-Pn-9Yw" kind="show" identifier="showCollections" id="cuv-nC-gbd"/>
                     </connections>
