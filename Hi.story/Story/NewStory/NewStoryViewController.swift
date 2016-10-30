@@ -183,7 +183,7 @@ final class NewStoryViewController: BaseViewController {
         
         ActivityIndicator.shared.show()
         
-        let title = titleTextField.text ?? NSDate().hi.yearMonthDay
+        let title = titleTextField.text ?? Date().hi.yearMonthDay
         
         let creationDate = Date().timeIntervalSince1970
         let story = Story()
@@ -194,7 +194,7 @@ final class NewStoryViewController: BaseViewController {
         //story.visible = visible.rawValue
         
         if let image = imageView.image {
-            let url = NSURL.hi.imageURL(withPath: NSDate().hi.timestamp)
+            let url = NSURL.hi.imageURL(withPath: Date().hi.timestamp)
             CacheService.shared.store(image, forKey: url.absoluteString)
             let attachment = Attachment()
             attachment.urlString = url.absoluteString
