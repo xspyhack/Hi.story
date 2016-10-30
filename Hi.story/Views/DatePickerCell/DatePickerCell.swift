@@ -15,7 +15,7 @@ let datePickerTag = 99
 
 final class DatePickerCell: UITableViewCell, Reusable {
     
-    var pickedAction: ((NSDate) -> Void)?
+    var pickedAction: ((Date) -> Void)?
     
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -40,7 +40,7 @@ final class DatePickerCell: UITableViewCell, Reusable {
     
         datePicker.rx.date
             .subscribe(onNext: { [weak self] (date) in
-                self?.pickedAction?(date as NSDate)
+                self?.pickedAction?(date)
             })
             .addDisposableTo(disposeBag)
         
