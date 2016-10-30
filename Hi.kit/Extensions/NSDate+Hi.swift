@@ -88,6 +88,10 @@ public extension Hi where Base: NSDate {
         return NSDate.hi.daysOffset(between: base as Date, and: comparingDate as Date)
     }
     
+    public func absoluteDays(widthDate comparingDate: NSDate) -> Int {
+        return NSDate.hi.absoluteDaysOffset(between: base as Date, and: comparingDate as Date)
+    }
+    
     // @returns 0...6
     // `0`: Sunday and `6`: Saturday
     public func weekdayIndex() -> Int {
@@ -127,6 +131,16 @@ public extension X where Base: NSDate {
         let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
         
         let comps = (gregorian as NSCalendar?)?.components(.day, from: startDate, to: endDate, options: .wrapComponents)
+        return (comps?.day ?? 0)
+    }
+    
+    public static func absoluteDaysOffset(between startDate: Date, and endDate: Date) -> Int {
+        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+        
+        let fromDate = gregorian.date(bySettingHour: 12, minute: 0, second: 0, of: startDate) ?? startDate
+        let toDate = gregorian.date(bySettingHour: 12, minute: 0, second: 0, of: endDate) ?? endDate
+        
+        let comps = (gregorian as NSCalendar?)?.components(.day, from: fromDate, to: toDate, options: .wrapComponents)
         return (comps?.day ?? 0)
     }
     

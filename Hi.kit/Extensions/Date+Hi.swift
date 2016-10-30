@@ -74,17 +74,32 @@ extension DateProxy {
         return _Date.formatter.string(from: base)
     }
 
-    public func days(withDate comparingDate: Date) -> Int {
+    public func days(with comparingDate: Date) -> Int {
         
         return Date.hi.daysOffset(between: base, and: comparingDate)
+    }
+    
+    public func absoluteDays(with comparingDate: Date) -> Int {
+        return Date.hi.absoluteDaysOffset(between: base, and: comparingDate)
     }
     
     public static func daysOffset(between startDate: Date, and endDate: Date) -> Int {
         let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
         
-        let comps = (gregorian as NSCalendar?)?.components(.day, from: startDate, to: endDate, options: .wrapComponents)
-        return (comps?.day ?? 0)
+        let comps = gregorian.dateComponents([.day], from: startDate, to: endDate)
+        return (comps.day ?? 0)
     }
+    
+    public static func absoluteDaysOffset(between startDate: Date, and endDate: Date) -> Int {
+        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+        
+        let fromDate = gregorian.date(bySettingHour: 12, minute: 0, second: 0, of: startDate) ?? startDate
+        let toDate = gregorian.date(bySettingHour: 12, minute: 0, second: 0, of: endDate) ?? endDate
+        
+        let comps = gregorian.dateComponents([.day], from: fromDate, to: toDate)
+        return (comps.day ?? 0)
+    }
+
     
     public static func dateFromString(_ aString: String, withFormat format: String = Date.timestampFormatString) -> Date? {
         let inputFormatter = DateFormatter()
