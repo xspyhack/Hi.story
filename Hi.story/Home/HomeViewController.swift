@@ -7,16 +7,14 @@
 //
 
 import UIKit
-import Hikit
-import RxCocoa
 import RxSwift
+import RxCocoa
 
-final class HomeViewController: BaseViewController {
+class HomeViewController: UIPageViewController {
+
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    @IBOutlet fileprivate weak var segmentedControl: UISegmentedControl!
-    @IBOutlet fileprivate weak var scrollView: UIScrollView!
-
-    private enum Channel: Int {
+    fileprivate enum Channel: Int {
         case today = 0
         case history
         
@@ -25,13 +23,25 @@ final class HomeViewController: BaseViewController {
         }
     }
     
-    // MARK: Lift cycle
+    fileprivate lazy var historyViewController: HistoryViewController = {
+        
+        let vc = HistoryViewController()
+        
+        return vc
+    }()
+    
+    fileprivate lazy var todayViewController: TodayViewController = {
+        
+        let vc = TodayViewController()
+        
+        return vc
+    }()
+    
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
         segmentedControl.rx.value
             .subscribe(onNext: { [weak self] index in
                 self?.selecting(at: index)
@@ -39,26 +49,7 @@ final class HomeViewController: BaseViewController {
             .addDisposableTo(disposeBag)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: Public
-    
-    func tryToTellStory() {
-        // ?? QuickAction
-    }
-    
-    fileprivate func selecting(at index: Int) {
+    private func selecting(at index: Int) {
         guard let channel = Channel(rawValue: index) else { return }
         
         selectingChannel(channel)
@@ -66,26 +57,111 @@ final class HomeViewController: BaseViewController {
     
     fileprivate func selectingChannel(_ channel: Channel) {
         
-        let width = view.bounds.width
+        switch channel {
+            
+        case .history:
+            setViewControllers([historyViewController], direction: .reverse, animated: true, completion: nil)
+            
+        case .today:
+            setViewControllers([todayViewController], direction: .forward, animated: true, completion: nil)
+        }
         
-        scrollView.setContentOffset(CGPoint(x: width * CGFloat(channel.index), y: 0.0), animated: true)
-    }
-    
-    fileprivate func selecting(at offset: CGFloat) {
-        
-        let width = view.bounds.width
-        
-        let index = Int(offset / width)
-        
-        segmentedControl.selectedSegmentIndex = index
+        segmentedControl.selectedSegmentIndex = channel.index
     }
 }
 
-extension HomeViewController: UIScrollViewDelegate {
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension HomeViewController: UIPageViewControllerDataSource {
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        selecting(at: scrollView.contentOffset.x)
+        if viewController == todayViewController {
+            return historyViewController
+        }
+        
+        return nil
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        
+        if viewController == historyViewController {
+            return todayViewController
+        }
+        
+        return nil
     }
 }
+
+// MARK: - UIPageViewControllerDelegate
+
+extension HomeViewController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
+        guard completed else {
+            return
+        }
+        
+        if previousViewControllers.first == historyViewController {
+            selectingChannel(.history)
+        } else if previousViewControllers.first == todayViewController {
+            selectingChannel(.today)
+        }
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+/*
+extension HomeContainerViewController: UIViewControllerPreviewingDelegate {
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        switch currentOption {
+            
+        case .meetGenius:
+            
+            let tableView = meetGeniusViewController.interviewsTableView
+            
+            let fixedLocation = view.convert(location, to: tableView)
+            
+            guard let indexPath = tableView.indexPathForRow(at: fixedLocation), let cell = tableView.cellForRow(at: indexPath) else {
+                return nil
+            }
+            
+            previewingContext.sourceRect = cell.frame
+            
+            let vc = UIStoryboard.Scene.geniusInterview
+            let geniusInterview = meetGeniusViewController.geniusInterviewAtIndexPath(indexPath)
+            vc.interview = geniusInterview
+            
+            return vc
+            
+        case .findAll:
+            
+            let collectionView = discoverViewController.collectionView
+            
+            let fixedLocation = view.convert(location, to: collectionView)
+            
+            guard let indexPath = collectionView.indexPathForItem(at: fixedLocation), let cell = collectionView.cellForItem(at: indexPath) else {
+                return nil
+            }
+            
+            previewingContext.sourceRect = cell.frame
+            
+            let vc = UIStoryboard.Scene.profile
+            
+            let discoveredUser = discoverViewController.discoveredUserAtIndexPath(indexPath)
+            vc.prepare(with: discoveredUser)
+            
+            return vc
+        }
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        
+        show(viewControllerToCommit, sender: self)
+    }
+}
+*/
 
