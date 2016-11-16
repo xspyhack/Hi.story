@@ -67,7 +67,30 @@ public enum Tag: Int {
     }
 }
 
-public struct SharedMatter {
+public struct SharedUser: Hashable {
+    public let id: String
+    public let username: String
+    public let nickname: String
+    public let bio: String?
+    public let avatarURLString: String?
+    
+    public let createdAt: TimeInterval
+    public let lastSignInAt: TimeInterval
+    
+    public var hashValue: Int {
+        return id.hashValue
+    }
+    
+    public static func user(with user: User) -> SharedUser {
+        return SharedUser(id: user.id, username: user.username, nickname: user.nickname, bio: user.bio, avatarURLString: user.avatarURLString, createdAt: user.createdAt, lastSignInAt: user.lastSignInAt)
+    }
+}
+
+public func ==(lhs: SharedUser, rhs: SharedUser) -> Bool {
+    return lhs.id == rhs.id
+}
+
+public struct SharedMatter: Hashable {
     
     public let id: String
     
@@ -81,4 +104,29 @@ public struct SharedMatter {
     public let kind: Int
     
     public let tag: Int
+    
+    public var hashValue: Int {
+        return id.hashValue
+    }
+    
+    public static func matter(with matter: Matter) -> SharedMatter {
+        return SharedMatter(id: matter.id, createdAt: matter.createdAt, updatedAt: matter.updatedAt, title: matter.title, body: matter.body, happenedAt: matter.happenedAt, kind: matter.kind, tag: matter.tag)
+    }
+}
+
+public func ==(lhs: SharedMatter, rhs: SharedMatter) -> Bool {
+    return lhs.id == rhs.id
+}
+
+public struct SharedFeed: Hashable {
+   
+    public let id: String
+    
+    public var hashValue: Int {
+        return id.hashValue
+    }
+}
+
+public func ==(lhs: SharedFeed, rhs: SharedFeed) -> Bool {
+    return lhs.id == rhs.id
 }

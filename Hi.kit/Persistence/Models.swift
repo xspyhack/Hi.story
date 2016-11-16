@@ -20,6 +20,8 @@ public class User: Object {
     public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
     public dynamic var lastSignInAt: TimeInterval = Date().timeIntervalSince1970
     
+    public let createdFeeds = LinkingObjects(fromType: Feed.self, property: "creator")
+    
     public override class func indexedProperties() -> [String] {
         return ["id"]
     }

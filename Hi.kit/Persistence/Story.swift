@@ -43,6 +43,20 @@ public class Story: Object {
     public override class func indexedProperties() -> [String] {
         return ["id"]
     }
+    
+    public func cascadeDelete(inRealm realm: Realm) {
+        
+        if let attachment = attachment {
+            realm.delete(attachment)
+        }
+        
+        if let location = location {
+            if let coordinate = location.coordinate {
+                realm.delete(coordinate)
+            }
+            realm.delete(location)
+        }
+    }
 }
 
 public class StoryService: Synchronizable {

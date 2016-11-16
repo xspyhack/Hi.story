@@ -28,8 +28,14 @@ public class Matter: Object {
 
     public dynamic var story: Story? //  关联的 Story，在删除的时候需要注意，cascade delete
     
-    public var shared: SharedMatter {
-        return SharedMatter(id: id, createdAt: createdAt, updatedAt: updatedAt, title: title, body: body, happenedAt: happenedAt, kind: kind, tag: tag)
+    public func cascadeDelete(inRealm realm: Realm) {
+        
+        if let location = location {
+            if let coordinate = location.coordinate {
+                realm.delete(coordinate)
+            }
+            realm.delete(location)
+        }
     }
 }
 
