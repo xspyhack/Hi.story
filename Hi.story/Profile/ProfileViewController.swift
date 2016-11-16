@@ -21,7 +21,9 @@ private let maximumAvatarWidth: CGFloat = 120.0
 
 final class ProfileViewController: BaseViewController {
 
-    @IBOutlet fileprivate weak var storybookCollectionView: UICollectionView! {
+    var viewModel: ProfileViewModelType?
+    
+    @IBOutlet private weak var storybookCollectionView: UICollectionView! {
         didSet {
             storybookCollectionView.contentInset.top = maximumHeaderHeight
             storybookCollectionView.scrollIndicatorInsets.top = maximumHeaderHeight
@@ -31,7 +33,7 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var matterTableView: UITableView! {
+    @IBOutlet private weak var matterTableView: UITableView! {
         didSet {
             matterTableView.contentInset.top = maximumHeaderHeight
             matterTableView.scrollIndicatorInsets.top = maximumHeaderHeight
@@ -42,19 +44,19 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var headerView: UIView!
-    @IBOutlet fileprivate weak var coverImageView: UIImageView!
-    @IBOutlet fileprivate weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var headerView: UIView!
+    @IBOutlet private weak var coverImageView: UIImageView!
+    @IBOutlet private weak var headerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet fileprivate weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet fileprivate weak var segmentedControl: UISegmentedControl!
-    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
-    @IBOutlet fileprivate weak var bioLabel: UILabel!
+    @IBOutlet private weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var segmentedControl: UISegmentedControl!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var bioLabel: UILabel!
     
-    @IBOutlet fileprivate weak var bioContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var bioContainerHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var headerHeight: CGFloat = 0.0
-    fileprivate var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
+    private var headerHeight: CGFloat = 0.0
+    private var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
     
     fileprivate lazy var blurEffect = UIBlurEffect(style: .light)
     
@@ -71,12 +73,12 @@ final class ProfileViewController: BaseViewController {
         static let matterRowHeight: CGFloat = 64.0
     }
     
-    fileprivate enum Channel: Int {
+    private enum Channel: Int {
         case storybook = 0
         case matter
     }
     
-    fileprivate var channel: Channel = .matter {
+    private var channel: Channel = .matter {
         willSet {
     
             guard newValue != channel else { return }
@@ -114,19 +116,19 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    fileprivate lazy var settingsItem: UIBarButtonItem = {
+    private lazy var settingsItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage(named: "nav_settings")
         return item
     }()
     
-    fileprivate var matters: [Matter]?
-    fileprivate var storybooks: [Storybook]?
+    private var matters: [Matter]?
+    private var storybooks: [Storybook]?
     
     // Matters
     
-    fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
-    fileprivate var viewModel: MattersViewModel?
+    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
+    private var viewModel: MattersViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()

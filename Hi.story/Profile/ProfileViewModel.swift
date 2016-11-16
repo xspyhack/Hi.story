@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import Hikit
+
+protocol ProfileViewModelType {
+    var user: User? { get }
+}
+
+struct ProfileViewModel: ProfileViewModelType {
+    
+    let user: User
+    
+    init(user: User) {
+        self.user = user
+    }
+}
