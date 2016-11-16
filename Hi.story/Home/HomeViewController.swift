@@ -10,9 +10,17 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class HomeViewController: UIPageViewController {
+final class HomeViewController: UIPageViewController {
 
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControl: UISegmentedControl! {
+        didSet {
+            segmentedControl.removeAllSegments()
+            (0..<Channel.count).forEach({
+                let channel = Channel(rawValue: $0)
+                segmentedControl.insertSegment(withTitle: channel?.title, at: $0, animated: false)
+            })
+        }
+    }
     
     fileprivate enum Channel: Int {
         case today = 0
@@ -21,18 +29,29 @@ class HomeViewController: UIPageViewController {
         var index: Int {
             return rawValue
         }
+        
+        var title: String? {
+            switch self {
+            case .today: return "Today"
+            case .history: return "History"
+            }
+        }
+        
+        static var count: Int {
+            return Channel.history.rawValue + 1
+        }
     }
     
     fileprivate lazy var historyViewController: HistoryViewController = {
         
-        let vc = HistoryViewController()
+        let vc = UIStoryboard.hi.storyboard(.home).instantiateViewController(withIdentifier: HistoryViewController.identifier) as! HistoryViewController
         
         return vc
     }()
     
     fileprivate lazy var todayViewController: TodayViewController = {
         
-        let vc = TodayViewController()
+        let vc = UIStoryboard.hi.storyboard(.home).instantiateViewController(withIdentifier: TodayViewController.identifier) as! TodayViewController
         
         return vc
     }()
@@ -41,12 +60,17 @@ class HomeViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        selectingChannel(.today)
 
         segmentedControl.rx.value
             .subscribe(onNext: { [weak self] index in
                 self?.selecting(at: index)
             })
             .addDisposableTo(disposeBag)
+        
+        self.dataSource = self
+        self.delegate = self
     }
     
     private func selecting(at index: Int) {
@@ -60,10 +84,10 @@ class HomeViewController: UIPageViewController {
         switch channel {
             
         case .history:
-            setViewControllers([historyViewController], direction: .reverse, animated: true, completion: nil)
+            setViewControllers([historyViewController], direction: .forward, animated: true, completion: nil)
             
         case .today:
-            setViewControllers([todayViewController], direction: .forward, animated: true, completion: nil)
+            setViewControllers([todayViewController], direction: .reverse, animated: true, completion: nil)
         }
         
         segmentedControl.selectedSegmentIndex = channel.index
@@ -76,8 +100,8 @@ extension HomeViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        if viewController == todayViewController {
-            return historyViewController
+        if viewController == historyViewController {
+            return todayViewController
         }
         
         return nil
@@ -85,8 +109,8 @@ extension HomeViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        if viewController == historyViewController {
-            return todayViewController
+        if viewController == todayViewController {
+            return historyViewController
         }
         
         return nil
@@ -104,64 +128,11 @@ extension HomeViewController: UIPageViewControllerDelegate {
         }
         
         if previousViewControllers.first == historyViewController {
-            selectingChannel(.history)
-        } else if previousViewControllers.first == todayViewController {
             selectingChannel(.today)
+        } else if previousViewControllers.first == todayViewController {
+            selectingChannel(.history)
         }
     }
 }
 
-// MARK: - UIViewControllerPreviewingDelegate
-/*
-extension HomeContainerViewController: UIViewControllerPreviewingDelegate {
-    
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        
-        switch currentOption {
-            
-        case .meetGenius:
-            
-            let tableView = meetGeniusViewController.interviewsTableView
-            
-            let fixedLocation = view.convert(location, to: tableView)
-            
-            guard let indexPath = tableView.indexPathForRow(at: fixedLocation), let cell = tableView.cellForRow(at: indexPath) else {
-                return nil
-            }
-            
-            previewingContext.sourceRect = cell.frame
-            
-            let vc = UIStoryboard.Scene.geniusInterview
-            let geniusInterview = meetGeniusViewController.geniusInterviewAtIndexPath(indexPath)
-            vc.interview = geniusInterview
-            
-            return vc
-            
-        case .findAll:
-            
-            let collectionView = discoverViewController.collectionView
-            
-            let fixedLocation = view.convert(location, to: collectionView)
-            
-            guard let indexPath = collectionView.indexPathForItem(at: fixedLocation), let cell = collectionView.cellForItem(at: indexPath) else {
-                return nil
-            }
-            
-            previewingContext.sourceRect = cell.frame
-            
-            let vc = UIStoryboard.Scene.profile
-            
-            let discoveredUser = discoverViewController.discoveredUserAtIndexPath(indexPath)
-            vc.prepare(with: discoveredUser)
-            
-            return vc
-        }
-    }
-    
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        
-        show(viewControllerToCommit, sender: self)
-    }
-}
-*/
 
