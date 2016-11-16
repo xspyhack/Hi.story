@@ -9,6 +9,16 @@
 import Hikit
 import CoreLocation
 
+struct LocationError: Error {
+    let code: Int
+    
+    let description: String
+    
+    static var `default`: LocationError {
+        return LocationError(code: -1, description: "Default location error.")
+    }
+}
+
 class LocationService: NSObject {
     static let shared = LocationService()
     
@@ -46,10 +56,10 @@ extension LocationService: CLLocationManagerDelegate {
         
         geocoder.reverseGeocodeLocation(newLocation) { [weak self] (placemarks, error) in
             if let error = error {
-                self?.didLocateHandler?(.failure(error.localizedDescription))
+                self?.didLocateHandler?(.failure(error))
             } else {
                 guard let placemarks = placemarks, let placemark = placemarks.first else {
-                    self?.didLocateHandler?(.failure("No location information"))
+                    self?.didLocateHandler?(.failure(LocationError(code: 2, description: "No location information")))
                     return
                 }
                 

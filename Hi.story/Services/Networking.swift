@@ -11,6 +11,14 @@ import Hikit
 
 let baseURL = "http://historyapp.sinaapp.com/"
 
+struct NetworkingError: Error {
+    let code: Int
+    
+    static var `default`: NetworkingError {
+        return NetworkingError(code: -1)
+    }
+}
+
 struct Networking: Authorizable {
     
     enum Method: String {
@@ -42,9 +50,13 @@ struct Networking: Authorizable {
     func sendRequest<T: Serializable>(parameters: JSONDictionary? = nil, completionHandler: @escaping (Result<T>) -> Void) {
         Request.shared.request(authRequest, parameters: parameters) { (_, _, responseJSON, error) in
             
+            if let error = error {
+                completionHandler(.failure(error))
+            }
+            
             guard let json = responseJSON as? JSONDictionary, let value = T(json: json)
                 else {
-                    completionHandler(.failure(error?.localizedDescription))
+                    completionHandler(.failure(NetworkingError.default))
                     return
             }
             
@@ -56,7 +68,7 @@ struct Networking: Authorizable {
         Request.shared.request(authRequest) { (_, _, responseJSON, error) in
             
             guard let json = responseJSON as? [JSONDictionary] else {
-                completionHandler(.failure(error?.localizedDescription))
+                completionHandler(.failure(error ?? NetworkingError.default))
                 return
             }
             
@@ -72,7 +84,7 @@ struct Networking: Authorizable {
             } else if response?.statusCode == 404 {
                 completionHandler(.success(false))
             } else {
-                completionHandler(.failure(error?.localizedDescription))
+                completionHandler(.failure(error ?? NetworkingError.default))
             }
         }
     }
