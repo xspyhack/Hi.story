@@ -6,4 +6,15 @@
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import Hikit
+
+extension UIViewController: Identifiable {
+    var identifier: String {
+        return String(describing: self)
+    }
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
+}
