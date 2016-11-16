@@ -86,7 +86,7 @@ open class NextTextView: UITextView {
         if let attributedPlaceholder = attributedPlaceholder {
             attributed = attributedPlaceholder
         } else if let placeholder = placeholder {
-            attributed = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName: UIColor.gray.withAlphaComponent(0.7), NSFontAttributeName: font])
+            attributed = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName: UIColor.gray.withAlphaComponent(0.7), NSFontAttributeName: font ?? UIFont.systemFont(ofSize: 14.0)])
         }
         
         attributed?.draw(in: targetRect)
