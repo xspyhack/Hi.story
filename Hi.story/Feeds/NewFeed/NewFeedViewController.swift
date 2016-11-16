@@ -114,6 +114,13 @@ final class NewFeedViewController: BaseViewController {
         
         let viewModel = self.viewModel ?? NewFeedViewModel()
         
+        photoButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.imagePicker.transitioningDelegate = self.transitionManager
+                self.present(self.imagePicker, animated: true, completion: nil)
+            })
+            .addDisposableTo(disposeBag)
+        
         visibleButton.rx.tap
             .map { [unowned self] () -> Bool in
                 self.visibleButton.isSelected = !self.visibleButton.isSelected
@@ -228,8 +235,7 @@ final class NewFeedViewController: BaseViewController {
     }
     
     @IBAction func pickButtonTapped(_ sender: UIButton) {
-        imagePicker.transitioningDelegate = transitionManager
-        present(imagePicker, animated: true, completion: nil)
+        
     }
     
     fileprivate func tryToLocate() {

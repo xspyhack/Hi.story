@@ -83,14 +83,10 @@ extension AppDelegate: WCSessionDelegate {
     public func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print(activationState)
         
-        print(error)
-    
         if activationState == .activated {
             
             if let realm = try? Realm() {
                 let matters: [SharedMatter] = MatterService.shared.fetchAll(fromRealm: realm).flatMap { $0.shared }
-                
-                print(matters.first)
                 
                 WatchSessionService.shared.update(withApplicationContext: [Configure.sharedMattersKey: matters.first!])
                 

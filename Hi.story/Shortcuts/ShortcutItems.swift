@@ -78,7 +78,7 @@ func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow wi
         tabBarController.selectedTab = .home
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? HomeViewController {
-                vc.tryToTellStory()
+                //vc.tryToTellStory()
             }
         }
     case .newFeed:

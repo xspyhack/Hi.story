@@ -16,6 +16,8 @@ extension UIStoryboard {
         
         case matter
         
+        case home
+        
         var value: String {
             return self.rawValue.capitalized
         }

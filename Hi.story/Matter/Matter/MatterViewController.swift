@@ -24,8 +24,6 @@ final class MatterViewController: BaseViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     
     var viewModel: MatterViewModel?
-    
-    static let identifier = "MatterViewController"
 
     override func viewDidLoad() {
         super.viewDidLoad()
