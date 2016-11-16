@@ -30,6 +30,8 @@ struct FeedCellModel: FeedCellModelType {
 
 class FeedCell: UICollectionViewCell, Reusable {
     
+    static let margin: CGFloat = 16.0
+    
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "四月是你的谎言"
@@ -42,7 +44,7 @@ class FeedCell: UICollectionViewCell, Reusable {
         let label = UILabel()
         label.text = "飞机穿梭于茫茫星海中逐渐远去，你如猫般，无声靠近，从意想不到的角度玩弄他人，而我只能呆愣在原地，永远只能跟随你的步伐。"
         label.font = UIFont.systemFont(ofSize: 14.0)
-        label.numberOfLines = 0
+        label.numberOfLines = 4
         return label
     }()
     
@@ -69,9 +71,9 @@ class FeedCell: UICollectionViewCell, Reusable {
             "bodyLabel": bodyLabel,
         ]
         
-        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLabel]-20-|", options: [], metrics: nil, views: views)
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(margin)-[titleLabel]-(margin)-|", options: [], metrics: ["margin": FeedImageCell.margin], views: views)
         
-        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-24-[titleLabel]-16-[bodyLabel]-24-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[titleLabel]-16-[bodyLabel]-32-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
         
         NSLayoutConstraint.activate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
@@ -81,6 +83,7 @@ class FeedCell: UICollectionViewCell, Reusable {
 extension FeedCell: Configurable {
     
     func configure(withPresenter presenter: FeedCellModelType) {
-        //
+        titleLabel.text = presenter.title
+        bodyLabel.text = presenter.body
     }
 }

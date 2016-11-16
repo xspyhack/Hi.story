@@ -28,9 +28,14 @@ struct FeedSectionHeaderViewModel: FeedSectionHeaderViewModelType {
 
 class FeedSectionHeaderView: UICollectionReusableView, Reusable {
     
+    var didSelect: ((Void) -> Void)?
+    
+    static let margin: CGFloat = 16.0
+    
     fileprivate lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "avatar")
+        imageView.layer.cornerRadius = 20.0
         return imageView
     }()
     
@@ -74,7 +79,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
             "moreButton": moreButton,
         ]
         
-        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[avatarImageView(40)]-16-[nicknameLabel]-(>=10)-[moreButton(44)]-20-|", options: [.alignAllCenterY], metrics: nil, views: views)
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(margin)-[avatarImageView(40)]-16-[nicknameLabel]-(>=10)-[moreButton(44)]-(margin)-|", options: [.alignAllCenterY], metrics: ["margin": FeedSectionHeaderView.margin], views: views)
         
         let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[avatarImageView(40)]", options: [], metrics: nil, views: views)
         

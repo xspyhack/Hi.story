@@ -28,6 +28,11 @@ final class FeedsViewController: BaseViewController {
         return manager
     }()
     
+    fileprivate struct Constant {
+        static let topInset: CGFloat = 12.0
+        static let headerHeight: CGFloat = 48.0
+    }
+    
     fileprivate var feeds: [Feed] = []
     
     private lazy var newItem: UIBarButtonItem = {
@@ -52,11 +57,6 @@ final class FeedsViewController: BaseViewController {
         navigationItem.rightBarButtonItem = newItem
         
         navigationItem.leftBarButtonItem = collectionsItem
-        
-        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = 18.0
-            flowLayout.minimumInteritemSpacing = 0.0
-        }
         
         collectionsItem.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -127,6 +127,11 @@ extension FeedsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let view: FeedSectionHeaderView = collectionView.hi.dequeueReusableSupplementaryView(ofKind: kind, for: indexPath)
+        view.backgroundColor = UIColor.white
+        view.didSelect = { [weak self] in
+            guard let feed = self?.feeds.safe[indexPath.item] else { return }
+            self?.performSegue(withIdentifier: .showProfile, sender: feed.creator)
+        }
         return view
     }
 }
@@ -159,6 +164,7 @@ extension FeedsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -168,15 +174,21 @@ extension FeedsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let story = feeds[safe: indexPath.section]?.story else { return CGSize.zero }
         
+        let width = collectionView.bounds.width
+        let titleHeight = story.title.height(with: width - FeedCell.margin * 2, fontSize: 24.0)
+        let contentHeight = story.body.height(with: width - FeedCell.margin * 2, fontSize: 14.0)
+        
+        let height = 12.0 + titleHeight + 16.0 + min(contentHeight, 68.0) + 32.0
+        
         if story.attachment != nil {
-            return CGSize(width: collectionView.bounds.width, height: 380.0)
+            return CGSize(width: width, height: 16.0 + height + width * 9.0 / 16.0)
         } else {
-            return CGSize(width: collectionView.bounds.width, height: 140.0)
+            return CGSize(width: width, height: height)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 48.0)
+        return CGSize(width: collectionView.bounds.width, height: Constant.headerHeight)
     }
 }
 
@@ -187,6 +199,7 @@ extension FeedsViewController: SegueHandlerType {
     enum SegueIdentifier: String {
         case presentNewFeed
         case showCollections
+        case showProfile
     }
 
     // MARK: - Navigation
@@ -209,6 +222,13 @@ extension FeedsViewController: SegueHandlerType {
         case .showCollections:
             break
         }
+    }
+}
+
+extension String {
+    
+    func height(with width: CGFloat, fontSize: CGFloat) -> CGFloat {
+        return ceil(self.boundingRect(with: CGSize(width: width, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: fontSize)], context: nil).height)
     }
 }
 

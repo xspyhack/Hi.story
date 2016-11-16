@@ -10,4 +10,12 @@ import UIKit
 
 class FeedsFlowLayout: UICollectionViewFlowLayout {
 
+    override func prepare() {
+        super.prepare()
+        
+        minimumLineSpacing = 18.0
+        minimumInteritemSpacing = 0.0
+        
+        sectionHeadersPinToVisibleBounds = true
+    }
 }
