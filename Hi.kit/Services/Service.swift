@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import RealmSwift
 
 public enum Result<Value> {
     case success(Value)
-    case failure(String?)
+    case failure(Error)
     
     /// Returns `true` if the result is a success, `false` otherwise.
     public var isSuccess: Bool {
@@ -38,7 +39,7 @@ public enum Result<Value> {
     }
     
     /// Returns the associated error value if the result is a failure, `nil` otherwise.
-    public var error: String? {
+    public var error: Error? {
         switch self {
         case .success:
             return nil
@@ -56,10 +57,41 @@ public extension Result {
         case .failure(let error): return .failure(error)
         }
     }
+    
+    public func flatMap<U>(_ f: (Value) -> Result<U>) -> Result<U> {
+        switch self {
+        case .success(let value): return f(value)
+        case .failure(let error): return .failure(error)
+        }
+    }
 }
 
 public typealias JSONDictionary = [String: Any]
 
 public protocol Serializable {
     init?(json: JSONDictionary)
+}
+
+public struct Service {
+    
+    static func god(of realm: Realm) -> User? {
+        guard let userID = UserDefaults.userID.value else { return nil }
+        
+        let predicate = NSPredicate(format: "id = %@", userID)
+        
+        #if DEBUG
+            let users = realm.objects(User.self).filter(predicate)
+            if users.count > 1 {
+                print("Warning: same user id: \(users.count), \(userID)")
+            }
+        #endif
+        
+        return realm.objects(User.self).filter(predicate).first
+    }
+    
+    static var god: User? {
+        guard let realm = try? Realm() else { return nil }
+        
+        return god(of: realm)
+    }
 }
