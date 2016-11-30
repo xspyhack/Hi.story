@@ -10,7 +10,7 @@ import Foundation
 import Hikit
 
 protocol ProfileViewModelType {
-    var user: User? { get }
+    var user: User { get }
 }
 
 struct ProfileViewModel: ProfileViewModelType {

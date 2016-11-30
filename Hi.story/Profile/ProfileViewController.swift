@@ -44,19 +44,19 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private weak var headerView: UIView!
+    @IBOutlet fileprivate weak var headerView: UIView!
     @IBOutlet private weak var coverImageView: UIImageView!
-    @IBOutlet private weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var headerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
-    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
     @IBOutlet private weak var bioLabel: UILabel!
     
-    @IBOutlet private weak var bioContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var bioContainerHeightConstraint: NSLayoutConstraint!
     
-    private var headerHeight: CGFloat = 0.0
-    private var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
+    fileprivate var headerHeight: CGFloat = 0.0
+    fileprivate var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
     
     fileprivate lazy var blurEffect = UIBlurEffect(style: .light)
     
@@ -128,7 +128,7 @@ final class ProfileViewController: BaseViewController {
     // Matters
     
     private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
-    private var viewModel: MattersViewModel?
+    private var mattersViewModel: MattersViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,31 +183,11 @@ final class ProfileViewController: BaseViewController {
     }
     
     fileprivate func tryToShowSettings() {
-        performSegue(withIdentifier: .showMatters, sender: nil)
+        performSegue(withIdentifier: .showEditProfile, sender: nil)
     }
 }
 
-extension ProfileViewController: SegueHandlerType {
-    
-    enum SegueIdentifier: String {
-        case edit
-        case showQRCode
-        case showMatters
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        switch segueIdentifier(forSegue: segue) {
-        case .edit:
-            print("edit")
-        case .showQRCode:
-            break
-        case .showMatters:
-            break
-        }
-    }
-    
-}
+
 
 // MARK: - UICollectionViewDataSource
 
@@ -286,6 +266,27 @@ extension ProfileViewController {
         } else {
             headerView.layoutIfNeeded()
             avatarImageView.layoutIfNeeded()
+        }
+    }
+}
+
+extension ProfileViewController: SegueHandlerType {
+    
+    enum SegueIdentifier: String {
+        case edit
+        case showQRCode
+        case showEditProfile
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segueIdentifier(forSegue: segue) {
+        case .edit:
+            print("edit")
+        case .showQRCode:
+            break
+        case .showEditProfile:
+            break
         }
     }
 }
