@@ -34,7 +34,7 @@ final class PhotoCropperViewController: UIViewController {
     
     private lazy var croppedView: UIView = {
         let view = UIView()
-        return view()
+        return view
     }()
 
     private lazy var confirmButton: UIButton = {
@@ -47,7 +47,7 @@ final class PhotoCropperViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setTitle("Cancel", for: .normal)
         return button
-    }
+    }()
 
     private lazy var zoomableImageView: ZoomableImageView = {
         let imageView = ZoomableImageView()
@@ -63,8 +63,8 @@ final class PhotoCropperViewController: UIViewController {
         setup()
         
         if photoForCrop == nil {
-            show(message: "Can't get the photo.") {
-                dismiss(animated: true, completion: nil)
+            show(message: "Can't get the photo.") { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -72,8 +72,8 @@ final class PhotoCropperViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        zoomableImageView.imageSize = photo.size
-        zoomableImageView.image = photo
+        zoomableImageView.imageSize = photoForCrop?.size ?? CGSize.zero
+        zoomableImageView.image = photoForCrop
     }
 
     override var prefersStatusBarHidden : Bool {
@@ -153,12 +153,12 @@ final class PhotoCropperViewController: UIViewController {
 
         previewView.backgroundColor = UIColor.clear
 
-        if let image = croppedView.bub.capture() {
+        if let image = croppedView.hi.capture() {
             croppedAction?(image)
             dismiss(animated: true, completion: nil)
         } else {
-            show(message: "Crop fail.") {
-                dismiss(animated: true, completion: nil)
+            show(message: "Crop fail.") { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -171,7 +171,7 @@ final class PhotoCropperViewController: UIViewController {
             completion?()
         }
         
-        alertController.addAction(cancelButton)
+        alertController.addAction(okAction)
         
         present(alertController, animated: true, completion: nil)
     }
