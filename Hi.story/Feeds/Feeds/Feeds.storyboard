@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgW-OO-Jjw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgW-OO-Jjw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -46,11 +46,20 @@
                         <segue destination="khL-1a-vsD" kind="presentation" identifier="presentNewFeed" id="pFN-Qf-dTK"/>
                         <segue destination="TSq-Pn-9Yw" kind="show" identifier="showCollections" id="cuv-nC-gbd"/>
                         <segue destination="0CM-P4-XzS" kind="show" identifier="showProfile" id="B61-0u-5kt"/>
+                        <segue destination="Nhq-3z-Aib" kind="show" identifier="showFeed" id="dd8-LB-1BW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q4K-XI-qa6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="376" y="1823"/>
+        </scene>
+        <!--FeedViewController-->
+        <scene sceneID="5QY-nb-neQ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feed" referencedIdentifier="FeedViewController" id="Nhq-3z-Aib" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YCa-xs-RiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="1718"/>
         </scene>
         <!--NewFeedViewController-->
         <scene sceneID="Lfw-hu-c01">

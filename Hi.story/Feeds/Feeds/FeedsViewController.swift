@@ -68,7 +68,7 @@ final class FeedsViewController: BaseViewController {
         
         let viewModel = FeedsViewModel(realm: realm)
         
-        feeds = FeedService.shared.fetchAll(fromRealm: realm)
+        feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
         
         self.viewModel = viewModel
         
@@ -114,7 +114,7 @@ extension FeedsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let feed = feeds[safe: indexPath.section] else { return UICollectionViewCell() }
+        guard let feed = feeds.safe[indexPath.section] else { return UICollectionViewCell() }
         
         if feed.story?.attachment != nil {
             let cell: FeedImageCell = collectionView.hi.dequeueReusableCell(for: indexPath)
@@ -141,7 +141,7 @@ extension FeedsViewController: UICollectionViewDataSource {
 extension FeedsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let story = feeds[safe: indexPath.section]?.story else { return }
+        guard let story = feeds.safe[indexPath.section]?.story else { return }
         
         if story.attachment != nil {
             guard let cell = cell as? FeedImageCell else { return }
@@ -155,14 +155,20 @@ extension FeedsViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        guard let view = view as? FeedSectionHeaderView, let user = feeds[safe: indexPath.section]?.creator else { return }
+        guard let view = view as? FeedSectionHeaderView, let user = feeds.safe[indexPath.section]?.creator else { return }
         
         let viewModel = FeedSectionHeaderViewModel(user: user)
         view.configure(withPresenter: viewModel)
+        view.didSelect = { [weak self] in
+            self?.performSegue(withIdentifier: .showProfile, sender: user)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard let feed = feeds.safe[indexPath.section] else { return }
+        
+        performSegue(withIdentifier: .showFeed, sender: feed)
     }
     
 }
@@ -172,11 +178,11 @@ extension FeedsViewController: UICollectionViewDelegate {
 extension FeedsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let story = feeds[safe: indexPath.section]?.story else { return CGSize.zero }
+        guard let story = feeds.safe[indexPath.section]?.story else { return CGSize.zero }
         
         let width = collectionView.bounds.width
-        let titleHeight = story.title.height(with: width - FeedCell.margin * 2, fontSize: 24.0)
-        let contentHeight = story.body.height(with: width - FeedCell.margin * 2, fontSize: 14.0)
+        let titleHeight = story.title.hi.height(with: width - FeedCell.margin * 2, fontSize: 24.0)
+        let contentHeight = story.body.hi.height(with: width - FeedCell.margin * 2, fontSize: 14.0)
         
         let height = 12.0 + titleHeight + 16.0 + min(contentHeight, 68.0) + 32.0
         
@@ -200,6 +206,7 @@ extension FeedsViewController: SegueHandlerType {
         case presentNewFeed
         case showCollections
         case showProfile
+        case showFeed
     }
 
     // MARK: - Navigation
@@ -221,14 +228,24 @@ extension FeedsViewController: SegueHandlerType {
             }
         case .showCollections:
             break
+        case .showProfile:
+            let vc = segue.destination as? ProfileViewController
+            vc?.viewModel = (sender as? User).flatMap { ProfileViewModel(user: $0) }
+        case .showFeed:
+            let vc = segue.destination as! FeedViewController
+            if let feed = sender as? Feed {
+                vc.viewModel = FeedViewModel(feed: feed)
+            }
         }
     }
 }
 
-extension String {
+extension FeedsViewController: Refreshable {
     
-    func height(with width: CGFloat, fontSize: CGFloat) -> CGFloat {
-        return ceil(self.boundingRect(with: CGSize(width: width, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: fontSize)], context: nil).height)
+    func refresh() {
+        //
     }
 }
+
+
 

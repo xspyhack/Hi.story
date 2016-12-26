@@ -32,11 +32,11 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
     
     static let margin: CGFloat = 16.0
     
-    fileprivate lazy var avatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "avatar")
-        imageView.layer.cornerRadius = 20.0
-        return imageView
+    fileprivate lazy var avatarButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "avatar"), for: .normal)
+        button.addTarget(self, action: #selector(avatarTapped(_:)), for: .touchUpInside)
+        return button
     }()
     
     fileprivate lazy var nicknameLabel: UILabel = {
@@ -64,8 +64,8 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
     
     private func setup() {
         
-        addSubview(avatarImageView)
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(avatarButton)
+        avatarButton.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(nicknameLabel)
         nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -74,26 +74,31 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
         moreButton.translatesAutoresizingMaskIntoConstraints = false
         
         let views: [String: Any] = [
-            "avatarImageView": avatarImageView,
+            "avatarButton": avatarButton,
             "nicknameLabel": nicknameLabel,
             "moreButton": moreButton,
         ]
         
-        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(margin)-[avatarImageView(40)]-16-[nicknameLabel]-(>=10)-[moreButton(44)]-(margin)-|", options: [.alignAllCenterY], metrics: ["margin": FeedSectionHeaderView.margin], views: views)
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(margin)-[avatarButton(40)]-16-[nicknameLabel]-(>=10)-[moreButton(44)]-(margin)-|", options: [.alignAllCenterY], metrics: ["margin": FeedSectionHeaderView.margin], views: views)
         
-        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[avatarImageView(40)]", options: [], metrics: nil, views: views)
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[avatarButton(40)]", options: [], metrics: nil, views: views)
         
-        let centerYConstraint = NSLayoutConstraint(item: avatarImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0)
+        let centerYConstraint = NSLayoutConstraint(item: avatarButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
         NSLayoutConstraint.activate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
         NSLayoutConstraint.activate([centerYConstraint])
+    }
+    
+    @objc private func avatarTapped(_ sender: UIButton) {
+        didSelect?()
     }
 }
 
 extension FeedSectionHeaderView: Configurable {
     
     func configure(withPresenter presenter: FeedSectionHeaderViewModelType) {
-        
+        nicknameLabel.text = presenter.nickname
+        avatarButton.setImage(UIImage(named: presenter.avatar), for: .normal)
     }
 }

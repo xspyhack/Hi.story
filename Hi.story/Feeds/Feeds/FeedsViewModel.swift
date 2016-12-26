@@ -65,7 +65,7 @@ struct FeedsViewModel: FeedsViewModelType {
     
     init(realm: Realm) {
         
-        let feeds = Variable<[Feed]>(FeedService.shared.fetchAll(fromRealm: realm))
+        let feeds = Variable<[Feed]>(FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm))
         
         self.feeds = feeds
         
