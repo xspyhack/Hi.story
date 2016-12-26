@@ -17,4 +17,8 @@ extension UIViewController: Identifiable {
     static var identifier: String {
         return String(describing: self)
     }
+    
+    static func instantiate(from storyboard: Storyboard) -> Self {
+        return storyboard.viewController(of: self)
+    }
 }

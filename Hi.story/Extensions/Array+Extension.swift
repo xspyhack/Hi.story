@@ -8,6 +8,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "`subscript(safe:)` is not used. Use `safe[:]` instead.")
 extension Array {
     subscript(safe index: Int) -> Element? {
         return indices ~= index ? self[index] : .none

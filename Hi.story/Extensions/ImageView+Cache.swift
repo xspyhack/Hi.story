@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import Hikit
 
-extension X where Base: NSURL {
+extension Hi where Base: NSURL {
     
     static func imageURL(withPath path: String) -> URL {
         return URL(string: "http://blessingsoft.com/hi/images/" + path)!
