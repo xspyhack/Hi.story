@@ -23,7 +23,7 @@ protocol Authorizable {
 }
 
 extension Authorizable {
-    var token: String? { return Defaults.Authentication.token }
+    var token: String? { return nil }
 }
 
 struct Request: Requestable {

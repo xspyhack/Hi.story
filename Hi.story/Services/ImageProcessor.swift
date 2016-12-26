@@ -26,24 +26,24 @@
 
 import Foundation
 import CoreGraphics
-
+import Hikit
 
 /// The item which could be processed by an `ImageProcessor`
 ///
 /// - image: Input image
 /// - data:  Input data
 public enum ImageProcessItem {
-    case image(Image)
+    case image(UIImage)
     case data(Data)
 }
 
 /// An `ImageProcessor` would be used to convert some downloaded data to an image.
 public protocol ImageProcessor {
-    /// Identifier of the processor. It will be used to identify the processor when 
+    /// Identifier of the processor. It will be used to identify the processor when
     /// caching and retriving an image. You might want to make sure that processors with
     /// same properties/functionality have the same identifiers, so correct processed images
     /// could be retrived with proper key.
-    /// 
+    ///
     /// - Note: Do not supply an empty string for a customized processor, which is already taken by
     /// the `DefaultImageProcessor`. It is recommended to use a reverse domain name notation
     /// string of your own for the identifier.
@@ -57,19 +57,19 @@ public protocol ImageProcessor {
     /// - returns: The processed image.
     ///
     /// - Note: The return value will be `nil` if processing failed while converting data to image.
-    ///         If input item is already an image and there is any errors in processing, the input 
+    ///         If input item is already an image and there is any errors in processing, the input
     ///         image itself will be returned.
-    /// - Note: Most processor only supports CG-based images. 
+    /// - Note: Most processor only supports CG-based images.
     ///         watchOS is not supported for processers containing filter, the input image will be returned directly on watchOS.
-    func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image?
+    func process(item: ImageProcessItem, options: OptionsInfo) -> UIImage?
 }
 
-typealias ProcessorImp = ((ImageProcessItem, KingfisherOptionsInfo) -> Image?)
+typealias ProcessorImp = ((ImageProcessItem, OptionsInfo) -> UIImage?)
 
 public extension ImageProcessor {
     
-    /// Append an `ImageProcessor` to another. The identifier of the new `ImageProcessor` 
-    /// will be "\(self.identifier)|>\(another.identifier)>".
+    /// Append an `ImageProcessor` to another. The identifier of the new `ImageProcessor`
+    /// will be "\(self.identifier)|>\(another.identifier)".
     ///
     /// - parameter another: An `ImageProcessor` you want to append to `self`.
     ///
@@ -91,7 +91,7 @@ public extension ImageProcessor {
 fileprivate struct GeneralProcessor: ImageProcessor {
     let identifier: String
     let p: ProcessorImp
-    func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
+    func process(item: ImageProcessItem, options: OptionsInfo) -> UIImage? {
         return p(item, options)
     }
 }
@@ -111,21 +111,21 @@ public struct DefaultImageProcessor: ImageProcessor {
     /// - returns: An initialized `DefaultImageProcessor`.
     public init() {}
     
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
+    public func process(item: ImageProcessItem, options: OptionsInfo) -> UIImage? {
         switch item {
         case .image(let image):
             return image
         case .data(let data):
-            return Kingfisher<Image>.image(data: data, scale: options.scaleFactor, preloadAllGIFData: options.preloadAllGIFData)
+            return Hi<UIImage>.image(data: data, scale: options.scaleFactor)
         }
     }
 }
 
-/// Processor for making round corner images. Only CG-based images are supported in macOS, 
+/// Processor for making round corner images. Only CG-based images are supported in macOS,
 /// if a non-CG image passed in, the processor will do nothing.
 public struct RoundCornerImageProcessor: ImageProcessor {
     public let identifier: String
-
+    
     /// Corner radius will be applied in processing.
     public let cornerRadius: CGFloat
     
@@ -135,7 +135,7 @@ public struct RoundCornerImageProcessor: ImageProcessor {
     /// Initialize a `RoundCornerImageProcessor`
     ///
     /// - parameter cornerRadius: Corner radius will be applied in processing.
-    /// - parameter targetSize:   Target size of output image should be. If `nil`, 
+    /// - parameter targetSize:   Target size of output image should be. If `nil`,
     ///                           the image will keep its original size after processing.
     ///                           Default is `nil`.
     ///
@@ -150,11 +150,11 @@ public struct RoundCornerImageProcessor: ImageProcessor {
         }
     }
     
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
+    public func process(item: ImageProcessItem, options: OptionsInfo) -> UIImage? {
         switch item {
         case .image(let image):
-            let size = targetSize ?? image.kf.size
-            return image.kf.image(withRoundRadius: cornerRadius, fit: size, scale: options.scaleFactor)
+            let size = targetSize ?? image.hi.size
+            return image.hi.image(withRoundRadius: cornerRadius, fit: size)
         case .data(_):
             return (DefaultImageProcessor.default >> self).process(item: item, options: options)
         }
@@ -178,24 +178,24 @@ public struct ResizingImageProcessor: ImageProcessor {
         self.identifier = "com.onevcat.Kingfisher.ResizingImageProcessor(\(targetSize))"
     }
     
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
+    public func process(item: ImageProcessItem, options: OptionsInfo) -> UIImage? {
         switch item {
         case .image(let image):
-            return image.kf.resize(to: targetSize)
+            return image.hi.resize(to: targetSize)
         case .data(_):
             return (DefaultImageProcessor.default >> self).process(item: item, options: options)
         }
     }
 }
 
-/// Processor for adding blur effect to images. `Accelerate.framework` is used underhood for 
+/// Processor for adding blur effect to images. `Accelerate.framework` is used underhood for
 /// a better performance. A simulated Gaussian blur with specified blur radius will be applied.
 public struct BlurImageProcessor: ImageProcessor {
     public let identifier: String
     
     /// Blur radius for the simulated Gaussian blur.
     public let blurRadius: CGFloat
-
+    
     /// Initialize a `BlurImageProcessor`
     ///
     /// - parameter blurRadius: Blur radius for the simulated Gaussian blur.
@@ -206,136 +206,14 @@ public struct BlurImageProcessor: ImageProcessor {
         self.identifier = "com.onevcat.Kingfisher.BlurImageProcessor(\(blurRadius))"
     }
     
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
+    public func process(item: ImageProcessItem, options: OptionsInfo) -> UIImage? {
         switch item {
         case .image(let image):
             let radius = blurRadius * options.scaleFactor
-            return image.kf.blurred(withRadius: radius)
+            return image.hi.blurred(withRadius: radius)
         case .data(_):
             return (DefaultImageProcessor.default >> self).process(item: item, options: options)
         }
-    }
-}
-
-/// Processor for adding an overlay to images. Only CG-based images are supported in macOS.
-public struct OverlayImageProcessor: ImageProcessor {
-    
-    public var identifier: String
-    
-    /// Overlay color will be used to overlay the input image.
-    public let overlay: Color
-    
-    /// Fraction will be used when overlay the color to image.
-    public let fraction: CGFloat
-    
-    /// Initialize an `OverlayImageProcessor`
-    ///
-    /// - parameter overlay:  Overlay color will be used to overlay the input image.
-    /// - parameter fraction: Fraction will be used when overlay the color to image. 
-    ///                       From 0.0 to 1.0. 0.0 means solid color, 1.0 means transparent overlay.
-    ///
-    /// - returns: An initialized `OverlayImageProcessor`.
-    public init(overlay: Color, fraction: CGFloat = 0.5) {
-        self.overlay = overlay
-        self.fraction = fraction
-        self.identifier = "com.onevcat.Kingfisher.OverlayImageProcessor(\(overlay.hex)_\(fraction))"
-    }
-    
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
-        switch item {
-        case .image(let image):
-            return image.kf.overlaying(with: overlay, fraction: fraction)
-        case .data(_):
-            return (DefaultImageProcessor.default >> self).process(item: item, options: options)
-        }
-    }
-}
-
-/// Processor for tint images with color. Only CG-based images are supported.
-public struct TintImageProcessor: ImageProcessor {
-    
-    public let identifier: String
-    
-    /// Tint color will be used to tint the input image.
-    public let tint: Color
-    
-    /// Initialize a `TintImageProcessor`
-    ///
-    /// - parameter tint: Tint color will be used to tint the input image.
-    ///
-    /// - returns: An initialized `TintImageProcessor`.
-    public init(tint: Color) {
-        self.tint = tint
-        self.identifier = "com.onevcat.Kingfisher.TintImageProcessor(\(tint.hex))"
-    }
-    
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
-        switch item {
-        case .image(let image):
-            return image.kf.tinted(with: tint)
-        case .data(_):
-            return (DefaultImageProcessor.default >> self).process(item: item, options: options)
-        }
-    }
-}
-
-/// Processor for applying some color control to images. Only CG-based images are supported.
-/// watchOS is not supported.
-public struct ColorControlsProcessor: ImageProcessor {
-    
-    public let identifier: String
-    
-    /// Brightness changing to image.
-    public let brightness: CGFloat
-    
-    /// Contrast changing to image.
-    public let contrast: CGFloat
-    
-    /// Saturation changing to image.
-    public let saturation: CGFloat
-    
-    /// InputEV changing to image.
-    public let inputEV: CGFloat
-    
-    /// Initialize a `ColorControlsProcessor`
-    ///
-    /// - parameter brightness: Brightness changing to image.
-    /// - parameter contrast:   Contrast changing to image.
-    /// - parameter saturation: Saturation changing to image.
-    /// - parameter inputEV:    InputEV changing to image.
-    ///
-    /// - returns: An initialized `ColorControlsProcessor`
-    public init(brightness: CGFloat, contrast: CGFloat, saturation: CGFloat, inputEV: CGFloat) {
-        self.brightness = brightness
-        self.contrast = contrast
-        self.saturation = saturation
-        self.inputEV = inputEV
-        self.identifier = "com.onevcat.Kingfisher.ColorControlsProcessor(\(brightness)_\(contrast)_\(saturation)_\(inputEV))"
-    }
-    
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
-        switch item {
-        case .image(let image):
-            return image.kf.adjusted(brightness: brightness, contrast: contrast, saturation: saturation, inputEV: inputEV)
-        case .data(_):
-            return (DefaultImageProcessor.default >> self).process(item: item, options: options)
-        }
-    }
-}
-
-/// Processor for applying black and white effect to images. Only CG-based images are supported.
-/// watchOS is not supported.
-public struct BlackWhiteProcessor: ImageProcessor {
-    public let identifier = "com.onevcat.Kingfisher.BlackWhiteProcessor"
-    
-    /// Initialize a `BlackWhiteProcessor`
-    ///
-    /// - returns: An initialized `BlackWhiteProcessor`
-    public init() {}
-    
-    public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
-        return ColorControlsProcessor(brightness: 0.0, contrast: 1.0, saturation: 0.0, inputEV: 0.7)
-            .process(item: item, options: options)
     }
 }
 
@@ -349,7 +227,7 @@ public func >>(left: ImageProcessor, right: ImageProcessor) -> ImageProcessor {
     return left.append(another: right)
 }
 
-fileprivate extension Color {
+fileprivate extension UIColor {
     var hex: String {
         var r: CGFloat = 0
         var g: CGFloat = 0

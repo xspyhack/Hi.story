@@ -7,12 +7,9 @@
 //
 
 import UIKit
-import Kingfisher
 
 class Cache {
-    
     static let shared = Cache()
-    
 }
 
 private let cacheName = "Images"
@@ -24,7 +21,7 @@ class CacheService {
     
     fileprivate let cache = ImageCache(name: cacheName, path: String.hi_documentsPath)
     
-    func store(_ image: Image, forKey key: String, completionHandler: (() -> Void)? = nil) {
+    func store(_ image: UIImage, forKey key: String, completionHandler: (() -> Void)? = nil) {
         cache.store(image, forKey: key, toDisk: true, completionHandler: completionHandler)
     }
     
@@ -32,7 +29,7 @@ class CacheService {
         cache.removeImage(forKey: key, processorIdentifier: "", fromDisk: true, completionHandler: nil)
     }
     
-    func retrieveImageInDiskCache(forKey key: String, scale: CGFloat = 1.0) -> Image? {
+    func retrieveImageInDiskCache(forKey key: String, scale: CGFloat = 1.0) -> UIImage? {
         return cache.retrieveImageInDiskCache(forKey: key, options: [.scaleFactor(scale)])
     }
     
