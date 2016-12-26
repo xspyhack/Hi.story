@@ -75,21 +75,21 @@ func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow wi
     
     switch shortcutType {
     case .history:
-        tabBarController.selectedTab = .home
+        tabBarController.selectedTab.value = .home
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? HomeViewController {
                 //vc.tryToTellStory()
             }
         }
     case .newFeed:
-        tabBarController.selectedTab = .feeds
+        tabBarController.selectedTab.value = .feeds
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? FeedsViewController {
                 vc.tryToAddNewFeed()
             }
         }
     case .newMatter:
-        tabBarController.selectedTab = .matters
+        tabBarController.selectedTab.value = .matters
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? MattersViewController {
                 vc.tryToAddNewMatter()

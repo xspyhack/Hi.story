@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 
 final class TabBarController: UITabBarController {
     
@@ -17,11 +18,14 @@ final class TabBarController: UITabBarController {
         case profile
     }
     
-    var selectedTab: Tab = .home {
-        didSet {
-            selectedIndex = selectedTab.rawValue
+    lazy var selectedTab: Listenable<Tab> = {
+        
+        return Listenable<Tab>(.home) { tab in
+            self.selectedIndex = tab.rawValue
         }
-    }
+    }()
+    
+    fileprivate var previousTab: Tab = .home
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,27 +66,19 @@ final class TabBarController: UITabBarController {
 
 extension TabBarController: UITabBarControllerDelegate {
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        guard let tab = Tab(rawValue: selectedIndex) else {
-            return false
-        }
-        
-        if tab != selectedTab {
-            return true
-        }
-        
-        return true
-    }
-    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        
         guard let tab = Tab(rawValue: selectedIndex),
             let nvc = viewController as? UINavigationController
             else {
                 return
         }
         
-        if tab != selectedTab {
-            selectedTab = tab
+        if tab != previousTab {
+            // fire
+            selectedTab.value = tab
+            
+            previousTab = tab
             return
         }
         
