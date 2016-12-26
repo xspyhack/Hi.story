@@ -133,11 +133,15 @@ final class ProfileViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        guard let viewModel = viewModel else { return }
         
-        navigationItem.title = "__b233"
-        
+        navigationItem.title = viewModel.user.nickname
         navigationItem.rightBarButtonItem = settingsItem
+        
+        // Configure profile
+        
+        bioLabel.text = viewModel.user.bio
+        avatarImageView.image = UIImage(named: viewModel.user.avatarURLString)
         
         segmentedControl.rx.value
             .observeOn(MainScheduler.instance)
@@ -164,7 +168,7 @@ final class ProfileViewController: BaseViewController {
         
         guard let realm = try? Realm() else { return }
         
-        let viewModel = MattersViewModel(realm: realm)
+        let mattersViewModel = MattersViewModel(realm: realm)
         
         dataSource.configureCell = { _, tableView, indexPath, viewModel in
             let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
@@ -172,12 +176,12 @@ final class ProfileViewController: BaseViewController {
             return cell
         }
         
-        viewModel.sections
+        mattersViewModel.sections
             .drive(matterTableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
         
         matterTableView.rx.itemSelected
-            .bindTo(viewModel.itemDidSelect)
+            .bindTo(mattersViewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
     }
@@ -186,8 +190,6 @@ final class ProfileViewController: BaseViewController {
         performSegue(withIdentifier: .showEditProfile, sender: nil)
     }
 }
-
-
 
 // MARK: - UICollectionViewDataSource
 
