@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class Cache {
     static let shared = Cache()
