@@ -38,6 +38,12 @@ public extension User {
 public class Attachment: Object {
     public dynamic var metadata: String = ""
     public dynamic var urlString: String = ""
+    public dynamic var meta: Meta?
+}
+
+public class Meta: Object {
+    public dynamic var widht: Double = 0.0
+    public dynamic var height: Double = 0.0
 }
 
 public class Location: Object {

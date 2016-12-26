@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 public enum StoryKind: String {
-    case plainText
+    case plain
     case image
     case audio
     case rich
@@ -35,7 +35,7 @@ public class Story: Object {
     
     public dynamic var attachment: Attachment?
     
-    public dynamic var kind: String = StoryKind.plainText.rawValue
+    public dynamic var kind: String = StoryKind.plain.rawValue
     public dynamic var location: Location?
     
     public dynamic var tag: String? = ""

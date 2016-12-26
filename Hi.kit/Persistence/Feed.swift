@@ -14,6 +14,7 @@ public class Feed: Object {
     public dynamic var creator: Hikit.User?
     public dynamic var likesCount: Int = 0
     public dynamic var visible: Int = Visible.public.rawValue
+    public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
 }
 
 public class FeedService: Synchronizable {
