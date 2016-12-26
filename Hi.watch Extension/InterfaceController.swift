@@ -40,6 +40,7 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
+    /*
     fileprivate func configure(with matters: [SharedMatter]) {
         
         tableView.setNumberOfRows(matters.count, withRowType: "MatterRow")
@@ -50,16 +51,16 @@ class InterfaceController: WKInterfaceController {
                 row.configure(withPresenter: viewModel)
             }
         }
-    }
+    }*/
 }
 
 extension InterfaceController: WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         
-        guard let matters = applicationContext[Configure.sharedMattersKey] as? [SharedMatter] else { return }
+        //guard let matters = applicationContext[Configure.sharedMattersKey] as? [SharedMatter] else { return }
         
-        configure(with: matters)
+        //configure(with: matters)
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
