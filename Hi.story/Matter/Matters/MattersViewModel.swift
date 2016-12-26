@@ -78,13 +78,13 @@ struct MattersViewModel: MattersViewModelType {
                 if section == .comming {
                     let commings = matters.value.filter { $0.happenedAt > Date().timeIntervalSince1970 }
                     
-                    if let matter = commings[safe: indexPath.row] {
+                    if let matter = commings.safe[indexPath.row] {
                         Matter.didDelete.onNext(matter)
                     }
                 } else {
                     let pasts = matters.value.filter{ $0.happenedAt <= Date().timeIntervalSince1970 }
                     
-                    if let matter = pasts[safe: indexPath.row] {
+                    if let matter = pasts.safe[indexPath.row] {
                         Matter.didDelete.onNext(matter)
                     }
                 }
@@ -97,13 +97,13 @@ struct MattersViewModel: MattersViewModelType {
                 if indexPath.section == Section.comming.rawValue {
                     let commings = matters.value.filter { $0.happenedAt > Date().timeIntervalSince1970 }
                     
-                    if let matter = commings[safe: indexPath.row] {
+                    if let matter = commings.safe[indexPath.row] {
                         return MatterViewModel(matter: matter)
                     }
                 } else {
                     let pasts = matters.value.filter{ $0.happenedAt <= Date().timeIntervalSince1970 }
                     
-                    if let matter = pasts[safe: indexPath.row] {
+                    if let matter = pasts.safe[indexPath.row] {
                         return MatterViewModel(matter: matter)
                     }
                 }

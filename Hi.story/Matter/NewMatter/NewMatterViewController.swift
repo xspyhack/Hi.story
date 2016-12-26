@@ -139,7 +139,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
 extension InfoInputableCell: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        let text = textView.text.trimming(.whitespaceAndNewline)
+        let text = textView.text.hi.trimming(.whitespaceAndNewline)
         textView.text = text
         
         didEndEditing?(text)
@@ -322,7 +322,7 @@ extension TagCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let tag = items[safe: (indexPath as NSIndexPath).item] else { return TagItemCell() }
+        guard let tag = items.safe[indexPath.item] else { return TagItemCell() }
         
         let cell: TagItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         cell.itemColor = UIColor(hex: tag.value)
@@ -333,7 +333,7 @@ extension TagCell: UICollectionViewDataSource {
 extension TagCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TagItemCell, let item = items[safe: (indexPath as NSIndexPath).item] else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TagItemCell, let item = items.safe[indexPath.item] else { return }
         
         let visibleCells = collectionView.visibleCells
         
@@ -506,13 +506,13 @@ final class NewMatterViewController: BaseViewController {
     }
     
     fileprivate func indexPathHasPicker(_ indexPath: IndexPath) -> Bool {
-        return (hasInlineDatePicker() && (datePickerIndexPath as NSIndexPath?)?.row == (indexPath as NSIndexPath).row)
+        return (hasInlineDatePicker() && datePickerIndexPath?.row == indexPath.row)
     }
     
     fileprivate func hasPicker(for indexPath: IndexPath) -> Bool {
-        let targetedRow = (indexPath as NSIndexPath).row + 1
+        let targetedRow = indexPath.row + 1
         
-        let checkDatePickerCell = tableView.cellForRow(at: IndexPath(row: targetedRow, section: (indexPath as NSIndexPath).section))
+        let checkDatePickerCell = tableView.cellForRow(at: IndexPath(row: targetedRow, section: indexPath.section))
         let checkDatePicker = checkDatePickerCell?.viewWithTag(datePickerTag) as? UIDatePicker
         
         return (checkDatePicker != nil)
@@ -522,7 +522,7 @@ final class NewMatterViewController: BaseViewController {
         tableView.beginUpdates()
         
         // date picker index path
-        let indexPaths = [IndexPath(row: (selectedIndexPath as NSIndexPath).row + 1, section: (selectedIndexPath as NSIndexPath).section)]
+        let indexPaths = [IndexPath(row: selectedIndexPath.row + 1, section: selectedIndexPath.section)]
         
         // check if 'indexPath' has an attached date picker below it
         if hasPicker(for: selectedIndexPath) {
@@ -589,7 +589,7 @@ extension NewMatterViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("*** Fatal error *** in tableView(_:cellForRowAtIndexPath:)")
         }
         
@@ -630,7 +630,7 @@ extension NewMatterViewController: UITableViewDataSource {
                 }
             }
             cell.didEndEditing = { [weak self] body in
-                self?.body.value = body.trimming(.whitespaceAndNewline)
+                self?.body.value = body.hi.trimming(.whitespaceAndNewline)
             }
             cell.textdidChange = { [weak self] body in
                 self?.body.value = body
@@ -662,7 +662,7 @@ extension NewMatterViewController: UITableViewDelegate {
         }
         
         // Selected date cell
-        if (indexPath as NSIndexPath).section == Section.when.rawValue && (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == Section.when.rawValue && indexPath.row == 0 {
             
             view.endEditing(true)
             
@@ -679,7 +679,7 @@ extension NewMatterViewController: UITableViewDelegate {
             return Constant.pickerRowHeight
         } else {
             
-            return (indexPath as NSIndexPath).section == Section.notes.rawValue ? notesRowHeight : Defaults.rowHeight
+            return indexPath.section == Section.notes.rawValue ? notesRowHeight : Defaults.rowHeight
         }
     }
 }

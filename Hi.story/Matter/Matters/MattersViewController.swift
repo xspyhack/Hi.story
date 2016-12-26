@@ -108,8 +108,8 @@ final class MattersViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if !Defaults.isShowedNewMatterTip {
-            Defaults.isShowedNewMatterTip = true
+        if !Defaults.hadShowedNewMatterTip {
+            Defaults.hadShowedNewMatterTip = true
             show()
         }
     }
@@ -118,7 +118,7 @@ final class MattersViewController: BaseViewController {
         
     }
     
-    fileprivate func show() {
+    private func show() {
         
         let viewController = PopoverViewController()
         viewController.tips = "Look at me!"
@@ -173,15 +173,14 @@ extension MattersViewController: UIViewControllerPreviewingDelegate {
         
         guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
         
-        let viewController = UIStoryboard.hi.storyboard(.matter).instantiateViewController(withIdentifier: MatterViewController.identifier)
-        guard let matterViewController = viewController as? MatterViewController else { return nil }
+        let viewController = Storyboard.matter.viewController(of: MatterViewController.self)
         
-        guard let matter = viewModel?.matters.value[safe: indexPath.row] else { return nil }
-        matterViewController.viewModel = MatterViewModel(matter: matter)
+        guard let matter = viewModel?.matters.value.safe[indexPath.row] else { return nil }
+        viewController.viewModel = MatterViewModel(matter: matter)
         let cellRect = tableView.rectForRow(at: indexPath)
         previewingContext.sourceRect = previewingContext.sourceView.convert(cellRect, from: tableView)
 
-        return matterViewController
+        return viewController
     }
 }
 
