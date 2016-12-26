@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import Hikit
+
+protocol FeedViewModelType {
+    
+    var feed: Feed { get }
+}
+
+struct FeedViewModel: FeedViewModelType {
+    
+    let feed: Feed
+}

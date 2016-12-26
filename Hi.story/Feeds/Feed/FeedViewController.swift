@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import WebKit
 
 class FeedViewController: UIViewController {
+    
+    var viewModel: FeedViewModel?
+    
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        webView.allowsLinkPreview = true
+        webView.navigationDelegate = self
+        return webView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,14 +32,32 @@ class FeedViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func setupWebView() {
+        
+        view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = [
+            "webView": webView,
+        ]
+        
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|", options: [], metrics: nil, views: views)
+        
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|", options: [], metrics: nil, views: views)
+        
+        NSLayoutConstraint.activate(hConstraints)
+        NSLayoutConstraint.activate(vConstraints)
     }
-    */
+    
+    private func display() {
+        
+        let html = ""
+        
+        webView.loadHTMLString(html, baseURL: Bundle.main.bundleURL)
+    }
+}
 
+extension FeedViewController: WKNavigationDelegate {
+    
+    
 }
