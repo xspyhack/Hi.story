@@ -61,12 +61,13 @@ struct NewFeedViewModel: NewFeedViewModelType {
         
         self.attachmentImage = Variable(nil)
         
-        let attachmentURL = self.attachmentImage.asObservable()
-            .flatMapLatest { (image) -> Observable<URL?> in
+        let attachmentInfo = self.attachmentImage.asObservable()
+            .flatMapLatest { (image) -> Observable<(URL, CGSize)?> in
                 let url = NSURL.hi.imageURL(withPath: Date().hi.timestamp)
                 if let image = image {
+                    let size = image.size
                     CacheService.shared.store(image, forKey: url.absoluteString)
-                    return Observable.just(url)
+                    return Observable.just((url, size))
                 } else {
                     CacheService.shared.removeIfExisting(forKey: url.absoluteString)
                     return Observable.just(nil)
@@ -82,16 +83,20 @@ struct NewFeedViewModel: NewFeedViewModelType {
         let story = Driver.combineLatest(title.asDriver(),
                                          body.asDriver(),
                                          location.asDriver(),
-                                         attachmentURL
-        ) { title, body, locationInfo, attachmentURL -> Story in
+                                         attachmentInfo
+        ) { title, body, locationInfo, attachmentInfo -> Story in
             
             let story = Story()
             story.title = title
-            story.body = body.trimming(.whitespaceAndNewline)
+            story.body = body.hi.trimming(.whitespaceAndNewline)
             
-            if let url = attachmentURL {
+            if let (url, size) = attachmentInfo {
+                let meta = Meta()
+                meta.widht = Double(size.width)
+                meta.height = Double(size.height)
                 let attachment = Attachment()
                 attachment.urlString = url.absoluteString
+                attachment.meta = meta
                 story.attachment = attachment
             }
             

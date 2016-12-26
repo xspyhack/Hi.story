@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices.UTType
 import KeyboardMan
-//import Permission
 import CoreLocation
 import Hikit
 import RxSwift
@@ -60,6 +59,8 @@ final class NewFeedViewController: BaseViewController {
     
     fileprivate struct Constant {
         static let scrollViewContentInsetTop = 44.0
+        static let footerHeight: CGFloat = 500.0
+        static let bottomInset: CGFloat = 20.0
     }
     
     private let keyboardMan = KeyboardMan()
@@ -68,16 +69,15 @@ final class NewFeedViewController: BaseViewController {
     private var address: String? = nil
     private var coordinate: CLLocationCoordinate2D?
     
+    fileprivate var croppedFrame: CGRect = .zero
+    fileprivate var angle: Int = 0
+    
     fileprivate let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
     
     fileprivate lazy var transitionManager = NonStatusBarTransitionManager()
     
-    fileprivate lazy var imagePicker: UIImagePickerController = {
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        picker.delegate = self
-        picker.mediaTypes = [(kUTTypeImage as String)]
-        picker.allowsEditing = true
+    fileprivate lazy var photoPicker: PhotoPickerViewController = {
+        let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
         return picker
     }()
     
@@ -91,7 +91,7 @@ final class NewFeedViewController: BaseViewController {
             let height = image.size.height
             
             let imageViewHeight = contentView.bounds.width * height / width
-            contentViewHeightConstraint.constant = imageViewHeight + 500.0 - view.bounds.height
+            contentViewHeightConstraint.constant = imageViewHeight + Constant.footerHeight - view.bounds.height
             imageViewHeightConstraint.constant = imageViewHeight
             
             contentView.layoutIfNeeded()
@@ -116,8 +116,12 @@ final class NewFeedViewController: BaseViewController {
         
         photoButton.rx.tap
             .subscribe(onNext: { [unowned self] in
-                self.imagePicker.transitioningDelegate = self.transitionManager
-                self.present(self.imagePicker, animated: true, completion: nil)
+                let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+                picker.delegate = self
+                picker.contentInset.bottom = Constant.bottomInset
+                let nav = UINavigationController(rootViewController: picker)
+                nav.modalPresentationStyle = .overCurrentContext
+                self.present(nav, animated: true, completion: nil)
             })
             .addDisposableTo(disposeBag)
         
@@ -186,9 +190,19 @@ final class NewFeedViewController: BaseViewController {
         tryToLocate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -246,13 +260,13 @@ final class NewFeedViewController: BaseViewController {
         }*/
     }
     
-    fileprivate func startLocating() {
+    private func startLocating() {
         locationButton.isEnabled = false
         
         locateInBackground()
     }
     
-    fileprivate func locateInBackground() {
+    private func locateInBackground() {
         
         DispatchQueue.global(qos: .default).async {
             let service = LocationService.shared
@@ -279,9 +293,10 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
-    fileprivate func handleDismiss() {
+    fileprivate func handleDismiss(completion: (() -> Void)? = nil) {
         self.dismiss(animated: true) { [weak self] in
             self?.view.center.y += Defaults.statusBarHeight
+            completion?()
         }
     }
 }
@@ -297,27 +312,61 @@ extension NewFeedViewController: UITextFieldDelegate {
 extension NewFeedViewController: UITextViewDelegate {
 }
 
-extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension NewFeedViewController: PhotoPickerViewControllerDelegate {
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        handleDismiss()
+    func photoPickerControllerDidCancel(_ picker: PhotoPickerViewController) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func photoPickerController(_ picker: PhotoPickerViewController, didFinishPickingPhoto photo: UIImage) {
         
-        if let mediaType = info[UIImagePickerControllerMediaType] as? String {
-            switch mediaType {
-            case kUTTypeImage as String as String:
-                if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-                    imageView.isHidden = false
-                    imageView.image = image
-                    pickedImage = image
-                }
-            default:
-                break
-            }
+        let viewController = PhotoEditingViewController(image: photo, croppingStyle: .default)
+        
+        viewController.delegate = self
+        viewController.contentInset.bottom = Constant.bottomInset
+        viewController.modalPresentationStyle = .overCurrentContext
+        
+        dismiss(animated: true) {
+            self.present(viewController, animated: true, completion: nil)
         }
+    }
+}
+
+extension NewFeedViewController: PhotoEditingViewControllerDelegate {
+    
+    func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         
-        handleDismiss()
+        self.croppedFrame = cropRect
+        self.angle = angle
+        
+        updateImageView(with: image, fromPhotoEditingViewController: viewController)
+    }
+    
+    func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToCircularImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        
+        self.croppedFrame = cropRect
+        self.angle = angle
+        
+        updateImageView(with: image, fromPhotoEditingViewController: viewController)
+    }
+    
+    private func updateImageView(with image: UIImage, fromPhotoEditingViewController viewController: PhotoEditingViewController) {
+        
+        imageView.image = image
+        pickedImage = image
+        
+        if viewController.croppingStyle != .circular {
+            
+            imageView.isHidden = false
+
+            viewController.presentingViewController?.dismiss(animated: true) {
+                print("did comlete")
+            }
+            
+        } else {
+            imageView.isHidden = false
+            
+            viewController.presentingViewController?.dismiss(animated: true, completion: nil)
+        }
     }
 }
