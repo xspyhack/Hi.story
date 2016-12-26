@@ -58,7 +58,7 @@ extension TagsViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TagCell", for: indexPath)
-        cell.textLabel?.text = tags[(indexPath as NSIndexPath).row]
+        cell.textLabel?.text = tags[indexPath.row]
         return cell
     }
     
@@ -67,7 +67,7 @@ extension TagsViewController {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        let tag = tags[(indexPath as NSIndexPath).row]
+        let tag = tags[indexPath.row]
         pickAction?(tag)
     }
 }

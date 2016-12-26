@@ -86,7 +86,7 @@ extension AppDelegate: WCSessionDelegate {
         if activationState == .activated {
             
             if let realm = try? Realm() {
-                let matters: [SharedMatter] = MatterService.shared.fetchAll(fromRealm: realm).flatMap { $0.shared }
+                let matters: [SharedMatter] = MatterService.shared.fetchAll(fromRealm: realm).flatMap { SharedMatter.matter(with: $0) }
                 
                 WatchSessionService.shared.update(withApplicationContext: [Configure.sharedMattersKey: matters.first!])
                 

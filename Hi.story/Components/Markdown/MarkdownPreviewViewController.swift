@@ -24,7 +24,6 @@ class MarkdownPreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         setup()
     }
@@ -40,7 +39,7 @@ class MarkdownPreviewViewController: UIViewController {
         webView.translatesAutoresizingMaskIntoConstraints = false
         
         let views: [String: Any] = [
-            "webView" = webView,
+            "webView": webView,
         ]
         
         let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|", options: [], metrics: nil, views: views)
@@ -51,12 +50,12 @@ class MarkdownPreviewViewController: UIViewController {
     }
     
     private func displayMarkdown() {
-        let html = 
+        let html = ""
     }
     
 }
 
-extension MarkdownPreviewViewController: WKWebViewNavigationDelegate {
+extension MarkdownPreviewViewController: WKNavigationDelegate {
     
 }
 

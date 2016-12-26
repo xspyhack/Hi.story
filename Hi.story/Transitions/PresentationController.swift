@@ -65,6 +65,12 @@ class PresentationController: UIPresentationController {
         return CGRect(x: 0, y: containerView.bounds.height - presentedViewHeight, width: containerView.bounds.width, height: presentedViewHeight)
     }
     
+    override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
+        let width = parentSize.width
+        let height = presentedViewHeight
+        return CGSize(width: CGFloat(width), height: CGFloat(height))
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         

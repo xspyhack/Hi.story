@@ -24,22 +24,7 @@ struct Defaults {
         static let placeholder = "#C7C7C7"
     }
     
-    struct Authentication {
-        static let tokenKey = "History.Authentication.Token"
-        static var token: String? {
-            get {
-                return userDefaults.object(forKey: tokenKey) as? String
-            }
-            set {
-                userDefaults.set(newValue, forKey: tokenKey)
-            }
-        }
-
-    }
-    
     static let uuidKey = prefix + ".uuid"
-    
-    static let perPage: Int = 30
     
     static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
     static let tabBarHeight: CGFloat = 44.0
@@ -51,25 +36,7 @@ struct Defaults {
     
     static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
     
-    /*
-    static var textAttributes: TextAttributes = {
-        return TextAttributes()
-            .font(UIFont.systemFont(ofSize: 16.0, weight: UIFontWeightMedium))
-            .lineSpacing(6.0)
-            .alignment(.left)
-            .foregroundColor(.black())
-    }()*/
-    
-    static var TellerRecordName: String {
-        get {
-            return userDefaults.object(forKey: "com.xspyhack.Histroy.TellerRecordName") as? String ?? "_2a8756cfa0c606aa6f49c5532ad6a935"
-        }
-        set {
-            userDefaults.set(newValue, forKey: "com.xspyhack.Histroy.TellerRecordName")
-        }
-    }
-    
-    static var isShowedNewMatterTip: Bool {
+    static var hadShowedNewMatterTip: Bool {
         get {
             return userDefaults.bool(forKey: prefix + ".isShowedNewMatterTip")
         }
