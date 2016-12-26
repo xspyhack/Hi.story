@@ -75,7 +75,7 @@ public protocol Serializable {
 public struct Service {
     
     static func god(of realm: Realm) -> User? {
-        guard let userID = UserDefaults.userID.value else { return nil }
+        guard let userID = HiUserDefaults.userID.value else { return nil }
         
         let predicate = NSPredicate(format: "id = %@", userID)
         

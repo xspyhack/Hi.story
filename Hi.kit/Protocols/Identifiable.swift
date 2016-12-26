@@ -10,7 +10,7 @@ import Foundation
 
 protocol Identifiable {
     associatedtype Identifier: Equatable
-    var identifier: Identifier { get }
     
+    var identifier: Identifier { get }
     static var identifier: Identifier { get }
 }

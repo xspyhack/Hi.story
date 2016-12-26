@@ -39,7 +39,7 @@ extension Synchronizable where T: Object {
     
     public func fetchAll(sortby property: String? = nil, fromRealm realm: Realm) -> [T] {
         if let property = property {
-            return realm.objects(T.self).sorted(byProperty: property, ascending: true).flatMap { $0 }
+            return realm.objects(T.self).sorted(byProperty: property, ascending: false).flatMap { $0 }
         } else {
             return realm.objects(T.self).flatMap { $0 }
         }

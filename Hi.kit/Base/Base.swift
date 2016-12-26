@@ -15,15 +15,6 @@ public struct Hi<Base: AnyObject> {
     public init(_ base: Base) {
         self.base = base
     }
-}
-
-public extension NSObjectProtocol {
-    public var hi: Hi<Self> {
-        return Hi(self)
-    }
-}
-
-public struct X<Base: AnyObject> {
     
     public static var base: Base.Type {
         return Base.self
@@ -31,8 +22,12 @@ public struct X<Base: AnyObject> {
 }
 
 public extension NSObjectProtocol {
-    public static var hi: X<Self>.Type {
-        return X.self
+    public var hi: Hi<Self> {
+        return Hi(self)
+    }
+    
+    public static var hi: Hi<Self>.Type {
+        return Hi.self
     }
 }
 

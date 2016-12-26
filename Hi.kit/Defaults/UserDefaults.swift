@@ -9,40 +9,31 @@
 import Foundation
 import RealmSwift
 
-fileprivate let userIDKey = "userID"
-fileprivate let nicknameKey = "nickname"
-fileprivate let bioKey = "bio"
-
-public struct UserDefaults {
+public struct HiUserDefaults {
     
     private static let userDefaults = Foundation.UserDefaults(suiteName: Configure.appGroupIdentifier)!
 
-    static let prefix = "com.xspyhack.History."
-    public static func set<T>(_ value: T, forKey key: String) {
-        userDefaults.set(value, forKey: prefix + key)
-    }
-    
-    public static func value(forKey key: String) -> Any? {
-        return userDefaults.value(forKey: prefix + key)
-    }
-    
-    public static func value<T>(forKey key: String) -> T {
-        return userDefaults.value(forKey: prefix + key) as! T
+    private struct Key {
+        static let prefix = "com.xspyhack.History."
+        
+        static let userID = prefix + "userID"
+        static let nickname = prefix + "nickname"
+        static let bio = prefix + "bio"
     }
     
     public static var userID: Listenable<String?> = {
-        let userID: String? = value(forKey: userIDKey)
+        let userID = userDefaults.string(forKey: Key.userID)
         
         return Listenable<String?>(userID) { userID in
-            set(userID, forKey: userIDKey)
+            userDefaults.set(userID, forKey: Key.userID)
         }
     }()
     
     public static var nickname: Listenable<String?> = {
-        let nickname: String? = value(forKey: nicknameKey)
+        let nickname = userDefaults.string(forKey: Key.nickname)
         
         return Listenable<String?>(nickname) { nickname in
-            set(nickname, forKey: nicknameKey)
+            userDefaults.set(nickname, forKey: Key.nickname)
             
             guard let realm = try? Realm() else { return }
             
@@ -55,10 +46,10 @@ public struct UserDefaults {
     }()
     
     public static var bio: Listenable<String?> = {
-        let bio: String? = value(forKey: bioKey)
+        let bio = userDefaults.string(forKey: Key.bio)
         
         return Listenable<String?>(bio) { bio in
-            set(bio, forKey: bioKey)
+            userDefaults.set(bio, forKey: Key.bio)
             
             guard let realm = try? Realm() else { return }
             
