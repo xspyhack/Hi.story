@@ -7,9 +7,20 @@
 //
 
 import UIKit
+import Hikit
 
-class GeneralCell: UITableViewCell {
+final class GeneralCell: UITableViewCell, Reusable {
 
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        
+        accessoryType = .disclosureIndicator
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
