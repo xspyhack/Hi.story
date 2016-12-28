@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="C2G-hK-DJn">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Edit Profile View Controller-->
+        <scene sceneID="3Pt-6Y-rpt">
+            <objects>
+                <viewController storyboardIdentifier="EditProfileViewController" id="C2G-hK-DJn" customClass="EditProfileViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Idy-0u-Naw"/>
+                        <viewControllerLayoutGuide type="bottom" id="mEe-4D-GcQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FMM-ka-AuJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="yQ7-rJ-Uzm">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="nFc-2e-a8u">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="241"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="8ot-0F-5UO">
+                                            <rect key="frame" x="137" y="70" width="100" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="8ot-0F-5UO" secondAttribute="height" multiplier="1:1" id="tRw-RD-nSl"/>
+                                                <constraint firstAttribute="width" constant="100" id="txr-xM-xZf"/>
+                                            </constraints>
+                                        </imageView>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="szb-Bc-xiN">
+                                            <rect key="frame" x="177" y="110" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="8ot-0F-5UO" firstAttribute="centerX" secondItem="nFc-2e-a8u" secondAttribute="centerX" id="5fP-GD-GtU"/>
+                                        <constraint firstItem="szb-Bc-xiN" firstAttribute="centerX" secondItem="8ot-0F-5UO" secondAttribute="centerX" id="WfF-aQ-adP"/>
+                                        <constraint firstItem="szb-Bc-xiN" firstAttribute="centerY" secondItem="8ot-0F-5UO" secondAttribute="centerY" id="qnJ-LN-uoW"/>
+                                        <constraint firstItem="8ot-0F-5UO" firstAttribute="centerY" secondItem="nFc-2e-a8u" secondAttribute="centerY" id="rgQ-q7-SNx"/>
+                                    </constraints>
+                                </view>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="yQ7-rJ-Uzm" secondAttribute="bottom" id="k4O-tz-adP"/>
+                            <constraint firstAttribute="trailing" secondItem="yQ7-rJ-Uzm" secondAttribute="trailing" id="kWe-7Y-d9f"/>
+                            <constraint firstItem="yQ7-rJ-Uzm" firstAttribute="leading" secondItem="FMM-ka-AuJ" secondAttribute="leading" id="mYD-8K-JWG"/>
+                            <constraint firstItem="yQ7-rJ-Uzm" firstAttribute="top" secondItem="FMM-ka-AuJ" secondAttribute="top" id="sWr-Ad-CPw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="szb-Bc-xiN" id="1B2-K0-hZL"/>
+                        <outlet property="avatarImageView" destination="8ot-0F-5UO" id="dSR-lL-qJm"/>
+                        <outlet property="tableView" destination="yQ7-rJ-Uzm" id="L5f-zw-LsO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8yB-Mo-GUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="141.59999999999999" y="177.66116941529236"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="avatar" width="148" height="148"/>
+    </resources>
+</document>
