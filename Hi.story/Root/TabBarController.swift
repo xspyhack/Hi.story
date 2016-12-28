@@ -15,7 +15,7 @@ final class TabBarController: UITabBarController {
         case home = 0
         case feeds
         case matters
-        case profile
+        case central
     }
     
     lazy var selectedTab: Listenable<Tab> = {
