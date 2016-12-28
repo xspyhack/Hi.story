@@ -309,12 +309,12 @@ final class PhotoEditingToolbar: UIView {
 
     private lazy var containerView: UIView = UIView()
     
-    fileprivate enum Preset {
+    enum Preset {
         case filter
         case ratio
     }
     
-    fileprivate var preset: Preset = .ratio {
+    var preset: Preset = .ratio {
         didSet {
             guard preset != oldValue else { return }
             

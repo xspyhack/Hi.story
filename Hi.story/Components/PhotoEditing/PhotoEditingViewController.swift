@@ -503,7 +503,8 @@ class PhotoEditingViewController: UIViewController {
         
         //toolbar.frame = frameForToolbar(verticalLayout: view.bounds.width < view.bounds.height)
         toolbar.image = self.image.hi.resize(to: PhotoEditingToolbar.Constant.presetSize, for: .scaleAspectFill)
-        
+        toolbar.ratioButton.isEnabled = !circularMode
+        toolbar.preset = circularMode ? .filter : .ratio
         view.addSubview(toolbar)
 
         toolbar.doneButtonTapped = { [weak self] in self?.doneButtonTapped() }

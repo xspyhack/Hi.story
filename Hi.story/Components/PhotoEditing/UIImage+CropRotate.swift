@@ -30,7 +30,12 @@ extension Hi where Base: UIImage {
             }
             
             if circular {
-                context.addEllipse(in: CGRect(origin: .zero, size: frame.size))
+                var circularSize = frame.size
+                if frame.width != frame.height {
+                    let radius = min(frame.width, frame.height)
+                    circularSize = CGSize(width: radius, height: radius)
+                }
+                context.addEllipse(in: CGRect(origin: .zero, size: circularSize))
                 context.clip()
             }
             

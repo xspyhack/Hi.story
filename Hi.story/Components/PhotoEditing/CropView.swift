@@ -103,23 +103,23 @@ class CropView: UIView {
         let xOrigin = ceil(contentFrame.origin.x)
         let xDelta = boxFrame.origin.x - xOrigin
         
-        boxFrame.origin.x = max(boxFrame.origin.x, xOrigin).rounded(.down)
+        boxFrame.origin.x = max(boxFrame.origin.x, xOrigin).rounded(.up)
         if xDelta < -CGFloat.ulpOfOne {
             boxFrame.size.width += xDelta
         }
         
         let yOrigin = ceil(contentFrame.origin.y)
         let yDelta = boxFrame.origin.y - yOrigin
-        boxFrame.origin.y = max(boxFrame.origin.y, yOrigin).rounded(.down)
+        boxFrame.origin.y = max(boxFrame.origin.y, yOrigin).rounded(.up)
         if yDelta < -CGFloat.ulpOfOne {
             boxFrame.size.height += yDelta
         }
         
         let maxWidth = contentFrame.width + contentFrame.origin.x - boxFrame.origin.x
-        boxFrame.size.width = min(boxFrame.width, maxWidth).rounded(.down)
+        boxFrame.size.width = min(boxFrame.width, maxWidth).rounded(.up)
         
         let maxHeight = contentFrame.height + contentFrame.origin.y - boxFrame.origin.y
-        boxFrame.size.height = min(boxFrame.height, maxHeight).rounded(.down)
+        boxFrame.size.height = min(boxFrame.height, maxHeight).rounded(.up)
         
         boxFrame.size.width = max(boxFrame.width, minimumBoxSize)
         boxFrame.size.height = max(boxFrame.height, minimumBoxSize)
@@ -140,8 +140,8 @@ class CropView: UIView {
         scrollView.minimumZoomScale = minScale
         
         var size = scrollView.contentSize
-        size.width = size.width.rounded(.down)
-        size.height = size.height.rounded(.down)
+        size.width = size.width.rounded(.up)
+        size.height = size.height.rounded(.up)
         
         scrollView.contentSize = size
         
@@ -442,7 +442,7 @@ class CropView: UIView {
         
         // The following setup isn't needed during circular cropping
         if circularMode {
-            let circlePath = UIBezierPath(ovalIn: CGRect(x: 0.0, y: 0.0, width: 10, height: 10.0))
+            let circlePath = UIBezierPath(ovalIn: CGRect(x: 0.0, y: 0.0, width: circularPathRadius, height: circularPathRadius))
             circularMaskLayer.path = circlePath.cgPath
             foregroundContainerView.layer.mask = self.circularMaskLayer
             return
@@ -497,7 +497,7 @@ class CropView: UIView {
         // Work out the size of the image to fit into the content bounds
         var scale = min(bounds.width / imageSize.width, bounds.height / imageSize.height)
         
-        let scaledImageSize = CGSize(width: (imageSize.width * scale).rounded(.down), height: (imageSize.height * scale).rounded(.down))
+        let scaledImageSize = CGSize(width: (imageSize.width * scale).rounded(.up), height: (imageSize.height * scale).rounded(.up))
         
         // If an aspect ratio was pre-applied to the crop view, use that to work out the minimum scale the image needs to be to fit
         var cropBoxSize = CGSize.zero
@@ -512,7 +512,7 @@ class CropView: UIView {
         }
         
         //Whether aspect ratio, or original, the final image size we'll base the rest of the calculations off
-        let scaledSize = CGSize(width: (imageSize.width * scale).rounded(.down), height: (imageSize.height * scale).rounded(.down))
+        let scaledSize = CGSize(width: (imageSize.width * scale).rounded(.up), height: (imageSize.height * scale).rounded(.up))
         
         // Configure the scroll view
         scrollView.minimumZoomScale = scale
@@ -521,8 +521,8 @@ class CropView: UIView {
         //Set the crop box to the size we calculated and align in the middle of the screen
         var boxFrame = CGRect.zero
         boxFrame.size = hasAspectRatio ? cropBoxSize : scaledSize
-        boxFrame.origin.x = bounds.origin.x + ((bounds.width - boxFrame.size.width) * 0.5).rounded(.down)
-        boxFrame.origin.y = bounds.origin.y + ((bounds.height - boxFrame.size.height) * 0.5).rounded(.down)
+        boxFrame.origin.x = bounds.origin.x + ((bounds.width - boxFrame.size.width) * 0.5).rounded(.up)
+        boxFrame.origin.y = bounds.origin.y + ((bounds.height - boxFrame.size.height) * 0.5).rounded(.up)
         setCropBoxFrame(boxFrame)
         
         //set the fully zoomed out state initially
@@ -532,8 +532,8 @@ class CropView: UIView {
         // If we ended up with a smaller crop box than the content, offset it in the middle
         if (boxFrame.width < scaledSize.width - CGFloat.ulpOfOne || boxFrame.size.height < scaledSize.height - CGFloat.ulpOfOne) {
             var offset = CGPoint.zero
-            offset.x = -((scrollView.frame.width - scaledSize.width) * 0.5).rounded(.down)
-            offset.y = -((scrollView.frame.height - scaledSize.height) * 0.5).rounded(.down)
+            offset.x = -((scrollView.frame.width - scaledSize.width) * 0.5).rounded(.up)
+            offset.y = -((scrollView.frame.height - scaledSize.height) * 0.5).rounded(.up)
             scrollView.contentOffset = offset
         }
         
@@ -555,12 +555,12 @@ class CropView: UIView {
             canBeReset = true
         } else if (self.scrollView.zoomScale > self.scrollView.minimumZoomScale + CGFloat.ulpOfOne) { //image has been zoomed in
             canBeReset = true
-        } else if Int((_cropBoxFrame.size.width).rounded(.down)) != Int((self.originalCropBoxSize.width).rounded(.down)) ||
-            Int((_cropBoxFrame.size.height).rounded(.down)) != Int((self.originalCropBoxSize.height).rounded(.down))
+        } else if Int((_cropBoxFrame.size.width).rounded(.up)) != Int((self.originalCropBoxSize.width).rounded(.up)) ||
+            Int((_cropBoxFrame.size.height).rounded(.up)) != Int((self.originalCropBoxSize.height).rounded(.up))
         { //crop box has been changed
             canBeReset = true
-        } else if Int((self.scrollView.contentOffset.x).rounded(.down)) != Int((self.originalContentOffset.x).rounded(.down)) ||
-            Int((self.scrollView.contentOffset.y).rounded(.down)) != Int((self.originalContentOffset.y).rounded(.down))
+        } else if Int((self.scrollView.contentOffset.x).rounded(.up)) != Int((self.originalContentOffset.x).rounded(.up)) ||
+            Int((self.scrollView.contentOffset.y).rounded(.up)) != Int((self.originalContentOffset.y).rounded(.up))
         {
             canBeReset = true
         } else {
@@ -1027,10 +1027,10 @@ class CropView: UIView {
         scrollView.zoomScale *= scale
         
         //Work out the centered, upscaled version of the crop rectangle
-        cropFrame.size.width = (cropFrame.size.width * scale).rounded(.down)
-        cropFrame.size.height = (cropFrame.size.height * scale).rounded(.down)
-        cropFrame.origin.x = (contentFrame.origin.x + ((contentFrame.size.width - cropFrame.size.width) * 0.5)).rounded(.down)
-        cropFrame.origin.y = (contentFrame.origin.y + ((contentFrame.size.height - cropFrame.size.height) * 0.5)).rounded(.down)
+        cropFrame.size.width = (cropFrame.size.width * scale).rounded(.up)
+        cropFrame.size.height = (cropFrame.size.height * scale).rounded(.up)
+        cropFrame.origin.x = (contentFrame.origin.x + ((contentFrame.size.width - cropFrame.size.width) * 0.5)).rounded(.up)
+        cropFrame.origin.y = (contentFrame.origin.y + ((contentFrame.size.height - cropFrame.size.height) * 0.5)).rounded(.up)
         setCropBoxFrame(cropFrame)
         
         captureStateForImageRotation()
@@ -1052,8 +1052,8 @@ class CropView: UIView {
         translatedContentOffset.y = scrollView.contentSize.height * normalizedCenter.y
         
         var offset = CGPoint.zero
-        offset.x = (translatedContentOffset.x - newMidPoint.x).rounded(.down)
-        offset.y = (translatedContentOffset.y - newMidPoint.y).rounded(.down)
+        offset.x = (translatedContentOffset.x - newMidPoint.x).rounded(.up)
+        offset.y = (translatedContentOffset.y - newMidPoint.y).rounded(.up)
         
         //Make sure it doesn't overshoot the top left corner of the crop box
         offset.x = max(-scrollView.contentInset.left, offset.x)
@@ -1281,15 +1281,15 @@ class CropView: UIView {
             self.scrollView.minimumZoomScale = self.cropBoxLastEditedMinZoomScale
             self.scrollView.zoomScale = self.cropBoxLastEditedZoomScale
         } else {
-            newCropFrame.size = CGSize(width: (_cropBoxFrame.height * scale).rounded(.down), height: (_cropBoxFrame.width * scale).rounded(.down))
+            newCropFrame.size = CGSize(width: (_cropBoxFrame.height * scale).rounded(.up), height: (_cropBoxFrame.width * scale).rounded(.up))
             
             //Re-adjust the scrolling dimensions of the scroll view to match the new size
             self.scrollView.minimumZoomScale *= scale
             self.scrollView.zoomScale *= scale
         }
         
-        newCropFrame.origin.x = ((self.bounds.width - newCropFrame.width) * 0.5).rounded(.down)
-        newCropFrame.origin.y = ((self.bounds.height - newCropFrame.height) * 0.5).rounded(.down)
+        newCropFrame.origin.x = ((self.bounds.width - newCropFrame.width) * 0.5).rounded(.up)
+        newCropFrame.origin.y = ((self.bounds.height - newCropFrame.height) * 0.5).rounded(.up)
         
         //If we're animated, generate a snapshot view that we'll animate in place of the real view
         var snapshotView: UIView? = nil
@@ -1335,8 +1335,8 @@ class CropView: UIView {
         //reapply the translated scroll offset to the scroll view
         let midPoint = CGPoint(x: newCropFrame.midX, y: newCropFrame.midY)
         var offset = CGPoint.zero
-        offset.x = (-midPoint.x + cropTargetPoint.x).rounded(.down)
-        offset.y = (-midPoint.y + cropTargetPoint.y).rounded(.down)
+        offset.x = (-midPoint.x + cropTargetPoint.x).rounded(.up)
+        offset.y = (-midPoint.y + cropTargetPoint.y).rounded(.up)
         offset.x = max(-self.scrollView.contentInset.left, offset.x)
         offset.y = max(-self.scrollView.contentInset.top, offset.y)
         
