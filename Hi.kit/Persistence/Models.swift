@@ -29,9 +29,10 @@ public class User: Object {
 
 public extension User {
     
-    public static var current: User {
-        // TODO: - Fix me
-        return User()
+    public static var current: User? {
+        guard let userID = HiUserDefaults.userID.value, let realm = try? Realm() else { return nil }
+        let predicate = NSPredicate(format: "id = %@", userID)
+        return realm.objects(User.self).filter(predicate).first
     }
 }
 
