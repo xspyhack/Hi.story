@@ -11,13 +11,16 @@ import Hikit
 
 protocol ProfileViewModelType {
     var user: User { get }
+    var isGod: Bool { get }
 }
 
 struct ProfileViewModel: ProfileViewModelType {
     
     let user: User
+    let isGod: Bool
     
-    init(user: User) {
+    init(user: User, isGod: Bool = false) {
         self.user = user
+        self.isGod = isGod
     }
 }

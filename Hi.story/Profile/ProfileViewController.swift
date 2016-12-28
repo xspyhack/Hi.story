@@ -141,6 +141,7 @@ final class ProfileViewController: BaseViewController {
         // Configure profile
         
         bioLabel.text = viewModel.user.bio
+        avatarImageView.setImage(with: URL(string: viewModel.user.avatarURLString), placeholder: UIImage.hi.avatar)
         avatarImageView.image = UIImage(named: viewModel.user.avatarURLString)
         
         segmentedControl.rx.value
