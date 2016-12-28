@@ -76,11 +76,11 @@ final class NewFeedViewController: BaseViewController {
     
     fileprivate lazy var transitionManager = NonStatusBarTransitionManager()
     
-    fileprivate lazy var photoPicker: PhotoPickerViewController = {
-        let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        return picker
-    }()
-    
+//    fileprivate lazy var photoPicker: PhotoPickerViewController = {
+//        let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+//        return picker
+//    }()
+//    
     fileprivate var pickedImage: UIImage? {
         willSet {
             guard let image = newValue else { return }

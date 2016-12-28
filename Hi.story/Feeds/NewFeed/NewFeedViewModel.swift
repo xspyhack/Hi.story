@@ -122,7 +122,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             let feed = Feed()
             feed.story = story
          
-            let creator = Hikit.User.current
+            let creator = User.current
             feed.creator = creator
             
             feed.visible = isVisible ? 0 : 1
