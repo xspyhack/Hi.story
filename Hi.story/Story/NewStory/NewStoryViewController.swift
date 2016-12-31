@@ -28,7 +28,7 @@ final class NewStoryViewController: BaseViewController {
         didSet {
             imageView.layer.cornerRadius = 2.0
             imageView.clipsToBounds = true
-            imageView.layer.borderColor = UIColor(hex: Defaults.Color.border).cgColor
+            imageView.layer.borderColor = UIColor.hi.border.cgColor
             imageView.layer.borderWidth = 0.5
             imageView.isHidden = true
         }

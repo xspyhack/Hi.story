@@ -44,7 +44,6 @@
                     <connections>
                         <outlet property="collectionView" destination="Ont-GJ-w8j" id="CjQ-B2-Kgd"/>
                         <segue destination="khL-1a-vsD" kind="presentation" identifier="presentNewFeed" id="pFN-Qf-dTK"/>
-                        <segue destination="TSq-Pn-9Yw" kind="show" identifier="showCollections" id="cuv-nC-gbd"/>
                         <segue destination="0CM-P4-XzS" kind="show" identifier="showProfile" id="B61-0u-5kt"/>
                         <segue destination="Nhq-3z-Aib" kind="show" identifier="showFeed" id="dd8-LB-1BW"/>
                     </connections>
@@ -69,21 +68,13 @@
             </objects>
             <point key="canvasLocation" x="1029" y="1822"/>
         </scene>
-        <!--CollectionsViewController-->
-        <scene sceneID="FZk-cj-You">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Collections" referencedIdentifier="CollectionsViewController" id="TSq-Pn-9Yw" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wEe-di-EDT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1037" y="1948"/>
-        </scene>
         <!--ProfileViewController-->
         <scene sceneID="vdc-L8-ZsB">
             <objects>
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="0CM-P4-XzS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sLB-RP-aKD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="2041"/>
+            <point key="canvasLocation" x="1008" y="1936"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kFn-Uo-JrH">
