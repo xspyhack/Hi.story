@@ -287,7 +287,7 @@ final class PhotoEditingToolbar: UIView {
     }
     
     fileprivate var ratioes: [AspectRatioPreset] = [
-        .threetwo, .fourthree, .square, .threefour, .fourfive, .sixteennine
+        ._3x2, ._4x3, .square, ._3x4, ._4x5, ._16x9
     ]
     
     fileprivate var filters: [Filter] = Filter.all

@@ -11,18 +11,18 @@ import UIKit
 enum AspectRatioPreset: Int {
     case original
     case square // 1 x 1
-    case twothree // 2 x 3
-    case threetwo // 3 x 2
-    case fourthree // 4 x 3
-    case threefour // 3 x 4
-    case fivethree // 5 x 3
-    case threefive // 3 x 5
-    case fivefour // 5 x 4
-    case fourfive // 4 x 5
-    case sevenfive // 7 x 5
-    case fiveseven // 5 x 7
-    case sixteennine // 16 x 9
-    case ninesixteen // 9 x 16
+    case _2x3 // 2 x 3
+    case _3x2 // 3 x 2
+    case _4x3 // 4 x 3
+    case _3x4 // 3 x 4
+    case _5x3 // 5 x 3
+    case _3x5 // 3 x 5
+    case _5x4 // 5 x 4
+    case _4x5 // 4 x 5
+    case _7x5 // 7 x 5
+    case _5x7 // 5 x 7
+    case _16x9 // 16 x 9
+    case _9x16 // 9 x 16
     case custom
     
 
@@ -34,29 +34,29 @@ enum AspectRatioPreset: Int {
             aspectRatio = CGSize.zero
         case .square:
             aspectRatio = CGSize(width: 1.0, height: 1.0)
-        case .threetwo:
+        case ._3x2:
             aspectRatio = CGSize(width: 3.0, height: 2.0)
-        case .twothree:
+        case ._2x3:
             aspectRatio = CGSize(width: 2.0, height: 3.0)
-        case .fourthree:
+        case ._4x3:
             aspectRatio = CGSize(width: 4.0, height: 3.0)
-        case .threefour:
+        case ._3x4:
             aspectRatio = CGSize(width: 3.0, height: 4.0)
-        case .fivethree:
+        case ._5x3:
             aspectRatio = CGSize(width: 5.0, height: 3.0)
-        case .threefive:
+        case ._3x5:
             aspectRatio = CGSize(width: 3.0, height: 5.0)
-        case .fivefour:
+        case ._5x4:
             aspectRatio = CGSize(width: 5.0, height: 4.0)
-        case .fourfive:
+        case ._4x5:
             aspectRatio = CGSize(width: 4.0, height: 5.0)
-        case .sevenfive:
+        case ._7x5:
             aspectRatio = CGSize(width: 7.0, height: 5.0)
-        case .fiveseven:
+        case ._5x7:
             aspectRatio = CGSize(width: 5.0, height: 7.0)
-        case .sixteennine:
+        case ._16x9:
             aspectRatio = CGSize(width: 16.0, height: 9.0)
-        case .ninesixteen:
+        case ._9x16:
             aspectRatio = CGSize(width: 9.0, height: 16.0)
         case .custom:
             aspectRatio = CGSize.zero
@@ -75,18 +75,18 @@ extension AspectRatioPreset: Namable {
         switch self {
         case .original: return "original"
         case .square: return "1:1"
-        case .threetwo: return "3:2"
-        case .twothree: return "2:3"
-        case .fourthree: return "4:3"
-        case .threefour: return "3:4"
-        case .fivethree: return "5:3"
-        case .threefive: return "3:5"
-        case .fivefour: return "5:4"
-        case .fourfive: return "4:5"
-        case .sevenfive: return "7:5"
-        case .fiveseven: return "5:7"
-        case .sixteennine: return "16:9"
-        case .ninesixteen: return "9:16"
+        case ._3x2: return "3:2"
+        case ._2x3: return "2:3"
+        case ._4x3: return "4:3"
+        case ._3x4: return "3:4"
+        case ._5x3: return "5:3"
+        case ._3x5: return "3:5"
+        case ._5x4: return "5:4"
+        case ._4x5: return "4:5"
+        case ._7x5: return "7:5"
+        case ._5x7: return "5:7"
+        case ._16x9: return "16:9"
+        case ._9x16: return "9:16"
         case .custom: return "custom"
         }
     }
