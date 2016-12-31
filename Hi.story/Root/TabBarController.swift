@@ -34,7 +34,7 @@ final class TabBarController: UITabBarController {
         
         delegate = self
         
-        tabBar.tintColor = UIColor(hex: Defaults.Color.tint)
+        tabBar.tintColor = UIColor.hi.tint
         configureItem()
     }
 
