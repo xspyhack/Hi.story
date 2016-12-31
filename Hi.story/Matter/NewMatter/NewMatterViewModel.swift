@@ -59,6 +59,7 @@ struct NewMatterViewModel: NewMatterViewModelType {
                                           body.asDriver()
         ) { title, tag, happenedAt, body -> Matter in
             let matter = Matter()
+            matter.creator = Service.god
             matter.title = title
             matter.tag = tag.rawValue
             matter.happenedAt = happenedAt.timeIntervalSince1970
