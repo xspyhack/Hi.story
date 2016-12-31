@@ -206,6 +206,12 @@ final class ProfileViewController: BaseViewController {
             .bindTo(mattersViewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
+        mattersViewModel.showMatterViewModel
+            .drive(onNext: { [weak self] viewModel in
+                self?.performSegue(withIdentifier: .showMatter, sender: Wrapper<MatterViewModel>(bullet: viewModel))
+            })
+            .addDisposableTo(disposeBag)
+        
     }
     
     fileprivate func tryToShowSettings() {
@@ -298,8 +304,8 @@ extension ProfileViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case edit
-        case showQRCode
         case showEditProfile
+        case showMatter
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -307,8 +313,12 @@ extension ProfileViewController: SegueHandlerType {
         switch segueIdentifier(forSegue: segue) {
         case .edit:
             print("edit")
-        case .showQRCode:
-            break
+        case .showMatter:
+            let viewController = segue.destination as? MatterViewController
+            
+            if let wrapper = sender as? Wrapper<MatterViewModel> {
+                viewController?.viewModel = wrapper.candy
+            }
         case .showEditProfile:
             break
         }
