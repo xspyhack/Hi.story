@@ -8,23 +8,24 @@
 
 import UIKit
 
-fileprivate let prefix = "com.xspyhack.History"
-
 struct Defaults {
     
     static let userDefaults = UserDefaults.standard
-    
-    struct Color {
-        static let tint = "#1BBBBB"
-        static let from = "#1EEEEE"
-        static let to = "#133333"
-        static let border = "#EEEEEE"
-        static let separator = "#DDDDDD"
-        static let text = "#353535"
-        static let placeholder = "#C7C7C7"
+   
+    struct Key {
+        static let prefix = "com.xspyhack.History."
+        
+        static let userID = prefix + "userID"
+        static let nickname = prefix + "nickname"
+        static let bio = prefix + "bio"
+        static let avatar = prefix + "avatar"
+        
+        static let sayHi = prefix + "sayHi"
+        
+        static let uuidKey = prefix + "uuid"
+        
+        static let showedNewMatterTip = prefix + "showedNewMatterTip"
     }
-    
-    static let uuidKey = prefix + ".uuid"
     
     static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
     static let tabBarHeight: CGFloat = 44.0
@@ -36,12 +37,21 @@ struct Defaults {
     
     static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
     
-    static var hadShowedNewMatterTip: Bool {
+    static var showedNewMatterTip: Bool {
         get {
-            return userDefaults.bool(forKey: prefix + ".isShowedNewMatterTip")
+            return userDefaults.bool(forKey: Key.showedNewMatterTip)
         }
         set {
-            userDefaults.set(newValue, forKey: prefix + ".isShowedNewMatterTip")
+            userDefaults.set(newValue, forKey: Key.showedNewMatterTip)
+        }
+    }
+    
+    static var sayHi: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.sayHi)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.sayHi)
         }
     }
 }
