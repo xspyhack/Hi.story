@@ -10,6 +10,8 @@ import Foundation
 import MapKit
 import RealmSwift
 
+public let realmQueue = DispatchQueue(label: "com.xspyhack.Hikit.realmQueue", qos: .utility, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+
 public class User: Object {
     public dynamic var id: String = ""
     public dynamic var username: String = ""
@@ -21,6 +23,10 @@ public class User: Object {
     public dynamic var lastSignInAt: TimeInterval = Date().timeIntervalSince1970
     
     public let createdFeeds = LinkingObjects(fromType: Feed.self, property: "creator")
+   
+    public override class func primaryKey() -> String? {
+        return "id"
+    }
     
     public override class func indexedProperties() -> [String] {
         return ["id"]

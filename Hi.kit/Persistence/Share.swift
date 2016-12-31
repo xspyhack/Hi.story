@@ -27,6 +27,7 @@ public enum Tag: Int {
     case lightBlue
     case orange
     case fuschia
+    case hi
     
     public var name: String {
         switch self {
@@ -40,6 +41,7 @@ public enum Tag: Int {
         case .lightBlue: return "Light Blue"
         case .orange: return "Orange"
         case .fuschia: return "Fuschia"
+        case .hi: return "Hi"
         }
     }
     
@@ -55,6 +57,7 @@ public enum Tag: Int {
         case .gray: return "#A4AAB3"
         case .white: return "#FFFFFF"
         case .none: return "#000000"
+        case .hi: return "#1BBBBB"
         }
     }
     

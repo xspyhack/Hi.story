@@ -45,8 +45,8 @@ public class MatterService: Synchronizable {
     
     open static let shared = MatterService()
     
-    open func fetchAll(fromRealm realm: Realm) -> [T] {
-        return realm.objects(Matter.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
+    open func fetchAll(withPredicate predicate: NSPredicate, fromRealm realm: Realm) -> [T] {
+        return realm.objects(Matter.self).filter(predicate).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
     }
 }
 
