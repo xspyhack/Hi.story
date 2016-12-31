@@ -50,9 +50,15 @@ struct MattersViewModel: MattersViewModelType {
     let showMatterViewModel: Driver<MatterViewModel>
     let itemDidDeselect: Driver<IndexPath>
     
-    init(realm: Realm) {
-        
-        let matters = Variable<[Matter]>(MatterService.shared.fetchAll(fromRealm: realm).sorted(by: { (matter0, matter1) in
+    init(with userID: String? = nil, realm: Realm) {
+      
+        let predicate: NSPredicate
+        if let userID = userID {
+            predicate = NSPredicate(format: "creator.id = %@", userID)
+        } else {
+            predicate = NSPredicate(value: true)
+        }
+        let matters = Variable<[Matter]>(MatterService.shared.fetchAll(withPredicate: predicate,fromRealm: realm).sorted(by: { (matter0, matter1) in
             matter0.happenedAt > matter1.happenedAt
         }))
         

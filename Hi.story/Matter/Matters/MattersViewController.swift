@@ -20,6 +20,7 @@ final class MattersViewController: BaseViewController {
             tableView.hi.register(reusableCell: MatterCell.self)
             tableView.rowHeight = Constant.rowHeight
             tableView.estimatedRowHeight = Constant.rowHeight
+            tableView.backgroundColor = UIColor.hi.background
         }
     }
     
@@ -44,9 +45,9 @@ final class MattersViewController: BaseViewController {
         
         self.registerForPreviewing(with: self, sourceView: tableView)
         
-        guard let realm = try? Realm() else { return }
+        guard let realm = try? Realm(), let userID = HiUserDefaults.userID.value else { return }
         
-        let viewModel = MattersViewModel(realm: realm)
+        let viewModel = MattersViewModel(with: userID, realm: realm)
         
         self.viewModel = viewModel
         
@@ -108,8 +109,8 @@ final class MattersViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if !Defaults.hadShowedNewMatterTip {
-            Defaults.hadShowedNewMatterTip = true
+        if !Defaults.showedNewMatterTip {
+            Defaults.showedNewMatterTip = true
             show()
         }
     }
