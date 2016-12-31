@@ -70,5 +70,9 @@ public extension Hi where Base: UIColor {
         return UIColor(hex: "#DDDDDD")
     }
     
+    public static var background: UIColor {
+        return UIColor(hex: "#F7F7F7")
+    }
+    
 }
 

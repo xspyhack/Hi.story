@@ -101,7 +101,7 @@ extension DateProxy {
     }
 
     
-    public static func dateFromString(_ aString: String, withFormat format: String = Date.timestampFormatString) -> Date? {
+    public static func date(with aString: String, format: String = Date.timestampFormatString) -> Date? {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = format
         
