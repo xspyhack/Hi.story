@@ -46,3 +46,12 @@ func delay(_ time: TimeInterval, task: @escaping () -> Void) -> Task? {
 func cancel(_ task: Task?) {
     task?(true)
 }
+
+// http://stackoverflow.com/questions/15161434/how-do-you-schedule-a-block-to-run-on-the-next-run-loop-iteration
+// http://blog.ibireme.com/2015/05/18/runloop/
+func doInNextRunLoop(_ job: @escaping () -> Void) {
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(0)) {
+        job()
+    }
+}
