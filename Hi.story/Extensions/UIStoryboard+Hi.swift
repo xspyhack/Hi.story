@@ -13,10 +13,10 @@ extension UIStoryboard {
     
     enum Storyboard: String {
         case main
-        
         case matter
-        
         case home
+        case central
+        case feeds
         
         var value: String {
             return self.rawValue.capitalized
@@ -27,7 +27,6 @@ extension UIStoryboard {
 extension Hi where Base: UIStoryboard {
     
     static func storyboard(_ board: UIStoryboard.Storyboard) -> UIStoryboard {
-        
         return UIStoryboard(name: board.value, bundle: nil)
     }
 }
@@ -45,7 +44,7 @@ enum Storyboard: String {
     case newMatter
     case matter
 
-    case me
+    case central
     
     case profile
     

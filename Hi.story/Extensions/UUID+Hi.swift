@@ -18,13 +18,13 @@ extension UUID {
                 uuid = id
                 try keychain.label("com.xspyhack.Histroy")
                     .comment("Hi.story uuid")
-                    .set(uuid, forKey: Defaults.uuidKey)
+                    .set(uuid, forKey: Defaults.Key.uuidKey)
             } else {
                 let uuidRef = CFUUIDCreate(kCFAllocatorDefault)
                 uuid = String(CFUUIDCreateString(kCFAllocatorDefault, uuidRef))
                 try keychain.label("com.xspyhack.Histroy")
                     .comment("Hi.story uuid")
-                    .set(uuid, forKey: Defaults.uuidKey)
+                    .set(uuid, forKey: Defaults.Key.uuidKey)
             }
         } catch {}
         
