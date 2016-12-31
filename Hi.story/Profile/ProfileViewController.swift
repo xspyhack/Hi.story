@@ -71,6 +71,7 @@ final class ProfileViewController: BaseViewController {
         static let numberOfRow = 4
         static let ratio: CGFloat = 3 / 4
         static let matterRowHeight: CGFloat = 64.0
+        static let avatarSize = CGSize(width: 120.0, height: 120.0)
     }
     
     private enum Channel: Int {
@@ -130,19 +131,45 @@ final class ProfileViewController: BaseViewController {
     private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
     private var mattersViewModel: MattersViewModel?
     
+    private struct Listener {
+        static let avatar = "Profile.avatar"
+        static let nickname = "Profile.nickname"
+        static let bio = "Profile.bio"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         guard let viewModel = viewModel else { return }
-        
-        navigationItem.title = viewModel.user.nickname
-        navigationItem.rightBarButtonItem = settingsItem
-        
+    
         // Configure profile
-        
-        bioLabel.text = viewModel.user.bio
-        avatarImageView.setImage(with: URL(string: viewModel.user.avatarURLString), placeholder: UIImage.hi.avatar)
-        avatarImageView.image = UIImage(named: viewModel.user.avatarURLString)
+       
+        if viewModel.isGod {
+            navigationItem.rightBarButtonItem = settingsItem
+           
+            HiUserDefaults.nickname.bindAndFireListener(with: Listener.nickname) { [weak self] (nickname) in
+                self?.navigationItem.title = nickname
+            }
+            
+            HiUserDefaults.bio.bindAndFireListener(with: Listener.bio) { [weak self] (bio) in
+                self?.bioLabel.text = bio
+            }
+            
+            HiUserDefaults.avatar.bindAndFireListener(with: Listener.avatar) { [weak self] avatarURLString in
+                self?.avatarImageView.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
+            }
+            
+            settingsItem.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    self?.tryToShowSettings()
+                })
+                .addDisposableTo(disposeBag)
+            
+        } else {
+            navigationItem.title = viewModel.user.nickname
+            bioLabel.text = viewModel.user.bio
+            avatarImageView.setImage(with: URL(string: viewModel.user.avatarURLString), placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
+        }
         
         segmentedControl.rx.value
             .observeOn(MainScheduler.instance)
@@ -161,15 +188,9 @@ final class ProfileViewController: BaseViewController {
         headerViewHeightConstraint.constant = maximumHeaderHeight
         bioContainerHeightConstraint.constant = bioHeight
         
-        settingsItem.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.tryToShowSettings()
-            })
-            .addDisposableTo(disposeBag)
-        
         guard let realm = try? Realm() else { return }
         
-        let mattersViewModel = MattersViewModel(realm: realm)
+        let mattersViewModel = MattersViewModel(with: viewModel.user.id, realm: realm)
         
         dataSource.configureCell = { _, tableView, indexPath, viewModel in
             let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
