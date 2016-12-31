@@ -19,6 +19,7 @@ public struct HiUserDefaults {
         static let userID = prefix + "userID"
         static let nickname = prefix + "nickname"
         static let bio = prefix + "bio"
+        static let avatar = prefix + "avatar"
     }
     
     public static var userID: Listenable<String?> = {
@@ -56,6 +57,22 @@ public struct HiUserDefaults {
             if let bio = bio, let god = Service.god(of: realm) {
                 let _ = try? realm.write {
                     god.bio = bio
+                }
+            }
+        }
+    }()
+    
+    public static var avatar: Listenable<String?> = {
+        let avatar = userDefaults.string(forKey: Key.avatar)
+        
+        return Listenable<String?>(avatar) { avatar in
+            userDefaults.set(avatar, forKey: Key.avatar)
+            
+            guard let realm = try? Realm() else { return }
+            
+            if let avatar = avatar, let god = Service.god(of: realm) {
+                let _ = try? realm.write {
+                    god.avatarURLString = avatar
                 }
             }
         }
