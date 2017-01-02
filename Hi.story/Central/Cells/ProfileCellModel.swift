@@ -7,3 +7,17 @@
 //
 
 import Foundation
+
+protocol ProfileCellModelType {
+    
+    var avatar: URL? { get }
+    var nickname: String { get }
+    var bio: String? { get }
+}
+
+struct ProfileCellModel: ProfileCellModelType {
+   
+    let avatar: URL?
+    let nickname: String
+    let bio: String?
+}
