@@ -20,6 +20,8 @@ final class HistoryViewController: UIViewController {
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: HistoryHeaderView.self)
             collectionView.contentInset.top = 64.0
             collectionView.contentInset.bottom = 44.0
+            collectionView.scrollIndicatorInsets.top = 64.0
+            collectionView.scrollIndicatorInsets.bottom = 44.0
         }
     }
     

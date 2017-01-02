@@ -92,6 +92,10 @@ final class HomeViewController: UIPageViewController {
         
         segmentedControl.selectedSegmentIndex = channel.index
     }
+    
+    func collectingMemories() {
+        
+    }
 }
 
 // MARK: - UIViewControllerPreviewingDelegate
