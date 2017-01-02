@@ -12,155 +12,6 @@ import RxCocoa
 import RxSwift
 import RealmSwift
 
-final class InputableCell: UITableViewCell, Reusable {
-    
-    var changedAction: ((String) -> Void)?
-    
-    var didBeginInputingAction: (() -> Void)?
-    
-    lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.delegate = self
-        textField.textAlignment = .center
-        textField.textColor = UIColor.hi.text
-        return textField
-    }()
-    
-    fileprivate let disposeBag = DisposeBag()
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    fileprivate func setup() {
-        
-        textLabel?.textColor = UIColor.hi.title
-        
-        textField.rx.text.orEmpty
-            .subscribe(onNext: { [weak self] text in
-                self?.changedAction?(text)
-            })
-            .addDisposableTo(disposeBag)
-        
-        contentView.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        let views = [
-            "textField": textField,
-        ]
-        
-        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|[textField]|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|[textField]|", options: [], metrics: nil, views: views)
-        
-        NSLayoutConstraint.activate(H)
-        NSLayoutConstraint.activate(V)
-    }
-}
-
-extension InputableCell: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        didBeginInputingAction?()
-    }
-}
-
-final class InfoInputableCell: UITableViewCell, Reusable {
-    
-    var didEndEditing: ((String) -> Void)?
-    
-    var textdidChange: ((String) -> Void)?
-    
-    var didBeginInputingAction: (() -> Void)?
-    
-    var textViewDidChangeAction: ((CGFloat) -> Void)?
-    
-    fileprivate lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.hi.title
-        return label
-    }()
-    
-    fileprivate let textViewMinixumHeight: CGFloat = 30.0
-    
-    fileprivate lazy var textView: UITextView = {
-        let textView = UITextView()
-        textView.delegate = self
-        textView.isScrollEnabled = false
-        textView.textColor = UIColor.hi.text
-        textView.font = UIFont.systemFont(ofSize: 14.0)
-        return textView
-    }()
-    
-    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    fileprivate func setup() {
-        
-        textLabel?.textColor = UIColor.hi.title
-        
-        contentView.addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        let views = [
-            "titleLabel": titleLabel,
-            "textView": textView,
-        ] as [String : Any]
-        
-        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[textView]-20-|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[titleLabel(30)]-10-[textView(>=30)]-20-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
-        
-        NSLayoutConstraint.activate(H)
-        NSLayoutConstraint.activate(V)
-    }
-}
-
-extension InfoInputableCell: UITextViewDelegate {
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        let text = textView.text.hi.trimming(.whitespaceAndNewline)
-        textView.text = text
-        
-        didEndEditing?(text)
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        didBeginInputingAction?()
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: CGFloat.greatestFiniteMagnitude))
-        //var bounds = textView.bounds
-        //bounds.size = size
-        //textView.bounds = bounds
-        //textViewHeightConstraint.constant = max(textViewMinixumHeight, size.height)
-        textViewDidChangeAction?(size.height + 80.0)
-        
-        textdidChange?(textView.text)
-    }
-}
-
 final class TagItemCell: UICollectionViewCell, Reusable {
     
     var itemColor: UIColor = UIColor.hi.tint {
@@ -184,6 +35,7 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         view.isHidden = true
         return view
     }()
+    
     fileprivate lazy var innerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -371,6 +223,8 @@ final class DisclosureCell: UITableViewCell, Reusable {
         
         textLabel?.textColor = UIColor.hi.title
         detailTextLabel?.textColor = UIColor.hi.text
+        
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -403,7 +257,7 @@ final class NewMatterViewController: BaseViewController {
     @IBOutlet fileprivate weak var navigationBar: UINavigationBar!
     @IBOutlet fileprivate weak var tableView: TPKeyboardAvoidingTableView! {
         didSet {
-            tableView.hi.register(reusableCell: InputableCell.self)
+            tableView.hi.register(reusableCell: TitleInputableCell.self)
             tableView.hi.register(reusableCell: InfoInputableCell.self)
             tableView.hi.register(reusableCell: TagCell.self)
             tableView.hi.register(reusableCell: DisclosureCell.self)
@@ -595,7 +449,7 @@ extension NewMatterViewController: UITableViewDataSource {
         
         switch section {
         case .title:
-            let cell: InputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
+            let cell: TitleInputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.textField.placeholder = "What's the Matter"
             cell.changedAction = { [weak self] text in
                 self?.subject.value = text
