@@ -63,7 +63,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
         
         let attachmentInfo = self.attachmentImage.asObservable()
             .flatMapLatest { (image) -> Observable<(URL, CGSize)?> in
-                let url = NSURL.hi.imageURL(withPath: Date().hi.timestamp)
+                let url = URL.hi.imageURL(withPath: Date().hi.timestamp)
                 if let image = image {
                     let size = image.size
                     CacheService.shared.store(image, forKey: url.absoluteString)

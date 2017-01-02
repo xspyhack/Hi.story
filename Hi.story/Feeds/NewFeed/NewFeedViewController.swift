@@ -116,12 +116,7 @@ final class NewFeedViewController: BaseViewController {
         
         photoButton.rx.tap
             .subscribe(onNext: { [unowned self] in
-                let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
-                picker.delegate = self
-                picker.contentInset.bottom = Constant.bottomInset
-                let nav = UINavigationController(rootViewController: picker)
-                nav.modalPresentationStyle = .overCurrentContext
-                self.present(nav, animated: true, completion: nil)
+                self.pickPhoto()
             })
             .addDisposableTo(disposeBag)
         
@@ -226,25 +221,25 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
+    private func pickPhoto() {
+        hi.propose(for: .photos, agreed: { [weak self] in
+            let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            picker.delegate = self
+            picker.contentInset.bottom = Constant.bottomInset
+            let nav = UINavigationController(rootViewController: picker)
+            nav.modalPresentationStyle = .overCurrentContext
+            self?.present(nav, animated: true, completion: nil)
+        })
+    }
+    
     @IBAction func locationButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
         canLocate = sender.isSelected
         if canLocate && coordinate == nil {
-            /*
-            let permission: Permission = .LocationWhenInUse
-            permission.request { [weak self] (status) in
-                switch permission.status {
-                case .authorized:
-                    self?.startLocating()
-                case .denied:
-                    print("denied")
-                case .disabled:
-                    print("disabled")
-                case .notDetermined:
-                    self?.startLocating()
-                }
-            }*/
+            hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
+                self?.startLocating()
+            })
         }
     }
     
@@ -253,11 +248,9 @@ final class NewFeedViewController: BaseViewController {
     }
     
     fileprivate func tryToLocate() {
-        /*
-        let permission: Permission = .LocationWhenInUse
-        if permission.status == .authorized {
-            startLocating()
-        }*/
+        hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
+            self?.startLocating()
+        })
     }
     
     private func startLocating() {
