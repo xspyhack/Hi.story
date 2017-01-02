@@ -206,6 +206,12 @@ final class ProfileViewController: BaseViewController {
             .bindTo(mattersViewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
+        mattersViewModel.itemDidDeselect
+            .drive(onNext: { [weak self] indexPath in
+                self?.matterTableView.deselectRow(at: indexPath, animated: true)
+            })
+            .addDisposableTo(disposeBag)
+        
         mattersViewModel.showMatterViewModel
             .drive(onNext: { [weak self] viewModel in
                 self?.performSegue(withIdentifier: .showMatter, sender: Wrapper<MatterViewModel>(bullet: viewModel))
