@@ -41,6 +41,15 @@ struct ValidationService {
             return .just(.failed(message: "Username can only contain numbers or digits"))
         }
         
+        // this obviously won't be
+        if let start = username.characters.first, "0123456789".contains(String(start)) {
+            return .just(.failed(message: "Username can not start with numbers"))
+        }
+        
+        if username.characters.count < 4 || username.characters.count > 16 {
+            return .just(.failed(message: "Username must more than 3 characters and less than 17 characters"))
+        }
+        
         let loadingValue = ValidationResult.validating
         
         return RealmService.available(username: username)
