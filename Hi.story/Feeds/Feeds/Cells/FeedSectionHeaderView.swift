@@ -30,11 +30,10 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
     
     var didSelect: ((Void) -> Void)?
     
-    
-    
     fileprivate lazy var avatarButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(avatarTapped(_:)), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
         return button
     }()
     
@@ -53,7 +52,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
     
     struct Constant {
         static let margin: CGFloat = 16.0
-        static let avatarSize = CGSize(width: 40.0, height: 40.0)
+        static let avatarSize = CGSize(width: 32.0, height: 32.0)
     }
 
     override init(frame: CGRect) {
@@ -83,7 +82,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
             "moreButton": moreButton,
         ]
         
-        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(margin)-[avatarButton(40)]-16-[nicknameLabel]-(>=10)-[moreButton(44)]-(margin)-|", options: [.alignAllCenterY], metrics: ["margin": Constant.margin], views: views)
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(12)-[avatarButton(40)]-12-[nicknameLabel]-(>=10)-[moreButton(44)]-(margin)-|", options: [.alignAllCenterY], metrics: ["margin": Constant.margin], views: views)
         
         let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[avatarButton(40)]", options: [], metrics: nil, views: views)
         
@@ -103,6 +102,6 @@ extension FeedSectionHeaderView: Configurable {
     
     func configure(withPresenter presenter: FeedSectionHeaderViewModelType) {
         nicknameLabel.text = presenter.nickname
-        avatarButton.setBackgroundImage(with: URL(string: presenter.avatar), for: .normal, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+        avatarButton.setImage(with: URL(string: presenter.avatar), for: .normal, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
     }
 }
