@@ -34,6 +34,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(avatarTapped(_:)), for: .touchUpInside)
         button.contentEdgeInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
+        button.contentMode = .scaleAspectFill
         return button
     }()
     

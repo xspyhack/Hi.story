@@ -51,23 +51,33 @@ final class FeedsViewController: BaseViewController {
         navigationItem.rightBarButtonItem = newItem
         
         guard let realm = try? Realm() else { return }
-        
-        let viewModel = FeedsViewModel(realm: realm)
-        
-        feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
-        
-        self.viewModel = viewModel
-        
-        newItem.rx.tap
-            .bindTo(viewModel.addAction)
-            .addDisposableTo(disposeBag)
-        
-        viewModel.showNewFeedViewModel
-            .drive(onNext: { [weak self] viewModel in
-                self?.performSegue(withIdentifier: .presentNewFeed, sender: viewModel)
+       
+        Feed.didCreate
+            .subscribe(onNext: { [weak self] feed in
+                guard let sSelf = self else { return }
+                
+                sSelf.feeds.insert(feed, at: 0)
+                
+                if sSelf.feeds.count == 1 {
+                    sSelf.collectionView.reloadData()
+                } else {
+                    sSelf.collectionView.insertSections([0])
+                }
+                FeedService.shared.synchronize(feed, toRealm: realm)
             })
             .addDisposableTo(disposeBag)
         
+        feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
+        
+        newItem.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.performSegue(withIdentifier: .presentNewFeed, sender: NewFeedViewModel())
+            })
+            .addDisposableTo(disposeBag)
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: collectionView)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,14 +85,19 @@ final class FeedsViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func tryToAddNewFeed() {
-        performSegue(withIdentifier: .presentNewFeed, sender: nil)
+    fileprivate func fetchFeeds() {
+        
+        guard let realm = try? Realm() else { return }
+        
+        feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
+       
+        SafeDispatch.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
     
-    fileprivate func handleNewFeeds(_ feeds: [Feed]) {
-        DispatchQueue.main.async { 
-            print(feeds)
-        }
+    func tryToCreateNewFeed() {
+        performSegue(withIdentifier: .presentNewFeed, sender: nil)
     }
 }
 
@@ -184,6 +199,21 @@ extension FeedsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension FeedsViewController: UIViewControllerPreviewingDelegate {
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    
+        let vc = Storyboard.feed.viewController(of: FeedViewController.self)
+        
+        return vc
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        
+        show(viewControllerToCommit, sender: self)
+    }
+}
+
 // MARK: - SegueHandlerType
 
 extension FeedsViewController: SegueHandlerType {
@@ -194,8 +224,6 @@ extension FeedsViewController: SegueHandlerType {
         case showFeed
     }
 
-    // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -211,6 +239,7 @@ extension FeedsViewController: SegueHandlerType {
             if let viewModel = sender as? NewFeedViewModel {
                 viewController.viewModel = viewModel
             }
+ 
         case .showProfile:
             let vc = segue.destination as? ProfileViewController
             vc?.viewModel = (sender as? User).flatMap { ProfileViewModel(user: $0) }
@@ -226,7 +255,7 @@ extension FeedsViewController: SegueHandlerType {
 extension FeedsViewController: Refreshable {
     
     func refresh() {
-        //
+        fetchFeeds()
     }
 }
 

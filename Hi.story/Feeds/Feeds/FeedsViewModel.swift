@@ -54,29 +54,11 @@ struct FeedsViewModel: FeedsViewModelType {
     
     private(set) var addAction = PublishSubject<Void>()
     
-    let sections: Driver<[FeedsViewSection]>
-
     let showNewFeedViewModel: Driver<NewFeedViewModel>
-    //let showFeedViewModel: Driver<FeedViewModel>
     
     private let disposeBag = DisposeBag()
     
-    private(set) var feeds: Variable<[Feed]>
-    
     init(realm: Realm) {
-        
-        let feeds = Variable<[Feed]>(FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm))
-        
-        self.feeds = feeds
-        
-        self.sections = feeds.asObservable()
-            .map { (fs) -> [FeedsViewSection] in
-                return fs.flatMap { feed -> FeedsViewSection in
-                    return .basic(model: (), items: [.basic(feed)])
-                }
-            }
-            .asDriver(onErrorJustReturn: [])
-
         
         self.showNewFeedViewModel = self.addAction.asDriver()
             .map {
@@ -87,7 +69,6 @@ struct FeedsViewModel: FeedsViewModelType {
         
         Feed.didCreate
             .subscribe(onNext: { feed in
-                feeds.value.insert(feed, at: 0)
                 FeedService.shared.synchronize(feed, toRealm: realm)
             })
             .addDisposableTo(disposeBag)
