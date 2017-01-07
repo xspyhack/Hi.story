@@ -59,14 +59,15 @@ extension UIButton {
                   transformer: Transformer = .none,
                   completionHandler: CompletionHandler? = nil) -> RetrieveImageTask
     {
-        var options: KingfisherOptionsInfo = [
+        let options: KingfisherOptionsInfo = [
             .transition(.fade(0.3)),
             .backgroundDecode,
             .targetCache(CacheService.sharedCache),
             .cacheMemoryOnly, // Don't cache second times
             .scaleFactor(UIScreen.main.scale),
         ]
-        
+       
+        /*
         switch transformer {
         case .rounded(let targetSize):
             let processor: RoundCornerImageProcessor = RoundCornerImageProcessor(cornerRadius: targetSize.width / 2.0, targetSize: targetSize)
@@ -79,7 +80,7 @@ extension UIButton {
             options.append(.processor(processor))
         case .none:
             break
-        }
+        }*/
         
         return self.kf.setImage(with: resource, for: state, placeholder: placeholder, options: options, progressBlock: nil, completionHandler: completionHandler)
     }
@@ -91,14 +92,15 @@ extension UIButton {
                   transformer: Transformer = .none,
                   completionHandler: CompletionHandler? = nil) -> RetrieveImageTask
     {
-        var options: KingfisherOptionsInfo = [
+        let options: KingfisherOptionsInfo = [
             .transition(.fade(0.3)),
             .backgroundDecode,
             .targetCache(CacheService.sharedCache),
             .cacheMemoryOnly, // Don't cache second times
             .scaleFactor(UIScreen.main.scale),
-            ]
+        ]
         
+        /*
         switch transformer {
         case .rounded(let targetSize):
             let processor: RoundCornerImageProcessor = RoundCornerImageProcessor(cornerRadius: targetSize.width / 2.0, targetSize: targetSize)
@@ -111,7 +113,7 @@ extension UIButton {
             options.append(.processor(processor))
         case .none:
             break
-        }
+        }*/
         
         return self.kf.setBackgroundImage(with: resource, for: state, placeholder: placeholder, options: options, progressBlock: nil, completionHandler: completionHandler)
     }
