@@ -24,6 +24,7 @@ public func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
     return lhs.name == rhs.name
 }
 
+/// Push
 public class Listenable<U> {
     
     public typealias SetterAction = (U) -> Void
@@ -44,8 +45,9 @@ public class Listenable<U> {
     var listenerSet: Set<Listener<U>> = []
     
     public func bindListener(with name: String, action: @escaping Listener<U>.Action) {
-        let listener = Listener(name: name, action: action)
+        removeListener(with: name) // Remove the old listener, bind new listener
         
+        let listener = Listener(name: name, action: action)
         listenerSet.insert(listener)
     }
     
