@@ -501,6 +501,7 @@ extension NewMatterViewController: UITableViewDataSource {
                 let cell: DisclosureCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.titleLabel.text = section.annotation
                 cell.detailTextLabel?.text = pickedDate.hi.yearMonthDay
+                cell.detailTextLabel?.textColor = UIColor.hi.text
                 return cell
             }
         }

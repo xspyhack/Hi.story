@@ -85,7 +85,7 @@ func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow wi
         tabBarController.selectedTab.value = .feeds
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? FeedsViewController {
-                vc.tryToAddNewFeed()
+                vc.tryToCreateNewFeed()
             }
         }
     case .newMatter:

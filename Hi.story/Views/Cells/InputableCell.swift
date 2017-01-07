@@ -53,7 +53,7 @@ final class TitleInputableCell: UITableViewCell, Reusable {
         
         let views: [String: Any] = [
             "textField": textField,
-            ]
+        ]
         
         let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|[textField]|", options: [], metrics: nil, views: views)
         let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|[textField]|", options: [], metrics: nil, views: views)
@@ -94,7 +94,7 @@ final class InputableCell: UITableViewCell, Reusable {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
-        textField.textAlignment = .center
+        textField.textAlignment = .right
         textField.textColor = UIColor.hi.text
         return textField
     }()
@@ -130,7 +130,7 @@ final class InputableCell: UITableViewCell, Reusable {
         let views: [String: Any] = [
             "textField": textField,
             "titleLabel": titleLabel,
-            ]
+        ]
         
         let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLabel]-10-[textField]|", options: [.alignAllTop, .alignAllBottom], metrics: nil, views: views)
         let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|[textField]|", options: [], metrics: nil, views: views)
@@ -180,6 +180,11 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         textView.isScrollEnabled = false
         textView.textColor = UIColor.hi.text
         textView.font = UIFont.systemFont(ofSize: 14.0)
+        textView.textContainer.lineFragmentPadding = 0.0
+        textView.textContainerInset = .zero
+        textView.autocapitalizationType = .none
+        textView.autocorrectionType = .no
+        textView.spellCheckingType = .no
         return textView
     }()
     
@@ -208,7 +213,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         let views = [
             "titleLabel": titleLabel,
             "textView": textView,
-            ] as [String : Any]
+        ] as [String : Any]
         
         let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[textView]-20-|", options: [], metrics: nil, views: views)
         let V = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[titleLabel(30)]-10-[textView(>=30)]-20-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)

@@ -15,8 +15,7 @@ final class SwitchCell: UITableViewCell, Reusable {
     
     private(set) lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.black
-        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightLight)
+        label.textColor = UIColor.hi.title
         label.text = "Title"
         return label
     }()
@@ -24,6 +23,7 @@ final class SwitchCell: UITableViewCell, Reusable {
     private(set) lazy var toggleSwitch: UISwitch = {
         let s = UISwitch()
         s.addTarget(self, action: #selector(SwitchCell.toggleSwitchStateChanged(_:)), for: .valueChanged)
+        s.onTintColor = UIColor.hi.tint
         return s
     }()
     
