@@ -14,7 +14,7 @@ import RealmSwift
 
 final class FeedsViewController: BaseViewController {
     
-    @IBOutlet private weak var collectionView: UICollectionView! {
+    @IBOutlet fileprivate weak var collectionView: UICollectionView! {
         didSet {
             collectionView.hi.register(reusableCell: FeedCell.self)
             collectionView.hi.register(reusableCell: FeedImageCell.self)
@@ -185,12 +185,12 @@ extension FeedsViewController: UICollectionViewDelegateFlowLayout {
         let titleHeight = story.title.hi.height(with: width - FeedCell.margin * 2, fontSize: 24.0)
         let contentHeight = story.body.hi.height(with: width - FeedCell.margin * 2, fontSize: 14.0)
         
-        let height = 12.0 + titleHeight + 16.0 + min(contentHeight, 68.0) + 32.0
+        let height = titleHeight + 16.0 + min(contentHeight, 68.0) + 32.0
         
         if story.attachment != nil {
             return CGSize(width: width, height: 16.0 + height + width * 9.0 / 16.0)
         } else {
-            return CGSize(width: width, height: height)
+            return CGSize(width: width, height: 12.0 + height)
         }
     }
     
@@ -203,9 +203,24 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
     
-        let vc = Storyboard.feed.viewController(of: FeedViewController.self)
+        // cell
+        if let indexPath = collectionView.indexPathForItem(at: location), let cell = collectionView.cellForItem(at: indexPath) {
+            previewingContext.sourceRect = cell.frame
+            let vc = Storyboard.feed.viewController(of: FeedViewController.self)
+            vc.viewModel = feeds.safe[indexPath.section].map { FeedViewModel(feed: $0) }
+            return vc
+        }
         
-        return vc
+        // header
+        let cellLocation = CGPoint(x: location.x, y: location.y + Constant.headerHeight)
+        if let indexPath = collectionView.indexPathForItem(at: cellLocation), let headerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
+            previewingContext.sourceRect = headerView.frame
+            let vc = Storyboard.profile.viewController(of: ProfileViewController.self)
+            vc.viewModel = feeds.safe[indexPath.section]?.creator.map { ProfileViewModel(user: $0) }
+            return vc
+        }
+        
+        return nil
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
@@ -254,10 +269,19 @@ extension FeedsViewController: SegueHandlerType {
 
 extension FeedsViewController: Refreshable {
     
+    var isAtTop: Bool {
+        return self.collectionView.hi.isAtTop
+    }
+    
     func refresh() {
         fetchFeeds()
     }
+    
+    func scrollsToTopIfNeeded() {
+        
+        if !isAtTop {
+            collectionView.hi.scrollsToTop(animated: true)
+        }
+    }
 }
-
-
 
