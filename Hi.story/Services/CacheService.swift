@@ -22,6 +22,10 @@ class CacheService {
     
     fileprivate let cache = ImageCache(name: cacheName, path: String.hi_documentsPath)
     
+    private init() {
+        cache.pathExtension = "png"
+    }
+    
     func store(_ image: UIImage, forKey key: String, completionHandler: (() -> Void)? = nil) {
         cache.store(image, forKey: key, toDisk: true, completionHandler: completionHandler)
     }
@@ -32,6 +36,10 @@ class CacheService {
     
     func retrieveImageInDiskCache(forKey key: String, scale: CGFloat = 1.0) -> UIImage? {
         return cache.retrieveImageInDiskCache(forKey: key, options: [.scaleFactor(scale)])
+    }
+    
+    func filePath(forKey key: String) -> String {
+        return cache.cachePath(forComputedKey: key)
     }
     
     static let sharedCache = CacheService.shared.cache
