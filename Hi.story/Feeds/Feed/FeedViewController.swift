@@ -8,22 +8,33 @@
 
 import UIKit
 import WebKit
+import Hikit
 
-class FeedViewController: UIViewController {
+final class FeedViewController: UIViewController {
     
     var viewModel: FeedViewModel?
     
+    fileprivate var messageHandlerName = "FeedHandler"
+    
     private lazy var webView: WKWebView = {
-        let webView = WKWebView()
+        let configuration = WKWebViewConfiguration()
+        configuration.userContentController.add(self, name: self.messageHandlerName)
+        
+        let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsLinkPreview = true
         webView.navigationDelegate = self
+        webView.uiDelegate = self
+        //webView.scrollView.contentInset.top = 64.0
+        
         return webView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupWebView()
+        
+        display()
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,13 +62,52 @@ class FeedViewController: UIViewController {
     
     private func display() {
         
-        let html = ""
+        guard let feed = viewModel?.feed, let story = feed.story else { return }
+        
+    
+        display(story: story)
+    }
+    
+    private func display(story: Story) {
+        
+        let html: String
+        
+        if let attachment = story.attachment {
+           
+            let base64 = UIImageJPEGRepresentation(CacheService.shared.retrieveImageInDiskCache(forKey: attachment.urlString)!, 1.0)?.base64EncodedString(options: .lineLength64Characters)
+            
+            let metadata = "data:image/png;base64,\(base64!)"
+            html = "<html><head><title></title><meta charset='utf-8'><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><style>img{width:device-width !important;}</style></head><body><p><img src=\"\(metadata)\" /></p><h1>\(story.title)</h1><p>\(story.body)</p></body></html>"
+        } else {
+            html = "<html><head><title></title><meta charset='utf-8'><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"></head><body><h1>\(story.title)</h1><p>\(story.body)</p></body></html>"
+        }
         
         webView.loadHTMLString(html, baseURL: Bundle.main.bundleURL)
+
+    }
+}
+
+extension FeedViewController: WKUIDelegate {
+    
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        
+        completionHandler()
     }
 }
 
 extension FeedViewController: WKNavigationDelegate {
     
     
+}
+
+extension FeedViewController: WKScriptMessageHandler {
+    
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        
+        if message.name == messageHandlerName {
+            
+        }
+        print(message.name)
+        print(message.body)
+    }
 }
