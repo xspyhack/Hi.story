@@ -11,21 +11,21 @@ import Hikit
 
 extension Hi where Base: UIScrollView {
     
-    func isAtTop() -> Bool {
+    var isAtTop: Bool {
         return base.contentOffset.y == -base.contentInset.top
     }
     
-    func scrollToTop(animated aimate: Bool = true) {
+    func scrollsToTop(animated aimate: Bool = true) {
         let topOffset = CGPoint(x: 0, y: -base.contentInset.top)
         base.setContentOffset(topOffset, animated: aimate)
     }
     
-    func scrollToBottom(animated animate: Bool = true) {
+    func scrollsToBottom(animated animate: Bool = true) {
         let bottomOffset = CGPoint(x: 0, y: max(0, base.contentSize.height - base.bounds.height))
         base.setContentOffset(bottomOffset, animated: true)
     }
     
-    func forceStop() {
+    func forcesStop() {
         //scrollEnabled = false
         //scrollEnabled = true
         
