@@ -83,7 +83,12 @@ extension TabBarController: UITabBarControllerDelegate {
         }
         
         if let vc = nvc.topViewController as? Refreshable {
-            vc.refresh()
+            
+            if vc.isAtTop {
+                vc.refresh()
+            } else {
+                vc.scrollsToTopIfNeeded()
+            }
         }
     }
 }
