@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-public class Feed: Object {
+public class Feed: Object, Timetable {
     public dynamic var story: Story?
     public dynamic var creator: Hikit.User?
     public dynamic var likesCount: Int = 0

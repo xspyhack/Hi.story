@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-public class Matter: Object {
+public class Matter: Object, Timetable {
     
     public dynamic var id: String = UUID().uuidString
     

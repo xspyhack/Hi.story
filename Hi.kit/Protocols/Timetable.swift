@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+protocol Timetable {
+    
+    var createdAt: TimeInterval { get }
+}
