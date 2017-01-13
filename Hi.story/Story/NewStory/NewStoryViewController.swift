@@ -194,7 +194,7 @@ final class NewStoryViewController: BaseViewController {
         //story.visible = visible.rawValue
         
         if let image = imageView.image {
-            let url = NSURL.hi.imageURL(withPath: Date().hi.timestamp)
+            let url = URL.hi.imageURL(withPath: Date().hi.timestamp)
             CacheService.shared.store(image, forKey: url.absoluteString)
             let attachment = Attachment()
             attachment.urlString = url.absoluteString

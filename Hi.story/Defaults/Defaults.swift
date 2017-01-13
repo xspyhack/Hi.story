@@ -25,6 +25,19 @@ struct Defaults {
         static let uuidKey = prefix + "uuid"
         
         static let showedNewMatterTip = prefix + "showedNewMatterTip"
+        
+        // Settings
+        
+        static let notificationsEnabled = prefix + "notificationsEnabled"
+        static let backgroundModeEnabled = prefix + "backgroundModeEnabled"
+        
+        static let birthday = prefix + "birthday"
+        static let connectPhotos = prefix + "connectPhotos"
+        
+        // Labs
+        static let spotlightEnabled = prefix + "spotlightEnabled"
+        static let handoffEnabled = prefix + "handoffEnabled"
+        static let siriEnabled = prefix + "siriEnabled"
     }
     
     static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
@@ -52,6 +65,69 @@ struct Defaults {
         }
         set {
             userDefaults.set(newValue, forKey: Key.sayHi)
+        }
+    }
+    
+    static var connectPhotos: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.connectPhotos)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.connectPhotos)
+        }
+    }
+    
+    static var notificationsEnabled: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.notificationsEnabled)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.notificationsEnabled)
+        }
+    }
+    
+    static var backgroundModeEnabled: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.backgroundModeEnabled)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.backgroundModeEnabled)
+        }
+    }
+
+    static var birthday: TimeInterval {
+        get {
+            return userDefaults.double(forKey: Key.birthday)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.birthday)
+        }
+    }
+    
+    static var spotlightEnabled: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.spotlightEnabled)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.spotlightEnabled)
+        }
+    }
+    
+    static var handoffEnabled: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.handoffEnabled)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.handoffEnabled)
+        }
+    }
+    
+    static var siriEnabled: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.siriEnabled)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.siriEnabled)
         }
     }
 }

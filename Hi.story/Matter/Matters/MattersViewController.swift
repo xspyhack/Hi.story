@@ -26,7 +26,7 @@ final class MattersViewController: BaseViewController {
     
     @IBOutlet fileprivate weak var addItem: UIBarButtonItem!
     
-    fileprivate let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
+    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
     
     fileprivate var viewModel: MattersViewModel? // Reference it!!
     

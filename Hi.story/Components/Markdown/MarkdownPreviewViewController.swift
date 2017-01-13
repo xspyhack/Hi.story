@@ -51,6 +51,7 @@ class MarkdownPreviewViewController: UIViewController {
     
     private func displayMarkdown() {
         let html = ""
+        print(html)
     }
     
 }
