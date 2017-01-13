@@ -80,7 +80,7 @@ class FeedImageCell: UICollectionViewCell, Reusable {
         
         let imageViewHConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: [], metrics: nil, views: views)
         
-        let imageViewVConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[imageView]-16-[titleLabel]", options: [], metrics: nil, views: views)
+        let imageViewVConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]-16-[titleLabel]", options: [], metrics: nil, views: views)
         let imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: .height, relatedBy: .equal, toItem: imageView, attribute: .width, multiplier: 9.0 / 16.0, constant: 0.0)
         
         NSLayoutConstraint.activate(imageViewHConstraints)
