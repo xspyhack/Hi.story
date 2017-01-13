@@ -9,5 +9,16 @@
 import UIKit
 
 protocol Refreshable {
+    
+    var isAtTop: Bool { get }
+    
     func refresh()
+    
+    func scrollsToTopIfNeeded()
+}
+
+extension Refreshable {
+    
+    func scrollsToTopIfNeeded() {
+    }
 }
