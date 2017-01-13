@@ -76,6 +76,7 @@ final class EditProfileViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Edit Profile"
         navigationItem.rightBarButtonItem = doneItem
         
         let avatar = HiUserDefaults.avatar.value
@@ -96,7 +97,7 @@ final class EditProfileViewController: BaseViewController {
                     
                     let me = Service.god(of: realm)
                     try? realm.write {
-                        me?.username = username
+                        me?.username = username.lowercased()
                     }
                     
                     self?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
@@ -109,7 +110,7 @@ final class EditProfileViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         Observable.combineLatest(profileIsDirty.asObservable(), usernameAvailable.asObservable()) { dirty, available in
-                dirty && available
+                dirty || available
             }
             .bindTo(doneItem.rx.enabled)
             .addDisposableTo(disposeBag)
@@ -231,6 +232,8 @@ extension EditProfileViewController: UITableViewDataSource {
             let cell: InputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = row.annotation
             cell.textField.textAlignment = .right
+            cell.textField.autocapitalizationType = .none
+            cell.textField.autocorrectionType = .no
             cell.accessoryType = .disclosureIndicator
             cell.selectionStyle = .none
             cell.didBeginInputingAction = { [weak self] in
@@ -267,6 +270,8 @@ extension EditProfileViewController: UITableViewDataSource {
             let cell: InputableCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = row.annotation
             cell.textField.textAlignment = .right
+            cell.textField.autocapitalizationType = .none
+            cell.textField.autocorrectionType = .no
             cell.accessoryType = .disclosureIndicator
             cell.selectionStyle = .none
             HiUserDefaults.nickname.bindAndFireListener(with: "EditProfile.nickname") { [weak self] nickname in
