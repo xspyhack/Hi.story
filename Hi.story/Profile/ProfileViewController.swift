@@ -12,7 +12,6 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import RxDataSources
-//import Permission
 import MobileCoreServices.UTType
 
 private let maximumHeaderHeight: CGFloat = 332.0
@@ -67,9 +66,10 @@ final class ProfileViewController: BaseViewController {
     }
     
     fileprivate struct Constant {
-        static let gap: CGFloat = 4.0
-        static let numberOfRow = 4
-        static let ratio: CGFloat = 3 / 4
+        static let gap: CGFloat = 24.0
+        static let padding: CGFloat = 32.0
+        static let numberOfRow = 2
+        static let ratio: CGFloat = 6 / 9
         static let matterRowHeight: CGFloat = 64.0
         static let avatarSize = CGSize(width: 120.0, height: 120.0)
     }
@@ -182,7 +182,7 @@ final class ProfileViewController: BaseViewController {
             flowLayout.minimumLineSpacing = Constant.gap
             flowLayout.minimumInteritemSpacing = Constant.gap
             let inset = Constant.gap / 2.0
-            flowLayout.sectionInset = UIEdgeInsets(top: inset, left: inset, bottom: inset + Defaults.tabBarHeight, right:  inset)
+            flowLayout.sectionInset = UIEdgeInsets(top: inset, left: Constant.padding, bottom: inset + Defaults.tabBarHeight, right: Constant.padding)
         }
         
         headerViewHeightConstraint.constant = maximumHeaderHeight
@@ -267,7 +267,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         
         let collectionViewWidth = collectionView.bounds.width
         
-        let itemWidth = (collectionViewWidth - Constant.gap - CGFloat((Constant.numberOfRow - 1)) * Constant.gap) / CGFloat(Constant.numberOfRow)
+        let itemWidth = (collectionViewWidth - Constant.padding * 2 - CGFloat((Constant.numberOfRow - 1)) * Constant.gap) / CGFloat(Constant.numberOfRow)
         
         return CGSize(width: itemWidth, height: itemWidth / Constant.ratio)
     }
