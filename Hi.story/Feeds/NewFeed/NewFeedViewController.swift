@@ -56,9 +56,10 @@ final class NewFeedViewController: BaseViewController {
     
     @IBOutlet private weak var postItem: UIBarButtonItem!
     @IBOutlet private weak var cancelItem: UIBarButtonItem!
+    @IBOutlet weak var markdownToolbar: MarkdownToolbar!
     
     fileprivate struct Constant {
-        static let scrollViewContentInsetTop = 44.0
+        static let scrollViewContentInsetTop: CGFloat = 44.0
         static let footerHeight: CGFloat = 500.0
         static let bottomInset: CGFloat = 20.0
     }
@@ -69,18 +70,10 @@ final class NewFeedViewController: BaseViewController {
     private var address: String? = nil
     private var coordinate: CLLocationCoordinate2D?
     
-    fileprivate var croppedFrame: CGRect = .zero
-    fileprivate var angle: Int = 0
-    
     fileprivate let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
     
     fileprivate lazy var transitionManager = NonStatusBarTransitionManager()
-    
-//    fileprivate lazy var photoPicker: PhotoPickerViewController = {
-//        let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        return picker
-//    }()
-//    
+
     fileprivate var pickedImage: UIImage? {
         willSet {
             guard let image = newValue else { return }
@@ -108,11 +101,30 @@ final class NewFeedViewController: BaseViewController {
         view.layer.cornerRadius = 8.0
         view.clipsToBounds = true
         
-        scrollView.contentInset.top = 44.0
+        scrollView.contentInset.top = Constant.scrollViewContentInsetTop
         
         textView.textContainerInset = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
         
+        markdownToolbar.selectedAction = { [unowned self] symbol in
+
+            self.textView.insertText(symbol.name)
+            
+            SafeDispatch.async {
+                self.markdownToolbar.isActived = false
+            }
+        }
+        
         let viewModel = self.viewModel ?? NewFeedViewModel()
+        
+        cancelItem.rx.tap
+            .bindTo(viewModel.cancelAction)
+            .addDisposableTo(disposeBag)
+        
+        postItem.rx.tap
+            .bindTo(viewModel.postAction)
+            .addDisposableTo(disposeBag)
+        
+        // options
         
         photoButton.rx.tap
             .subscribe(onNext: { [unowned self] in
@@ -128,12 +140,10 @@ final class NewFeedViewController: BaseViewController {
             .bindTo(viewModel.visible)
             .addDisposableTo(disposeBag)
         
-        cancelItem.rx.tap
-            .bindTo(viewModel.cancelAction)
-            .addDisposableTo(disposeBag)
-        
-        postItem.rx.tap
-            .bindTo(viewModel.postAction)
+        markdownButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.markdownToolbar.isActived = !self.markdownToolbar.isActived
+            })
             .addDisposableTo(disposeBag)
         
         visibleButton.rx.tap
@@ -243,11 +253,7 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
-    @IBAction func pickButtonTapped(_ sender: UIButton) {
-        
-    }
-    
-    fileprivate func tryToLocate() {
+    private func tryToLocate() {
         hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
             self?.startLocating()
         })
@@ -329,16 +335,10 @@ extension NewFeedViewController: PhotoEditingViewControllerDelegate {
     
     func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         
-        self.croppedFrame = cropRect
-        self.angle = angle
-        
         updateImageView(with: image, fromPhotoEditingViewController: viewController)
     }
     
     func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToCircularImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        
-        self.croppedFrame = cropRect
-        self.angle = angle
         
         updateImageView(with: image, fromPhotoEditingViewController: viewController)
     }

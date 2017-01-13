@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -170,15 +170,25 @@
                                     <constraint firstItem="Svx-Kq-B1k" firstAttribute="leading" secondItem="hPD-3N-1F4" secondAttribute="trailing" constant="8" id="vIk-b3-7yS"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2aV-xG-dqo" customClass="MarkdownToolbar" customModule="Hi_story" customModuleProvider="target">
+                                <rect key="frame" x="20" y="553" width="335" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="9EN-Mq-s6H"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ORh-NH-B2U" secondAttribute="trailing" id="8is-ct-EaW"/>
+                            <constraint firstAttribute="trailing" secondItem="2aV-xG-dqo" secondAttribute="trailing" constant="20" id="BLo-9D-S3m"/>
                             <constraint firstItem="GoM-AH-gtb" firstAttribute="top" secondItem="9P2-jB-sFj" secondAttribute="bottom" constant="20" id="Clq-gg-Bj8"/>
                             <constraint firstAttribute="trailing" secondItem="yMU-Sy-W4v" secondAttribute="trailing" id="EU3-w1-IgY"/>
                             <constraint firstItem="yMU-Sy-W4v" firstAttribute="top" secondItem="9GY-0e-rt8" secondAttribute="top" id="Lu6-2X-ZBo"/>
                             <constraint firstAttribute="trailing" secondItem="9P2-jB-sFj" secondAttribute="trailing" id="PVf-wH-eNe"/>
+                            <constraint firstItem="2aV-xG-dqo" firstAttribute="leading" secondItem="9GY-0e-rt8" secondAttribute="leading" constant="20" id="Qqn-aV-QLr"/>
                             <constraint firstItem="yMU-Sy-W4v" firstAttribute="leading" secondItem="9GY-0e-rt8" secondAttribute="leading" id="RfZ-mF-Nd2"/>
+                            <constraint firstItem="9P2-jB-sFj" firstAttribute="top" secondItem="2aV-xG-dqo" secondAttribute="bottom" constant="10" id="SgY-h5-jBp"/>
                             <constraint firstItem="9P2-jB-sFj" firstAttribute="leading" secondItem="9GY-0e-rt8" secondAttribute="leading" id="Tdt-vi-QCY"/>
                             <constraint firstItem="GoM-AH-gtb" firstAttribute="top" secondItem="ORh-NH-B2U" secondAttribute="bottom" constant="20" id="Wbl-sE-lFL"/>
                             <constraint firstItem="YX2-Vg-Evg" firstAttribute="height" secondItem="9GY-0e-rt8" secondAttribute="height" id="ac6-nl-3JL"/>
@@ -197,6 +207,7 @@
                         <outlet property="keyboardButton" destination="FSZ-dw-kIe" id="7b8-fJ-s6j"/>
                         <outlet property="locationButton" destination="hPD-3N-1F4" id="7oJ-kd-ysC"/>
                         <outlet property="markdownButton" destination="BO6-TV-dwl" id="nEt-t0-ecQ"/>
+                        <outlet property="markdownToolbar" destination="2aV-xG-dqo" id="pIW-i2-7Uq"/>
                         <outlet property="photoButton" destination="4M9-x1-2c1" id="ooG-8t-Deb"/>
                         <outlet property="postItem" destination="90B-7t-pkS" id="ZKv-ba-x0V"/>
                         <outlet property="scrollView" destination="ORh-NH-B2U" id="KRV-sG-5h9"/>
