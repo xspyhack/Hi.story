@@ -41,14 +41,11 @@ public class Listenable<U> {
     
     var setterAction: (U) -> Void
     
-    /// Note: new listener won't not replace the old listener, it will be skip.
     var listenerSet: Set<Listener<U>> = []
     
     public func bindListener(with name: String, action: @escaping Listener<U>.Action) {
-        removeListener(with: name) // Remove the old listener, bind new listener
-        
         let listener = Listener(name: name, action: action)
-        listenerSet.insert(listener)
+        listenerSet.update(with: listener)
     }
     
     public func bindAndFireListener(with name: String, action: @escaping Listener<U>.Action) {
