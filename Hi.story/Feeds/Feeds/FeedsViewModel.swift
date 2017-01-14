@@ -62,7 +62,7 @@ struct FeedsViewModel: FeedsViewModelType {
         
         self.showNewFeedViewModel = self.addAction.asDriver()
             .map {
-                NewFeedViewModel()
+                NewFeedViewModel(token: UUID().uuidString)
             }
         
         // Services

@@ -71,7 +71,7 @@ final class FeedsViewController: BaseViewController {
         
         newItem.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.performSegue(withIdentifier: .presentNewFeed, sender: NewFeedViewModel())
+                self?.performSegue(withIdentifier: .presentNewFeed, sender: NewFeedViewModel(token: UUID().uuidString))
             })
             .addDisposableTo(disposeBag)
         
