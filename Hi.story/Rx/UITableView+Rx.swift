@@ -10,6 +10,14 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+extension Reactive where Base: UITableView {
+    public func enablesAutoDeselect() -> Disposable {
+        return itemSelected
+            .map { (at: $0, animated: true) }
+            .subscribe(onNext: base.deselectRow)
+    }
+}
+
 extension Reactive where Base: UITableViewCell {
     var prepareForReuse: Observable<Void> {
         return Observable.of((base as UITableViewCell).rx.sentMessage(#selector(UITableViewCell.prepareForReuse)).map { _ in }, (base as UITableViewCell).rx.deallocated).merge()
