@@ -14,11 +14,24 @@ import RxDataSources
 import RealmSwift
 import CoreLocation
 
+enum NewFeedMode {
+    case new
+    case edit(Story)
+}
+
+struct LocationInfo: Equatable {
+    let address: String
+    let coordinate: CLLocationCoordinate2D
+    
+    public static func ==(lhs: LocationInfo, rhs: LocationInfo) -> Bool {
+        return (lhs.coordinate.latitude == rhs.coordinate.latitude) && (lhs.coordinate.longitude == rhs.coordinate.longitude)
+    }
+}
+
 protocol NewFeedViewModelType {
     
     var postAction: PublishSubject<Void> { get }
     var cancelAction: PublishSubject<Void> { get }
-    var visibleAction: PublishSubject<Void> { get }
 
     var postButtonEnabled: Driver<Bool> { get }
     var dismissViewController: Driver<Void> { get }
@@ -32,7 +45,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
     var title: Variable<String>
     var body: Variable<String>
     var tag: Variable<Tag>
-    var location: Variable<(String, CLLocationCoordinate2D)?>
+    var location: Variable<LocationInfo?>
     var attachmentImage: Variable<UIImage?>
     
     // visible
@@ -41,7 +54,6 @@ struct NewFeedViewModel: NewFeedViewModelType {
     // Input
     var postAction = PublishSubject<Void>()
     var cancelAction = PublishSubject<Void>()
-    var visibleAction = PublishSubject<Void>()
     
     // Output
     let postButtonEnabled: Driver<Bool>
@@ -49,26 +61,50 @@ struct NewFeedViewModel: NewFeedViewModelType {
     
     fileprivate let disposeBag = DisposeBag()
     
-    init() {
+    init(mode: NewFeedMode = .new, token: String) {
+       
+        let storyID: String
         
-        // Default value
-        self.title = Variable(Date().hi.yearMonthDay)
-        self.body = Variable("")
-        self.tag = Variable(.none)
-        self.location = Variable(nil)
-        
-        self.visible = Variable(false)
-        
-        self.attachmentImage = Variable(nil)
+        switch mode {
+        case .new:
+            // Default value
+            storyID = UUID().uuidString
+            
+            self.title = Variable("")
+            self.body = Variable("")
+            self.tag = Variable(.none)
+            self.location = Variable(nil)
+            
+            self.visible = Variable(true)
+            
+            self.attachmentImage = Variable(nil)
+        case .edit(let story):
+            storyID = story.id
+            
+            self.title = Variable(story.title)
+            self.body = Variable(story.body)
+            self.tag = Variable(.none)
+            if let location = story.location, let coordinate = location.coordinate {
+                let coordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                let info = LocationInfo(address: location.name, coordinate: coordinate)
+                self.location = Variable(info)
+            } else {
+                self.location = Variable(nil)
+            }
+            self.visible = Variable(true)
+            
+            self.attachmentImage = Variable(nil)
+        }
         
         let attachmentInfo = self.attachmentImage.asObservable()
             .flatMapLatest { (image) -> Observable<(URL, CGSize)?> in
-                let url = URL.hi.imageURL(withPath: Date().hi.timestamp)
+                let url = URL.hi.imageURL(withPath: token)
                 if let image = image {
                     let size = image.size
                     CacheService.shared.store(image, forKey: url.absoluteString)
                     return Observable.just((url, size))
                 } else {
+                    print("Remove url")
                     CacheService.shared.removeIfExisting(forKey: url.absoluteString)
                     return Observable.just(nil)
                 }
@@ -85,10 +121,11 @@ struct NewFeedViewModel: NewFeedViewModelType {
                                          location.asDriver(),
                                          attachmentInfo
         ) { title, body, locationInfo, attachmentInfo -> Story in
-            
-            let story = Story()
-            story.title = title
-            story.body = body.hi.trimming(.whitespaceAndNewline)
+           
+            let newStory = Story()
+            newStory.id = storyID
+            newStory.title = title
+            newStory.body = body.hi.trimming(.whitespaceAndNewline)
             
             if let (url, size) = attachmentInfo {
                 let meta = Meta()
@@ -97,22 +134,22 @@ struct NewFeedViewModel: NewFeedViewModelType {
                 let attachment = Attachment()
                 attachment.urlString = url.absoluteString
                 attachment.meta = meta
-                story.attachment = attachment
+                newStory.attachment = attachment
             }
             
             if let locationInfo = locationInfo {
                 
                 let location = Location()
-                location.name = locationInfo.0
+                location.name = locationInfo.address
                 
                 let coordinate = Coordinate()
-                coordinate.safeConfigure(withLatitude: locationInfo.1.latitude, longitude: locationInfo.1.longitude)
+                coordinate.safeConfigure(withLatitude: locationInfo.coordinate.latitude, longitude: locationInfo.coordinate.longitude)
                 location.coordinate = coordinate
                 
-                story.location = location
+                newStory.location = location
             }
             
-            return story
+            return newStory
         }
         
         let feed = Driver.combineLatest(story,
@@ -134,11 +171,19 @@ struct NewFeedViewModel: NewFeedViewModelType {
             .withLatestFrom(postButtonEnabled).filter{ $0 }
             .withLatestFrom(feed)
             .map { feed in
+                feed.story?.isPublished = true
                 Feed.didCreate.onNext(feed)
             }
             .asDriver()
         
         let didCancel = self.cancelAction.asDriver()
+            .withLatestFrom(story)
+            .map { story in
+                // Save draft
+                guard let realm = try? Realm(), !(story.title.isEmpty && story.body.isEmpty ) else { return }
+                StoryService.shared.synchronize(story, toRealm: realm)
+            }
+            .asDriver()
         
         self.dismissViewController = Driver.of(didPost, didCancel).merge()
     }
