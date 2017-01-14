@@ -21,11 +21,19 @@ final class NewFeedViewController: BaseViewController {
     
     var viewModel: NewFeedViewModel?
     
+    var afterAppeared: (() -> Void)?
+    
     @IBOutlet fileprivate weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var contentView: UIView!
     @IBOutlet fileprivate weak var scrollView: UIScrollView!
     
-    @IBOutlet fileprivate weak var titleTextField: UITextField!
+    @IBOutlet fileprivate weak var titleTextField: UITextField! {
+        didSet {
+            titleTextField.placeholder = "Untitle"
+            titleTextField.contentVerticalAlignment = .center
+        }
+    }
+    
     @IBOutlet fileprivate weak var imageView: UIImageView! {
         didSet {
             imageView.layer.cornerRadius = 2.0
@@ -67,8 +75,7 @@ final class NewFeedViewController: BaseViewController {
     private let keyboardMan = KeyboardMan()
     
     private var canLocate = false
-    private var address: String? = nil
-    private var coordinate: CLLocationCoordinate2D?
+    private var location: Variable<LocationInfo?> = Variable(nil)
     
     fileprivate let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
     
@@ -92,6 +99,8 @@ final class NewFeedViewController: BaseViewController {
     }
     
     private var attachmentImage: Variable<UIImage?> = Variable(nil)
+
+    private var isFristTimeAppear = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +109,8 @@ final class NewFeedViewController: BaseViewController {
         
         view.layer.cornerRadius = 8.0
         view.clipsToBounds = true
+        
+        titleTextField.borderStyle = .none // ⚠️ Fix text offset when inputting
         
         scrollView.contentInset.top = Constant.scrollViewContentInsetTop
         
@@ -114,7 +125,7 @@ final class NewFeedViewController: BaseViewController {
             }
         }
         
-        let viewModel = self.viewModel ?? NewFeedViewModel()
+        let viewModel = self.viewModel ?? NewFeedViewModel(token: UUID().uuidString)
         
         cancelItem.rx.tap
             .bindTo(viewModel.cancelAction)
@@ -146,10 +157,6 @@ final class NewFeedViewController: BaseViewController {
             })
             .addDisposableTo(disposeBag)
         
-        visibleButton.rx.tap
-            .bindTo(viewModel.visibleAction)
-            .addDisposableTo(disposeBag)
-        
         viewModel.postButtonEnabled
             .drive(self.postItem.rx.enabled)
             .addDisposableTo(disposeBag)
@@ -159,13 +166,19 @@ final class NewFeedViewController: BaseViewController {
                 self?.dismiss()
             })
             .addDisposableTo(disposeBag)
-        
-        titleTextField.rx.text.orEmpty
-            .bindTo(viewModel.title)
+      
+        // 2 way binding
+        (titleTextField.rx.text.orEmpty <-> viewModel.title)
             .addDisposableTo(disposeBag)
         
-        textView.rx.text.orEmpty
-            .bindTo(viewModel.body)
+        (textView.rx.text.orEmpty <-> viewModel.body)
+            .addDisposableTo(disposeBag)
+       
+        (visibleButton.rx.isSelected <-> viewModel.visible)
+            .addDisposableTo(disposeBag)
+        
+        location.asObservable()
+            .bindTo(viewModel.location)
             .addDisposableTo(disposeBag)
         
         attachmentImage.asObservable()
@@ -204,6 +217,10 @@ final class NewFeedViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if isFristTimeAppear {
+            isFristTimeAppear = false
+            afterAppeared?()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -246,7 +263,7 @@ final class NewFeedViewController: BaseViewController {
         sender.isSelected = !sender.isSelected
         
         canLocate = sender.isSelected
-        if canLocate && coordinate == nil {
+        if canLocate && location.value == nil {
             hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
                 self?.startLocating()
             })
@@ -272,15 +289,16 @@ final class NewFeedViewController: BaseViewController {
             service.turnOn()
             
             service.didLocateHandler = { [weak self] result in
-                
+               
+                print(result)
                 DispatchQueue.main.sync {
                     self?.locationButton.isEnabled = true
                     
                     switch result {
                         
                     case let .success(address, coordinate):
-                        self?.coordinate = coordinate
-                        self?.address = address
+                        self?.location.value = LocationInfo(address: address, coordinate: coordinate)
+                        
                         self?.locationButton.isSelected = true
                         self?.canLocate = true
                         
@@ -305,6 +323,12 @@ extension NewFeedViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textView.becomeFirstResponder()
         return true
+    }
+    
+    func textFieldDidChange(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.1) { 
+            textField.invalidateIntrinsicContentSize()
+        }
     }
 }
 
@@ -363,3 +387,4 @@ extension NewFeedViewController: PhotoEditingViewControllerDelegate {
         }
     }
 }
+
