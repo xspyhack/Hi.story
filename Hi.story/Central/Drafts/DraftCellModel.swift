@@ -8,6 +8,7 @@
 
 import RxCocoa
 import RxSwift
+import Hikit
 
 protocol DraftCellModelType {
     var title: String { get }
@@ -21,15 +22,9 @@ struct DraftCellModel: DraftCellModelType {
     let content: String
     let updatedAt: TimeInterval
     
-    init(draft: Draft) {
-        self.title = draft.title
-        self.content = draft.content
-        self.updatedAt = draft.updatedAt
+    init(story: Story) {
+        self.title = story.title
+        self.content = story.body
+        self.updatedAt = story.updatedAt
     }
-}
-
-struct Draft {
-    let title: String
-    let content: String
-    let updatedAt: TimeInterval
 }

@@ -11,6 +11,7 @@ import Hikit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import RealmSwift
 
 final class DraftsViewController: BaseViewController {
     
@@ -21,6 +22,12 @@ final class DraftsViewController: BaseViewController {
             tableView.estimatedRowHeight = Constant.rowHeight
         }
     }
+    
+    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+        let manager = PresentationTransitionManager()
+        manager.presentedViewHeight = self.view.bounds.height
+        return manager
+    }()
 
     private let dataSource = RxTableViewSectionedReloadDataSource<DraftsViewSection>()
     
@@ -35,7 +42,9 @@ final class DraftsViewController: BaseViewController {
 
         title = "Drafts"
         
-        let viewModel = DraftsViewModel()
+        guard let realm = try? Realm() else { return }
+        
+        let viewModel = DraftsViewModel(realm: realm)
         self.viewModel = viewModel
        
         dataSource.configureCell = { _, tableView, indexPath, viewModel in
@@ -47,6 +56,12 @@ final class DraftsViewController: BaseViewController {
         viewModel.sections
             .drive(tableView.rx.items(dataSource: dataSource))
             .addDisposableTo(disposeBag)
+        
+        viewModel.editDraft
+            .drive(onNext: { [weak self] viewModel in
+                self?.performSegue(withIdentifier: .presentNewFeed, sender: viewModel)
+            })
+            .addDisposableTo(disposeBag)
        
         tableView.rx.itemDeleted
             .bindTo(viewModel.itemDeleted)
@@ -56,16 +71,38 @@ final class DraftsViewController: BaseViewController {
             .bindTo(viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
+        tableView.rx.enablesAutoDeselect()
+            .addDisposableTo(disposeBag)
+        
         dataSource.canEditRowAtIndexPath = { _ in
             return true
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+}
+
+extension DraftsViewController: SegueHandlerType {
+    
+    enum SegueIdentifier: String {
+        case presentNewFeed
     }
     
-
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segueIdentifier(forSegue: segue) {
+        case .presentNewFeed:
+            let viewController = segue.destination as? NewFeedViewController
+            
+            viewController?.modalPresentationStyle = .custom
+            viewController?.transitioningDelegate = presentationTransitionManager
+            
+            if let viewModel = sender as? NewFeedViewModel {
+                viewController?.viewModel = viewModel
+            }
+            
+            viewController?.afterAppeared = { [weak self] in
+                let _ = self?.navigationController?.popToRootViewController(animated: false)
+                (self?.tabBarController as? TabBarController)?.selectedTab.value = .feeds
+            }
+        }
+    }
 }

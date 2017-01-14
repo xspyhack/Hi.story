@@ -6,9 +6,11 @@
 //  Copyright © 2017 bl4ckra1sond3tre. All rights reserved.
 //
 
+import Hikit
 import RxCocoa
 import RxDataSources
 import RxSwift
+import RealmSwift
 
 typealias DraftsViewSection = SectionModel<Void, DraftCellModelType>
 
@@ -20,6 +22,7 @@ protocol DraftsViewModelType {
     
     // Output
     var sections: Driver<[DraftsViewSection]> { get }
+    var editDraft: Driver<NewFeedViewModel> { get }
 }
 
 struct DraftsViewModel: DraftsViewModelType {
@@ -32,25 +35,21 @@ struct DraftsViewModel: DraftsViewModelType {
     // MARK: Output
     
     let sections: Driver<[DraftsViewSection]>
+    let editDraft: Driver<NewFeedViewModel>
     
     // MARK: Private
     
     private let disposeBag = DisposeBag()
-    private var drafts: Variable<[Draft]>
+    private var drafts: Variable<[Story]>
     
-    init() {
-        let defaultDrafts = [
-            Draft(title: "Untitled", content: "Empty empty empty", updatedAt: Date().timeIntervalSince1970),
-            Draft(title: "四月是你的谎言", content: "飞机穿梭于茫茫星海中逐渐远去，你如猫般，无声靠近，从意想不到的角度玩弄他人，而我只能呆愣在原地，永远只能跟随你的步伐。", updatedAt: Date().timeIntervalSince1970),
-            Draft(title: "Untitled", content: "也许女孩子第一次有男朋友的心境就像白水冲了红酒，说不上爱情，只是一种温淡的兴奋。", updatedAt: Date().timeIntervalSince1970),
-        ]
-        
-        let drafts = Variable<[Draft]>(defaultDrafts)
+    init(realm: Realm) {
+
+        let drafts = Variable<[Story]>(StoryService.shared.unpublished(fromRealm: realm))
         self.drafts = drafts
         
         self.sections = drafts.asObservable()
             .map { drafts in
-                let cellModels = drafts.map { DraftCellModel(draft: $0) } as [DraftCellModelType]
+                let cellModels = drafts.map { DraftCellModel(story: $0) } as [DraftCellModelType]
                 let section = DraftsViewSection(model: Void(), items: cellModels)
                 return [section]
             }
@@ -58,10 +57,28 @@ struct DraftsViewModel: DraftsViewModelType {
         
         self.itemDeleted
             .subscribe(onNext: { indexPath in
-                drafts.value.remove(at: indexPath.row)
+                print(indexPath.row)
+                
+                if let story = drafts.value.safe[indexPath.row] {
+                    
+                    print(story)
+                    
+                    drafts.value.remove(at: indexPath.row)
+                    // delete
+                    StoryService.shared.remove(story, fromRealm: realm)
+                }
             })
             .addDisposableTo(self.disposeBag)
       
+        self.editDraft = self.itemDidSelect
+            .map { indexPath -> NewFeedViewModel in
+                if let story = drafts.value.safe[indexPath.row] {
+                    return NewFeedViewModel(mode: .edit(story), token: UUID().uuidString)
+                } else {
+                    return NewFeedViewModel(token: UUID().uuidString)
+                }
+            }
+            .asDriver(onErrorDriveWith: .never())
     }
     
 }

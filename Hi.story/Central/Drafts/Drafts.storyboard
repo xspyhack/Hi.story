@@ -37,11 +37,20 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="cLF-AD-Nnw" id="sZL-mA-Seh"/>
+                        <segue destination="k2D-8u-Ol6" kind="presentation" identifier="presentNewFeed" id="Qb6-OD-eHf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5f-e2-ysr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="37.600000000000001" y="205.54722638680661"/>
+        </scene>
+        <!--NewFeedViewController-->
+        <scene sceneID="gv1-yw-wNz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="k2D-8u-Ol6" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YPB-kZ-sNd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="695" y="205"/>
         </scene>
     </scenes>
 </document>
