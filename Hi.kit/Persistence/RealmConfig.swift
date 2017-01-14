@@ -18,7 +18,7 @@ public func realmConfig() -> Realm.Configuration {
 
     var config = Realm.Configuration()
     config.fileURL = realmFileURL
-    config.schemaVersion = 3
+    config.schemaVersion = 4
     config.migrationBlock = { migration, oldSchemaVersion in
         
         if oldSchemaVersion < 2 {
@@ -30,6 +30,12 @@ public func realmConfig() -> Realm.Configuration {
         if oldSchemaVersion < 3 {
             migration.enumerateObjects(ofType: Feed.className(), { (oldObject, newObject) in
                 newObject?["createdAt"] = Date().timeIntervalSince1970
+            })
+        }
+        
+        if oldSchemaVersion < 4 {
+            migration.enumerateObjects(ofType: Story.className(), { (oldObject, newObject) in
+                newObject?["isPublished"] = true
             })
         }
     }

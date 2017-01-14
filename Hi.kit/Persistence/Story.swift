@@ -23,7 +23,7 @@ public enum Visible: Int {
 
 public class Story: Object {
     
-    public dynamic var id: String = ""
+    public dynamic var id: String = UUID().uuidString
     public dynamic var allowComment: Bool = true
     
     public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
@@ -39,6 +39,12 @@ public class Story: Object {
     public dynamic var location: Location?
     
     public dynamic var tag: String? = ""
+    
+    public dynamic var isPublished: Bool = false
+    
+    public override class func primaryKey() -> String? {
+        return "id"
+    }
     
     public override class func indexedProperties() -> [String] {
         return ["id"]
@@ -68,8 +74,12 @@ public class StoryService: Synchronizable {
         
         let _ = try? realm.write {
             print("add")
-            realm.add(resource)
+            realm.add(resource, update: true)
         }
+    }
+    
+    open func unpublished(fromRealm realm: Realm) -> [Story] {
+        return realm.objects(Story.self).filter("isPublished = false").sorted(byProperty: "createdAt", ascending: false).flatMap { $0 }
     }
     
     open func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> Story? {
