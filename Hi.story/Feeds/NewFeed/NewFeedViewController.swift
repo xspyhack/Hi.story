@@ -7,10 +7,10 @@
 //
 
 import UIKit
+import Hikit
 import MobileCoreServices.UTType
 import KeyboardMan
 import CoreLocation
-import Hikit
 import RxSwift
 import RxCocoa
 import RealmSwift
@@ -22,6 +22,8 @@ final class NewFeedViewController: BaseViewController {
     var viewModel: NewFeedViewModel?
     
     var afterAppeared: (() -> Void)?
+    
+    // MARK: UI
     
     @IBOutlet fileprivate weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var contentView: UIView!
@@ -61,15 +63,25 @@ final class NewFeedViewController: BaseViewController {
     @IBOutlet private weak var markdownButton: UIButton!
     @IBOutlet private weak var photoButton: UIButton!
     @IBOutlet private weak var locationButton: UIButton!
+    @IBOutlet private weak var detailsButton: UIButton!
     
     @IBOutlet private weak var postItem: UIBarButtonItem!
     @IBOutlet private weak var cancelItem: UIBarButtonItem!
     @IBOutlet weak var markdownToolbar: MarkdownToolbar!
     
+    // MARK: Property
+    
+    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+        let manager = PresentationTransitionManager()
+        manager.presentedViewHeight = self.view.bounds.height / 2 + Constant.normalNavigationBarHeight
+        return manager
+    }()
+    
     fileprivate struct Constant {
         static let scrollViewContentInsetTop: CGFloat = 44.0
         static let footerHeight: CGFloat = 500.0
         static let bottomInset: CGFloat = 20.0
+        static let normalNavigationBarHeight: CGFloat = 44.0
     }
     
     private let keyboardMan = KeyboardMan()
@@ -99,8 +111,11 @@ final class NewFeedViewController: BaseViewController {
     }
     
     private var attachmentImage: Variable<UIImage?> = Variable(nil)
+    private var storybook: Variable<Storybook?> = Variable(nil)
 
     private var isFristTimeAppear = true
+    
+    // MARK: Methods 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,6 +172,12 @@ final class NewFeedViewController: BaseViewController {
             })
             .addDisposableTo(disposeBag)
         
+        detailsButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.chooseStorybook()
+            })
+            .addDisposableTo(disposeBag)
+        
         viewModel.postButtonEnabled
             .drive(self.postItem.rx.enabled)
             .addDisposableTo(disposeBag)
@@ -179,6 +200,10 @@ final class NewFeedViewController: BaseViewController {
         
         location.asObservable()
             .bindTo(viewModel.location)
+            .addDisposableTo(disposeBag)
+        
+        storybook.asObservable()
+            .bindTo(viewModel.storybook)
             .addDisposableTo(disposeBag)
         
         attachmentImage.asObservable()
@@ -257,6 +282,23 @@ final class NewFeedViewController: BaseViewController {
             nav.modalPresentationStyle = .overCurrentContext
             self?.present(nav, animated: true, completion: nil)
         })
+    }
+    
+    private func chooseStorybook() {
+        
+        guard let userID = HiUserDefaults.userID.value else { return }
+        
+        let chooser = ChooseStorybookViewController()
+        chooser.ownerID = userID
+        chooser.selectedAction = { [weak self] storybook in
+            self?.storybook.value = storybook
+        }
+        
+        let nav = UINavigationController(rootViewController: chooser)
+        nav.modalPresentationStyle = .custom
+        nav.transitioningDelegate = presentationTransitionManager
+        
+        self.present(nav, animated: true, completion: nil)
     }
     
     @IBAction func locationButtonTapped(_ sender: UIButton) {

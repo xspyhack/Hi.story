@@ -47,6 +47,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
     var tag: Variable<Tag>
     var location: Variable<LocationInfo?>
     var attachmentImage: Variable<UIImage?>
+    var storybook: Variable<Storybook?>
     
     // visible
     var visible: Variable<Bool>
@@ -77,6 +78,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             
             self.visible = Variable(true)
             
+            self.storybook = Variable(nil)
             self.attachmentImage = Variable(nil)
         case .edit(let story):
             storyID = story.id
@@ -93,18 +95,19 @@ struct NewFeedViewModel: NewFeedViewModelType {
             }
             self.visible = Variable(true)
             
+            self.storybook = Variable(story.withStorybook)
             self.attachmentImage = Variable(nil)
         }
         
         let attachmentInfo = self.attachmentImage.asObservable()
             .flatMapLatest { (image) -> Observable<(URL, CGSize)?> in
-                let url = URL.hi.imageURL(withPath: token)
+                let url = URL.hi.imageURL(withPath: storyID)
                 if let image = image {
                     let size = image.size
                     CacheService.shared.store(image, forKey: url.absoluteString)
                     return Observable.just((url, size))
                 } else {
-                    print("Remove url")
+                    print("Remove image")
                     CacheService.shared.removeIfExisting(forKey: url.absoluteString)
                     return Observable.just(nil)
                 }
@@ -116,16 +119,20 @@ struct NewFeedViewModel: NewFeedViewModelType {
             .asDriver(onErrorJustReturn: false)
             .startWith(false)
         
-        let story = Driver.combineLatest(title.asDriver(),
-                                         body.asDriver(),
-                                         location.asDriver(),
-                                         attachmentInfo
-        ) { title, body, locationInfo, attachmentInfo -> Story in
-           
+        let story = Driver.combineLatest(
+            title.asDriver(),
+            body.asDriver(),
+            location.asDriver(),
+            storybook.asDriver(),
+            attachmentInfo
+        ) { title, body, locationInfo, storybook, attachmentInfo -> Story in
+          
             let newStory = Story()
             newStory.id = storyID
             newStory.title = title
             newStory.body = body.hi.trimming(.whitespaceAndNewline)
+            
+            newStory.withStorybook = storybook
             
             if let (url, size) = attachmentInfo {
                 let meta = Meta()
@@ -152,8 +159,9 @@ struct NewFeedViewModel: NewFeedViewModelType {
             return newStory
         }
         
-        let feed = Driver.combineLatest(story,
-                                        visible.asDriver()
+        let feed = Driver.combineLatest(
+            story,
+            visible.asDriver()
         ) { story, isVisible -> Feed in
             
             let feed = Feed()
