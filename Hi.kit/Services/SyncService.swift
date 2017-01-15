@@ -29,7 +29,7 @@ extension Synchronizable where T: Object {
         
         let _ = try? realm.write {
             print("add")
-            realm.add(resource)
+            realm.add(resource, update: true)
         }
     }
     
@@ -43,6 +43,10 @@ extension Synchronizable where T: Object {
         } else {
             return realm.objects(T.self).flatMap { $0 }
         }
+    }
+    
+    public func fetchAll(withPredicate predicate: NSPredicate, fromRealm realm: Realm) -> [T] {
+        return realm.objects(T.self).filter(predicate).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
     }
     
     // Delete
