@@ -18,7 +18,7 @@ public func realmConfig() -> Realm.Configuration {
 
     var config = Realm.Configuration()
     config.fileURL = realmFileURL
-    config.schemaVersion = 4
+    config.schemaVersion = 5
     config.migrationBlock = { migration, oldSchemaVersion in
         
         if oldSchemaVersion < 2 {
@@ -38,6 +38,13 @@ public func realmConfig() -> Realm.Configuration {
                 newObject?["isPublished"] = true
             })
         }
+        
+        if oldSchemaVersion < 5 {
+            migration.enumerateObjects(ofType: Story.className(), { (oldObject, newObject) in
+                newObject?["withStorybook"] = nil
+            })
+        }
+        
     }
 
     return config

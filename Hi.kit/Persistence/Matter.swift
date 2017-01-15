@@ -39,14 +39,17 @@ public class Matter: Object, Timetable {
     }
 }
 
-public class MatterService: Synchronizable {
+open class MatterService: Synchronizable {
     
     public typealias T = Matter
     
     open static let shared = MatterService()
     
-    open func fetchAll(withPredicate predicate: NSPredicate, fromRealm realm: Realm) -> [T] {
-        return realm.objects(Matter.self).filter(predicate).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
+    open func synchronize(_ resource: Matter, toRealm realm: Realm) {
+        
+        let _ = try? realm.write {
+            realm.add(resource)
+        }
     }
 }
 

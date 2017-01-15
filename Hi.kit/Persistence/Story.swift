@@ -38,6 +38,8 @@ public class Story: Object {
     public dynamic var kind: String = StoryKind.plain.rawValue
     public dynamic var location: Location?
     
+    public dynamic var withStorybook: Storybook?
+    
     public dynamic var tag: String? = ""
     
     public dynamic var isPublished: Bool = false
@@ -65,18 +67,10 @@ public class Story: Object {
     }
 }
 
-public class StoryService: Synchronizable {
+open class StoryService: Synchronizable {
     
     public typealias T = Story
     open static let shared = StoryService()
-    
-    open func synchronize(_ resource: Story, toRealm realm: Realm) {
-        
-        let _ = try? realm.write {
-            print("add")
-            realm.add(resource, update: true)
-        }
-    }
     
     open func unpublished(fromRealm realm: Realm) -> [Story] {
         return realm.objects(Story.self).filter("isPublished = false").sorted(byProperty: "createdAt", ascending: false).flatMap { $0 }
