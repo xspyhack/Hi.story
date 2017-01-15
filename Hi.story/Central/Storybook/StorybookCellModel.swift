@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Hikit
 
 protocol StorybookCellModelType {
     
@@ -21,6 +22,10 @@ struct StorybookCellModel: StorybookCellModelType {
     
     init(storybook: Storybook) {
         self.name = storybook.name
-        self.coverImageURL = storybook.coverImageURL as URL?
+        if let urlString = storybook.latestPicturedStory?.attachment?.urlString {
+            self.coverImageURL =  URL(string: urlString)
+        } else {
+            self.coverImageURL = nil
+        }
     }
 }

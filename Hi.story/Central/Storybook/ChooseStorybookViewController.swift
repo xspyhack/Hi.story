@@ -7,89 +7,129 @@
 //
 
 import UIKit
+import Hikit
+import RealmSwift
+import RxCocoa
+import RxSwift
 
-class ChooseStorybookViewController: UITableViewController {
+final class ChooseStorybookViewController: UITableViewController {
+    
+    var ownerID: String?
+    
+    var selectedAction: ((Storybook) -> Void)?
+    
+    fileprivate var storybooks: [Storybook] = []
+    private let disposeBag = DisposeBag()
+    
+    fileprivate struct Constant {
+        static let rowHeight: CGFloat = 64.0
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        let doneItem = UIBarButtonItem()
+        doneItem.title = "Done"
+        doneItem.style = .done
+        doneItem.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.done()
+            })
+            .addDisposableTo(disposeBag)
+        
+        self.navigationItem.rightBarButtonItem = doneItem
+        
+        let cancelItem = UIBarButtonItem()
+        cancelItem.title = "Cancel"
+        cancelItem.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            })
+            .addDisposableTo(disposeBag)
+
+        self.navigationItem.leftBarButtonItem = cancelItem
+        
+        self.tableView.allowsMultipleSelection = false
+        self.tableView.hi.register(reusableCell: SelectableCell.self)
+        self.tableView.rowHeight = Constant.rowHeight
+        self.tableView.estimatedRowHeight = Constant.rowHeight
+        
+        guard let realm = try? Realm() else { return }
+        
+        let predicate: NSPredicate
+        
+        if let id = ownerID {
+            predicate = NSPredicate(format: "creator.id = %@", id)
+        } else {
+            predicate = NSPredicate(value: true)
+        }
+        
+        storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func done() {
+        // Get selected row
+        guard let indexPath = tableView.indexPathsForSelectedRows?.first, let storybook = storybooks.safe[indexPath.row] else {
+            return
+        }
+        
+        selectedAction?(storybook)
+ 
+        dismiss(animated: true, completion: nil)
     }
+}
 
-    // MARK: - Table view data source
-
+extension ChooseStorybookViewController {
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return storybooks.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell: SelectableCell = tableView.hi.dequeueReusableCell(for: indexPath)
+       
+        guard let storybook = storybooks.safe[indexPath.row] else { return cell }
+        
+        let count = storybook.stories.count > 1 ? "\(storybook.stories.count) stories" : "\(storybook.stories.count) story"
+        cell.configure(text: storybook.name, detail: count)
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
-    /*
-    // Override to support editing the table view.
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
     }
-    */
-
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { (action, indexPath) in
+            tableView.setEditing(false, animated: true)
+        }
+        
+        let updateAction = UITableViewRowAction(style: .normal, title: "Update") { (action, indexPath) in
+            tableView.setEditing(false, animated: true)
+        }
+        
+        return [deleteAction, updateAction]
+    }
 }

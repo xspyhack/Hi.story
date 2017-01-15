@@ -16,12 +16,15 @@ class StorybookCell: UICollectionViewCell, Reusable {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "album")
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 6.0
         return imageView
     }()
     
     fileprivate lazy var overlayView: UIView = {
        let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        view.layer.cornerRadius = 6.0
         return view
     }()
     
@@ -43,7 +46,19 @@ class StorybookCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+    }
+    
     fileprivate func setup() {
+        
+        layer.shadowRadius = 12.0
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        layer.masksToBounds = false
+        layer.shadowOpacity = 1.0
         
         contentView.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,6 +99,6 @@ extension StorybookCell: Configurable {
     
     func configure(withPresenter presenter: StorybookCellModelType) {
         textLabel.text = presenter.name
-        imageView.kf.setImage(with: presenter.coverImageURL)
+        imageView.setImage(with: presenter.coverImageURL, placeholder: UIImage.hi.storybook)
     }
 }
