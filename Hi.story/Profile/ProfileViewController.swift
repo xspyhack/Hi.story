@@ -29,6 +29,7 @@ final class ProfileViewController: BaseViewController {
             storybookCollectionView.contentInset.bottom = Defaults.tabBarHeight
             storybookCollectionView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
             storybookCollectionView.hi.register(reusableCell: StorybookCell.self)
+            storybookCollectionView.alwaysBounceVertical = true
         }
     }
     
@@ -64,7 +65,10 @@ final class ProfileViewController: BaseViewController {
             blurEffectView.effect = blurEffect
         }
     }
+    @IBOutlet private weak var newItem: UIBarButtonItem!
+    @IBOutlet private weak var toolbar: UIToolbar!
     
+    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     fileprivate struct Constant {
         static let gap: CGFloat = 24.0
         static let padding: CGFloat = 32.0
@@ -72,11 +76,19 @@ final class ProfileViewController: BaseViewController {
         static let ratio: CGFloat = 6 / 9
         static let matterRowHeight: CGFloat = 64.0
         static let avatarSize = CGSize(width: 120.0, height: 120.0)
+        static let bottomToolbarHeight: CGFloat = 44.0
     }
     
     private enum Channel: Int {
         case storybook = 0
         case matter
+        
+        var name: String {
+            switch self {
+            case .matter: return "Matter"
+            case .storybook: return "Storybook"
+            }
+        }
     }
     
     private var channel: Channel = .matter {
@@ -99,6 +111,7 @@ final class ProfileViewController: BaseViewController {
                 // 而是保持之前的状态，所以只需要调整 contentOffset 即可。
                 let contentOffsetY = matterTableView.contentOffset.y
                 storybookCollectionView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
+                
             case .matter:
                 
                 matterTableView.isHidden = false
@@ -112,6 +125,7 @@ final class ProfileViewController: BaseViewController {
                 matterTableView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
             }
             
+            newItem.title = "New \(newValue.name)"
             //headerHeight = maximumHeaderHeight
             //updateHeaderViewConstraints(animated: true)
         }
@@ -123,8 +137,7 @@ final class ProfileViewController: BaseViewController {
         return item
     }()
     
-    private var matters: [Matter]?
-    private var storybooks: [Storybook]?
+    fileprivate var storybooks: [Storybook] = []
     
     // Matters
     
@@ -158,10 +171,29 @@ final class ProfileViewController: BaseViewController {
             HiUserDefaults.avatar.bindAndFireListener(with: Listener.avatar) { [weak self] avatarURLString in
                 self?.avatarImageView.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
             }
-            
+        
             settingsItem.rx.tap
                 .subscribe(onNext: { [weak self] in
-                    self?.tryToShowSettings()
+                    self?.tryToShowEditProfile()
+                })
+                .addDisposableTo(disposeBag)
+            
+            newItem.rx.tap
+                .flatMap(tryToAddNewStorybook)
+                .subscribe(onNext: { name in
+                    
+                    realmQueue.async {
+                        
+                        guard let realm = try? Realm() else { return }
+                        
+                        let book = Storybook()
+                        book.name = name
+                        book.creator = User.current
+                        
+                        try? realm.write {
+                            realm.add(book, update: true)
+                        }
+                    }
                 })
                 .addDisposableTo(disposeBag)
             
@@ -189,6 +221,12 @@ final class ProfileViewController: BaseViewController {
         bioContainerHeightConstraint.constant = bioHeight
         
         guard let realm = try? Realm() else { return }
+        
+        // datasource
+       
+        let predicate = NSPredicate(format: "creator.id = %@", viewModel.user.id)
+        
+        storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
         
         let mattersViewModel = MattersViewModel(with: viewModel.user.id, realm: realm)
         
@@ -220,7 +258,77 @@ final class ProfileViewController: BaseViewController {
         
     }
     
-    fileprivate func tryToShowSettings() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        if let viewModel = viewModel, viewModel.isGod {
+            
+            self.toolbarBottomConstraint.constant = 0.0
+            
+            UIView.animate(withDuration: 0.25) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        if let viewModel = viewModel, viewModel.isGod {
+            
+            self.toolbarBottomConstraint.constant = -Constant.bottomToolbarHeight
+            
+            UIView.animate(withDuration: 0.25) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private func tryToAddNewStorybook() -> Observable<String> {
+        
+        return Observable.create { [weak self] observer -> Disposable in
+            
+            let alertController = UIAlertController(title: "New Storybook", message: "Enter a name for this storybook.", preferredStyle: .alert)
+            
+            var disposable: Disposable?
+            
+            let saveAction = UIAlertAction(title: "Save", style: .default) { (action) in
+                
+                if let name = alertController.textFields?.first?.text {
+                    observer.onNext(name)
+                    observer.onCompleted()
+                }
+                
+                disposable?.dispose()
+            }
+            
+            alertController.addTextField { (textField) in
+                textField.placeholder = "Name"
+                textField.clearsOnBeginEditing = true
+                
+                disposable = textField.rx.text.orEmpty
+                    .map { !$0.isEmpty }
+                    .debug()
+                    .bindTo(saveAction.rx.enabled)
+            }
+            
+            let cancelAction = UIAlertAction(title: "Canecl", style: .cancel) { (action) in
+                disposable?.dispose()
+                observer.onCompleted()
+            }
+            
+            alertController.addAction(saveAction)
+            alertController.addAction(cancelAction)
+            
+            self?.present(alertController, animated: true, completion: nil)
+            
+            return Disposables.create {
+                alertController.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    private func tryToShowEditProfile() {
         performSegue(withIdentifier: .showEditProfile, sender: nil)
     }
 }
@@ -234,7 +342,7 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
+        return storybooks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -248,10 +356,10 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        //guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StorybookCell, storybook = storybooks?[safe: indexPath.item] else { return }
+        guard let cell = cell as? StorybookCell, let storybook = storybooks.safe[indexPath.item] else { return }
         
-        //let storybookCellModel = StorybookCellModel(storybook: storybook)
-        //cell.configure(withPresenter: storybookCellModel)
+        let storybookCellModel = StorybookCellModel(storybook: storybook)
+        cell.configure(withPresenter: storybookCellModel)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
