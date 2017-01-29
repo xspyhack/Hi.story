@@ -1,5 +1,5 @@
 //
-//  Hi.swift
+//  Configuration.swift
 //  Hi.story
 //
 //  Created by bl4ckra1sond3tre on 24/01/2017.

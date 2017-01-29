@@ -22,10 +22,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Realm.Configuration.defaultConfiguration = realmConfig()
         
+        if let realm = try? Realm(), Service.god(of: realm) == nil {
+            let userID = UUID.uuid
+            let nickname = "What's your name?"
+            let user = User()
+            user.id = userID
+            user.nickname = nickname
+            user.bio = "No introduction yet."
+            try? realm.write {
+                realm.add(user, update: true)
+            }
+            
+            HiUserDefaults.userID.value = userID
+            HiUserDefaults.nickname.value = nickname
+            HiUserDefaults.bio.value = "No introduction yet."
+        } else {
+            // Waiting for register
+        }
+        
+        if !Defaults.sayHi {
+            
+            DispatchQueue.global(qos: .default).async {
+                Configuration.hi()
+                Defaults.sayHi = true
+            }
+        }
+        
         // Appearence
         UITabBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = UIColor.white
         UINavigationBar.appearance().tintColor = UIColor.hi.tint
+        UIToolbar.appearance().tintColor = UIColor.hi.tint
+        UIToolbar.appearance().barTintColor = UIColor.white
         
         // Static items, just for now.
         if window?.traitCollection.forceTouchCapability == .available {
@@ -70,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         completionHandler(true)
     }
     
-    fileprivate func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) {
+    private func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) {
         
         if let window = window {
             tryToHandleQuickAction(shortcutItem: shortcutItem, inWindow: window)
