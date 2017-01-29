@@ -20,10 +20,11 @@ class CacheService {
     
     static let shared = CacheService()
     
-    fileprivate let cache = ImageCache(name: cacheName, path: String.hi_documentsPath)
+    fileprivate let cache = ImageCache(name: cacheName, path: String.hi.documentsPath)
     
     private init() {
         cache.pathExtension = "png"
+        cache.maxCachePeriodInSecond = -1 // never expiring
     }
     
     func store(_ image: UIImage, forKey key: String, completionHandler: (() -> Void)? = nil) {
