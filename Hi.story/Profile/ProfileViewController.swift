@@ -309,7 +309,7 @@ final class ProfileViewController: BaseViewController {
                 disposable = textField.rx.text.orEmpty
                     .map { !$0.isEmpty }
                     .debug()
-                    .bindTo(saveAction.rx.enabled)
+                    .bindTo(saveAction.rx.isEnabled)
             }
             
             let cancelAction = UIAlertAction(title: "Canecl", style: .cancel) { (action) in

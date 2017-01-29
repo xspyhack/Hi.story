@@ -320,7 +320,7 @@ final class NewMatterViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         viewModel.postButtonEnabled
-            .drive(self.postItem.rx.enabled)
+            .drive(self.postItem.rx.isEnabled)
             .addDisposableTo(disposeBag)
         
         viewModel.dismissViewController
