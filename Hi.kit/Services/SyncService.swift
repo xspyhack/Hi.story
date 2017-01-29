@@ -39,14 +39,14 @@ extension Synchronizable where T: Object {
     
     public func fetchAll(sortby property: String? = nil, fromRealm realm: Realm) -> [T] {
         if let property = property {
-            return realm.objects(T.self).sorted(byProperty: property, ascending: false).flatMap { $0 }
+            return realm.objects(T.self).sorted(byKeyPath: property, ascending: false).flatMap { $0 }
         } else {
             return realm.objects(T.self).flatMap { $0 }
         }
     }
     
     public func fetchAll(withPredicate predicate: NSPredicate, fromRealm realm: Realm) -> [T] {
-        return realm.objects(T.self).filter(predicate).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
+        return realm.objects(T.self).filter(predicate).sorted(byKeyPath: "createdAt", ascending: true).flatMap { $0 }
     }
     
     // Delete

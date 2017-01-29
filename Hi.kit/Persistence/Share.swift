@@ -68,6 +68,10 @@ public enum Tag: Int {
     public static var tags: [Tag] {
         return [.red, .blue, .orange, .yellow, .green, .gray, .fuschia]
     }
+    
+    public static func random() -> Tag {
+        return Tag(rawValue: Int(arc4random_uniform(UInt32(Tag.count)))) ?? .none
+    }
 }
 
 public struct SharedUser: Hashable {

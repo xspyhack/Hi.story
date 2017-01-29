@@ -73,7 +73,7 @@ open class StoryService: Synchronizable {
     open static let shared = StoryService()
     
     open func unpublished(fromRealm realm: Realm) -> [Story] {
-        return realm.objects(Story.self).filter("isPublished = false").sorted(byProperty: "createdAt", ascending: false).flatMap { $0 }
+        return realm.objects(Story.self).filter("isPublished = false").sorted(byKeyPath: "createdAt", ascending: false).flatMap { $0 }
     }
     
     open func fetch(withPredicate predicate: String, fromRealm realm: Realm) -> Story? {
@@ -81,10 +81,10 @@ open class StoryService: Synchronizable {
     }
     
     open func fetchAll(fromRealm realm: Realm) -> [Story] {
-        return realm.objects(Story.self).sorted(byProperty: "createdAt", ascending: true).flatMap { $0 }
+        return realm.objects(Story.self).sorted(byKeyPath: "createdAt", ascending: true).flatMap { $0 }
     }
     
     open func fetchLatest(fromRealm realm: Realm) -> Story? {
-        return realm.objects(Story.self).sorted(byProperty: "updatedAt", ascending: false).flatMap { $0 }.first
+        return realm.objects(Story.self).sorted(byKeyPath: "updatedAt", ascending: false).flatMap { $0 }.first
     }
 }
