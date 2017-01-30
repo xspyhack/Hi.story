@@ -6,10 +6,10 @@
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Hikit
 
-extension String {
+extension StringProxy {
     
     fileprivate enum FileKey: UInt {
         case record
@@ -43,27 +43,27 @@ extension String {
         
     }
     
-    static func hi_isExistFile(_ fileName: String) -> Bool {
+    static func isExistFile(_ fileName: String) -> Bool {
         return FileManager.default.fileExists(atPath: fileName)
     }
     
-    static func hi_path(for folderName: String) -> String {
+    static func path(for folderName: String) -> String {
         return (Folder.home.path as NSString).appendingPathComponent(folderName)
     }
     
-    static func hi_path(for folder: Folder, fileName: String) -> String {
+    static func path(for folder: Folder, fileName: String) -> String {
         return (folder.path as NSString).appendingPathComponent(fileName)
     }
     
-    static var hi_documentsPath: String {
+    static var documentsPath: String {
         return Folder.document.path
     }
     
-    static func hi_cachesPath() -> String {
+    static func cachesPath() -> String {
         return Folder.caches.path
     }
     
-    static func hi_tmpFolderPath() -> String {
+    static func tmpFolderPath() -> String {
         return Folder.tmp.path
     }
 }

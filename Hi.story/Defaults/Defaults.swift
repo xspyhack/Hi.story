@@ -33,6 +33,8 @@ struct Defaults {
         
         static let birthday = prefix + "birthday"
         static let connectPhotos = prefix + "connectPhotos"
+        static let connectReminders = prefix + "connectReminders"
+        static let connectCalendar = prefix + "connectCalendar"
         
         // Labs
         static let spotlightEnabled = prefix + "spotlightEnabled"
@@ -49,6 +51,8 @@ struct Defaults {
     static let statusBarHeight: CGFloat = 20.0
     
     static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
+    
+    static let feedsMaxContentHeight: CGFloat = 68.0
     
     static var showedNewMatterTip: Bool {
         get {
@@ -74,6 +78,24 @@ struct Defaults {
         }
         set {
             userDefaults.set(newValue, forKey: Key.connectPhotos)
+        }
+    }
+    
+    static var connectCalendar: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.connectCalendar)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.connectCalendar)
+        }
+    }
+    
+    static var connectReminders: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.connectReminders)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.connectReminders)
         }
     }
     

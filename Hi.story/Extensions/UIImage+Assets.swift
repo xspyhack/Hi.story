@@ -22,4 +22,8 @@ extension Hi where Base: UIImage {
     static func roundedAvatar(radius: CGFloat) -> UIImage? {
         return avatar?.hi.image(withRoundRadius: radius, fit: CGSize(width: radius * 2, height: radius * 2))
     }
+    
+    static var storybook: UIImage? {
+        return UIImage(named: "album")
+    }
 }
