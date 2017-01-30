@@ -78,7 +78,6 @@ final class DraftsViewController: BaseViewController {
             return true
         }
     }
-
 }
 
 extension DraftsViewController: SegueHandlerType {
@@ -100,8 +99,14 @@ extension DraftsViewController: SegueHandlerType {
             }
             
             viewController?.afterAppeared = { [weak self] in
-                let _ = self?.navigationController?.popToRootViewController(animated: false)
-                (self?.tabBarController as? TabBarController)?.selectedTab.value = .feeds
+                
+                DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+    
+                    UIView.performWithoutAnimation {
+                        (self?.tabBarController as? TabBarController)?.selectedTab.value = .feeds
+                        let _ = self?.navigationController?.popToRootViewController(animated: false)
+                    }
+                })
             }
         }
     }

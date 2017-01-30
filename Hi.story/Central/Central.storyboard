@@ -21,9 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ayc-3a-kVF">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="12" sectionFooterHeight="12" translatesAutoresizingMaskIntoConstraints="NO" id="ayc-3a-kVF">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -36,11 +37,56 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="ayc-3a-kVF" id="lkj-45-Y22"/>
+                        <segue destination="nXc-U0-3u5" kind="show" identifier="showProfile" id="jfE-1Y-5EE"/>
+                        <segue destination="nEI-c5-txK" kind="show" identifier="showDrafts" id="H2t-ri-01s"/>
+                        <segue destination="5wU-6Q-iym" kind="show" identifier="showSettings" id="SsT-Ed-i2D"/>
+                        <segue destination="n1t-fV-6ng" kind="show" identifier="showLabs" id="Yh8-xp-Obl"/>
+                        <segue destination="e1C-mY-JP2" kind="show" identifier="showAbout" id="gJD-C1-dWV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2nS-vW-bd7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-202.40000000000001" y="246.9265367316342"/>
+            <point key="canvasLocation" x="-369" y="256"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="d4c-th-GtB">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="nXc-U0-3u5" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f2b-sD-IpD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="320" y="86"/>
+        </scene>
+        <!--DraftsViewController-->
+        <scene sceneID="b0Q-wd-jIj">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Drafts" referencedIdentifier="DraftsViewController" id="nEI-c5-txK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t0l-tj-Ry2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="294" y="169"/>
+        </scene>
+        <!--SettingsViewController-->
+        <scene sceneID="AM2-3b-0LJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsViewController" id="5wU-6Q-iym" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wg7-xg-MuH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="244" y="256"/>
+        </scene>
+        <!--LabsViewController-->
+        <scene sceneID="doH-LP-6M0">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Labs" referencedIdentifier="LabsViewController" id="n1t-fV-6ng" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="77A-ME-ZhY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="284" y="341"/>
+        </scene>
+        <!--AboutViewController-->
+        <scene sceneID="6UK-CY-uLM">
+            <objects>
+                <viewControllerPlaceholder storyboardName="About" referencedIdentifier="AboutViewController" id="e1C-mY-JP2" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wif-nY-EWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="314" y="408"/>
         </scene>
     </scenes>
 </document>

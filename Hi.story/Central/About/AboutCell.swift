@@ -7,18 +7,34 @@
 //
 
 import UIKit
+import Hikit
 
-class AboutCell: UITableViewCell {
+final class AboutCell: UITableViewCell, Reusable {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    lazy var annotationLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setup()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        
+        accessoryType = .disclosureIndicator
+        
+        contentView.addSubview(annotationLabel)
+        annotationLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        annotationLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 16).isActive = true
+        annotationLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
 
 }

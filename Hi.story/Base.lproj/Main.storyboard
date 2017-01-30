@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="B97-33-9B5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="B97-33-9B5">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -114,11 +117,11 @@
             </objects>
             <point key="canvasLocation" x="406.5" y="1403"/>
         </scene>
-        <!--Profile-->
+        <!--Central-->
         <scene sceneID="pwS-l5-hCe">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lMx-Id-A7o" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="tab_profile_normal" selectedImage="tab_profile_selected" id="Ydg-Sy-gHG"/>
+                    <tabBarItem key="tabBarItem" title="Central" image="tab_profile_normal" selectedImage="tab_profile_selected" id="Ydg-Sy-gHG"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jW8-C6-emK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -133,10 +136,10 @@
             </objects>
             <point key="canvasLocation" x="1272" y="885"/>
         </scene>
-        <!--ProfileViewController-->
+        <!--CentralViewController-->
         <scene sceneID="iAW-EL-HfU">
             <objects>
-                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Pf6-yN-6KM" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Central" referencedIdentifier="CentralViewController" id="Pf6-yN-6KM" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Lnu-qb-1xG"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oHi-DR-3c5" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -12,8 +12,9 @@ import Hikit
 final class CentralViewController: BaseViewController {
 
     fileprivate struct Constant {
-        static let profileHeight: CGFloat = 80.0
+        static let profileHeight: CGFloat = 100.0
         static let rowHeight: CGFloat = 60.0
+        static let gap: CGFloat = 20.0
     }
     
     @IBOutlet private weak var tableView: UITableView! {
@@ -22,16 +23,31 @@ final class CentralViewController: BaseViewController {
             tableView.delegate = self
             tableView.hi.register(reusableCell: ProfileCell.self)
             tableView.hi.register(reusableCell: GeneralCell.self)
+            tableView.tableFooterView = UIView()
+            tableView.sectionFooterHeight = Constant.gap
+            tableView.backgroundColor = UIColor.hi.background
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "History"
+        navigationItem.title = "Hi"
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.indexPathsForSelectedRows?.forEach {
+            tableView.deselectRow(at: $0, animated: true)
+        }
+    }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
 }
 
 extension CentralViewController: UITableViewDataSource {
@@ -89,6 +105,7 @@ extension CentralViewController: UITableViewDataSource {
             let row = Row.with(indexPath.row)
             let cell: GeneralCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.textLabel?.text = row.title
+            cell.textLabel?.textColor = UIColor.hi.title
             return cell
         }
     }
@@ -97,6 +114,10 @@ extension CentralViewController: UITableViewDataSource {
 extension CentralViewController: UITableViewDelegate {
    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        defer {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
         
         switch Section.with(indexPath.section) {
         case .profile:
@@ -134,5 +155,16 @@ extension CentralViewController: SegueHandlerType {
         case showSettings
         case showLabs
         case showAbout
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segueIdentifier(forSegue: segue) {
+        case .showProfile:
+            let vc = segue.destination as? ProfileViewController
+            vc?.viewModel = Service.god.map { ProfileViewModel(user: $0, isGod: true) }
+        default:
+            break
+        }
     }
 }

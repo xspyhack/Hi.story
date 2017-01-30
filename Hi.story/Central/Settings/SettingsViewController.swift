@@ -10,14 +10,67 @@ import UIKit
 import Hikit
 
 final class SettingsViewController: UITableViewController {
+    
+    enum Section: Int {
+        case connector
+        case notification
+        
+        case birthday
+        
+        var annotation: String {
+            switch self {
+            case .connector: return "Connector"
+            case .notification: return "Notifications"
+            case .birthday: return "Birthday"
+            }
+        }
+        
+        var describe: String {
+            switch self {
+            case .connector: return "Story from your photos/reminders/calendar"
+            case .notification: return "Background collecting your memories and notify you"
+            case .birthday: return ""
+            }
+        }
+        
+        static var count: Int {
+            return Section.birthday.rawValue + 1
+        }
+    }
+    
+    enum ConnectorRow: Int {
+        case photos
+        case reminders
+        case calendar
+        
+        static var count: Int {
+            return ConnectorRow.calendar.rawValue + 1
+        }
+    }
+    
+    enum NotificationRow: Int {
+        case notifications
+        case background
+        
+        static var count: Int {
+            return NotificationRow.background.rawValue + 1
+        }
+    }
+    
+    struct Constant {
+        static let rowHeight: CGFloat = 60.0
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "Settings"
+        
         self.tableView.hi.register(reusableCell: SwitchCell.self)
+        self.tableView.hi.register(reusableCell: ReusableTableViewCell.self)
+        self.tableView.backgroundColor = UIColor.hi.background
         self.clearsSelectionOnViewWillAppear = false
         
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,62 +81,103 @@ final class SettingsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return Section.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        switch Section(rawValue: section) {
+        case .connector?:
+            return ConnectorRow.count
+        case .notification?:
+            return NotificationRow.count
+        case .birthday?:
+            return 1
+        default:
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
+        
+        guard let section = Section(rawValue: indexPath.section) else { fatalError() }
+        
+        switch section {
+        case .connector:
+            
+            guard let row = ConnectorRow(rawValue: indexPath.row) else { fatalError() }
+            let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
+            
+            switch row {
+            case .photos:
+                cell.titleLabel.text = "Photos"
+                cell.toggleSwitch.isOn = Defaults.connectPhotos
+                cell.toggleSwitchStateChangedAction = { isOn in
+                    Defaults.connectPhotos = isOn
+                }
+            case .calendar:
+                cell.titleLabel.text = "Calendar"
+                cell.toggleSwitch.isOn = Defaults.connectCalendar
+                cell.toggleSwitchStateChangedAction = { isOn in
+                    Defaults.connectCalendar = isOn
+                }
+            case .reminders:
+                cell.titleLabel.text = "Reminders"
+                cell.toggleSwitch.isOn = Defaults.connectReminders
+                cell.toggleSwitchStateChangedAction = { isOn in
+                    Defaults.connectReminders = isOn
+                }
+            }
+            return cell
+        case .notification:
+            guard let row = NotificationRow(rawValue: indexPath.row) else { fatalError() }
+            switch row {
+            case .notifications:
+                let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
+                cell.titleLabel.text = "Notifications"
+                cell.toggleSwitch.isOn = Defaults.notificationsEnabled
+                cell.toggleSwitchStateChangedAction = { isOn in
+                    Defaults.notificationsEnabled = isOn
+                }
 
-        return cell
+                return cell
+            case .background:
+                let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
+                cell.titleLabel.text = "Background"
+                cell.toggleSwitch.isOn = Defaults.backgroundModeEnabled
+                cell.toggleSwitchStateChangedAction = { isOn in
+                    Defaults.backgroundModeEnabled = isOn
+                }
+                return cell
+            }
+        case .birthday:
+            let cell: ReusableTableViewCell = tableView.hi.dequeueReusableCell(for: indexPath)
+            cell.textLabel?.text = "Your birthday"
+            cell.textLabel?.textColor = UIColor.hi.title
+            cell.detailTextLabel?.text = "none"
+            cell.accessoryType = .disclosureIndicator
+            return cell
+        }
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let section = Section(rawValue: section) else { fatalError() }
+        
+        return section.annotation
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        guard let section = Section(rawValue: section) else { fatalError() }
+        
+        return section.describe
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constant.rowHeight
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        defer {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

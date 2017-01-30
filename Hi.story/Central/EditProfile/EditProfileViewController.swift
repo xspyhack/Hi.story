@@ -112,7 +112,7 @@ final class EditProfileViewController: BaseViewController {
         Observable.combineLatest(profileIsDirty.asObservable(), usernameAvailable.asObservable()) { dirty, available in
                 dirty || available
             }
-            .bindTo(doneItem.rx.enabled)
+            .bindTo(doneItem.rx.isEnabled)
             .addDisposableTo(disposeBag)
         
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
