@@ -32,7 +32,7 @@ class CacheService {
     }
     
     func removeIfExisting(forKey key: String) {
-        cache.removeImage(forKey: key, processorIdentifier: "", fromDisk: true, completionHandler: nil)
+        cache.removeImage(forKey: key, fromDisk: true, completionHandler: nil)
     }
     
     func retrieveImageInDiskCache(forKey key: String, scale: CGFloat = 1.0) -> UIImage? {
