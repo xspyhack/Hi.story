@@ -1,6 +1,7 @@
 github "realm/realm-cocoa"
-github "ReactiveX/RxSwift" "3.0.0-rc.1"
-github "RxSwiftCommunity/RxDataSources" "1.0.0-rc.1"
+github "ReactiveX/RxSwift" ~> 3.0
+github "RxSwiftCommunity/RxDataSources" ~> 1.0
 github "nixzhu/KeyboardMan" "1.0.0"
+github "nixzhu/Proposer" >= 1.1.0
 github "Alamofire/Alamofire"
 github "onevcat/Kingfisher"
