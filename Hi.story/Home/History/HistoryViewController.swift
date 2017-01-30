@@ -25,9 +25,9 @@ final class HistoryViewController: UIViewController {
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: HistoryHeaderView.self)
             collectionView.alwaysBounceVertical = true
             collectionView.contentInset.top = 64.0
-            collectionView.contentInset.bottom = 44.0
             collectionView.scrollIndicatorInsets.top = 64.0
-            collectionView.scrollIndicatorInsets.bottom = 44.0
+            collectionView.contentInset.bottom = Defaults.tabBarHeight
+            collectionView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
         }
     }
     
@@ -39,6 +39,7 @@ final class HistoryViewController: UIViewController {
         title = "History"
         
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.minimumLineSpacing = 16.0
             flowLayout.sectionHeadersPinToVisibleBounds = true
         }
     }
@@ -115,6 +116,7 @@ extension HistoryViewController: UICollectionViewDataSource {
         if let feed = history as? Feed, let story = feed.story {
             if story.attachment != nil {
                 let cell: FeedImageCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+                cell.configure(withPresenter: FeedImageCellModel(story: story))
                 return cell
             } else {
                 let cell: FeedCell = collectionView.hi.dequeueReusableCell(for: indexPath)
