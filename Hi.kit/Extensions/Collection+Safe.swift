@@ -48,3 +48,4 @@ public extension Collection {
         return SafeCollection(self)
     }
 }
+

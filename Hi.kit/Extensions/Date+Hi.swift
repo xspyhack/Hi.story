@@ -43,6 +43,11 @@ extension DateProxy {
         _Date.formatter.dateFormat = "yyyy/MM/dd"
         return _Date.formatter.string(from: base)
     }
+    
+    public var monthDay: String {
+        _Date.formatter.dateFormat = "MM/dd"
+        return _Date.formatter.string(from: base)
+    }
 
     public var year: String {
         _Date.formatter.dateFormat = "yyyy"
@@ -106,6 +111,14 @@ extension DateProxy {
         inputFormatter.dateFormat = format
         
         return inputFormatter.date(from: aString)
+    }
+    
+    /// `0`: Sunday and `6`: Saturday
+    /// -returns 0...6
+    public var weekdayIndex: Int {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.calendar, .weekday, .weekdayOrdinal], from: base)
+        return components.weekday ?? 0 - 1
     }
 }
 

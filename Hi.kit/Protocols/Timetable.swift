@@ -8,7 +8,22 @@
 
 import Foundation
 
-protocol Timetable {
+public protocol Timetable {
     
     var createdAt: TimeInterval { get }
+    
+    var monthDay: String { get }
+    var year: String { get }
 }
+
+public extension Timetable {
+
+    public var monthDay: String {
+        return Date(timeIntervalSince1970: createdAt).hi.monthDay
+    }
+    
+    public var year: String {
+        return Date(timeIntervalSince1970: createdAt).hi.year
+    }
+}
+

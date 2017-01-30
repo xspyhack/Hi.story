@@ -2,8 +2,8 @@
 //  RealmConfig.swift
 //  Yep
 //
-//  Created by NIX on 16/5/24.
-//  Copyright © 2016年 Catch Inc. All rights reserved.
+//  Created by bl4ckra1sond3tre on 8/3/16.
+//  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
 //
 
 import Foundation
@@ -44,7 +44,6 @@ public func realmConfig() -> Realm.Configuration {
                 newObject?["withStorybook"] = nil
             })
         }
-        
     }
 
     return config

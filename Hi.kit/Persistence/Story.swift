@@ -29,6 +29,14 @@ public class Story: Object {
     public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
     public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
     
+    // For query
+    public var monthDay: String {
+        return Date(timeIntervalSince1970: createdAt).hi.monthDay
+    }
+    public var year: String {
+        return Date(timeIntervalSince1970: createdAt).hi.year
+    }
+    
     //public dynamic var creator: User?
     public dynamic var title: String = ""
     public dynamic var body: String = ""

@@ -72,6 +72,15 @@ public enum Tag: Int {
     public static func random() -> Tag {
         return Tag(rawValue: Int(arc4random_uniform(UInt32(Tag.count)))) ?? .none
     }
+    
+    public static func randomExceptNone() -> Tag {
+        var tag: Tag
+        repeat {
+            tag = Tag.random()
+        } while (tag == .none)
+        
+        return tag
+    }
 }
 
 public struct SharedUser: Hashable {

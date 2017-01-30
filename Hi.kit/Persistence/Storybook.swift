@@ -10,6 +10,7 @@ import Foundation
 import RealmSwift
 
 public class Storybook: Object, Timetable {
+
     public dynamic var id: String = UUID().uuidString
     public dynamic var name: String = ""
     public dynamic var creator: User?
