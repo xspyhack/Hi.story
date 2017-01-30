@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 import RxSwift
 import RxCocoa
 
@@ -45,7 +46,6 @@ final class HomeViewController: UIPageViewController {
     fileprivate lazy var historyViewController: HistoryViewController = {
         
         let vc = UIStoryboard.hi.storyboard(.home).instantiateViewController(withIdentifier: HistoryViewController.identifier) as! HistoryViewController
-        
         return vc
     }()
     
@@ -71,6 +71,13 @@ final class HomeViewController: UIPageViewController {
         
         self.dataSource = self
         self.delegate = self
+        
+        historyViewController.showFeedAction = { feed in
+        }
+        
+        historyViewController.showMatterAction = { [weak self] matter in
+            self?.performSegue(withIdentifier: .showMatter, sender: matter)
+        }
     }
     
     private func selecting(at index: Int) {
@@ -139,4 +146,26 @@ extension HomeViewController: UIPageViewControllerDelegate {
     }
 }
 
+extension HomeViewController: SegueHandlerType {
+    
+    enum SegueIdentifier: String {
+        case showMatter
+        case showFeed
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segueIdentifier(forSegue: segue) {
+        case .showFeed:
+            let vc = segue.destination as? FeedViewController
+            if let feed = sender as? Feed {
+                vc?.viewModel = FeedViewModel(feed: feed)
+            }
+        case .showMatter:
+            let vc = segue.destination as? MatterViewController
+            if let matter = sender as? Matter {
+                vc?.viewModel = MatterViewModel(matter: matter)
+            }
+        }
+    }
+}
 

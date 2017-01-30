@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="neT-pF-ujK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="neT-pF-ujK">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -16,7 +16,7 @@
                     <navigationItem key="navigationItem" id="DIL-YO-Iu3">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="d4W-1j-FmU">
-                            <rect key="frame" x="113" y="7" width="150" height="30"/>
+                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="First"/>
@@ -26,11 +26,29 @@
                     </navigationItem>
                     <connections>
                         <outlet property="segmentedControl" destination="d4W-1j-FmU" id="u7f-0b-DUf"/>
+                        <segue destination="j3B-lK-9wg" kind="show" identifier="showFeed" id="B9V-OE-QyN"/>
+                        <segue destination="qea-Dn-3WB" kind="show" identifier="showMatter" id="eHE-nI-Hra"/>
                     </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i0x-VQ-3Qm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1921" y="2678"/>
+        </scene>
+        <!--FeedViewController-->
+        <scene sceneID="dTg-SB-PHU">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feed" referencedIdentifier="FeedViewController" id="j3B-lK-9wg" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wRs-dp-2Ze" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2101" y="3130"/>
+        </scene>
+        <!--MatterViewController-->
+        <scene sceneID="gug-6u-z0g">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Matter" referencedIdentifier="MatterViewController" id="qea-Dn-3WB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Enu-qu-Cop" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1754" y="3130"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Zhf-Ic-dyd">
@@ -106,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kga-ma-MXQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-111" y="2678"/>
+            <point key="canvasLocation" x="-71" y="2667"/>
         </scene>
     </scenes>
 </document>

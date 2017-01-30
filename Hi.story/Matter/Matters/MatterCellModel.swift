@@ -13,6 +13,7 @@ protocol MatterCellModelType {
     var title: String { get }
     var days: Int { get }
     var tag: String { get }
+    var notes: String { get }
 }
 
 struct MatterCellModel: MatterCellModelType {
@@ -20,10 +21,12 @@ struct MatterCellModel: MatterCellModelType {
     var title: String
     var days: Int
     var tag: String
+    var notes: String
     
     init(matter: Matter) {
         self.title = matter.title
         self.days = Date().hi.absoluteDays(with: Date(timeIntervalSince1970: matter.happenedAt))
-        self.tag = (Tag(rawValue: matter.tag) ?? .red) .value
+        self.tag = (Tag(rawValue: matter.tag) ?? .red).value
+        self.notes = matter.body
     }
 }

@@ -33,7 +33,7 @@ class HistoryHeaderView: UICollectionReusableView, Reusable {
     fileprivate lazy var weekdayLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.6)
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 12.0)
         label.text = "SUN"
         return label
     }()
@@ -71,6 +71,34 @@ extension HistoryHeaderView: Configurable {
     func configure(withPresenter presenter: HistoryHeaderViewModelType) {
         
         // calc
+        let year = Date(timeIntervalSince1970: presenter.createdAt).hi.year
+        if let years = Int(year), let thisYears = Int(Date().hi.year) {
+            let ago = thisYears - years
+            agoLabel.text = (ago == 0) ? "THIS YEAR" : (ago == 1 ? "1 YEAR AGO" : "\(thisYears - years) YEARS AGO")
+        }
+        
+        let weak = Date(timeIntervalSince1970: presenter.createdAt).hi.weekdayIndex
+        
+        switch weak {
+        case 0:
+            weekdayLabel.text = "SUN"
+        case 1:
+            weekdayLabel.text = "MON"
+        case 2:
+            weekdayLabel.text = "TUE"
+        case 3:
+            weekdayLabel.text = "WED"
+        case 4:
+            weekdayLabel.text = "THU"
+        case 5:
+            weekdayLabel.text = "FRI"
+        case 6:
+            weekdayLabel.text = "SAT"
+        default:
+            weekdayLabel.text = "NON"
+        }
+        
         // background color
+        backgroundColor = presenter.color
     }
 }

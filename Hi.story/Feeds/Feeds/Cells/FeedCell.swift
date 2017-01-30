@@ -78,6 +78,22 @@ class FeedCell: UICollectionViewCell, Reusable {
         NSLayoutConstraint.activate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
     }
+    
+    static func height(with feed: Feed, width: CGFloat) -> CGFloat {
+    
+        guard let story = feed.story else { return 0.0 }
+        
+        let titleHeight = story.title.hi.height(with: width - FeedCell.margin * 2, fontSize: 24.0)
+        let contentHeight = story.body.hi.height(with: width - FeedCell.margin * 2, fontSize: 14.0)
+        
+        let height = titleHeight + 16.0 + min(contentHeight, Defaults.feedsMaxContentHeight) + 32.0
+        
+        if story.attachment != nil {
+            return 16.0 + height + width * 9.0 / 16.0
+        } else {
+            return 12.0 + height
+        }
+    }
 }
 
 extension FeedCell: Configurable {

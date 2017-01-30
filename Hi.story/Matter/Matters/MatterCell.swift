@@ -18,6 +18,13 @@ final class MatterCell: UITableViewCell, Reusable {
         return label
     }()
     
+    fileprivate lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16.0)
+        label.text = "Matter"
+        return label
+    }()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -32,20 +39,23 @@ final class MatterCell: UITableViewCell, Reusable {
         
         //selectionStyle = .none
         
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        textLabel?.text = "Matter"
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
         
         let views = [
+            "titleLabel": titleLabel,
             "daysLabel": daysLabel,
         ]
         
-        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:[daysLabel]-16-|", options: [], metrics: nil, views: views)
-        let V = NSLayoutConstraint(item: daysLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[titleLabel]-(>=8)-[daysLabel]-16-|", options: [.alignAllCenterY], metrics: nil, views: views)
+        titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
-        NSLayoutConstraint.activate(H)
-        NSLayoutConstraint.activate([V])
+        NSLayoutConstraint.activate(h)
     }
     
     override var layoutMargins: UIEdgeInsets {
@@ -59,7 +69,7 @@ final class MatterCell: UITableViewCell, Reusable {
 extension MatterCell: Configurable {
     
     func configure(withPresenter presenter: MatterCellModelType) {
-        textLabel?.text = presenter.title
+        titleLabel.text = presenter.title
         daysLabel.text = (presenter.days > 0) ? "+\(presenter.days)" : "\(presenter.days)"
         daysLabel.textColor = UIColor(hex: presenter.tag)
     }

@@ -179,19 +179,11 @@ extension FeedsViewController: UICollectionViewDelegate {
 extension FeedsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let story = feeds.safe[indexPath.section]?.story else { return CGSize.zero }
+        guard let feed = feeds.safe[indexPath.section] else { return CGSize.zero }
         
         let width = collectionView.bounds.width
-        let titleHeight = story.title.hi.height(with: width - FeedCell.margin * 2, fontSize: 24.0)
-        let contentHeight = story.body.hi.height(with: width - FeedCell.margin * 2, fontSize: 14.0)
-        
-        let height = titleHeight + 16.0 + min(contentHeight, 68.0) + 32.0
-        
-        if story.attachment != nil {
-            return CGSize(width: width, height: 16.0 + height + width * 9.0 / 16.0)
-        } else {
-            return CGSize(width: width, height: 12.0 + height)
-        }
+        let height = FeedCell.height(with: feed, width: width)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
