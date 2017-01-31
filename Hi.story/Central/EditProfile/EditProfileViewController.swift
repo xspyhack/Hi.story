@@ -103,15 +103,20 @@ final class EditProfileViewController: BaseViewController {
                     self?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
                 }
                 
-                self?.activityIndicator.stopAnimating()
                 self?.profileIsDirty.value = false
                 self?.avatarIsDirty = false
+            }, onCompleted: { [weak self] in
+                delay(1.0, task: { [weak self] in
+                    self?.activityIndicator.stopAnimating()
+                })
+                self?.doneItem.isEnabled = false
             })
             .addDisposableTo(disposeBag)
         
         Observable.combineLatest(profileIsDirty.asObservable(), usernameAvailable.asObservable()) { dirty, available in
                 dirty || available
             }
+            .skip(1) // Skip the first time
             .bindTo(doneItem.rx.isEnabled)
             .addDisposableTo(disposeBag)
         
