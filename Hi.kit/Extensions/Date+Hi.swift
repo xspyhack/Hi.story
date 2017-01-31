@@ -118,7 +118,7 @@ extension DateProxy {
     public var weekdayIndex: Int {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.calendar, .weekday, .weekdayOrdinal], from: base)
-        return components.weekday ?? 0 - 1
+        return (components.weekday ?? 0) - 1
     }
 }
 

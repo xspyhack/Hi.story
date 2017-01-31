@@ -73,13 +73,18 @@ public enum Tag: Int {
         return Tag(rawValue: Int(arc4random_uniform(UInt32(Tag.count)))) ?? .none
     }
     
-    public static func randomExceptNone() -> Tag {
+    public static func randomExceptBit() -> Tag {
         var tag: Tag
         repeat {
             tag = Tag.random()
-        } while (tag == .none)
+        } while (tag == .none || tag == .white)
         
         return tag
+    }
+    
+    public static func with(_ integer: Int) -> Tag {
+        let a = integer % count
+        return Tag(rawValue: a) ?? randomExceptBit()
     }
 }
 
