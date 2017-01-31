@@ -1,5 +1,5 @@
 //
-//  PhotoManager.swift
+//  PhotoService.swift
 //  Hi.story
 //
 //  Created by bl4ckra1sond3tre on 31/01/2017.
@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Hikit
 import Photos
 
 fileprivate let defaultAlbumIdentifier = "com.xspyhack.History.photoPicker"
@@ -19,9 +20,10 @@ struct Album {
     var identifier: String?
 }
 
-struct Photo {
-    let createdAt: Date?
+struct Photo: Timetable {
+    let createdAt: TimeInterval
     let asset: PHAsset
+    let ratio: CGFloat // width / height
     let location: CLLocation?
 }
 
@@ -45,7 +47,9 @@ func fetchMoments(at date: Date = Date()) -> [Photo] {
             let assets = PHAsset.fetchAssets(in: moment, options: options)
            
             assets.enumerateObjects({ (asset, index, stop) in
-                photos.append(Photo(createdAt: asset.creationDate, asset: asset, location: asset.location))
+                if let createdAt = asset.creationDate?.timeIntervalSince1970 {
+                    photos.append(Photo(createdAt: createdAt, asset: asset, ratio: CGFloat(asset.pixelWidth) / CGFloat(asset.pixelHeight), location: asset.location))
+                }
             })
         }
     })
