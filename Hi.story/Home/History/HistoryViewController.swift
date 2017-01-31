@@ -22,6 +22,10 @@ final class HistoryViewController: UIViewController {
             collectionView.hi.register(reusableCell: FeedCell.self)
             collectionView.hi.register(reusableCell: FeedImageCell.self)
             collectionView.hi.register(reusableCell: MatterItemCell.self)
+            collectionView.hi.register(reusableCell: PhotoItemCell.self)
+            collectionView.hi.register(reusableCell: ReminderItemCell.self)
+            collectionView.hi.register(reusableCell: EventItemCell.self)
+            collectionView.hi.register(reusableCell: FeedItemCell.self)
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: HistoryHeaderView.self)
             collectionView.alwaysBounceVertical = true
             collectionView.contentInset.top = 64.0
@@ -56,23 +60,38 @@ final class HistoryViewController: UIViewController {
         
         guard let realm = try? Realm(), let userID = HiUserDefaults.userID.value else { return }
         
-        let today = Date().hi.monthDay
+        let today = Date()
         let predicate = NSPredicate(format: "creator.id = %@", userID)
         
         var datas: [Timetable] = []
         
         // Feeds
-        let feeds: [Feed] = FeedService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { $0.monthDay == today }
+        let feeds: [Feed] = FeedService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { $0.monthDay == today.hi.monthDay }
         datas.append(contentsOf: (feeds.map { $0 as Timetable }))
         
         // matter
-        let matters: [Matter] = MatterService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { $0.monthDay == today }
+        let matters: [Matter] = MatterService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { $0.monthDay == today.hi.monthDay }
         datas.append(contentsOf: (matters.map { $0 as Timetable }))
         
-        // connecting
+        /// connecting
+        
         // photos
+        if hi.isAuthorized(for: .photos) && Defaults.connectPhotos {
+            let photos = fetchMoments(at: today)
+            datas.append(contentsOf: (photos.map { $0 as Timetable }))
+        }
+        
         // reminders
+        if hi.isAuthorized(for: .reminders) && Defaults.connectReminders {
+            let reminders = fetchReminders(at: today)
+            datas.append(contentsOf: (reminders.map { $0 as Timetable }))
+        }
+        
         // calendar
+        if hi.isAuthorized(for: .calendar) && Defaults.connectCalendar {
+            let events = fetchEvents(at: today)
+            datas.append(contentsOf: (events.map { $0 as Timetable }))
+        }
         
         // Group by year
         
@@ -127,6 +146,15 @@ extension HistoryViewController: UICollectionViewDataSource {
             let cell: MatterItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
             cell.configure(withPresenter: MatterCellModel(matter: matter))
             return cell
+        } else if let photo = history as? Photo {
+            let cell: PhotoItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            return cell
+        } else if let reminder = history as? Reminder {
+            let cell: ReminderItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            return cell
+        } else if let event = history as? Event {
+            let cell: EventItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            return cell
         } else {
             return UICollectionViewCell()
         }
@@ -138,8 +166,12 @@ extension HistoryViewController: UICollectionViewDataSource {
        
         if kind == UICollectionElementKindSectionHeader {
             let header: HistoryHeaderView = collectionView.hi.dequeueReusableSupplementaryView(ofKind: kind, for: indexPath)
-            let tag = Tag(rawValue: theYears.flatMap { $0 as? Matter }.first?.tag ?? Tag.randomExceptNone().rawValue ) ?? Tag.randomExceptNone()
-            let color = UIColor(hex: tag.value)
+            var color = UIColor.hi.tint
+            if let tag = (theYears.flatMap { $0 as? Matter }).first?.tag, let value = Tag(rawValue: tag)?.value {
+                color = UIColor(hex: value)
+            } else if let year = Int(Date(timeIntervalSince1970: history.createdAt).hi.year) {
+                color = UIColor(hex: Tag.with(year).value)
+            }
             header.configure(withPresenter: HistoryHeaderViewModel(createdAt: history.createdAt, color: color))
             return header
         } else {

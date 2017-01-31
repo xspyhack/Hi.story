@@ -80,6 +80,10 @@ final class HomeViewController: UIPageViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     private func selecting(at index: Int) {
         guard let channel = Channel(rawValue: index) else { return }
         

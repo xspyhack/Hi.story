@@ -16,7 +16,7 @@
                     <navigationItem key="navigationItem" id="DIL-YO-Iu3">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="d4W-1j-FmU">
-                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
+                            <rect key="frame" x="113" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="First"/>
@@ -79,8 +79,23 @@
                     <view key="view" contentMode="scaleToFill" id="Kqq-3f-x0W">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.1058823529" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rxt-bm-qjY">
+                                <rect key="frame" x="87.5" y="233" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="GBn-AI-0JW"/>
+                                    <constraint firstAttribute="width" constant="200" id="acB-NC-DED"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="rxt-bm-qjY" firstAttribute="centerY" secondItem="Kqq-3f-x0W" secondAttribute="centerY" id="F2r-FO-fGT"/>
+                            <constraint firstItem="rxt-bm-qjY" firstAttribute="centerX" secondItem="Kqq-3f-x0W" secondAttribute="centerX" id="xvM-8D-vKz"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="rxt-bm-qjY" id="S7d-mf-ptK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1M3-jp-QHj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
