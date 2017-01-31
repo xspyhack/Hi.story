@@ -110,21 +110,48 @@ final class SettingsViewController: UITableViewController {
             switch row {
             case .photos:
                 cell.titleLabel.text = "Photos"
-                cell.toggleSwitch.isOn = Defaults.connectPhotos
-                cell.toggleSwitchStateChangedAction = { isOn in
-                    Defaults.connectPhotos = isOn
+                cell.toggleSwitch.isOn = Defaults.connectPhotos && hi.isAuthorized(for: .photos)
+                cell.toggleSwitchStateChangedAction = { [weak self] isOn in
+                    if isOn {
+                        self?.hi.propose(for: .reminders, agreed: {
+                            Defaults.connectPhotos = isOn
+                        }, rejected: {
+                            Defaults.connectPhotos = false
+                            cell.toggleSwitch.isOn = false
+                        })
+                    } else {
+                        Defaults.connectPhotos = isOn
+                    }
                 }
             case .calendar:
                 cell.titleLabel.text = "Calendar"
-                cell.toggleSwitch.isOn = Defaults.connectCalendar
-                cell.toggleSwitchStateChangedAction = { isOn in
-                    Defaults.connectCalendar = isOn
+                cell.toggleSwitch.isOn = Defaults.connectCalendar && hi.isAuthorized(for: .calendar)
+                cell.toggleSwitchStateChangedAction = { [weak self] isOn in
+                    if isOn {
+                        self?.hi.propose(for: .calendar, agreed: {
+                            Defaults.connectCalendar = isOn
+                        }, rejected: {
+                            Defaults.connectCalendar = false
+                            cell.toggleSwitch.isOn = false
+                        })
+                    } else {
+                        Defaults.connectCalendar = isOn
+                    }
                 }
             case .reminders:
                 cell.titleLabel.text = "Reminders"
-                cell.toggleSwitch.isOn = Defaults.connectReminders
-                cell.toggleSwitchStateChangedAction = { isOn in
-                    Defaults.connectReminders = isOn
+                cell.toggleSwitch.isOn = Defaults.connectReminders && hi.isAuthorized(for: .reminders)
+                cell.toggleSwitchStateChangedAction = { [weak self] isOn in
+                    if isOn {
+                        self?.hi.propose(for: .reminders, agreed: {
+                            Defaults.connectReminders = isOn
+                        }, rejected: {
+                            Defaults.connectReminders = false
+                            cell.toggleSwitch.isOn = false
+                        })
+                    } else {
+                        Defaults.connectReminders = isOn
+                    }
                 }
             }
             return cell
