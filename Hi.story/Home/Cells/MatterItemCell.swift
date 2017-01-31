@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-final class MatterItemCell: UICollectionViewCell, Reusable {
+final class MatterItemCell: HisotryItemCell, Reusable {
  
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
