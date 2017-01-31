@@ -26,4 +26,8 @@ extension Hi where Base: UIImage {
     static var storybook: UIImage? {
         return UIImage(named: "album")
     }
+    
+    static var connectorIcon: UIImage? {
+        return UIImage(named: "connector")
+    }
 }

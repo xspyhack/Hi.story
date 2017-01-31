@@ -28,7 +28,6 @@ extension ImageView {
             .backgroundDecode,
             .targetCache(CacheService.sharedCache),
             .cacheMemoryOnly, // Don't cache second times
-            .scaleFactor(UIScreen.main.scale),
         ]
        
         /*

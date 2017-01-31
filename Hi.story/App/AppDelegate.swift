@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         window?.backgroundColor = UIColor.white
-        
+       
         Realm.Configuration.defaultConfiguration = realmConfig()
         
         if let realm = try? Realm(), Service.god(of: realm) == nil {

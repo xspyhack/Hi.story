@@ -14,6 +14,14 @@
 		7808AF7D1DD71A21000B3625 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF7C1DD71A21000B3625 /* ProfileViewModel.swift */; };
 		7810FD7C1E3EEC0600950ABA /* Sequence+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD7B1E3EEC0600950ABA /* Sequence+Group.swift */; };
 		7810FD7E1E3F127E00950ABA /* MatterItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD7D1E3F127E00950ABA /* MatterItemCell.swift */; };
+		7810FD801E4049E900950ABA /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD7F1E4049E900950ABA /* PhotoService.swift */; };
+		7810FD821E4050BA00950ABA /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD811E4050BA00950ABA /* ReminderService.swift */; };
+		7810FD841E4050E300950ABA /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD831E4050E300950ABA /* CalendarService.swift */; };
+		7810FD861E40642500950ABA /* PhotoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD851E40642500950ABA /* PhotoItemCell.swift */; };
+		7810FD881E40643300950ABA /* ReminderItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD871E40643300950ABA /* ReminderItemCell.swift */; };
+		7810FD8A1E40644400950ABA /* EventItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD891E40644400950ABA /* EventItemCell.swift */; };
+		7810FD8C1E40644E00950ABA /* FeedItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD8B1E40644E00950ABA /* FeedItemCell.swift */; };
+		7810FD8E1E4067B900950ABA /* HisotryItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7810FD8D1E4067B900950ABA /* HisotryItemCell.swift */; };
 		782513DB1D8D028000749FC3 /* SFFocusViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782513DA1D8D028000749FC3 /* SFFocusViewLayout.swift */; };
 		782513DD1D8D04AD00749FC3 /* ObservableConvertibleType+Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782513DC1D8D04AD00749FC3 /* ObservableConvertibleType+Driver.swift */; };
 		782F9FFF1D2183110043F317 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 782F9FFE1D2183110043F317 /* Profile.storyboard */; };
@@ -380,6 +388,14 @@
 		7808AF7C1DD71A21000B3625 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		7810FD7B1E3EEC0600950ABA /* Sequence+Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Group.swift"; sourceTree = "<group>"; };
 		7810FD7D1E3F127E00950ABA /* MatterItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatterItemCell.swift; sourceTree = "<group>"; };
+		7810FD7F1E4049E900950ABA /* PhotoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
+		7810FD811E4050BA00950ABA /* ReminderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
+		7810FD831E4050E300950ABA /* CalendarService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
+		7810FD851E40642500950ABA /* PhotoItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoItemCell.swift; sourceTree = "<group>"; };
+		7810FD871E40643300950ABA /* ReminderItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderItemCell.swift; sourceTree = "<group>"; };
+		7810FD891E40644400950ABA /* EventItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventItemCell.swift; sourceTree = "<group>"; };
+		7810FD8B1E40644E00950ABA /* FeedItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedItemCell.swift; sourceTree = "<group>"; };
+		7810FD8D1E4067B900950ABA /* HisotryItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HisotryItemCell.swift; sourceTree = "<group>"; };
 		782513DA1D8D028000749FC3 /* SFFocusViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFFocusViewLayout.swift; sourceTree = "<group>"; };
 		782513DC1D8D04AD00749FC3 /* ObservableConvertibleType+Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableConvertibleType+Driver.swift"; sourceTree = "<group>"; };
 		782F9FFE1D2183110043F317 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
@@ -1366,7 +1382,12 @@
 			isa = PBXGroup;
 			children = (
 				78E481831E097B8300EB81E9 /* HistoryHeaderView.swift */,
+				7810FD8D1E4067B900950ABA /* HisotryItemCell.swift */,
 				7810FD7D1E3F127E00950ABA /* MatterItemCell.swift */,
+				7810FD851E40642500950ABA /* PhotoItemCell.swift */,
+				7810FD871E40643300950ABA /* ReminderItemCell.swift */,
+				7810FD891E40644400950ABA /* EventItemCell.swift */,
+				7810FD8B1E40644E00950ABA /* FeedItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1411,6 +1432,9 @@
 				78D2580D1D8530B60032E4F5 /* ModelService.swift */,
 				78BF387A1D9E35D900119F04 /* CacheService.swift */,
 				7857FBE01E17E6E9001D0061 /* ValidationService.swift */,
+				7810FD7F1E4049E900950ABA /* PhotoService.swift */,
+				7810FD811E4050BA00950ABA /* ReminderService.swift */,
+				7810FD831E4050E300950ABA /* CalendarService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1918,6 +1942,7 @@
 				78E481741E068AA200EB81E9 /* UIImage+CropRotate.swift in Sources */,
 				78F4D24B1CEEE74F00DAA210 /* DescriptionPresentable.swift in Sources */,
 				787727581E213F4800D9748A /* MarkdownToolbar.swift in Sources */,
+				7810FD8A1E40644400950ABA /* EventItemCell.swift in Sources */,
 				788BCF8C1DA384E900535519 /* NextTextView.swift in Sources */,
 				78D2580E1D8530B60032E4F5 /* ModelService.swift in Sources */,
 				7857FBE31E18E79F001D0061 /* UIViewController+Proposer.swift in Sources */,
@@ -1951,6 +1976,7 @@
 				78D257F21D84435E0032E4F5 /* MattersViewModel.swift in Sources */,
 				78EBD5381CF3484A0039AAE5 /* Delay.swift in Sources */,
 				78EBD5231CF0B9C20039AAE5 /* SwiftyKeychain.swift in Sources */,
+				7810FD881E40643300950ABA /* ReminderItemCell.swift in Sources */,
 				7857FBE81E1954FB001D0061 /* UITableView+Rx.swift in Sources */,
 				78E481721E068AA200EB81E9 /* PhotoEditingViewController.swift in Sources */,
 				78E4817B1E06C91200EB81E9 /* AlbumsViewController.swift in Sources */,
@@ -1964,6 +1990,7 @@
 				789224FD1CFAD38800A44040 /* AppDelegate.swift in Sources */,
 				786191571D168FF1005680B3 /* ShortcutType.swift in Sources */,
 				7857FBEC1E1A35D1001D0061 /* ReusableTableViewCell.swift in Sources */,
+				7810FD841E4050E300950ABA /* CalendarService.swift in Sources */,
 				788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
 				78D2580C1D8465BE0032E4F5 /* PopoverViewController.swift in Sources */,
@@ -1988,6 +2015,7 @@
 				78FF41CD1D85341800CAA097 /* NewMatterViewModel.swift in Sources */,
 				7877275C1E266F2700D9748A /* DraftCell.swift in Sources */,
 				78D257F61D8444170032E4F5 /* MatterCellModel.swift in Sources */,
+				7810FD801E4049E900950ABA /* PhotoService.swift in Sources */,
 				789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */,
 				7844AEE31E14059F00D7FA11 /* LabsViewController.swift in Sources */,
 				786191591D169097005680B3 /* ShortcutItems.swift in Sources */,
@@ -1999,10 +2027,12 @@
 				788BCF6E1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				7844AED11E12C0B900D7FA11 /* StorybookCellModel.swift in Sources */,
 				78AEC10B1DD215CA00AE1780 /* FeedsFlowLayout.swift in Sources */,
+				7810FD8E1E4067B900950ABA /* HisotryItemCell.swift in Sources */,
 				7844AEC71E12C09C00D7FA11 /* SettingsViewController.swift in Sources */,
 				78F4D2451CEEE3C300DAA210 /* TextPresentable.swift in Sources */,
 				78D381D21D60E45000AB844E /* ModelType.swift in Sources */,
 				78BF387B1D9E35D900119F04 /* CacheService.swift in Sources */,
+				7810FD8C1E40644E00950ABA /* FeedItemCell.swift in Sources */,
 				78782E531D6886F4008555C1 /* ImageView+Cache.swift in Sources */,
 				7844AEE71E1406A200D7FA11 /* ProfileCellModel.swift in Sources */,
 				782513DB1D8D028000749FC3 /* SFFocusViewLayout.swift in Sources */,
@@ -2013,6 +2043,7 @@
 				78E481811E08301200EB81E9 /* UIImage+Assets.swift in Sources */,
 				7844AECB1E12C0AE00D7FA11 /* EditProfileViewController.swift in Sources */,
 				788BD02B1DBC9E6600535519 /* FeedImageCell.swift in Sources */,
+				7810FD821E4050BA00950ABA /* ReminderService.swift in Sources */,
 				788BB9441E371A6D007BF8CB /* Configuration.swift in Sources */,
 				7877275E1E266F4A00D9748A /* DraftCellModel.swift in Sources */,
 				788BCF7E1DA2142A00535519 /* FeedViewController.swift in Sources */,
@@ -2029,6 +2060,7 @@
 				7857FBE11E17E6E9001D0061 /* ValidationService.swift in Sources */,
 				78B205481D72C3530057D722 /* DatePickerCell.swift in Sources */,
 				7844AEE01E14058A00D7FA11 /* AboutViewController.swift in Sources */,
+				7810FD861E40642500950ABA /* PhotoItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

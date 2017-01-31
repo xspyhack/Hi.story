@@ -13,6 +13,10 @@ import CoreLocation
 
 extension Hi where Base: UIViewController {
     
+    func isAuthorized(for resource: PrivateResource) -> Bool {
+        return resource.isAuthorized
+    }
+    
     func propose(for resource: PrivateResource, agreed successAction: @escaping ProposerAction, rejected failureAction: ProposerAction? = nil) {
         if !resource.isAuthorized {
             if resource.isNotDeterminedAuthorization {
