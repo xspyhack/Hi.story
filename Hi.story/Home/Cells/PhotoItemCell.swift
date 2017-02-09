@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-class PhotoItemCell: HisotryItemCell, Reusable {
+class PhotoItemCell: HistoryItemCell, Reusable {
    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -19,9 +19,28 @@ class PhotoItemCell: HisotryItemCell, Reusable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        
+        iconImageView.image = UIImage.hi.photosIcon
+        
+        contentView.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = [
+            "imageView": imageView,
+            "iconView": iconView
+        ]
+        
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:[iconView][imageView]|", options: [.alignAllTrailing, .alignAllLeading], metrics: nil, views: views)
+        
+        NSLayoutConstraint.activate(v)
     }
 }

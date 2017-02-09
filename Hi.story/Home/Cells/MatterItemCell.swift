@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-final class MatterItemCell: HisotryItemCell, Reusable {
+final class MatterItemCell: HistoryItemCell, Reusable {
  
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -39,19 +39,21 @@ final class MatterItemCell: HisotryItemCell, Reusable {
     
     fileprivate func setup() {
         
+        iconImageView.image = UIImage.hi.matterIcon
+        
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
        
         contentView.addSubview(notesLabel)
         notesLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let views = [
+        let views: [String: Any] = [
             "titleLabel": titleLabel,
             "notesLabel": notesLabel,
         ]
         
-        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[titleLabel]-16-|", options: [], metrics: nil, views: views)
-        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[titleLabel]-16-[notesLabel]-12-|", options: [.alignAllLeading, .alignAllLeading], metrics: nil, views: views)
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": iconPadding], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[notesLabel]-24-|", options: [.alignAllLeading, .alignAllLeading], metrics: ["margin": iconContainerHeight], views: views)
         
         NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate(v)
@@ -65,7 +67,7 @@ final class MatterItemCell: HisotryItemCell, Reusable {
     }
     
     static func height(with matter: Matter, width: CGFloat) -> CGFloat {
-        return matter.body.hi.height(with: width, fontSize: 14.0) + 24 + 16 + 28.0
+        return MatterItemCell().iconContainerHeight + matter.body.hi.height(with: width, fontSize: 14.0) + 24 + 16 + 28.0
     }
 }
 

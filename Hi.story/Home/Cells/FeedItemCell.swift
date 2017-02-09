@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-class FeedItemCell: HisotryItemCell, Reusable {
+class FeedItemCell: HistoryItemCell, Reusable {
  
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -18,4 +18,22 @@ class FeedItemCell: HisotryItemCell, Reusable {
         label.numberOfLines = 1
         return label
     }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        
+        iconImageView.image = UIImage.hi.feedIcon
+        
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
 }
