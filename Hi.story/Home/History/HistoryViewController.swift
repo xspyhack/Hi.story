@@ -53,10 +53,12 @@ final class HistoryViewController: UIViewController {
         
         /// loading, analyzing
         
-        analyzing()
+        analyzing() {
+            // hide loading activity
+        }
     }
 
-    private func analyzing() {
+    private func analyzing(finish: (() -> Void)? = nil) {
         
         guard let realm = try? Realm(), let userID = HiUserDefaults.userID.value else { return }
         
@@ -96,6 +98,12 @@ final class HistoryViewController: UIViewController {
         // Group by year
         
         group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
+        
+        SafeDispatch.async { [weak self] in
+            self?.collectionView.reloadData()
+            
+            finish?()
+        }
     }
     
     private func group(_ datas: [Timetable]) {
@@ -112,8 +120,6 @@ final class HistoryViewController: UIViewController {
         }
         
         histories = results
-        
-        collectionView.reloadData()
     }
 }
 

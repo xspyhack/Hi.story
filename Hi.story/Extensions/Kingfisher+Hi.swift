@@ -63,7 +63,6 @@ extension UIButton {
             .backgroundDecode,
             .targetCache(CacheService.sharedCache),
             .cacheMemoryOnly, // Don't cache second times
-            .scaleFactor(UIScreen.main.scale),
         ]
        
         /*
@@ -96,7 +95,6 @@ extension UIButton {
             .backgroundDecode,
             .targetCache(CacheService.sharedCache),
             .cacheMemoryOnly, // Don't cache second times
-            .scaleFactor(UIScreen.main.scale),
         ]
         
         /*

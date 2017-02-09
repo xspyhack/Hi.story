@@ -30,4 +30,24 @@ extension Hi where Base: UIImage {
     static var connectorIcon: UIImage? {
         return UIImage(named: "connector")
     }
+    
+    static var matterIcon: UIImage? {
+        return UIImage(named: "matter")
+    }
+    
+    static var feedIcon: UIImage? {
+        return UIImage(named: "feed")
+    }
+    
+    static var remindersIcon: UIImage? {
+        return UIImage(named: "reminders")
+    }
+    
+    static var photosIcon: UIImage? {
+        return UIImage(named: "photos")
+    }
+    
+    static var calendarIcon: UIImage? {
+        return UIImage(named: "calendar")
+    }
 }
