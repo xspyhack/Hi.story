@@ -14,6 +14,8 @@ class HistoryItemCell: UICollectionViewCell {
     private(set) var iconPadding: CGFloat = 16.0
     private(set) var iconContainerHeight: CGFloat = 48.0
     
+    static let iconContainerHeight: CGFloat = 48.0
+    
     private(set) lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.hi.connectorIcon

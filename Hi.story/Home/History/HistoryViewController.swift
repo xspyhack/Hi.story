@@ -30,8 +30,8 @@ final class HistoryViewController: UIViewController {
             collectionView.alwaysBounceVertical = true
             collectionView.contentInset.top = 64.0
             collectionView.scrollIndicatorInsets.top = 64.0
-            collectionView.contentInset.bottom = Defaults.tabBarHeight
-            collectionView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
+            collectionView.contentInset.bottom = 64.0
+            collectionView.scrollIndicatorInsets.bottom = 64.0
         }
     }
     
@@ -154,12 +154,16 @@ extension HistoryViewController: UICollectionViewDataSource {
             return cell
         } else if let photo = history as? Photo {
             let cell: PhotoItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            let width = collectionView.bounds.width
+            cell.configure(withPresenter: PhotoCellViewModel(photo: photo, size: CGSize(width: width, height: width / photo.ratio)))
             return cell
         } else if let reminder = history as? Reminder {
             let cell: ReminderItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            cell.titleLabel.text = reminder.title
             return cell
         } else if let event = history as? Event {
             let cell: EventItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+            cell.titleLabel.text = event.title
             return cell
         } else {
             return UICollectionViewCell()
@@ -214,6 +218,8 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
             height = FeedCell.height(with: feed, width: width)
         } else if let matter = history as? Matter {
             height = MatterItemCell.height(with: matter, width: width)
+        } else if let photo = history as? Photo {
+            height = width / photo.ratio + HistoryItemCell.iconContainerHeight
         } else {
             height = 60.0
         }

@@ -9,9 +9,19 @@
 import UIKit
 import Hikit
 
+protocol PhotoCellViewModelType {
+    var photo: Photo { get }
+    var size: CGSize { get }
+}
+
+struct PhotoCellViewModel: PhotoCellViewModelType {
+    let photo: Photo
+    let size: CGSize
+}
+
 class PhotoItemCell: HistoryItemCell, Reusable {
    
-    private lazy var imageView: UIImageView = {
+    fileprivate lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -42,5 +52,21 @@ class PhotoItemCell: HistoryItemCell, Reusable {
         let v = NSLayoutConstraint.constraints(withVisualFormat: "V:[iconView][imageView]|", options: [.alignAllTrailing, .alignAllLeading], metrics: nil, views: views)
         
         NSLayoutConstraint.activate(v)
+    }
+}
+
+extension PhotoItemCell: Configurable {
+    
+    func configure(withPresenter presenter: PhotoCellViewModelType) {
+        
+        SafeDispatch.async(onQueue: DispatchQueue.global(qos: .default)) {
+            
+            _ = fetchImageWithAsset(presenter.photo.asset, targetSize: presenter.size, imageResultHandler: { (image) in
+                
+                SafeDispatch.async { [weak self] in
+                    self?.imageView.image = image
+                }
+            })
+        }
     }
 }

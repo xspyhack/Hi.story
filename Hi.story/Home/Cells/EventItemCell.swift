@@ -11,7 +11,7 @@ import Hikit
 
 class EventItemCell: HistoryItemCell, Reusable {
  
-    fileprivate lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Matter"
         label.font = UIFont.systemFont(ofSize: 24.0)
