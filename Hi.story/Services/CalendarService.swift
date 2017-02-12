@@ -21,17 +21,22 @@ func fetchEvents(at date: Date = Date()) -> [Event] {
     
     var results: [Event] = []
     
-    let startDate = Date(timeIntervalSince1970: 0)
-    
+    // 默认生日开始， 最多 45 年前
+    // let startDate = Defaults.birthday.map { Date(timeIntervalSince1970: $0) } ?? 2.hi.years.ago
+    // 因为如果不舍 repeats 的话，会被自动删除，所以多年也是没有什么意义的
+    let startDate = 2.hi.years.ago
+
     let store = EKEventStore()
-    let predicate = store.predicateForEvents(withStart: startDate, end: date, calendars: nil)
+    //
+    let predicate = store.predicateForEvents(withStart: startDate, end: date, calendars: store.calendars(for: .event).filter { $0.source.sourceType != .subscribed }) // 去掉 中国节假日
     let events = store.events(matching: predicate)
     
+    print(date.hi.monthDay)
     events.forEach { (event) in
         if event.occurrenceDate.hi.monthDay == date.hi.monthDay {
             results.append(Event(title: event.title, createdAt: event.occurrenceDate.timeIntervalSince1970, occurrenceDate: event.occurrenceDate, alarm: event.alarms?.first?.absoluteDate))
         }
     }
-    
+   
     return results
 }

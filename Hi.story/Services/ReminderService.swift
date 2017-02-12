@@ -19,7 +19,7 @@ struct Reminder: Timetable {
     let alarm: Date?
 }
 
-func fetchReminders(at date: Date = Date()) -> [Reminder] {
+func fetchReminders(at date: Date = Date(), completion: @escaping ([Reminder]) -> Void) {
     
     var results: [Reminder] = []
     
@@ -40,7 +40,7 @@ func fetchReminders(at date: Date = Date()) -> [Reminder] {
                 results.append(Reminder(title: reminder.title, createdAt: completionDate.timeIntervalSince1970, isCompleted: reminder.isCompleted, completionDate: reminder.completionDate, dueDate: reminder.dueDateComponents?.date, alarm: reminder.alarms?.first?.absoluteDate))
             }
         })
+        
+        completion(results)
     }
-    
-    return results
 }
