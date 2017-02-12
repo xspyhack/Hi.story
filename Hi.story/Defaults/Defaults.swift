@@ -117,9 +117,9 @@ struct Defaults {
         }
     }
 
-    static var birthday: TimeInterval {
+    static var birthday: TimeInterval? {
         get {
-            return userDefaults.double(forKey: Key.birthday)
+            return userDefaults.value(forKey: Key.birthday) as? TimeInterval
         }
         set {
             userDefaults.set(newValue, forKey: Key.birthday)
