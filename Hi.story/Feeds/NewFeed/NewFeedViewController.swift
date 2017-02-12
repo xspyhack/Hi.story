@@ -16,20 +16,31 @@ import RxCocoa
 import RealmSwift
 import MapKit
 import Kingfisher
+import Himarkdown
 
 final class NewFeedViewController: BaseViewController {
-    
+   
+    // MARK: Public Property
     var viewModel: NewFeedViewModel?
     
     var afterAppeared: (() -> Void)?
     
     // MARK: UI
     
-    @IBOutlet fileprivate weak var contentViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet fileprivate weak var contentView: UIView!
-    @IBOutlet fileprivate weak var scrollView: UIScrollView!
+    @IBOutlet private weak var contentViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
-    @IBOutlet fileprivate weak var titleTextField: UITextField! {
+    @IBOutlet private weak var separator: UIView!
+    fileprivate lazy var editor: Notepad = {
+        let notepad = Notepad(CGRect.zero, themeFile: "k-light")
+        notepad.isScrollEnabled = false
+        notepad.textContainerInset = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
+        notepad.attributedPlaceholder = NSAttributedString(string: self.placeholderOfStory, attributes: [NSForegroundColorAttributeName: UIColor.hi.placeholder, NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)])
+        return notepad
+    }()
+    
+    @IBOutlet private weak var titleTextField: UITextField! {
         didSet {
             titleTextField.placeholder = "Untitle"
             titleTextField.contentVerticalAlignment = .center
@@ -45,18 +56,11 @@ final class NewFeedViewController: BaseViewController {
             imageView.isHidden = true
         }
     }
-    @IBOutlet fileprivate weak var textView: NextTextView! {
-        didSet {
-            textView.attributedPlaceholder = NSAttributedString(string: placeholderOfStory, attributes: [NSForegroundColorAttributeName: UIColor.hi.placeholder, NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)])
-            textView.textColor = UIColor.hi.text
-            textView.tintColor = UIColor.hi.text
-            textView.font = UIFont.systemFont(ofSize: 14.0)
-        }
-    }
-    @IBOutlet fileprivate weak var toolBarBottom: NSLayoutConstraint!
     
-    @IBOutlet fileprivate weak var imageViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet fileprivate weak var imageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var toolBarBottom: NSLayoutConstraint!
+    
+    @IBOutlet private weak var imageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageViewWidthConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var visibleButton: UIButton!
     @IBOutlet private weak var keyboardButton: UIButton!
@@ -89,9 +93,9 @@ final class NewFeedViewController: BaseViewController {
     private var canLocate = false
     private var location: Variable<LocationInfo?> = Variable(nil)
     
-    fileprivate let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
+    private let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
     
-    fileprivate lazy var transitionManager = NonStatusBarTransitionManager()
+    private lazy var transitionManager = NonStatusBarTransitionManager()
 
     fileprivate var pickedImage: UIImage? {
         willSet {
@@ -129,11 +133,11 @@ final class NewFeedViewController: BaseViewController {
         
         scrollView.contentInset.top = Constant.scrollViewContentInsetTop
         
-        textView.textContainerInset = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
+        setupEditor()
         
         markdownToolbar.selectedAction = { [unowned self] symbol in
 
-            self.textView.insertText(symbol.name)
+            self.editor.insertText(symbol.name)
             
             SafeDispatch.async {
                 self.markdownToolbar.isActived = false
@@ -192,7 +196,7 @@ final class NewFeedViewController: BaseViewController {
         (titleTextField.rx.text.orEmpty <-> viewModel.title)
             .addDisposableTo(disposeBag)
         
-        (textView.rx.text.orEmpty <-> viewModel.body)
+        (editor.rx.text.orEmpty <-> viewModel.body)
             .addDisposableTo(disposeBag)
        
         (visibleButton.rx.isSelected <-> viewModel.visible)
@@ -263,10 +267,23 @@ final class NewFeedViewController: BaseViewController {
         view.endEditing(true)
     }
     
+    private func setupEditor() {
+        
+        contentView.addSubview(editor)
+        editor.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = ["editor": editor]
+        
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|[editor]|", options: [], metrics: nil, views: views)
+        editor.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: 24.0).isActive = true
+        editor.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 86.0).isActive = true
+        NSLayoutConstraint.activate(h)
+    }
+    
     // MARK: Actions
     
     private func dismiss() {
-        textView.resignFirstResponder()
+        editor.resignFirstResponder()
         
         delay(0.2) { [weak self] in
             self?.dismiss(animated: true, completion: nil)
@@ -363,7 +380,7 @@ final class NewFeedViewController: BaseViewController {
 extension NewFeedViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textView.becomeFirstResponder()
+        editor.becomeFirstResponder()
         return true
     }
     
