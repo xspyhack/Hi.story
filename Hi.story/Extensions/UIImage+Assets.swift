@@ -32,7 +32,7 @@ extension Hi where Base: UIImage {
     }
     
     static var matterIcon: UIImage? {
-        return UIImage(named: "matter")
+        return UIImage(named: "calendar")
     }
     
     static var feedIcon: UIImage? {
@@ -49,5 +49,13 @@ extension Hi where Base: UIImage {
     
     static var calendarIcon: UIImage? {
         return UIImage(named: "calendar")
+    }
+    
+    static var completed: UIImage? {
+        return UIImage(named: "checkmark_selected")
+    }
+    
+    static var unCompleted: UIImage? {
+        return UIImage(named: "checkmark_normal")
     }
 }
