@@ -9,13 +9,30 @@
 import UIKit
 import Hikit
 
+protocol EventItemCellModelType {
+    var title: String { get }
+    var createdAt: String { get }
+}
+
+struct EventItemCellModel: EventItemCellModelType {
+    let title: String
+    let createdAt: String
+    
+    init(event: Event) {
+        self.title = event.title
+        self.createdAt = Date(timeIntervalSince1970: event.createdAt).hi.time
+    }
+}
+
 class EventItemCell: HistoryItemCell, Reusable {
- 
+
+    private static let titleFont = UIFont.systemFont(ofSize: 24.0)
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Matter"
-        label.font = UIFont.systemFont(ofSize: 24.0)
-        label.numberOfLines = 1
+        label.text = "Event"
+        label.font = EventItemCell.titleFont
+        label.numberOfLines = 0
         return label
     }()
     
@@ -35,5 +52,28 @@ class EventItemCell: HistoryItemCell, Reusable {
         
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = [
+            "titleLabel": titleLabel,
+        ]
+        
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": EventItemCell.iconPadding], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]|", options: [], metrics: ["margin": EventItemCell.iconContainerHeight], views: views)
+        
+        NSLayoutConstraint.activate(h)
+        NSLayoutConstraint.activate(v)
+    }
+    
+    static func height(with event: Event, width: CGFloat) -> CGFloat {
+        let titleHeight = event.title.hi.height(with: width - 2 * EventItemCell.iconPadding, fontSize: titleFont.pointSize)
+        return HistoryItemCell.iconContainerHeight + titleHeight
+    }
+}
+
+extension EventItemCell: Configurable {
+    
+    func configure(withPresenter presenter: EventItemCellModelType) {
+        createdAtLabel.text = presenter.createdAt
+        titleLabel.text = presenter.title
     }
 }

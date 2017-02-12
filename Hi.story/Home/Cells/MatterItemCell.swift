@@ -10,11 +10,13 @@ import UIKit
 import Hikit
 
 final class MatterItemCell: HistoryItemCell, Reusable {
- 
+
+    private static let titleFont = UIFont.systemFont(ofSize: 24.0)
+    
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Matter"
-        label.font = UIFont.systemFont(ofSize: 24.0)
+        label.font = MatterItemCell.titleFont
         label.numberOfLines = 1
         return label
     }()
@@ -43,17 +45,19 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
        
         contentView.addSubview(notesLabel)
         notesLabel.translatesAutoresizingMaskIntoConstraints = false
+        notesLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         
         let views: [String: Any] = [
             "titleLabel": titleLabel,
             "notesLabel": notesLabel,
         ]
         
-        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": iconPadding], views: views)
-        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[notesLabel]-24-|", options: [.alignAllLeading, .alignAllLeading], metrics: ["margin": iconContainerHeight], views: views)
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": MatterItemCell.iconPadding], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[notesLabel]", options: [.alignAllLeading, .alignAllTrailing], metrics: ["margin": MatterItemCell.iconContainerHeight], views: views)
         
         NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate(v)
@@ -66,14 +70,20 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         set {}
     }
     
-    static func height(with matter: Matter, width: CGFloat) -> CGFloat {
-        return MatterItemCell().iconContainerHeight + matter.body.hi.height(with: width, fontSize: 14.0) + 24 + 16 + 28.0
+    static func height(with viewModel: MatterCellModelType, width: CGFloat) -> CGFloat {
+        let titleHeight = titleFont.lineHeight.rounded(.up)
+        if viewModel.notes.isEmpty {
+            return MatterItemCell.iconContainerHeight + titleHeight
+        } else {
+            return MatterItemCell.iconContainerHeight + viewModel.notes.hi.height(with: width - 2 * MatterItemCell.iconPadding, fontSize: 14.0) + 16.0 + titleHeight
+        }
     }
 }
 
 extension MatterItemCell: Configurable {
     
     func configure(withPresenter presenter: MatterCellModelType) {
+        createdAtLabel.text = Date(timeIntervalSince1970: presenter.createdAt).hi.time
         titleLabel.text = presenter.title
         notesLabel.text = presenter.notes
     }

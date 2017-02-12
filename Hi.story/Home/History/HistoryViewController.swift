@@ -43,7 +43,8 @@ final class HistoryViewController: UIViewController {
         title = "History"
         
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = 16.0
+            flowLayout.minimumLineSpacing = 24.0
+            flowLayout.sectionInset.bottom = 48.0
             flowLayout.sectionHeadersPinToVisibleBounds = true
         }
     }
@@ -53,12 +54,23 @@ final class HistoryViewController: UIViewController {
         
         /// loading, analyzing
         
-        analyzing() {
-            // hide loading activity
+        SafeDispatch.async {
+            self.analyzing() { [weak self] datas in
+                // hide loading activity
+                
+                // Group by year
+                
+                self?.group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
+                
+                SafeDispatch.async { [weak self] in
+                    self?.collectionView.reloadData()
+                    
+                }
+            }
         }
     }
 
-    private func analyzing(finish: (() -> Void)? = nil) {
+    private func analyzing(finish: (([Timetable]) -> Void)? = nil) {
         
         guard let realm = try? Realm(), let userID = HiUserDefaults.userID.value else { return }
         
@@ -83,26 +95,22 @@ final class HistoryViewController: UIViewController {
             datas.append(contentsOf: (photos.map { $0 as Timetable }))
         }
         
-        // reminders
-        if hi.isAuthorized(for: .reminders) && Defaults.connectReminders {
-            let reminders = fetchReminders(at: today)
-            datas.append(contentsOf: (reminders.map { $0 as Timetable }))
-        }
-        
         // calendar
         if hi.isAuthorized(for: .calendar) && Defaults.connectCalendar {
             let events = fetchEvents(at: today)
             datas.append(contentsOf: (events.map { $0 as Timetable }))
         }
         
-        // Group by year
-        
-        group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
-        
-        SafeDispatch.async { [weak self] in
-            self?.collectionView.reloadData()
-            
-            finish?()
+        // Async at latest
+        // reminders
+        if hi.isAuthorized(for: .reminders) && Defaults.connectReminders {
+            fetchReminders(at: today) { reminders in
+                
+                SafeDispatch.async {
+                    datas.append(contentsOf: (reminders.map { $0 as Timetable }))
+                    finish?(datas)
+                }
+            }
         }
     }
     
@@ -155,15 +163,15 @@ extension HistoryViewController: UICollectionViewDataSource {
         } else if let photo = history as? Photo {
             let cell: PhotoItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
             let width = collectionView.bounds.width
-            cell.configure(withPresenter: PhotoCellViewModel(photo: photo, size: CGSize(width: width, height: width / photo.ratio)))
+            cell.configure(withPresenter: PhotoItemCellModel(photo: photo, size: CGSize(width: width, height: width / photo.ratio)))
             return cell
         } else if let reminder = history as? Reminder {
             let cell: ReminderItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
-            cell.titleLabel.text = reminder.title
+            cell.configure(withPresenter: ReminderItemCellModel(reminder: reminder))
             return cell
         } else if let event = history as? Event {
             let cell: EventItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
-            cell.titleLabel.text = event.title
+            cell.configure(withPresenter: EventItemCellModel(event: event))
             return cell
         } else {
             return UICollectionViewCell()
@@ -217,9 +225,13 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
         if let feed = history as? Feed {
             height = FeedCell.height(with: feed, width: width)
         } else if let matter = history as? Matter {
-            height = MatterItemCell.height(with: matter, width: width)
+            height = MatterItemCell.height(with: MatterCellModel(matter: matter), width: width)
         } else if let photo = history as? Photo {
-            height = width / photo.ratio + HistoryItemCell.iconContainerHeight
+            height = PhotoItemCell.height(with: photo, width: width)
+        } else if let reminder = history as? Reminder {
+            height = ReminderItemCell.height(with: reminder, width: width)
+        } else if let event = history as? Event {
+            height = EventItemCell.height(with: event, width: width)
         } else {
             height = 60.0
         }

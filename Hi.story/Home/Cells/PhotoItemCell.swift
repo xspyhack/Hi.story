@@ -9,12 +9,12 @@
 import UIKit
 import Hikit
 
-protocol PhotoCellViewModelType {
+protocol PhotoItemCellModelType {
     var photo: Photo { get }
     var size: CGSize { get }
 }
 
-struct PhotoCellViewModel: PhotoCellViewModelType {
+struct PhotoItemCellModel: PhotoItemCellModelType {
     let photo: Photo
     let size: CGSize
 }
@@ -53,11 +53,17 @@ class PhotoItemCell: HistoryItemCell, Reusable {
         
         NSLayoutConstraint.activate(v)
     }
+    
+    static func height(with photo: Photo, width: CGFloat) -> CGFloat {
+        return width / photo.ratio + HistoryItemCell.iconContainerHeight
+    }
 }
 
 extension PhotoItemCell: Configurable {
     
-    func configure(withPresenter presenter: PhotoCellViewModelType) {
+    func configure(withPresenter presenter: PhotoItemCellModelType) {
+       
+        createdAtLabel.text = Date(timeIntervalSince1970: presenter.photo.createdAt).hi.time
         
         SafeDispatch.async(onQueue: DispatchQueue.global(qos: .default)) {
             

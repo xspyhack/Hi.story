@@ -11,16 +11,22 @@ import UIKit
 class HistoryItemCell: UICollectionViewCell {
    
     private(set) var iconSize: CGSize = CGSize(width: 16, height: 16)
-    private(set) var iconPadding: CGFloat = 16.0
-    private(set) var iconContainerHeight: CGFloat = 48.0
     
-    static let iconContainerHeight: CGFloat = 48.0
+    static let iconContainerHeight: CGFloat = 32.0
+    static let iconPadding: CGFloat = 16.0
     
     private(set) lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.hi.connectorIcon
         imageView.contentMode = .scaleAspectFill
         return imageView
+    }()
+    
+    private(set) lazy var createdAtLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.hi.lightText
+        label.font = UIFont.systemFont(ofSize: 12.0)
+        return label
     }()
     
     private(set) lazy var iconView: UIView = UIView()
@@ -43,18 +49,21 @@ class HistoryItemCell: UICollectionViewCell {
         iconView.addSubview(iconImageView)
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        let views: [String: Any] = ["iconImageView": iconImageView, "iconView": iconView]
+        iconView.addSubview(createdAtLabel)
+        createdAtLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = ["iconImageView": iconImageView, "iconView": iconView, "createdAtLabel": createdAtLabel]
         
         let iconH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[iconView]|", options: [], metrics: nil, views: views)
-        let iconV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[iconView(48)]", options: [], metrics: nil, views: views)
+        let iconV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[iconView(height)]", options: [], metrics: ["height": HistoryItemCell.iconContainerHeight], views: views)
         
         NSLayoutConstraint.activate(iconH)
         NSLayoutConstraint.activate(iconV)
         
-        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[iconImageView(16)]", options: [], metrics: nil, views: views)
-        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[iconImageView(16)]", options: [], metrics: nil, views: views)
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[iconImageView(16)]-8-[createdAtLabel]", options: [.alignAllCenterY], metrics: ["padding": HistoryItemCell.iconPadding], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:[iconImageView(16)]", options: [], metrics: nil, views: views)
+        iconImageView.centerYAnchor.constraint(equalTo: iconView.centerYAnchor).isActive = true
         NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate(v)
-        
     }
 }
