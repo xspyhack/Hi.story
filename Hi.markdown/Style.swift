@@ -10,14 +10,14 @@ import UIKit
 
 public struct Style {
     var regex: NSRegularExpression!
-    var attributes: [String: AnyObject] = [:]
+    var attributes: [String: Any] = [:]
 
-    init(element: Element, attributes: [String: AnyObject]) {
+    init(element: Element, attributes: [String: Any]) {
         self.regex = element.toRegex()
         self.attributes = attributes
     }
 
-    init(regex: NSRegularExpression, attributes: [String: AnyObject]) {
+    init(regex: NSRegularExpression, attributes: [String: Any]) {
         self.regex = regex
         self.attributes = attributes
     }

@@ -26,7 +26,7 @@ public struct Theme {
     ///
     /// - returns: The Theme.
     init(_ name: String) {
-        if let path = Bundle(for: object_getClass(self)).path(forResource: "Notepad.framework/themes/\(name)", ofType: "json") {
+        if let path = Bundle(for: object_getClass(self)).path(forResource: "Himarkdown.framework/\(name)", ofType: "json") {
             if let data = convertFile(path) {
                 configure(data)
             }
@@ -93,17 +93,32 @@ public struct Theme {
     /// - parameter attributes: The attributes to parse.
     ///
     /// - returns: The converted attribute/key constant pairings.
-    func parse(_ attributes: [String: AnyObject]) -> [String: AnyObject]? {
-        var final: [String: AnyObject] = [:]
+    func parse(_ attributes: [String: AnyObject]) -> [String: Any]? {
+        var final: [String: Any] = [:]
 
         if let color = attributes["color"] {
             let value = color as! String
             final[NSForegroundColorAttributeName] = UIColor(hexString: value)
         }
+        
+        if let lineSpacing = attributes["line-spacing"] {
+            let value = lineSpacing as! CGFloat
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = value
+            paragraphStyle.paragraphSpacing = value * 4.0
+            final[NSParagraphStyleAttributeName] = paragraphStyle
+        }
 
+        if let decoration = attributes["decoration"] {
+            let value = decoration as! String
+            if value == "line-through" {
+                final[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleSingle.rawValue
+            }
+        }
+        
         if let font = attributes["font"] {
             let fontName = font as! String
-            var fontSize: CGFloat = 15.0
+            var fontSize: CGFloat = 14.0
 
             if let size = attributes["size"] {
                 fontSize = size as! CGFloat

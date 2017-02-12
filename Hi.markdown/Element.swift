@@ -22,7 +22,8 @@ public enum Element: String {
     case bold = "(^|[\\W_])(?:(?!\\1)|(?=^))(\\*|_)\\2(?=\\S)(.*?\\S)\\2\\2(?!\\2)(?=[\\W_]|$)"
     case italic = "(^|[\\W_])(?:(?!\\1)|(?=^))(\\*|_)(?=\\S)((?:(?!\\2).)*?\\S)\\2(?!\\2)(?=[\\W_]|$)"
     case boldItalic = "(\\*\\*\\*\\w+(\\s\\w+)*\\*\\*\\*)"
-    case code = "(`.*`)" //Allows for any character to be in incline code.
+    case code = "(`[^`]{1,}`)" //Allows for any character to be in incline code.
+    case strikethrough = "(\\~{2}[^\\~]+\\~{2})"
 
     case url = "\\[([^\\]]+)\\]\\(([^\\)\"\\s]+)(?:\\s+\"(.*)\")?\\)"
     case image = "\\!\\[([^\\]]+)\\]\\(([^\\)\"\\s]+)(?:\\s+\"(.*)\")?\\)"
@@ -51,6 +52,7 @@ public enum Element: String {
         case "code": return .code
         case "url": return .url
         case "image": return .image
+        case "strikethrough": return .strikethrough
         default: return .unknown
         }
     }

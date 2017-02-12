@@ -1,0 +1,72 @@
+{
+    "name": "K",
+    "style": "Light",
+    "author": {
+        "name": "Alex",
+        "email": "xspyhack@gmail.com"
+    },
+    "version": "1.0",
+    "variables": {
+        "boldFont": "not implemented yet"
+    },
+    "editor": {
+        "backgroundColor": "#FFFFFF",
+        "tintColor": "#64605F"
+    },
+    "styles": {
+        "h1": {
+            "font": "Menlo-Bold",
+            "color": "#C01329",
+            "size": 20
+        },
+        "h2": {
+            "font": "Menlo-Bold",
+            "color": "#C01329",
+            "size": 17
+        },
+        "h3": {
+            "font": "Menlo-Bold",
+            "color": "#C01329",
+            "size": 14
+        },
+        "body": {
+            "font": "Menlo-Regular",
+            "size": 14,
+            "color": "#233333",
+            "line-spacing": 4.0
+        },
+        "bold": {
+            "font": "Menlo-Bold",
+            "color": "#A38A4B"
+        },
+        "italic": {
+            "font": "Menlo-Italic",
+            "color": "#D427E3"
+        },
+        "strikethrough": {
+            "color": "#64605F",
+            "decoration": "line-through"
+        },
+        "code": {
+            "color": "#176538"
+        },
+        "handle": {
+            "regex": "[@＠][a-zA-Z0-9_]{1,20}",
+            "color": "#1270B5"
+        },
+        "hashtag": {
+            "regex": "(?<=.)(#(\\S+))\\s",
+            "color": "#1270B5"
+        },
+        "blockquotes": {
+            "regex": "^(> ?.+\\n*)$",
+            "color": "#64605F"
+        },
+        "url": {
+            "color": "#1270B5"
+        },
+        "image": {
+            "color": "#1270B5"
+        }
+    }
+}
