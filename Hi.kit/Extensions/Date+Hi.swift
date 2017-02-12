@@ -146,3 +146,93 @@ public extension Date {
     fileprivate static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
     
 }
+
+public extension IntProxy {
+    
+    public var day: TimeInterval {
+        let DAY_IN_SECONDS = 60 * 60 * 24
+        return Double(DAY_IN_SECONDS) * Double(base)
+    }
+    
+    var months: _TimeInterval {
+        return _TimeInterval(interval: base, unit: .months);
+    }
+    
+    var days: _TimeInterval {
+        return _TimeInterval(interval: base, unit: .days)
+    }
+    
+    var years: _TimeInterval {
+        return _TimeInterval(interval: base, unit: .years)
+    }
+}
+
+public struct _TimeInterval {
+    var interval: Int
+    var unit: TimeIntervalUnit
+    
+    public var ago: Date {
+        let calendar = Calendar.current
+        let today = Date()
+        let components = unit.dateComponents(-self.interval)
+        return calendar.date(byAdding: components, to: today)!
+    }
+    
+    public var after: Date {
+        let calendar = Calendar.current
+        let today = Date()
+        let components = unit.dateComponents(self.interval)
+        return calendar.date(byAdding: components, to: today)!
+    }
+    
+    init(interval: Int, unit: TimeIntervalUnit) {
+        self.interval = interval
+        self.unit = unit
+    }
+}
+
+public enum TimeIntervalUnit {
+    
+    case seconds, minutes, hours, days, months, years
+    
+    func dateComponents(_ interval: Int) -> DateComponents {
+        var components: DateComponents = DateComponents()
+        
+        switch (self) {
+        case .seconds:
+            components.second = interval
+        case .minutes:
+            components.minute = interval
+        case .days:
+            components.day = interval
+        case .months:
+            components.month = interval
+        case .years:
+            components.year = interval
+        default:
+            components.day = interval
+        }
+        return components
+    }
+}
+
+public struct IntProxy {
+    
+    public let base: Int
+    
+    init(_ base: Int) {
+        self.base = base
+    }
+}
+
+extension Int: BaseType {
+    public typealias Base = IntProxy
+    
+    public var hi: IntProxy {
+        return IntProxy(self)
+    }
+    
+    public static var hi: IntProxy.Type {
+        return IntProxy.self
+    }
+}

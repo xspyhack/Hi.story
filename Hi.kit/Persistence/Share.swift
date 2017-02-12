@@ -26,47 +26,47 @@ public enum Tag: Int {
     case none
     case lightBlue
     case orange
-    case fuschia
+    case purple
     case hi
     
     public var name: String {
         switch self {
-        case .red: return "Mikoto Suoh"
-        case .blue: return "Reisi Munakata"
-        case .yellow: return "Daikaku Kokujoji"
-        case .green: return "Nagare Hisui"
+        case .red: return "Suoh Mikoto"
+        case .blue: return "Munakata Reisi"
+        case .yellow: return "Kokujoji Daikaku"
+        case .green: return "Hisui Nagare"
         case .gray: return "Tenkei Iwahune"
-        case .none: return "Colorless King"
+        case .none: return "King Colorless"
         case .white: return "Adolf·K·Weismann"
+        case .purple: return "Misyakuji Yukari" // Purple
         case .lightBlue: return "Light Blue"
         case .orange: return "Orange"
-        case .fuschia: return "Fuschia"
         case .hi: return "Hi"
         }
     }
     
     public var value: String {
         switch self {
-        case .red: return "#FE3824"
-        case .green: return "#44DB5E"
-        case .lightBlue: return "#54C7FC"
-        case .yellow: return "#FFCD00"
-        case .orange: return "#FF9600"
-        case .fuschia: return "#FE2851"
-        case .blue: return "#0076FF"
-        case .gray: return "#A4AAB3"
-        case .white: return "#FFFFFF"
+        case .red: return "#C01329"
+        case .blue: return "#1270B5"
+        case .yellow: return "#A38A4B"
+        case .green: return "#176538"
+        case .gray: return "#64605F"
         case .none: return "#000000"
+        case .white: return "#FFFFFF"
+        case .purple: return "#D427E3"
+        case .lightBlue: return "#54C7FC"
+        case .orange: return "#FF9600"
         case .hi: return "#1BBBBB"
         }
     }
     
     public static var count: Int {
-        return Tag.fuschia.rawValue + 1
+        return Tag.hi.rawValue + 1
     }
     
     public static var tags: [Tag] {
-        return [.red, .blue, .orange, .yellow, .green, .gray, .fuschia]
+        return [.red, .blue, .orange, .yellow, .green, .gray, .purple]
     }
     
     public static func random() -> Tag {
@@ -78,13 +78,15 @@ public enum Tag: Int {
         repeat {
             tag = Tag.random()
         } while (tag == .none || tag == .white)
-        
+       
+        print(tag)
         return tag
     }
     
     public static func with(_ integer: Int) -> Tag {
-        let a = integer % count
-        return Tag(rawValue: a) ?? randomExceptBit()
+        let a = integer % count + 2
+        let tag = Tag(rawValue: a) ?? .hi
+        return tag == .white || tag == .none ? .hi : tag
     }
 }
 
