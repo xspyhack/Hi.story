@@ -14,6 +14,7 @@ protocol MatterCellModelType {
     var days: Int { get }
     var tag: String { get }
     var notes: String { get }
+    var createdAt: TimeInterval { get }
 }
 
 struct MatterCellModel: MatterCellModelType {
@@ -22,11 +23,13 @@ struct MatterCellModel: MatterCellModelType {
     var days: Int
     var tag: String
     var notes: String
+    let createdAt: TimeInterval
     
     init(matter: Matter) {
         self.title = matter.title
         self.days = Date().hi.absoluteDays(with: Date(timeIntervalSince1970: matter.happenedAt))
         self.tag = (Tag(rawValue: matter.tag) ?? .red).value
         self.notes = matter.body
+        self.createdAt = matter.createdAt
     }
 }
