@@ -70,7 +70,11 @@ class MarkdownToolbar: UIView {
             Symbol(name: "#", image: ""),
             Symbol(name: "*", image: ""),
             Symbol(name: ">", image: ""),
-            Symbol(name: "-", image: ""),
+            Symbol(name: "`", image: ""),
+            Symbol(name: "[", image: ""),
+            Symbol(name: "]", image: ""),
+            Symbol(name: "(", image: ""),
+            Symbol(name: ")", image: ""),
         ]
         
         layout()
