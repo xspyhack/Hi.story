@@ -31,7 +31,6 @@ func fetchEvents(at date: Date = Date()) -> [Event] {
     let predicate = store.predicateForEvents(withStart: startDate, end: date, calendars: store.calendars(for: .event).filter { $0.source.sourceType != .subscribed }) // 去掉 中国节假日
     let events = store.events(matching: predicate)
     
-    print(date.hi.monthDay)
     events.forEach { (event) in
         if event.occurrenceDate.hi.monthDay == date.hi.monthDay {
             results.append(Event(title: event.title, createdAt: event.occurrenceDate.timeIntervalSince1970, occurrenceDate: event.occurrenceDate, alarm: event.alarms?.first?.absoluteDate))

@@ -11,12 +11,20 @@ import RealmSwift
 
 struct Configuration {
     
+    static let defaultStorybookName = "Stories"
+    
     static func hi() {
         
         guard let realm = try? Realm() else { return }
         
         bornAuthor(withRealm: realm)
         bornHiTeam(withRealm: realm)
+    }
+    
+    static func defaultStorybook() -> Storybook? {
+        guard let userID = HiUserDefaults.userID.value, let realm = try? Realm() else { return nil }
+        let predicate = NSPredicate(format: "name = %@ AND creator.id = %@", defaultStorybookName, userID)
+        return realm.objects(Storybook.self).filter(predicate).first
     }
     
     private static func bornHiTeam(withRealm realm: Realm) {

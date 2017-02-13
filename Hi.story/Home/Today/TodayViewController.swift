@@ -30,11 +30,6 @@ final class TodayViewController: UIViewController {
         view.backgroundColor = UIColor.brown
         
         title = "Today"
-       
-        HiUserDefaults.avatar.bindAndFireListener(with: "Today") { [weak self] avatarURLString in
-            self?.imageView.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
-        }
-        
     }
 
     override func didReceiveMemoryWarning() {

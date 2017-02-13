@@ -36,6 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             HiUserDefaults.userID.value = userID
             HiUserDefaults.nickname.value = nickname
             HiUserDefaults.bio.value = "No introduction yet."
+            
+            // default storybook
+            let book = Storybook()
+            book.name = Configuration.defaultStorybookName
+            book.creator = user
+            
+            try? realm.write {
+                realm.add(book, update: true)
+            }
         } else {
             // Waiting for register
         }

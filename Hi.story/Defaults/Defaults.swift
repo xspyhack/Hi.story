@@ -53,6 +53,7 @@ struct Defaults {
     static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
     
     static let feedsMaxContentHeight: CGFloat = 68.0
+    static let storiesMaxContentHeight: CGFloat = 68.0
     
     static var showedNewMatterTip: Bool {
         get {

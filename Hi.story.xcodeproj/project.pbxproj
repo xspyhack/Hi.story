@@ -40,6 +40,10 @@
 		782B6E5B1E502131007E33EC /* one-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 782B6E3B1E5020F7007E33EC /* one-light.json */; };
 		782B6E5C1E502131007E33EC /* solarized-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 782B6E3C1E5020F7007E33EC /* solarized-dark.json */; };
 		782B6E5D1E502131007E33EC /* solarized-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 782B6E3D1E5020F7007E33EC /* solarized-light.json */; };
+		782B6E601E50A589007E33EC /* StoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782B6E5F1E50A589007E33EC /* StoriesViewController.swift */; };
+		782B6E631E50A661007E33EC /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782B6E621E50A661007E33EC /* StoryCell.swift */; };
+		782B6E651E50A740007E33EC /* StoryImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782B6E641E50A740007E33EC /* StoryImageCell.swift */; };
+		782B6E691E50A94A007E33EC /* Stories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 782B6E681E50A94A007E33EC /* Stories.storyboard */; };
 		782F9FFF1D2183110043F317 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 782F9FFE1D2183110043F317 /* Profile.storyboard */; };
 		7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */; };
 		783865511CFC73CD005E1503 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865501CFC73CD005E1503 /* LocationService.swift */; };
@@ -428,6 +432,10 @@
 		782B6E3B1E5020F7007E33EC /* one-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "one-light.json"; sourceTree = "<group>"; };
 		782B6E3C1E5020F7007E33EC /* solarized-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "solarized-dark.json"; sourceTree = "<group>"; };
 		782B6E3D1E5020F7007E33EC /* solarized-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "solarized-light.json"; sourceTree = "<group>"; };
+		782B6E5F1E50A589007E33EC /* StoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesViewController.swift; sourceTree = "<group>"; };
+		782B6E621E50A661007E33EC /* StoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
+		782B6E641E50A740007E33EC /* StoryImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryImageCell.swift; sourceTree = "<group>"; };
+		782B6E681E50A94A007E33EC /* Stories.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Stories.storyboard; sourceTree = "<group>"; };
 		782F9FFE1D2183110043F317 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		782FA1A31D2FF3AB0043F317 /* Hi.story-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hi.story-Bridging-Header.h"; sourceTree = "<group>"; };
 		7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonStatusBarTransitionManager.swift; sourceTree = "<group>"; };
@@ -771,6 +779,25 @@
 				782B6E3D1E5020F7007E33EC /* solarized-light.json */,
 			);
 			path = themes;
+			sourceTree = "<group>";
+		};
+		782B6E5E1E50A533007E33EC /* Stories */ = {
+			isa = PBXGroup;
+			children = (
+				782B6E611E50A63C007E33EC /* Cells */,
+				782B6E5F1E50A589007E33EC /* StoriesViewController.swift */,
+				782B6E681E50A94A007E33EC /* Stories.storyboard */,
+			);
+			path = Stories;
+			sourceTree = "<group>";
+		};
+		782B6E611E50A63C007E33EC /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				782B6E621E50A661007E33EC /* StoryCell.swift */,
+				782B6E641E50A740007E33EC /* StoryImageCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		7838654D1CFC65D2005E1503 /* Views */ = {
@@ -1537,6 +1564,7 @@
 		78F4D2511CEEED6300DAA210 /* Story */ = {
 			isa = PBXGroup;
 			children = (
+				782B6E5E1E50A533007E33EC /* Stories */,
 				788BCF5F1D9FFDE500535519 /* Story */,
 				78EBD5351CF2DB9F0039AAE5 /* CardView.swift */,
 			);
@@ -1876,6 +1904,7 @@
 				78D257FB1D8444C70032E4F5 /* Matter.storyboard in Resources */,
 				7844AEDE1E14058100D7FA11 /* About.storyboard in Resources */,
 				7844AECA1E12C0AE00D7FA11 /* EditProfile.storyboard in Resources */,
+				782B6E691E50A94A007E33EC /* Stories.storyboard in Resources */,
 				7844AEDB1E14056900D7FA11 /* Drafts.storyboard in Resources */,
 				78D257F81D8444760032E4F5 /* Matters.storyboard in Resources */,
 				78D258011D84450D0032E4F5 /* NewMatter.storyboard in Resources */,
@@ -2015,6 +2044,7 @@
 				7851BBCB1DE9727100599861 /* MarkdownPreviewViewController.swift in Sources */,
 				78FF33E41E0ACD5300E37BA0 /* History.swift in Sources */,
 				78E481841E097B8300EB81E9 /* HistoryHeaderView.swift in Sources */,
+				782B6E651E50A740007E33EC /* StoryImageCell.swift in Sources */,
 				78F4D2551CEEEEB400DAA210 /* Array+Extension.swift in Sources */,
 				788BCF371D9E46B300535519 /* UUID+Hi.swift in Sources */,
 				7808AF7D1DD71A21000B3625 /* ProfileViewModel.swift in Sources */,
@@ -2038,6 +2068,7 @@
 				78EBD5231CF0B9C20039AAE5 /* SwiftyKeychain.swift in Sources */,
 				7810FD881E40643300950ABA /* ReminderItemCell.swift in Sources */,
 				7857FBE81E1954FB001D0061 /* UITableView+Rx.swift in Sources */,
+				782B6E601E50A589007E33EC /* StoriesViewController.swift in Sources */,
 				78E481721E068AA200EB81E9 /* PhotoEditingViewController.swift in Sources */,
 				78E4817B1E06C91200EB81E9 /* AlbumsViewController.swift in Sources */,
 				78E4816E1E068AA200EB81E9 /* CroppedImageAttributes.swift in Sources */,
@@ -2061,6 +2092,7 @@
 				7877275A1E266E5800D9748A /* DraftsViewModel.swift in Sources */,
 				78CEFCCA1D02B1420098516A /* Refreshable.swift in Sources */,
 				788BCF891DA220BE00535519 /* FeedsViewModel.swift in Sources */,
+				782B6E631E50A661007E33EC /* StoryCell.swift in Sources */,
 				78D257F01D8443520032E4F5 /* MattersViewController.swift in Sources */,
 				788BCF741DA213C100535519 /* NewFeedViewController.swift in Sources */,
 				789224F91CFAD16200A44040 /* PresentationTransitionManager.swift in Sources */,
