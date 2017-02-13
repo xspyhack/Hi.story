@@ -207,6 +207,7 @@ final class NewFeedViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         storybook.asObservable()
+            .skip(1)
             .bindTo(viewModel.storybook)
             .addDisposableTo(disposeBag)
         
