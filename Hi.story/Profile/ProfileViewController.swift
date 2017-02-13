@@ -150,6 +150,8 @@ final class ProfileViewController: BaseViewController {
         static let bio = "Profile.bio"
     }
     
+    fileprivate var realm: Realm!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -221,12 +223,11 @@ final class ProfileViewController: BaseViewController {
         bioContainerHeightConstraint.constant = bioHeight
         
         guard let realm = try? Realm() else { return }
+        self.realm = realm
         
         // datasource
-       
-        let predicate = NSPredicate(format: "creator.id = %@", viewModel.user.id)
         
-        storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
+        updateStorybooks()
         
         let mattersViewModel = MattersViewModel(with: viewModel.user.id, realm: realm)
         
@@ -281,6 +282,19 @@ final class ProfileViewController: BaseViewController {
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }
+        }
+    }
+    
+    fileprivate func updateStorybooks() {
+        guard let viewModel = viewModel else { return }
+        
+        let predicate = NSPredicate(format: "creator.id = %@", viewModel.user.id)
+        storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
+    }
+    
+    fileprivate func reloadStorybooks() {
+        SafeDispatch.async { [weak self] in
+            self?.storybookCollectionView.reloadData()
         }
     }
     
@@ -364,6 +378,9 @@ extension ProfileViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard let storybook = storybooks.safe[indexPath.item] else { return }
+        
+        performSegue(withIdentifier: .showStories, sender: storybook)
     }
 }
 
@@ -414,12 +431,41 @@ extension ProfileViewController {
     }
 }
 
+extension ProfileViewController: StoriesViewControllerDelegate {
+    
+    func viewController(_ viewController: StoriesViewController, didDeleteStory story: Story, at index: Int) {
+        
+        let predicate = NSPredicate(format: "story.id = %@", story.id)
+        if let feed = FeedService.shared.fetch(withPredicate: predicate, fromRealm: realm) {
+            Feed.didDelete.onNext(feed)
+        }
+        
+        StoryService.shared.remove(story, fromRealm: realm)
+        
+        guard let index = (storybooks.index { (storybook) -> Bool in
+            return storybook.stories.contains(story)
+        }) else { return }
+        
+        //let storybook = storybooks.remove(at: index)
+       
+        print(index)
+        
+        // 需要刷新一下封面
+        if story.attachment != nil, storybooks[index].latestPicturedStory?.id == story.id {
+           
+            updateStorybooks()
+            reloadStorybooks()
+        }
+    }
+}
+
 extension ProfileViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case edit
         case showEditProfile
         case showMatter
+        case showStories
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -435,6 +481,14 @@ extension ProfileViewController: SegueHandlerType {
             }
         case .showEditProfile:
             break
+        case .showStories:
+            
+            let vc = segue.destination as? StoriesViewController
+            if let storybook = sender as? Storybook, !storybook.stories.isEmpty {
+                vc?.stories = Array(storybook.stories)
+            }
+            
+            vc?.delegate = self
         }
     }
 }
