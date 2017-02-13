@@ -67,6 +67,23 @@ final class FeedsViewController: BaseViewController {
             })
             .addDisposableTo(disposeBag)
         
+        
+        Feed.didDelete
+            .subscribe(onNext: { [weak self] feed in
+                guard let sSelf = self else { return }
+                if let index = sSelf.feeds.index(where: { feed.id == $0.id }) {
+                    sSelf.feeds.remove(at: index)
+                    
+                    if sSelf.feeds.count == 0 {
+                        sSelf.collectionView.reloadData()
+                    } else {
+                        sSelf.collectionView.deleteSections([index])
+                    }
+                    FeedService.shared.remove(feed, fromRealm: realm)
+                }
+            })
+            .addDisposableTo(disposeBag)
+        
         feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
         
         newItem.rx.tap
