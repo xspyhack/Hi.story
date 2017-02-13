@@ -50,7 +50,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>35</string>
+	<string>36</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -58,6 +60,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Hi.story need to access your Calendar to create event.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Hi.story need to access your Camera to take photo.</string>
 	<key>NSContactsUsageDescription</key>
@@ -70,8 +74,6 @@
 	<string>Hi.story need to access your Photos to choose photo.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Hi.story need to access your Reminders to create reminder.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Hi.story need to access your Calendar to create event.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
