@@ -27,8 +27,6 @@ final class TodayViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        view.backgroundColor = UIColor.brown
-        
         title = "Today"
     }
 

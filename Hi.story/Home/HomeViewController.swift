@@ -44,14 +44,15 @@ final class HomeViewController: UIPageViewController {
     }
     
     fileprivate lazy var historyViewController: HistoryViewController = {
-        
-        let vc = UIStoryboard.hi.storyboard(.home).instantiateViewController(withIdentifier: HistoryViewController.identifier) as! HistoryViewController
+       
+        let vc = Storyboard.home.viewController(of: HistoryViewController.self)
+
         return vc
     }()
     
     fileprivate lazy var todayViewController: TodayViewController = {
-        
-        let vc = UIStoryboard.hi.storyboard(.home).instantiateViewController(withIdentifier: TodayViewController.identifier) as! TodayViewController
+       
+        let vc = Storyboard.home.viewController(of: TodayViewController.self)
         
         return vc
     }()
