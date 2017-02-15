@@ -12,6 +12,7 @@ import Hikit
 protocol StoriesViewControllerDelegate: class {
     
     func viewController(_ viewController: StoriesViewController, didDeleteStory story: Story, at index: Int)
+    func canEditViewController(_ viewController: StoriesViewController) -> Bool
 }
 
 final class StoriesViewController: UITableViewController {
@@ -25,7 +26,9 @@ final class StoriesViewController: UITableViewController {
 
         self.clearsSelectionOnViewWillAppear = false
 
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if (delegate?.canEditViewController(self)) ?? false {
+            self.navigationItem.rightBarButtonItem = self.editButtonItem
+        }
         
         tableView.hi.register(reusableCell: StoryCell.self)
         tableView.hi.register(reusableCell: StoryImageCell.self)
@@ -64,7 +67,7 @@ extension StoriesViewController {
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return delegate?.canEditViewController(self) ?? false
     }
     
     // Override to support editing the table view.
