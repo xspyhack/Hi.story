@@ -113,7 +113,7 @@ final class SettingsViewController: UITableViewController {
                 cell.toggleSwitch.isOn = Defaults.connectPhotos && hi.isAuthorized(for: .photos)
                 cell.toggleSwitchStateChangedAction = { [weak self] isOn in
                     if isOn {
-                        self?.hi.propose(for: .reminders, agreed: {
+                        self?.hi.propose(for: .photos, agreed: {
                             Defaults.connectPhotos = isOn
                         }, rejected: {
                             Defaults.connectPhotos = false
