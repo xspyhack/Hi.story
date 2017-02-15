@@ -58,4 +58,8 @@ extension Hi where Base: UIImage {
     static var unCompleted: UIImage? {
         return UIImage(named: "checkmark_normal")
     }
+    
+    static var storybookDelete: UIImage? {
+        return UIImage(named: "icon_delete_oval")
+    }
 }

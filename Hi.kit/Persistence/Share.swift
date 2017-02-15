@@ -69,17 +69,20 @@ public enum Tag: Int {
         return [.red, .blue, .orange, .yellow, .green, .gray, .purple]
     }
     
-    public static func random() -> Tag {
-        return Tag(rawValue: Int(arc4random_uniform(UInt32(Tag.count)))) ?? .none
+    public static func random(exceptBit: Bool = true) -> Tag {
+        if exceptBit {
+            return randomExceptBit()
+        } else {
+            return Tag(rawValue: Int(arc4random_uniform(UInt32(Tag.count)))) ?? .none
+        }
     }
     
     public static func randomExceptBit() -> Tag {
         var tag: Tag
         repeat {
-            tag = Tag.random()
+            tag = Tag.random(exceptBit: false)
         } while (tag == .none || tag == .white)
        
-        print(tag)
         return tag
     }
     
