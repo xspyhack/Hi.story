@@ -77,8 +77,12 @@ struct NewFeedViewModel: NewFeedViewModelType {
             self.location = Variable(nil)
             
             self.visible = Variable(true)
-            
-            self.storybook = Variable(Configuration.defaultStorybook())
+           
+            if let userID = HiUserDefaults.userID.value {
+                self.storybook = Variable(Configuration.defaultStorybook(of: userID))
+            } else {
+                self.storybook = Variable(nil)
+            }
             self.attachmentImage = Variable(nil)
         case .edit(let story):
             storyID = story.id

@@ -70,6 +70,8 @@ final class FeedsViewController: BaseViewController {
         
         Feed.didDelete
             .subscribe(onNext: { [weak self] feed in
+                print("Feed did delete")
+                
                 guard let sSelf = self else { return }
                 if let index = sSelf.feeds.index(where: { feed.id == $0.id }) {
                     sSelf.feeds.remove(at: index)

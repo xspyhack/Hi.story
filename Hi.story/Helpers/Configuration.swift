@@ -11,8 +11,6 @@ import RealmSwift
 
 struct Configuration {
     
-    static let defaultStorybookName = "Stories"
-    
     static func hi() {
         
         guard let realm = try? Realm() else { return }
@@ -21,9 +19,9 @@ struct Configuration {
         bornHiTeam(withRealm: realm)
     }
     
-    static func defaultStorybook() -> Storybook? {
-        guard let userID = HiUserDefaults.userID.value, let realm = try? Realm() else { return nil }
-        let predicate = NSPredicate(format: "name = %@ AND creator.id = %@", defaultStorybookName, userID)
+    static func defaultStorybook(of userID: String) -> Storybook? {
+        guard let realm = try? Realm() else { return nil }
+        let predicate = NSPredicate(format: "name = %@ AND creator.id = %@", Defaults.storybookName, userID)
         return realm.objects(Storybook.self).filter(predicate).first
     }
     
@@ -74,6 +72,13 @@ struct Configuration {
         
         story.location = princePlanet()
         story.isPublished = true
+       
+        // default storybook
+        let book = Storybook()
+        book.name = "Hi.story"
+        book.creator = team
+        
+        story.withStorybook = book
         
         let feed = Feed()
         feed.story = story
