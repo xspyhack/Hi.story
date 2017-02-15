@@ -145,6 +145,7 @@
                                     <constraint firstAttribute="height" constant="44" id="Fl0-Cg-zC6"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem title="Edit" id="fpS-d6-XcA"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Mcf-Hj-kkv"/>
                                     <barButtonItem title="New" id="8zL-Rv-WnC"/>
                                 </items>
@@ -176,6 +177,7 @@
                         <outlet property="bioLabel" destination="WEt-PL-ekS" id="75b-q6-alJ"/>
                         <outlet property="blurEffectView" destination="cM4-yf-3aq" id="HtH-VN-Thv"/>
                         <outlet property="coverImageView" destination="heq-hg-DIU" id="2mD-IG-NWf"/>
+                        <outlet property="editItem" destination="fpS-d6-XcA" id="zmS-7v-UiO"/>
                         <outlet property="headerView" destination="bDY-E1-kSi" id="1cH-lv-L4t"/>
                         <outlet property="headerViewHeightConstraint" destination="BOl-q9-36Z" id="7RO-zt-9YX"/>
                         <outlet property="matterTableView" destination="Jf1-Zn-nL4" id="j1n-a4-eXy"/>

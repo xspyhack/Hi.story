@@ -65,7 +65,8 @@ final class ProfileViewController: BaseViewController {
             blurEffectView.effect = blurEffect
         }
     }
-    @IBOutlet private weak var newItem: UIBarButtonItem!
+    @IBOutlet private weak var editItem: UIBarButtonItem! // left item
+    @IBOutlet private weak var newItem: UIBarButtonItem! // right item
     @IBOutlet private weak var toolbar: UIToolbar!
     
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
@@ -112,6 +113,8 @@ final class ProfileViewController: BaseViewController {
                 let contentOffsetY = matterTableView.contentOffset.y
                 storybookCollectionView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
                 
+                editItem.title = isEditingStorybook ? "Done" : "Edit"
+                
             case .matter:
                 
                 matterTableView.isHidden = false
@@ -123,6 +126,8 @@ final class ProfileViewController: BaseViewController {
                 // 同上
                 let contentOffsetY = storybookCollectionView.contentOffset.y
                 matterTableView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
+                
+                editItem.title = nil
             }
             
             newItem.title = "New \(newValue.name)"
@@ -136,6 +141,8 @@ final class ProfileViewController: BaseViewController {
         item.image = UIImage(named: "nav_settings")
         return item
     }()
+    
+    fileprivate var isEditingStorybook: Bool = false
     
     fileprivate var storybooks: [Storybook] = []
     
@@ -182,11 +189,11 @@ final class ProfileViewController: BaseViewController {
             
             newItem.rx.tap
                 .flatMap(tryToAddNewStorybook)
-                .subscribe(onNext: { name in
+                .subscribe(onNext: { [weak self] name in
                     
                     realmQueue.async {
                         
-                        guard let realm = try? Realm() else { return }
+                        guard let realm = self?.realm else { return }
                         
                         let book = Storybook()
                         book.name = name
@@ -195,7 +202,30 @@ final class ProfileViewController: BaseViewController {
                         try? realm.write {
                             realm.add(book, update: true)
                         }
+                        
+                        DispatchQueue.main.async { [weak self] in
+                            self?.updateStorybooks()
+                            self?.storybookCollectionView.reloadData()
+                        }
                     }
+                })
+                .addDisposableTo(disposeBag)
+            
+            editItem.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    guard let sSelf = self else { return }
+                    if sSelf.isEditingStorybook {
+                        // Done
+                        sSelf.isEditingStorybook = false
+                        sSelf.editItem.title = "Edit"
+                        sSelf.editItem.style = .plain
+                    } else {
+                        sSelf.isEditingStorybook = true
+                        sSelf.editItem.title = "Done"
+                        sSelf.editItem.style = .done
+                    }
+                    
+                    sSelf.storybookCollectionView.reloadData()
                 })
                 .addDisposableTo(disposeBag)
             
@@ -216,7 +246,7 @@ final class ProfileViewController: BaseViewController {
             flowLayout.minimumLineSpacing = Constant.gap
             flowLayout.minimumInteritemSpacing = Constant.gap
             let inset = Constant.gap / 2.0
-            flowLayout.sectionInset = UIEdgeInsets(top: inset, left: Constant.padding, bottom: inset + Defaults.tabBarHeight, right: Constant.padding)
+            flowLayout.sectionInset = UIEdgeInsets(top: Constant.gap, left: Constant.padding, bottom: inset + Defaults.tabBarHeight, right: Constant.padding)
         }
         
         headerViewHeightConstraint.constant = maximumHeaderHeight
@@ -374,6 +404,22 @@ extension ProfileViewController: UICollectionViewDelegate {
         
         let storybookCellModel = StorybookCellModel(storybook: storybook)
         cell.configure(withPresenter: storybookCellModel)
+        cell.isEditing = isEditingStorybook && storybook.name != Defaults.storybookName
+        
+        cell.deleteAction = { [weak self] in
+            // alert
+            let alertController = UIAlertController(title: "Delete “\(storybook.name)”", message: "Are you sure you want to delete the storybook ”\(storybook.name)“? The storys will be deleted.", preferredStyle: .actionSheet)
+           
+            let deleteAction = UIAlertAction(title: "Delete Storybook", style: .destructive, handler: { (action) in
+                print("delete")
+            })
+            alertController.addAction(deleteAction)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            self?.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -441,21 +487,22 @@ extension ProfileViewController: StoriesViewControllerDelegate {
         }
         
         StoryService.shared.remove(story, fromRealm: realm)
-        
-        guard let index = (storybooks.index { (storybook) -> Bool in
-            return storybook.stories.contains(story)
-        }) else { return }
-        
-        //let storybook = storybooks.remove(at: index)
        
-        print(index)
-        
         // 需要刷新一下封面
+        updateStorybooks()
+        reloadStorybooks()
+        
+        /*
         if story.attachment != nil, storybooks[index].latestPicturedStory?.id == story.id {
-           
             updateStorybooks()
             reloadStorybooks()
-        }
+        } else {
+            reloadStorybooks()
+        }*/
+    }
+    
+    func canEditViewController(_ viewController: StoriesViewController) -> Bool {
+        return viewModel?.isGod ?? false
     }
 }
 
