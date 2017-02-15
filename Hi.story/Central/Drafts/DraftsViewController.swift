@@ -20,6 +20,7 @@ final class DraftsViewController: BaseViewController {
             tableView.hi.register(reusableCell: DraftCell.self)
             tableView.rowHeight = Constant.rowHeight
             tableView.estimatedRowHeight = Constant.rowHeight
+            tableView.tableFooterView = UIView()
         }
     }
     

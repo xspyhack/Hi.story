@@ -11,6 +11,8 @@ import Hikit
 import Kingfisher
 
 class StorybookCell: UICollectionViewCell, Reusable {
+   
+    var deleteAction: (() -> Void)?
     
     fileprivate lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -34,6 +36,22 @@ class StorybookCell: UICollectionViewCell, Reusable {
         label.text = "Storybook"
         label.textColor = UIColor.white
         return label
+    }()
+    
+    fileprivate lazy var countLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12.0)
+        label.textColor = UIColor.white
+        return label
+    }()
+    
+    lazy var deleteButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage.hi.storybookDelete, for: .normal)
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        button.isHidden = true
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -69,10 +87,18 @@ class StorybookCell: UICollectionViewCell, Reusable {
         contentView.addSubview(textLabel)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        contentView.addSubview(countLabel)
+        countLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(deleteButton)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        
         let views = [
             "imageView": imageView,
             "overlayView": overlayView,
             "textLabel": textLabel,
+            "countLabel": countLabel,
+            "deleteButton": deleteButton,
         ]
         
         let imageViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: [], metrics: nil, views: views)
@@ -92,6 +118,22 @@ class StorybookCell: UICollectionViewCell, Reusable {
         
         NSLayoutConstraint.activate(textLabelConstraintsH)
         NSLayoutConstraint.activate([textLabelCenterY])
+        
+        countLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8.0).isActive = true
+        countLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8.0).isActive = true
+        
+        deleteButton.centerXAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 2.0).isActive = true
+        deleteButton.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: 2.0).isActive = true
+    }
+    
+    @objc private func deleteButtonTapped(_ sender: UIButton) {
+        deleteAction?()
+    }
+    
+    var isEditing: Bool = false {
+        didSet {
+            deleteButton.isHidden = !isEditing
+        }
     }
 }
 
@@ -99,6 +141,7 @@ extension StorybookCell: Configurable {
     
     func configure(withPresenter presenter: StorybookCellModelType) {
         textLabel.text = presenter.name
+        countLabel.text = "\(presenter.count)"
         imageView.setImage(with: presenter.coverImageURL, placeholder: UIImage.hi.storybook)
     }
 }

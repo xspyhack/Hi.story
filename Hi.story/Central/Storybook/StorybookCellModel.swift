@@ -12,16 +12,22 @@ import Hikit
 protocol StorybookCellModelType {
     
     var name: String { get }
+    var count: Int { get }
     var coverImageURL: URL? { get }
 }
 
 struct StorybookCellModel: StorybookCellModelType {
     
-    fileprivate(set) var name: String
-    fileprivate(set) var coverImageURL: URL?
+    private(set) var name: String
+    
+    private(set) var coverImageURL: URL?
+    
+    var count: Int
     
     init(storybook: Storybook) {
         self.name = storybook.name
+        self.count = storybook.stories.count
+        
         if let urlString = storybook.latestPicturedStory?.attachment?.urlString {
             self.coverImageURL =  URL(string: urlString)
         } else {
