@@ -56,6 +56,8 @@ final class HomeViewController: UIPageViewController {
         return vc
     }()
     
+    private var isPageViewTransitioning: Bool = false
+    
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -92,13 +94,19 @@ final class HomeViewController: UIPageViewController {
     
     fileprivate func selectingChannel(_ channel: Channel) {
         
+        isPageViewTransitioning = true
+        
         switch channel {
             
         case .history:
-            setViewControllers([historyViewController], direction: .forward, animated: true, completion: nil)
+            setViewControllers([historyViewController], direction: .forward, animated: true) { [weak self] finished in
+                self?.isPageViewTransitioning = !finished
+            }
             
         case .today:
-            setViewControllers([todayViewController], direction: .reverse, animated: true, completion: nil)
+            setViewControllers([todayViewController], direction: .reverse, animated: true) { [weak self] finished in
+                self?.isPageViewTransitioning = !finished
+            }
         }
         
         segmentedControl.selectedSegmentIndex = channel.index
