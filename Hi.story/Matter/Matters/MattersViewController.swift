@@ -17,6 +17,7 @@ final class MattersViewController: BaseViewController {
     
     @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
+            searchBar.sizeToFit()
             tableView.hi.register(reusableCell: MatterCell.self)
             tableView.rowHeight = Constant.rowHeight
             tableView.estimatedRowHeight = Constant.rowHeight
@@ -25,6 +26,12 @@ final class MattersViewController: BaseViewController {
     }
     
     @IBOutlet fileprivate weak var addItem: UIBarButtonItem!
+    
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal
+        return searchBar
+    }()
     
     private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
     

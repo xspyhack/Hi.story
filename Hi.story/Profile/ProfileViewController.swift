@@ -114,7 +114,8 @@ final class ProfileViewController: BaseViewController {
                 storybookCollectionView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
                 
                 editItem.title = isEditingStorybook ? "Done" : "Edit"
-                
+                newItem.title = "New"
+               
             case .matter:
                 
                 matterTableView.isHidden = false
@@ -128,9 +129,11 @@ final class ProfileViewController: BaseViewController {
                 matterTableView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
                 
                 editItem.title = nil
+                newItem.title = nil
             }
             
-            newItem.title = "New \(newValue.name)"
+            showsBottomBarIfIsGod(newValue == .storybook)
+            
             //headerHeight = maximumHeaderHeight
             //updateHeaderViewConstraints(animated: true)
         }
@@ -142,6 +145,7 @@ final class ProfileViewController: BaseViewController {
         return item
     }()
     
+    private var viewDidAppear: Bool = false
     fileprivate var isEditingStorybook: Bool = false
     
     fileprivate var storybooks: [Storybook] = []
@@ -188,25 +192,23 @@ final class ProfileViewController: BaseViewController {
                 .addDisposableTo(disposeBag)
             
             newItem.rx.tap
+                .filter { [unowned self] in self.channel == .storybook }
                 .flatMap(tryToAddNewStorybook)
                 .subscribe(onNext: { [weak self] name in
                     
-                    realmQueue.async {
-                        
-                        guard let realm = self?.realm else { return }
-                        
-                        let book = Storybook()
-                        book.name = name
-                        book.creator = User.current
-                        
-                        try? realm.write {
-                            realm.add(book, update: true)
-                        }
-                        
-                        DispatchQueue.main.async { [weak self] in
-                            self?.updateStorybooks()
-                            self?.storybookCollectionView.reloadData()
-                        }
+                    guard let realm = self?.realm else { return }
+                    
+                    let book = Storybook()
+                    book.name = name
+                    book.creator = User.current
+                    
+                    try? realm.write {
+                        realm.add(book, update: true)
+                    }
+                    
+                    DispatchQueue.main.async { [weak self] in
+                        self?.updateStorybooks()
+                        self?.storybookCollectionView.reloadData()
                     }
                 })
                 .addDisposableTo(disposeBag)
@@ -291,27 +293,29 @@ final class ProfileViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       
-        if let viewModel = viewModel, viewModel.isGod {
-            
-            self.toolbarBottomConstraint.constant = 0.0
-            
-            UIView.animate(withDuration: 0.25) {
-                self.view.layoutIfNeeded()
-            }
-        }
+    
+        viewDidAppear = true
+        showsBottomBarIfIsGod(true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
        
-        if let viewModel = viewModel, viewModel.isGod {
-            
-            self.toolbarBottomConstraint.constant = -Constant.bottomToolbarHeight
-            
+        showsBottomBarIfIsGod(false)
+    }
+    
+    private func showsBottomBarIfIsGod(_ show: Bool, animated: Bool = true) {
+        guard let viewModel = viewModel, viewModel.isGod, viewDidAppear else {
+            return
+        }
+
+        toolbarBottomConstraint.constant = show ? 0 : -Constant.bottomToolbarHeight
+        if animated {
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
             }
+        } else {
+            view.layoutIfNeeded()
         }
     }
     
@@ -325,6 +329,14 @@ final class ProfileViewController: BaseViewController {
     fileprivate func reloadStorybooks() {
         SafeDispatch.async { [weak self] in
             self?.storybookCollectionView.reloadData()
+        }
+    }
+    
+    private func tryToAddNew(isStorybook: Bool) -> Observable<String> {
+        if isStorybook {
+            return tryToAddNewStorybook()
+        } else {
+            return Observable.empty()
         }
     }
     
@@ -412,6 +424,18 @@ extension ProfileViewController: UICollectionViewDelegate {
            
             let deleteAction = UIAlertAction(title: "Delete Storybook", style: .destructive, handler: { (action) in
                 print("delete")
+                
+                guard let realm = self?.realm else { return }
+                
+                SafeDispatch.async { [weak self] in
+                    
+                    if let index = self?.storybooks.index(where: { $0.id == storybook.id }) {
+                        StorybookService.shared.remove(storybook, fromRealm: realm)
+                        assert(index == indexPath.item, "Index of storybook not equal to indexPath.item")
+                        self?.storybooks.remove(at: index)
+                        self?.reloadStorybooks()
+                    }
+                }
             })
             alertController.addAction(deleteAction)
             
