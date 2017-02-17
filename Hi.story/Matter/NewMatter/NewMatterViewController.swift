@@ -363,7 +363,7 @@ final class NewMatterViewController: BaseViewController {
         return (hasInlineDatePicker() && datePickerIndexPath?.row == indexPath.row)
     }
     
-    fileprivate func hasPicker(for indexPath: IndexPath) -> Bool {
+    private func hasPicker(for indexPath: IndexPath) -> Bool {
         let targetedRow = indexPath.row + 1
         
         let checkDatePickerCell = tableView.cellForRow(at: IndexPath(row: targetedRow, section: indexPath.section))
@@ -372,7 +372,7 @@ final class NewMatterViewController: BaseViewController {
         return (checkDatePicker != nil)
     }
         
-    fileprivate func toggleDatePicker(for selectedIndexPath: IndexPath) {
+    private func toggleDatePicker(for selectedIndexPath: IndexPath) {
         tableView.beginUpdates()
         
         // date picker index path
