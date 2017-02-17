@@ -37,6 +37,16 @@ public class Matter: Object, Timetable {
             realm.delete(location)
         }
     }
+   
+    // Timetable
+    // 应该根据 happenedAt，而不是 createdAt
+    public var monthDay: String {
+        return Date(timeIntervalSince1970: happenedAt).hi.monthDay
+    }
+    
+    public var year: String {
+        return Date(timeIntervalSince1970: happenedAt).hi.year
+    }
 }
 
 open class MatterService: Synchronizable {
