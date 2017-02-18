@@ -257,11 +257,6 @@ final class NewFeedViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         

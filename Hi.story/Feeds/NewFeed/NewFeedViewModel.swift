@@ -71,7 +71,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             // Default value
             storyID = UUID().uuidString
             
-            self.title = Variable("")
+            self.title = Variable("Untitle")
             self.body = Variable("")
             self.tag = Variable(.none)
             self.location = Variable(nil)
