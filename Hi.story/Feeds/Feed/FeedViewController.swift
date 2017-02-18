@@ -31,7 +31,7 @@ final class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupWebView()
         
         display()
@@ -42,7 +42,6 @@ final class FeedViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     private func setupWebView() {
         
         view.addSubview(webView)
@@ -64,6 +63,7 @@ final class FeedViewController: UIViewController {
         
         guard let feed = viewModel?.feed, let story = feed.story else { return }
         
+        title = story.title
     
         display(story: story)
     }
@@ -72,18 +72,42 @@ final class FeedViewController: UIViewController {
         
         let html: String
         
-        if let attachment = story.attachment {
+        var markdown = Markdown()
+        let outputHtml: String = markdown.transform(story.body)
+        
+        print(outputHtml)
+        
+        if let attachment = story.attachment, let imageData = CacheService.shared.retrieveImageInDiskCache(forKey: attachment.urlString) {
            
-            let base64 = UIImageJPEGRepresentation(CacheService.shared.retrieveImageInDiskCache(forKey: attachment.urlString)!, 1.0)?.base64EncodedString(options: .lineLength64Characters)
+            let base64 = UIImageJPEGRepresentation(imageData, 1.0)?.base64EncodedString(options: .lineLength64Characters)
             
             let metadata = "data:image/png;base64,\(base64!)"
-            html = "<html><head><title></title><meta charset='utf-8'><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><style>img{width:device-width !important;}</style></head><body><p><img src=\"\(metadata)\" /></p><h1>\(story.title)</h1><p>\(story.body)</p></body></html>"
+            html = header() + "<body><div><img src=\"\(metadata)\" /></div><article></h1><p>\(outputHtml)</p></article>" + footer
         } else {
-            html = "<html><head><title></title><meta charset='utf-8'><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"></head><body><h1>\(story.title)</h1><p>\(story.body)</p></body></html>"
+            html = header() + "<body><article><p>\(outputHtml)</p></article>" + footer
         }
         
         webView.loadHTMLString(html, baseURL: Bundle.main.bundleURL)
-
+    }
+    
+    private func header(forTheme theme: String = "k") -> String {
+        let begin = "<html><head><title></title><meta charset='utf-8'><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"><style>"
+        
+        let end = "</style></head>"
+        
+        return begin + (styles(forTheme: theme) ?? "") + end
+    }
+    
+    private var footer: String {
+        return "</body></html>"
+    }
+    
+    private func styles(forTheme theme: String) -> String? {
+        if let url = Bundle.main.path(forResource: theme, ofType: "css").flatMap({ URL(fileURLWithPath: $0) }), let contents = try? String(contentsOf: url, encoding: .utf8) {
+            return contents
+        } else {
+            return nil
+        }
     }
 }
 
