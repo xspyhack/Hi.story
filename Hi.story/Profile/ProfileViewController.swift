@@ -503,11 +503,16 @@ extension ProfileViewController {
 
 extension ProfileViewController: StoriesViewControllerDelegate {
     
-    func viewController(_ viewController: StoriesViewController, didDeleteStory story: Story, at index: Int) {
+    func viewController(_ viewController: StoriesViewController, didDelete story: Story, at index: Int) {
         
         let predicate = NSPredicate(format: "story.id = %@", story.id)
         if let feed = FeedService.shared.fetch(withPredicate: predicate, fromRealm: realm) {
             Feed.didDelete.onNext(feed)
+            
+            // 如果没有 Obverser，需要删除 feed，否则应该在 obserser 那里删除
+            if !Feed.didCreate.hasObservers {
+                FeedService.shared.remove(feed, fromRealm: realm)
+            }
         }
         
         StoryService.shared.remove(story, fromRealm: realm)

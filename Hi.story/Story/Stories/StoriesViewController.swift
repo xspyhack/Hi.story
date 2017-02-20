@@ -11,7 +11,7 @@ import Hikit
 
 protocol StoriesViewControllerDelegate: class {
     
-    func viewController(_ viewController: StoriesViewController, didDeleteStory story: Story, at index: Int)
+    func viewController(_ viewController: StoriesViewController, didDelete story: Story, at index: Int)
     func canEditViewController(_ viewController: StoriesViewController) -> Bool
 }
 
@@ -76,7 +76,7 @@ extension StoriesViewController {
             // Delete the row from the data source
             let story = stories.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-            delegate?.viewController(self, didDeleteStory: story, at: indexPath.row)
+            delegate?.viewController(self, didDelete: story, at: indexPath.row)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

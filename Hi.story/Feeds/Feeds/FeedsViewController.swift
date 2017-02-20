@@ -45,8 +45,6 @@ final class FeedsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         navigationItem.rightBarButtonItem = newItem
         
