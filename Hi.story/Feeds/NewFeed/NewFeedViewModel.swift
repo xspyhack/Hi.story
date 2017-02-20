@@ -71,7 +71,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             // Default value
             storyID = UUID().uuidString
             
-            self.title = Variable("Untitle")
+            self.title = Variable("")
             self.body = Variable("")
             self.tag = Variable(.none)
             self.location = Variable(nil)
@@ -133,7 +133,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
           
             let newStory = Story()
             newStory.id = storyID
-            newStory.title = title
+            newStory.title = title.isEmpty ? "Untitle" : title
             newStory.body = body.hi.trimming(.whitespaceAndNewline)
             
             newStory.withStorybook = storybook
