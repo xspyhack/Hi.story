@@ -75,16 +75,14 @@ final class FeedViewController: UIViewController {
         var markdown = Markdown()
         let outputHtml: String = markdown.transform(story.body)
         
-        print(outputHtml)
-        
         if let attachment = story.attachment, let imageData = CacheService.shared.retrieveImageInDiskCache(forKey: attachment.urlString) {
            
             let base64 = UIImageJPEGRepresentation(imageData, 1.0)?.base64EncodedString(options: .lineLength64Characters)
             
             let metadata = "data:image/png;base64,\(base64!)"
-            html = header() + "<body><div><img src=\"\(metadata)\" /></div><article></h1><p>\(outputHtml)</p></article>" + footer
+            html = header() + "<body><div><img src=\"\(metadata)\" /></div><article></h1><p>\(outputHtml)</p></article>" + dateContent(with: story.createdAt) + footer
         } else {
-            html = header() + "<body><article><p>\(outputHtml)</p></article>" + footer
+            html = header() + "<body><article><p>\(outputHtml)</p></article>" + dateContent(with: story.createdAt) + footer
         }
         
         webView.loadHTMLString(html, baseURL: Bundle.main.bundleURL)
@@ -100,6 +98,11 @@ final class FeedViewController: UIViewController {
     
     private var footer: String {
         return "</body></html>"
+    }
+    
+    private func dateContent(with interval: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: interval).hi.yearMonthDay
+        return "<div style=\"text-align:center;height:120px;margin-top:80px;color:#a8a8a8\">\(date)</div>"
     }
     
     private func styles(forTheme theme: String) -> String? {
