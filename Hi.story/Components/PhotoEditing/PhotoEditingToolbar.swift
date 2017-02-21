@@ -379,8 +379,6 @@ final class PhotoEditingToolbar: UIView {
     }
     
     @objc private func buttonTapped(_ sender: UIButton) {
-        ratioButton.isSelected = false
-        filterButton.isSelected = false
         
         if sender == cancelButton {
             cancelButtonTapped?()
@@ -392,10 +390,8 @@ final class PhotoEditingToolbar: UIView {
             rotateButtonTapped?()
         } else if sender == ratioButton {
             preset = .ratio
-            ratioButton.isSelected = true
         } else if sender == filterButton {
             preset = .filter
-            filterButton.isSelected = true
         }
     }
 }
