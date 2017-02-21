@@ -295,7 +295,10 @@ final class ProfileViewController: BaseViewController {
         super.viewDidAppear(animated)
     
         viewDidAppear = true
-        showsBottomBarIfIsGod(true)
+        
+        if channel == .storybook {
+            showsBottomBarIfIsGod(true)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
