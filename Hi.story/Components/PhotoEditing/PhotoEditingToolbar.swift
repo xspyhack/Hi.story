@@ -260,6 +260,7 @@ final class PhotoEditingToolbar: UIView {
     private(set) lazy var filterButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "filter"), for: .normal)
+        button.setImage(UIImage(named: "filter_selected"), for: .selected)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         return button
     }()
@@ -275,7 +276,9 @@ final class PhotoEditingToolbar: UIView {
     private(set) lazy var ratioButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "ratio"), for: .normal)
+        button.setImage(UIImage(named: "ratio_selected"), for: .selected)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        button.isSelected = true
         return button
     }()
     
@@ -318,6 +321,14 @@ final class PhotoEditingToolbar: UIView {
         didSet {
             guard preset != oldValue else { return }
             
+            switch preset {
+            case .filter:
+                filterButton.isSelected = true
+                ratioButton.isSelected = false
+            case .ratio:
+                filterButton.isSelected = false
+                ratioButton.isSelected = true
+            }
             collectionView.reloadData()
         }
     }
@@ -368,7 +379,10 @@ final class PhotoEditingToolbar: UIView {
     }
     
     @objc private func buttonTapped(_ sender: UIButton) {
-        if sender == self.cancelButton {
+        ratioButton.isSelected = false
+        filterButton.isSelected = false
+        
+        if sender == cancelButton {
             cancelButtonTapped?()
         } else if sender == doneButton {
             doneButtonTapped?()
@@ -378,8 +392,10 @@ final class PhotoEditingToolbar: UIView {
             rotateButtonTapped?()
         } else if sender == ratioButton {
             preset = .ratio
+            ratioButton.isSelected = true
         } else if sender == filterButton {
             preset = .filter
+            filterButton.isSelected = true
         }
     }
 }
