@@ -35,6 +35,9 @@ final class HistoryViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var analyzingView: UIView!
+    @IBOutlet private weak var activityIndicatorView: NVActivityIndicatorView!
+    
     fileprivate var histories: [[Timetable]] = []
     
     override func viewDidLoad() {
@@ -52,19 +55,48 @@ final class HistoryViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        /// loading, analyzing
+        let action = { [weak self] in
+            
+        }
         
-        SafeDispatch.async {
-            self.analyzing() { [weak self] datas in
-                // hide loading activity
-                
-                // Group by year
-                
-                self?.group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
-                
-                SafeDispatch.async { [weak self] in
-                    self?.collectionView.reloadData()
+        // begin loading
+        func show(finish: @escaping () -> Void) {
+            
+            UIView.animate(withDuration: 0.01, animations: {
+                self.analyzingView.alpha = 1.0
+            }, completion: { finished in
+                if finished {
+                    finish()
+                }
+            })
+        }
+        
+        // hide loading activity
+        func hide(finish: @escaping () -> Void) {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.analyzingView.alpha = 0.0
+            }, completion: { (finished) in
+                if finished {
+                    finish()
+                }
+            })
+        }
+        
+        /// loading, analyzing
+        show() { [weak self] in
+            SafeDispatch.async { [weak self] in
+                self?.activityIndicatorView.startAnimating()
+                self?.analyzing() { [weak self] datas in
+                    // Group by year
+                    self?.group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
                     
+                    SafeDispatch.async { [weak self] in
+                        self?.collectionView.reloadData()
+                        
+                        hide { [weak self] in
+                            self?.activityIndicatorView.stopAnimating()
+                        }
+                    }
                 }
             }
         }
@@ -108,7 +140,10 @@ final class HistoryViewController: UIViewController {
                 
                 SafeDispatch.async {
                     datas.append(contentsOf: (reminders.map { $0 as Timetable }))
-                    finish?(datas)
+                    
+                    delay(2.5, task: {
+                        finish?(datas)
+                    })
                 }
             }
         }

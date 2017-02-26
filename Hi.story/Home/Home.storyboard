@@ -124,16 +124,48 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsV-6o-Lhh">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88l-2l-CbY" customClass="NVActivityIndicatorView" customModule="Hi_story" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="283.5" width="375" height="100"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="Q0i-by-fb6"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                                <color key="value" red="0.1058823529" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="padding">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="88l-2l-CbY" secondAttribute="trailing" id="EOx-PC-Roz"/>
+                                    <constraint firstItem="88l-2l-CbY" firstAttribute="centerY" secondItem="PsV-6o-Lhh" secondAttribute="centerY" id="aDi-SN-16D"/>
+                                    <constraint firstItem="88l-2l-CbY" firstAttribute="leading" secondItem="PsV-6o-Lhh" secondAttribute="leading" id="rKx-JS-8K5"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.8215720071" blue="0.3716325613" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="PsV-6o-Lhh" secondAttribute="bottom" id="1M4-vd-Tra"/>
                             <constraint firstAttribute="bottom" secondItem="pMB-tB-yyX" secondAttribute="bottom" id="JdE-Gl-df3"/>
                             <constraint firstItem="pMB-tB-yyX" firstAttribute="leading" secondItem="7w1-XC-kYl" secondAttribute="leading" id="fBg-ke-wO5"/>
                             <constraint firstAttribute="trailing" secondItem="pMB-tB-yyX" secondAttribute="trailing" id="fe8-dw-FQ7"/>
+                            <constraint firstItem="PsV-6o-Lhh" firstAttribute="leading" secondItem="7w1-XC-kYl" secondAttribute="leading" id="kPL-xE-2RK"/>
+                            <constraint firstAttribute="trailing" secondItem="PsV-6o-Lhh" secondAttribute="trailing" id="qf4-Y8-NAL"/>
                             <constraint firstItem="pMB-tB-yyX" firstAttribute="top" secondItem="7w1-XC-kYl" secondAttribute="top" id="vWA-h4-7th"/>
+                            <constraint firstItem="PsV-6o-Lhh" firstAttribute="top" secondItem="7w1-XC-kYl" secondAttribute="top" id="zfV-KG-0os"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="88l-2l-CbY" id="jJZ-GQ-Qox"/>
+                        <outlet property="analyzingView" destination="PsV-6o-Lhh" id="Q9U-yE-BTH"/>
                         <outlet property="collectionView" destination="pMB-tB-yyX" id="oKM-J6-7Ik"/>
                     </connections>
                 </viewController>
