@@ -122,6 +122,8 @@
 		7871F2D51E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D21E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift */; };
 		7871F2D61E61CEB2002B5C0C /* NVActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D31E61CEB2002B5C0C /* NVActivityIndicatorView.swift */; };
 		7871F2D71E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */; };
+		7871F2DD1E644ABD002B5C0C /* UIImage+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */; };
+		7871F2E01E645308002B5C0C /* PromptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DF1E645308002B5C0C /* PromptedView.swift */; };
 		787727581E213F4800D9748A /* MarkdownToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787727571E213F4800D9748A /* MarkdownToolbar.swift */; };
 		7877275A1E266E5800D9748A /* DraftsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787727591E266E5800D9748A /* DraftsViewModel.swift */; };
 		7877275C1E266F2700D9748A /* DraftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7877275B1E266F2700D9748A /* DraftCell.swift */; };
@@ -179,7 +181,7 @@
 		7895AEB71D5244680004B8C3 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEB61D5244680004B8C3 /* Configure.swift */; };
 		7895AEB81D5244F60004B8C3 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78409A521D52340800354650 /* RealmConfig.swift */; };
 		7895AEB91D5245090004B8C3 /* Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEB61D5244680004B8C3 /* Configure.swift */; };
-		7895AEBC1D5246AB0004B8C3 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEBB1D5246AB0004B8C3 /* SearchableItemType.swift */; };
+		7895AEBC1D5246AB0004B8C3 /* SearchableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEBB1D5246AB0004B8C3 /* SearchableItem.swift */; };
 		7895AEBE1D524B370004B8C3 /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEBD1D524B370004B8C3 /* SyncService.swift */; };
 		7895AEBF1D5251750004B8C3 /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEBD1D524B370004B8C3 /* SyncService.swift */; };
 		7895AEC21D5390980004B8C3 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A501D5222DA00354650 /* RealmSwift.framework */; };
@@ -518,6 +520,8 @@
 		7871F2D21E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorPresenter.swift; sourceTree = "<group>"; };
 		7871F2D31E61CEB2002B5C0C /* NVActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorView.swift; sourceTree = "<group>"; };
 		7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorViewable.swift; sourceTree = "<group>"; };
+		7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Hi.swift"; sourceTree = "<group>"; };
+		7871F2DF1E645308002B5C0C /* PromptedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptedView.swift; sourceTree = "<group>"; };
 		787727571E213F4800D9748A /* MarkdownToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownToolbar.swift; sourceTree = "<group>"; };
 		787727591E266E5800D9748A /* DraftsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftsViewModel.swift; sourceTree = "<group>"; };
 		7877275B1E266F2700D9748A /* DraftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftCell.swift; sourceTree = "<group>"; };
@@ -575,7 +579,7 @@
 		789224FF1CFAD3D500A44040 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		7895AEB41D5234FC0004B8C3 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		7895AEB61D5244680004B8C3 /* Configure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configure.swift; sourceTree = "<group>"; };
-		7895AEBB1D5246AB0004B8C3 /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItemType.swift; sourceTree = "<group>"; };
+		7895AEBB1D5246AB0004B8C3 /* SearchableItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItem.swift; sourceTree = "<group>"; };
 		7895AEBD1D524B370004B8C3 /* SyncService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
 		7895AEC01D5390840004B8C3 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		7895AED81D539C020004B8C3 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
@@ -817,6 +821,7 @@
 		7838654D1CFC65D2005E1503 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7871F2DE1E6452E6002B5C0C /* PromptedView */,
 				7844AEA01E0D68EB00D7FA11 /* Cells */,
 				788BCF8A1DA384BA00535519 /* NextTextView */,
 				788BCF651DA0041300535519 /* KeyboardAvoiding */,
@@ -1042,6 +1047,7 @@
 				786AD4B31D8D3688008709D2 /* Date+Hi.swift */,
 				7808AF761DD71489000B3625 /* Collection+Safe.swift */,
 				7810FD7B1E3EEC0600950ABA /* Sequence+Group.swift */,
+				7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1120,6 +1126,14 @@
 				7871F2CE1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift */,
 			);
 			path = Pacman;
+			sourceTree = "<group>";
+		};
+		7871F2DE1E6452E6002B5C0C /* PromptedView */ = {
+			isa = PBXGroup;
+			children = (
+				7871F2DF1E645308002B5C0C /* PromptedView.swift */,
+			);
+			path = PromptedView;
 			sourceTree = "<group>";
 		};
 		787727541E20BB4500D9748A /* WebViewJavascriptBridge */ = {
@@ -1272,7 +1286,7 @@
 		7895AEBA1D5246730004B8C3 /* Spotlight */ = {
 			isa = PBXGroup;
 			children = (
-				7895AEBB1D5246AB0004B8C3 /* SearchableItemType.swift */,
+				7895AEBB1D5246AB0004B8C3 /* SearchableItem.swift */,
 			);
 			path = Spotlight;
 			sourceTree = "<group>";
@@ -1821,6 +1835,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 0;
 							};
@@ -2125,6 +2142,7 @@
 				788BB9421E2B96D5007BF8CB /* SelectableCell.swift in Sources */,
 				7857FBEA1E1A0C44001D0061 /* InputableCell.swift in Sources */,
 				783865511CFC73CD005E1503 /* LocationService.swift in Sources */,
+				7871F2E01E645308002B5C0C /* PromptedView.swift in Sources */,
 				78EAF5C61DE0311200AF924B /* UIView+Hi.swift in Sources */,
 				788BB9401E2B955C007BF8CB /* ChooseStorybookViewController.swift in Sources */,
 				7844AEA71E0E4F9E00D7FA11 /* FeedViewModel.swift in Sources */,
@@ -2194,9 +2212,10 @@
 				786191541D16843F005680B3 /* UserDefaults.swift in Sources */,
 				7895AEB51D5234FC0004B8C3 /* Models.swift in Sources */,
 				78D381C61D60D98600AB844E /* Matter.swift in Sources */,
+				7871F2DD1E644ABD002B5C0C /* UIImage+Hi.swift in Sources */,
 				7808AF7A1DD714B7000B3625 /* Listenable.swift in Sources */,
 				78B205311D716A5F0057D722 /* Base.swift in Sources */,
-				7895AEBC1D5246AB0004B8C3 /* SearchableItemType.swift in Sources */,
+				7895AEBC1D5246AB0004B8C3 /* SearchableItem.swift in Sources */,
 				786191151D1591E1005680B3 /* SegueHandlerType.swift in Sources */,
 				78B205371D7180FC0057D722 /* Reusable.swift in Sources */,
 				7895AEB71D5244680004B8C3 /* Configure.swift in Sources */,
