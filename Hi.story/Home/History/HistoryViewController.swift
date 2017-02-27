@@ -28,17 +28,28 @@ final class HistoryViewController: UIViewController {
             collectionView.hi.register(reusableCell: FeedItemCell.self)
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: HistoryHeaderView.self)
             collectionView.alwaysBounceVertical = true
-            collectionView.contentInset.top = 64.0
-            collectionView.scrollIndicatorInsets.top = 64.0
+            collectionView.contentInset.top = Constant.navigationBarHeight
+            collectionView.scrollIndicatorInsets.top = Constant.navigationBarHeight
             collectionView.contentInset.bottom = 64.0
             collectionView.scrollIndicatorInsets.bottom = 64.0
         }
     }
     
-    @IBOutlet weak var analyzingView: UIView!
+    @IBOutlet private weak var promptedViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var promptedView: PromptedView! {
+        didSet {
+            promptedView.promptLabel.text = "Enable Hi.story to access your Photos/Reminders/Calendar in Settings to show you your memories of this day in history."
+        }
+    }
+    @IBOutlet private weak var analyzingView: UIView!
     @IBOutlet private weak var activityIndicatorView: NVActivityIndicatorView!
     
     fileprivate var histories: [[Timetable]] = []
+    
+    private struct Constant {
+        static let promptedViewHeight: CGFloat = 128.0
+        static let navigationBarHeight: CGFloat = 64.0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +61,16 @@ final class HistoryViewController: UIViewController {
             flowLayout.sectionInset.bottom = 48.0
             flowLayout.sectionHeadersPinToVisibleBounds = true
         }
+        
+        promptedView.dismissAction = { [weak self] in
+            self?.hidesPromptedView()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let action = { [weak self] in
-            
-        }
+        hidesPromptedView()
         
         // begin loading
         func show(finish: @escaping () -> Void) {
@@ -106,6 +119,8 @@ final class HistoryViewController: UIViewController {
         
         guard let realm = try? Realm(), let userID = HiUserDefaults.userID.value else { return }
         
+        var needsAskForAuthorized = false
+        
         let today = Date()
         let predicate = NSPredicate(format: "creator.id = %@", userID)
         
@@ -125,12 +140,16 @@ final class HistoryViewController: UIViewController {
         if hi.isAuthorized(for: .photos) && Defaults.connectPhotos {
             let photos = fetchMoments(at: today)
             datas.append(contentsOf: (photos.map { $0 as Timetable }))
+        } else {
+            needsAskForAuthorized = true
         }
         
         // calendar
         if hi.isAuthorized(for: .calendar) && Defaults.connectCalendar {
             let events = fetchEvents(at: today)
             datas.append(contentsOf: (events.map { $0 as Timetable }))
+        } else {
+            needsAskForAuthorized = true
         }
         
         // Async at latest
@@ -146,6 +165,19 @@ final class HistoryViewController: UIViewController {
                     })
                 }
             }
+        } else {
+            needsAskForAuthorized = true
+        }
+        
+        if needsAskForAuthorized {
+            delay(2.5, task: { [weak self] in
+                finish?(datas)
+                
+                // show prompted
+                if datas.isEmpty {
+                    self?.showsPromptedView()
+                }
+            })
         }
     }
     
@@ -163,6 +195,24 @@ final class HistoryViewController: UIViewController {
         }
         
         histories = results
+    }
+    
+    private func showsPromptedView() {
+        promptedViewTopConstraint.constant = Constant.navigationBarHeight
+        
+        UIView.animate(withDuration: 0.35) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func hidesPromptedView() {
+        guard promptedViewTopConstraint.constant != -Constant.promptedViewHeight else { return }
+        
+        promptedViewTopConstraint.constant = -Constant.promptedViewHeight
+        
+        UIView.animate(withDuration: 0.35) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
