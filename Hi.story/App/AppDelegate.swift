@@ -110,6 +110,77 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    // MARK: Spotlight
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        
+        switch userActivity.activityType {
+        case NSUserActivityTypeBrowsingWeb:
+            guard let webpageURL = userActivity.webpageURL else {
+                return false
+            }
+            
+            return handleUniversalLink(webpageURL)
+        case CSSearchableItemActionType:
+            
+            guard let searchableItemID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+                return false
+            }
+            
+            guard let (itemType, itemID) = searchableItem(with: searchableItemID) else {
+                return false
+            }
+            
+            switch itemType {
+                
+            case .user:
+                return handleUserSearchActivity(userID: itemID)
+                
+            case .feed:
+                return handleFeedSearchActivity(feedID: itemID)
+            }
+        default:
+            return false
+        }
+    }
+    
+    private func handleUniversalLink(_ url: URL) -> Bool {
+        return false
+    }
+   
+    // 暂不支持
+    private func handleUserSearchActivity(userID: String) -> Bool {
+       return false
+    }
+    
+    private func handleFeedSearchActivity(feedID: String) -> Bool {
+        
+        guard let realm = try? Realm() else {
+                return false
+        }
+        
+        guard let feed = FeedService.shared.fetch(withPredicate: NSPredicate(format: "id = %@", feedID), fromRealm: realm),
+            let tabBarVC = window?.rootViewController as? UITabBarController,
+            let nvc = tabBarVC.selectedViewController as? UINavigationController else {
+                return false
+        }
+        
+        if let feedViewController = nvc.topViewController as? FeedViewController, let appearingFeed = feedViewController.viewModel?.feed, appearingFeed.id == feedID {
+            
+            return true
+        } else {
+            let vc: FeedViewController = Storyboard.feed.viewController(of: FeedViewController.self)
+            vc.viewModel = FeedViewModel(feed: feed)
+            vc.hidesBottomBarWhenPushed = true
+            
+            _ = delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
+            
+            return true
+        }
+    }
         
     // MARK: Shortcuts
     
