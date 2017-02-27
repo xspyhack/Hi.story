@@ -104,12 +104,13 @@ struct NewFeedViewModel: NewFeedViewModelType {
         }
         
         let attachmentInfo = self.attachmentImage.asObservable()
-            .flatMapLatest { (image) -> Observable<(URL, CGSize)?> in
+            .flatMapLatest { (image) -> Observable<(String, URL, CGSize)?> in
                 let url = URL.hi.imageURL(withPath: storyID)
                 if let image = image {
                     let size = image.size
+                    let metadata = metadataString(of: image)
                     CacheService.shared.store(image, forKey: url.absoluteString)
-                    return Observable.just((url, size))
+                    return Observable.just((metadata, url, size))
                 } else {
                     print("Remove image")
                     CacheService.shared.removeIfExisting(forKey: url.absoluteString)
@@ -138,13 +139,14 @@ struct NewFeedViewModel: NewFeedViewModelType {
             
             newStory.withStorybook = storybook
             
-            if let (url, size) = attachmentInfo {
+            if let (metadata, url, size) = attachmentInfo {
                 let meta = Meta()
                 meta.widht = Double(size.width)
                 meta.height = Double(size.height)
                 let attachment = Attachment()
                 attachment.urlString = url.absoluteString
                 attachment.meta = meta
+                attachment.metadata = metadata
                 newStory.attachment = attachment
             }
             
