@@ -46,6 +46,25 @@ public class Attachment: Object {
     public dynamic var metadata: String = ""
     public dynamic var urlString: String = ""
     public dynamic var meta: Meta?
+    
+    public var thumbnailImageData: Data? {
+        
+        guard (metadata as NSString).length > 0 else {
+            return nil
+        }
+        
+        if !metadata.isEmpty {
+            let thumbnailString = metadata
+            let imageData = Data(base64Encoded: thumbnailString, options: NSData.Base64DecodingOptions(rawValue: 0))
+            return imageData
+        }
+        
+        return nil
+    }
+    
+    public var thumbnailImage: UIImage? {
+        return thumbnailImageData.flatMap { UIImage(data: $0) }
+    }
 }
 
 public class Meta: Object {
@@ -77,5 +96,36 @@ public class Coordinate: Object {
     public func safeConfigure(withLatitude latitude: Double, longitude: Double) {
         self.latitude = abs(latitude) > 90 ? 0 : latitude
         self.longitude = abs(longitude) > 180 ? 0 : longitude
+    }
+}
+
+public func metadataString(of image: UIImage) -> String {
+    
+    let imageWidth = image.size.width
+    let imageHeight = image.size.height
+    
+    let thumbnailWidth: CGFloat
+    let thumbnailHeight: CGFloat
+    
+    if imageWidth > imageHeight {
+        thumbnailWidth = min(imageWidth, Configure.Metadata.thumbnailMaxSize)
+        thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
+    } else {
+        thumbnailHeight = min(imageHeight, Configure.Metadata.thumbnailMaxSize)
+        thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
+    }
+    
+    let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
+    
+    if let thumbnail = image.hi.resized(to: thumbnailSize, withInterpolationQuality: .high) {
+
+        let data = UIImageJPEGRepresentation(thumbnail, 0.7)!
+        let string = data.base64EncodedString(options: [])
+        
+        print("image thumbnail string length: \(string.lengthOfBytes(using: .utf8))\n")
+        
+        return string
+    } else {
+        return ""
     }
 }
