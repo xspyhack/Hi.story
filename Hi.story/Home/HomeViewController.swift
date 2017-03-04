@@ -57,6 +57,11 @@ final class HomeViewController: UIPageViewController {
         return vc
     }()
     
+    private lazy var shareItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareAction(_:)))
+        return item
+    }()
+    
     private var isPageViewTransitioning: Bool = false
     
     private let disposeBag = DisposeBag()
@@ -64,8 +69,6 @@ final class HomeViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        selectingChannel(.today)
-
         segmentedControl.rx.value
             .subscribe(onNext: { [weak self] index in
                 self?.selecting(at: index)
@@ -74,6 +77,8 @@ final class HomeViewController: UIPageViewController {
         
         self.dataSource = self
         self.delegate = self
+        
+        selectingChannel(.today)
         
         historyViewController.showFeedAction = { feed in
         }
@@ -92,6 +97,7 @@ final class HomeViewController: UIPageViewController {
         }, rejected: {
             Defaults.notificationsEnabled = false
         })
+        
     }
     
     private func selecting(at index: Int) {
@@ -111,13 +117,28 @@ final class HomeViewController: UIPageViewController {
                 self?.isPageViewTransitioning = !finished
             }
             
+            navigationItem.rightBarButtonItem = nil
+            
         case .today:
             setViewControllers([todayViewController], direction: .reverse, animated: true) { [weak self] finished in
                 self?.isPageViewTransitioning = !finished
             }
+            
+            if !todayViewController.isEmpty {
+                navigationItem.rightBarButtonItem = shareItem
+            } else {
+                navigationItem.rightBarButtonItem = nil
+            }
         }
         
         segmentedControl.selectedSegmentIndex = channel.index
+    }
+    
+    func shareAction(_ sender: UIBarButtonItem) {
+        guard let shareImage = todayViewController.snapshot() else { return }
+        let activityVC = UIActivityViewController(activityItems: [shareImage], applicationActivities: nil)
+        
+        present(activityVC, animated: true, completion: nil)
     }
     
     func collectingMemories() {
@@ -154,7 +175,7 @@ extension HomeViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-        guard completed else {
+        guard completed && finished else {
             return
         }
         

@@ -12,7 +12,7 @@
         <!--Home View Controller-->
         <scene sceneID="n39-rh-miq">
             <objects>
-                <pageViewController storyboardIdentifier="HomeViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="0zF-Gy-y87" customClass="HomeViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="HomeViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="0zF-Gy-y87" customClass="HomeViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="DIL-YO-Iu3">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="d4W-1j-FmU">
@@ -71,7 +71,7 @@
         <!--Today View Controller-->
         <scene sceneID="Koi-cb-1XM">
             <objects>
-                <viewController storyboardIdentifier="TodayViewController" id="YB8-rG-q9m" customClass="TodayViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TodayViewController" automaticallyAdjustsScrollViewInsets="NO" id="YB8-rG-q9m" customClass="TodayViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="O73-cU-6YB"/>
                         <viewControllerLayoutGuide type="bottom" id="yaj-8B-fQL"/>
@@ -79,23 +79,7 @@
                     <view key="view" contentMode="scaleToFill" id="Kqq-3f-x0W">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rxt-bm-qjY">
-                                <rect key="frame" x="87.5" y="233" width="200" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="GBn-AI-0JW"/>
-                                    <constraint firstAttribute="width" constant="200" id="acB-NC-DED"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="rxt-bm-qjY" firstAttribute="centerY" secondItem="Kqq-3f-x0W" secondAttribute="centerY" id="F2r-FO-fGT"/>
-                            <constraint firstItem="rxt-bm-qjY" firstAttribute="centerX" secondItem="Kqq-3f-x0W" secondAttribute="centerX" id="xvM-8D-vKz"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="imageView" destination="rxt-bm-qjY" id="S7d-mf-ptK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1M3-jp-QHj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
