@@ -8,6 +8,7 @@
 
 import UIKit
 import Hikit
+import UserNotifications
 
 final class TodayViewController: UIViewController {
    
@@ -22,18 +23,18 @@ final class TodayViewController: UIViewController {
     }
     
     @IBOutlet weak var imageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
         title = "Today"
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
-
-
 }

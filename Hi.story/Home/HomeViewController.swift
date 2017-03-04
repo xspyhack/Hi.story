@@ -85,6 +85,13 @@ final class HomeViewController: UIPageViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        hi.proposeForNotifications([.alert, .sound], agreed: { 
+            // just request
+            Defaults.notificationsEnabled = true
+        }, rejected: {
+            Defaults.notificationsEnabled = false
+        })
     }
     
     private func selecting(at index: Int) {
@@ -114,7 +121,7 @@ final class HomeViewController: UIPageViewController {
     }
     
     func collectingMemories() {
-        
+    
     }
 }
 

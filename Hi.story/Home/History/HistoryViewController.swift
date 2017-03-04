@@ -138,6 +138,7 @@ final class HistoryViewController: UIViewController {
         
         // photos
         if hi.isAuthorized(for: .photos) && Defaults.connectPhotos {
+            needsAskForAuthorized = false
             let photos = fetchMoments(at: today)
             datas.append(contentsOf: (photos.map { $0 as Timetable }))
         } else {
@@ -146,6 +147,7 @@ final class HistoryViewController: UIViewController {
         
         // calendar
         if hi.isAuthorized(for: .calendar) && Defaults.connectCalendar {
+            needsAskForAuthorized = false
             let events = fetchEvents(at: today)
             datas.append(contentsOf: (events.map { $0 as Timetable }))
         } else {
@@ -155,6 +157,8 @@ final class HistoryViewController: UIViewController {
         // Async at latest
         // reminders
         if hi.isAuthorized(for: .reminders) && Defaults.connectReminders {
+            needsAskForAuthorized = false
+            
             fetchReminders(at: today) { reminders in
                 
                 SafeDispatch.async {

@@ -67,7 +67,7 @@ extension PhotoItemCell: Configurable {
         
         SafeDispatch.async(onQueue: DispatchQueue.global(qos: .default)) {
             
-            _ = fetchImageWithAsset(presenter.photo.asset, targetSize: presenter.size, imageResultHandler: { (image) in
+            _ = fetchImage(with: presenter.photo.asset, targetSize: presenter.size, imageResultHandler: { (image) in
                 
                 SafeDispatch.async { [weak self] in
                     self?.imageView.image = image
