@@ -10,8 +10,46 @@ import Foundation
 import Hikit
 import Proposer
 import CoreLocation
+import UserNotifications
 
 extension Hi where Base: UIViewController {
+    
+    /// for UserNotifications
+    
+    func proposeForNotifications(_ options: UNAuthorizationOptions, agreed successAction: @escaping ProposerAction, rejected failureAction: ProposerAction? = nil) {
+     
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
+            if granted {
+                successAction()
+            } else {
+                print(error!)
+                failureAction?()
+            }
+        }
+    }
+    
+    func isAuthorizedForNotifications(completionHandler: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            switch settings.authorizationStatus {
+            case .authorized:
+                completionHandler(true)
+            case .denied, .notDetermined:
+                completionHandler(false)
+            }
+        }
+    }
+    
+    func backgroundModeNoPermissionMessage() -> String {
+        return "Hi.story can not access your Camera Roll!\nBut you can change it in iOS Settings."
+    }
+    
+    func notificationsNoPermissionMessage() -> String {
+        return "Hi.story can not send you Notifications!\nBut you can change it in iOS Settings."
+    }
+    
+    func isAuthorizedForBackgroundMode() -> Bool {
+        return UIApplication.shared.backgroundRefreshStatus == .available
+    }
     
     func isAuthorized(for resource: PrivateResource) -> Bool {
         return resource.isAuthorized
@@ -33,7 +71,7 @@ extension Hi where Base: UIViewController {
         
         let title = "Oops!"
         
-        showDialog(title: title, message: resource.noPermissionMessage, cancelTitle: "Ok", confirmTitle: NSLocalizedString("Change it now", comment: ""), withCancelAction: cancelAction, confirmAction: {
+        showDialog(title: title, message: resource.noPermissionMessage, cancelTitle: "OK", confirmTitle: NSLocalizedString("Change it now", comment: ""), withCancelAction: cancelAction, confirmAction: {
             
             if case .location = resource {
                 self.openLocatioinSettings()
@@ -41,6 +79,16 @@ extension Hi where Base: UIViewController {
             } else {
                 UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:])
             }
+        })
+    }
+    
+    func alertNoPermission(_ message: String, cancelAction: ProposerAction? = nil) {
+        
+        let title = "Oops!"
+        
+        showDialog(title: title, message: message, cancelTitle: "OK", confirmTitle: NSLocalizedString("Change it now", comment: ""), withCancelAction: cancelAction, confirmAction: {
+            
+            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:])
         })
     }
     
@@ -86,13 +134,13 @@ extension PrivateResource {
         case .contacts:
             return NSLocalizedString("Hi.story need to access your Contacts to match friends.", comment: "")
         case .reminders:
-            return NSLocalizedString("Hi.story need to access your Reminders to create reminder.", comment: "")
+            return NSLocalizedString("Hi.story need to access your Reminders to create reminders.", comment: "")
         case .calendar:
             return NSLocalizedString("Hi.story need to access your Calendar to create event.", comment: "")
         case .location:
-            return NSLocalizedString("Hi.story need to get your Location to share to your friends.", comment: "")
+            return NSLocalizedString("Hi.story need to get your Location to save in your story.", comment: "")
         case .notifications:
-            return NSLocalizedString("Hi.story need to get your Notifications to share to your friends.", comment: "")
+            return NSLocalizedString("Hi.story need to send local notification.", comment: "")
         }
     }
     
@@ -113,7 +161,7 @@ extension PrivateResource {
         case .location:
             return NSLocalizedString("Hi.story can not get your Location!\nBut you can change it in iOS Settings.", comment: "")
         case .notifications:
-            return NSLocalizedString("Hi.story can not get your Notifications!\nBut you can change it in iOS Settings.", comment: "")
+            return NSLocalizedString("Hi.story can not send you Notifications!\nBut you can change it in iOS Settings.", comment: "")
         }
     }
 }

@@ -48,18 +48,31 @@ public extension Hi where Base: UIColor {
     }
     
     public static var text: UIColor {
-        return UIColor(hex: "#363636")
+        return UIColor(hex: "#4A4A4A")
     }
     
     public static var lightText: UIColor {
         return UIColor(hex: "#8F8F8F")
     }
+    
+    public static var description: UIColor {
+        return UIColor(hex: "#8F8F8F")
+    }
+    
     public static var placeholder: UIColor {
         return UIColor(hex: "#C7C7C7")
     }
     
     public static var title: UIColor {
-        return UIColor(hex: "#1F1F1F")
+        return UIColor(hex: "#2F2F2F")
+    }
+    
+    public static var body: UIColor {
+        return UIColor(hex: "#7D7D7D")
+    }
+    
+    public static var detail: UIColor {
+        return UIColor(hex: "#7D7D7D")
     }
     
     public static var border: UIColor {

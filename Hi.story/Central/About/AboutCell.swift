@@ -11,8 +11,9 @@ import Hikit
 
 final class AboutCell: UITableViewCell, Reusable {
 
-    lazy var annotationLabel: UILabel = {
+    private(set) lazy var annotationLabel: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor.hi.title
         return label
     }()
     

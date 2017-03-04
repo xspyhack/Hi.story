@@ -24,7 +24,7 @@ class HistoryItemCell: UICollectionViewCell {
     
     private(set) lazy var createdAtLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hi.lightText
+        label.textColor = UIColor.hi.description
         label.font = UIFont.systemFont(ofSize: 12.0)
         return label
     }()

@@ -13,9 +13,10 @@ class FeedItemCell: HistoryItemCell, Reusable {
  
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Matter"
+        label.text = "Feed Item"
         label.font = UIFont.systemFont(ofSize: 24.0)
         label.numberOfLines = 1
+        label.textColor = UIColor.hi.title
         return label
     }()
     

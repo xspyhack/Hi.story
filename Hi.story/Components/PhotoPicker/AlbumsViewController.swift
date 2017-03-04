@@ -132,7 +132,7 @@ final class AlbumsViewController: UITableViewController {
             
             SafeDispatch.async(onQueue: DispatchQueue.global(qos: .default)) {
                 
-                _ = fetchImageWithAsset(album.asset?.lastObject, targetSize: CGSize(width: 60, height: 60), imageResultHandler: { (image) in
+                _ = fetchImage(with: album.asset?.lastObject, targetSize: CGSize(width: 60, height: 60), imageResultHandler: { (image) in
                     
                     SafeDispatch.async {
                         cell.posterImageView.image = image

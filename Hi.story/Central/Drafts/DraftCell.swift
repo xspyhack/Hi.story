@@ -20,7 +20,7 @@ final class DraftCell: UITableViewCell, Reusable {
     
     fileprivate var contentLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hi.lightText
+        label.textColor = UIColor.hi.body
         label.font = UIFont.systemFont(ofSize: 14.0)
         label.numberOfLines = 0
         return label
@@ -28,7 +28,7 @@ final class DraftCell: UITableViewCell, Reusable {
     
     fileprivate var updatedAtLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.hi.text
+        label.textColor = UIColor.hi.description
         label.font = UIFont.systemFont(ofSize: 12.0)
         return label
     }()

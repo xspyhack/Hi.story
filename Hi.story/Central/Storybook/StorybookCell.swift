@@ -34,7 +34,9 @@ class StorybookCell: UICollectionViewCell, Reusable {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "Storybook"
+        label.font = UIFont(name: "Didot-Bold", size: 20.0)
         label.textColor = UIColor.white
+        label.numberOfLines = 2
         return label
     }()
     
@@ -107,7 +109,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
         let overlayViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[overlayView]|", options: [], metrics: nil, views: views)
         let overlayViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[overlayView]|", options: [], metrics: nil, views: views)
         
-        let textLabelConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[textLabel]|", options: [], metrics: nil, views: views)
+        let textLabelConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-4-[textLabel]-4-|", options: [], metrics: nil, views: views)
         let textLabelCenterY = NSLayoutConstraint(item: textLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
         NSLayoutConstraint.activate(imageViewConstraintsH)
@@ -140,7 +142,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
 extension StorybookCell: Configurable {
     
     func configure(withPresenter presenter: StorybookCellModelType) {
-        textLabel.text = presenter.name
+        textLabel.text = presenter.name.uppercased()
         countLabel.text = "\(presenter.count)"
         imageView.setImage(with: presenter.coverImageURL, placeholder: UIImage.hi.storybook)
     }

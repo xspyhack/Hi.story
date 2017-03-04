@@ -11,6 +11,7 @@ import Hikit
 import RealmSwift
 import WatchConnectivity
 import CoreSpotlight
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -73,6 +74,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Transfer matters to watchApp
         //WatchSessionService.shared.start(withDelegate: self)
         
+        // LocalNotification
+        UNUserNotificationCenter.current().delegate = NotificationService.shared
+        
+        // Background fetch
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        
+        print("Latest Analying: \(Defaults.latestAnalyingDate)")
+        
         return true
     }
 
@@ -81,7 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         
         if Defaults.spotlightEnabled {
-            
             CSSearchableIndex.default().deleteAllSearchableItems { error in
                 guard error == nil else {
                     return
@@ -109,6 +117,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+   
+    // MARK: Background fetch
+    
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        print("background fetch")
+        
+        let today = Date().hi.yearMonthDay
+        
+        guard Defaults.latestAnalyingDate != today, Defaults.notificationsEnabled else {
+            completionHandler(.failed)
+            return
+        }
+        
+        if (Defaults.birthday.flatMap { Date(timeIntervalSince1970: $0) })?.hi.monthDay == Date().hi.monthDay {
+            // trigger notification
+            let body = "Happy birthday to you!"
+            let title = HiUserDefaults.nickname.value.map { "Hi, \($0)" } ?? "Hi, Master"
+            NotificationService.shared.trigger(title: title, body: body, userInfo: ["isBirthday": true], requestIdentifier: today)
+            completionHandler(.newData)
+            return
+        }
+        
+        analyzing { datas, url in
+            
+            print("complete")
+            
+            Defaults.latestAnalyingDate = today
+            
+            if !datas.isEmpty {
+                // trigger notification
+                let body = datas.count == 1 ? "There is memory about you in this day of history." : "There are \(datas.count) memories about you in this day of history."
+                let title = HiUserDefaults.nickname.value.map { "Hi, \($0)" } ?? "Hi, Master"
+
+                NotificationService.shared.trigger(title: title, body: body, fileURL: url, requestIdentifier: today)
+                completionHandler(.newData)
+            } else {
+                completionHandler(.noData)
+            }
+        }
     }
     
     // MARK: Spotlight

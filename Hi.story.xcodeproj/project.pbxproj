@@ -124,6 +124,8 @@
 		7871F2D71E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */; };
 		7871F2DD1E644ABD002B5C0C /* UIImage+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */; };
 		7871F2E01E645308002B5C0C /* PromptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DF1E645308002B5C0C /* PromptedView.swift */; };
+		7871F2E21E66F824002B5C0C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2E11E66F824002B5C0C /* NotificationService.swift */; };
+		7871F2E41E67026E002B5C0C /* AnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2E31E67026E002B5C0C /* AnalysisService.swift */; };
 		787727581E213F4800D9748A /* MarkdownToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787727571E213F4800D9748A /* MarkdownToolbar.swift */; };
 		7877275A1E266E5800D9748A /* DraftsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787727591E266E5800D9748A /* DraftsViewModel.swift */; };
 		7877275C1E266F2700D9748A /* DraftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7877275B1E266F2700D9748A /* DraftCell.swift */; };
@@ -522,6 +524,8 @@
 		7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorViewable.swift; sourceTree = "<group>"; };
 		7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Hi.swift"; sourceTree = "<group>"; };
 		7871F2DF1E645308002B5C0C /* PromptedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptedView.swift; sourceTree = "<group>"; };
+		7871F2E11E66F824002B5C0C /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		7871F2E31E67026E002B5C0C /* AnalysisService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisService.swift; sourceTree = "<group>"; };
 		787727571E213F4800D9748A /* MarkdownToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownToolbar.swift; sourceTree = "<group>"; };
 		787727591E266E5800D9748A /* DraftsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftsViewModel.swift; sourceTree = "<group>"; };
 		7877275B1E266F2700D9748A /* DraftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftCell.swift; sourceTree = "<group>"; };
@@ -1547,6 +1551,8 @@
 				7810FD7F1E4049E900950ABA /* PhotoService.swift */,
 				7810FD811E4050BA00950ABA /* ReminderService.swift */,
 				7810FD831E4050E300950ABA /* CalendarService.swift */,
+				7871F2E11E66F824002B5C0C /* NotificationService.swift */,
+				7871F2E31E67026E002B5C0C /* AnalysisService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1833,6 +1839,9 @@
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.SafariKeychain = {
@@ -2142,6 +2151,7 @@
 				788BB9421E2B96D5007BF8CB /* SelectableCell.swift in Sources */,
 				7857FBEA1E1A0C44001D0061 /* InputableCell.swift in Sources */,
 				783865511CFC73CD005E1503 /* LocationService.swift in Sources */,
+				7871F2E41E67026E002B5C0C /* AnalysisService.swift in Sources */,
 				7871F2E01E645308002B5C0C /* PromptedView.swift in Sources */,
 				78EAF5C61DE0311200AF924B /* UIView+Hi.swift in Sources */,
 				788BB9401E2B955C007BF8CB /* ChooseStorybookViewController.swift in Sources */,
@@ -2175,6 +2185,7 @@
 				78D3BCD21D44BAED00A155B6 /* BaseViewController.swift in Sources */,
 				78F4D2351CEEC55300DAA210 /* UIColor+Extension.swift in Sources */,
 				78D257FC1D8444C70032E4F5 /* MatterViewController.swift in Sources */,
+				7871F2E21E66F824002B5C0C /* NotificationService.swift in Sources */,
 				782B6E6B1E55FD5E007E33EC /* MattersViewController.swift in Sources */,
 				78E481811E08301200EB81E9 /* UIImage+Assets.swift in Sources */,
 				7844AECB1E12C0AE00D7FA11 /* EditProfileViewController.swift in Sources */,

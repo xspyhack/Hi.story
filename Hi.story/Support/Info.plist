@@ -67,13 +67,17 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Hi.story need to access your Contacts to match friends.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Hi.story need to get your Location to share to your friends.</string>
+	<string>Hi.story need to get your Location to save in your story.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Hi.story need to access your Microphone to record audio.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Hi.story need to access your Photos to choose photo.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Hi.story need to access your Reminders to create reminder.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

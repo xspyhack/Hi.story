@@ -33,6 +33,7 @@ class EventItemCell: HistoryItemCell, Reusable {
         label.text = "Event"
         label.font = EventItemCell.titleFont
         label.numberOfLines = 0
+        label.textColor = UIColor.hi.title
         return label
     }()
     

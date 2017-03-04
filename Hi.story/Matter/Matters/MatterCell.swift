@@ -22,6 +22,7 @@ final class MatterCell: UITableViewCell, Reusable {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16.0)
         label.text = "Matter"
+        label.textColor = UIColor.hi.title
         return label
     }()
     

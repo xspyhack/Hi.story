@@ -18,10 +18,16 @@ final class MatterViewController: BaseViewController {
     @IBOutlet private weak var notesTextView: UITextView! {
         didSet {
             notesTextView.textContainerInset = UIEdgeInsets(top: 12.0, left: 8.0, bottom: 12.0, right: 8.0)
+            notesTextView.textColor = UIColor.hi.body
         }
     }
+    
     @IBOutlet private weak var whenLabel: UILabel!
-    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel! {
+        didSet {
+            titleLabel.textColor = UIColor.hi.title
+        }
+    }
     
     var viewModel: MatterViewModel?
 

@@ -32,7 +32,7 @@
         "body": {
             "font": "Menlo-Regular",
             "size": 14,
-            "color": "#233333",
+            "color": "#4A4A4A",
             "line-spacing": 4.0
         },
         "bold": {

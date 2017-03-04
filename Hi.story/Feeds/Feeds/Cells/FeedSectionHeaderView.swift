@@ -42,6 +42,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
         let label = UILabel()
         label.text = "__b233"
         label.font = UIFont.systemFont(ofSize: 14.0)
+        label.textColor = UIColor.hi.title
         return label
     }()
     

@@ -93,14 +93,9 @@ public func indexFeedSearchableItems() {
         )
     }
     
-    print("feedSearchableItems: \(searchableItems.count)")
-    
     CSSearchableIndex.default().indexSearchableItems(searchableItems) { error in
         if error != nil {
             print(error!.localizedDescription)
-            
-        } else {
-            print("indexFeedSearchableItems OK")
         }
     }
 }

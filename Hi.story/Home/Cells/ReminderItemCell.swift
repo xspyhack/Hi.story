@@ -39,6 +39,7 @@ class ReminderItemCell: HistoryItemCell, Reusable {
         label.text = "Reminder"
         label.font = ReminderItemCell.titleFont
         label.numberOfLines = 0
+        label.textColor = UIColor.hi.title
         return label
     }()
     

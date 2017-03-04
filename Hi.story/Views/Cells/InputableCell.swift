@@ -22,7 +22,7 @@ final class TitleInputableCell: UITableViewCell, Reusable {
         let textField = UITextField()
         textField.delegate = self
         textField.textAlignment = .center
-        textField.textColor = UIColor.hi.text
+        textField.textColor = UIColor.hi.title
         return textField
     }()
     

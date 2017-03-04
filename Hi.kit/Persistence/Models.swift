@@ -122,8 +122,6 @@ public func metadataString(of image: UIImage) -> String {
         let data = UIImageJPEGRepresentation(thumbnail, 0.7)!
         let string = data.base64EncodedString(options: [])
         
-        print("image thumbnail string length: \(string.lengthOfBytes(using: .utf8))\n")
-        
         return string
     } else {
         return ""

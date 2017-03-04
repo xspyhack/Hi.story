@@ -20,7 +20,7 @@ final class ProfileCell: UITableViewCell, Reusable {
     fileprivate lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16.0)
-        label.textColor = UIColor.black
+        label.textColor = UIColor.hi.title
         return label
     }()
     
@@ -28,7 +28,7 @@ final class ProfileCell: UITableViewCell, Reusable {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12.0)
         label.text = "Bio"
-        label.textColor = UIColor.black
+        label.textColor = UIColor.hi.description
         return label
     }()
     

@@ -18,6 +18,7 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         label.text = "Matter"
         label.font = MatterItemCell.titleFont
         label.numberOfLines = 1
+        label.textColor = UIColor.hi.title
         return label
     }()
     
@@ -26,6 +27,7 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         label.text = "飞机穿梭于茫茫星海中逐渐远去，你如猫般，无声靠近，从意想不到的角度玩弄他人，而我只能呆愣在原地，永远只能跟随你的步伐。"
         label.font = UIFont.systemFont(ofSize: 14.0)
         label.numberOfLines = 4
+        label.textColor = UIColor.hi.body
         return label
     }()
     

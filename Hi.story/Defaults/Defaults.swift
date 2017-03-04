@@ -40,6 +40,10 @@ struct Defaults {
         static let spotlightEnabled = prefix + "spotlightEnabled"
         static let handoffEnabled = prefix + "handoffEnabled"
         static let siriEnabled = prefix + "siriEnabled"
+        
+        static let latestAnalyingDate = prefix + "latestAnalyingDate"
+        
+        static let hadInitializeBackgroundMode = prefix + "hadInitializeBackgroundMode"
     }
     
     static let storybookName = "Stories"
@@ -153,6 +157,24 @@ struct Defaults {
         }
         set {
             userDefaults.set(newValue, forKey: Key.siriEnabled)
+        }
+    }
+    
+    static var latestAnalyingDate: String {
+        get {
+            return userDefaults.string(forKey: Key.latestAnalyingDate) ?? ""
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.latestAnalyingDate)
+        }
+    }
+    
+    static var hadInitializeBackgroundMode: Bool {
+        get {
+            return userDefaults.bool(forKey: Key.hadInitializeBackgroundMode)
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.hadInitializeBackgroundMode)
         }
     }
 }

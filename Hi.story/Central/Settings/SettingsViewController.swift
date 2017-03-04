@@ -81,6 +81,11 @@ final class SettingsViewController: UITableViewController {
 
         title = "Settings"
         
+        if !Defaults.hadInitializeBackgroundMode {
+            Defaults.hadInitializeBackgroundMode = true
+            Defaults.backgroundModeEnabled = hi.isAuthorizedForBackgroundMode()
+        }
+        
         self.tableView.hi.register(reusableCell: SwitchCell.self)
         self.tableView.hi.register(reusableCell: DisclosureCell.self)
         self.tableView.hi.register(reusableCell: DatePickerCell.self)
@@ -235,17 +240,33 @@ final class SettingsViewController: UITableViewController {
                 let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.titleLabel.text = "Notifications"
                 cell.toggleSwitch.isOn = Defaults.notificationsEnabled
+                hi.isAuthorizedForNotifications {
+                    cell.toggleSwitch.isOn = $0
+                    Defaults.notificationsEnabled = $0
+                }
+                
                 cell.toggleSwitchStateChangedAction = { isOn in
-                    Defaults.notificationsEnabled = isOn
+                    
+                    if Defaults.notificationsEnabled && !isOn {
+                        Defaults.notificationsEnabled = isOn
+                    } else if !Defaults.notificationsEnabled && isOn {
+                        // ask for authorize
+                        self.hi.alertNoPermission(self.hi.notificationsNoPermissionMessage())
+                    }
                 }
 
                 return cell
             case .background:
                 let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.titleLabel.text = "Background"
-                cell.toggleSwitch.isOn = Defaults.backgroundModeEnabled
+                cell.toggleSwitch.isOn = hi.isAuthorizedForBackgroundMode() && Defaults.backgroundModeEnabled
                 cell.toggleSwitchStateChangedAction = { isOn in
-                    Defaults.backgroundModeEnabled = isOn
+                    
+                    if Defaults.backgroundModeEnabled && !isOn {
+                        Defaults.backgroundModeEnabled = isOn
+                    } else if !Defaults.backgroundModeEnabled && isOn {
+                        self.hi.alertNoPermission(self.hi.backgroundModeNoPermissionMessage())
+                    }
                 }
                 return cell
             }
@@ -259,7 +280,7 @@ final class SettingsViewController: UITableViewController {
             } else {
                 let cell: DisclosureCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.textLabel?.text = "Your birthday"
-                cell.textLabel?.textColor = UIColor.hi.title
+                cell.textLabel?.textColor = UIColor.hi.detail
                 cell.detailTextLabel?.text = pickedDate?.hi.yearMonthDay ?? Defaults.birthday.map { Date(timeIntervalSince1970: $0).hi.yearMonthDay } ?? "unspecified"
                 cell.accessoryType = .disclosureIndicator
                 return cell

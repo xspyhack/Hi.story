@@ -101,8 +101,8 @@ final class FeedViewController: UIViewController {
     }
     
     private func dateContent(with interval: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: interval).hi.yearMonthDay
-        return "<div style=\"text-align:center;height:120px;margin-top:80px;color:#a8a8a8\">\(date)</div>"
+        let date = Date(timeIntervalSince1970: interval).hi.monthDayYear
+        return "<div style=\"text-align:center;height:120px;margin-top:80px;color:#a8a8a8;font-size:12px\">\(date)</div>"
     }
     
     private func styles(forTheme theme: String) -> String? {
