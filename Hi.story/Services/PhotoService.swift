@@ -57,6 +57,45 @@ func fetchMoments(at date: Date = Date()) -> [Photo] {
     return photos
 }
 
+func fetchURL(of asset: PHAsset, completionHandler: @escaping (URL?) -> Void) {
+    
+    if asset.mediaType == .image {
+        
+        let options = PHImageRequestOptions()
+        options.version = .current
+        options.deliveryMode = .fastFormat
+        options.resizeMode = .fast
+        options.isSynchronous = true
+        
+        PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { _, _, _, info in
+            if let url = info?["PHImageFileURLKey"] as? URL {
+                completionHandler(url)
+            }
+        })
+        
+        /*
+        let options: PHContentEditingInputRequestOptions = PHContentEditingInputRequestOptions()
+        options.canHandleAdjustmentData = { _ in true }
+        
+        asset.requestContentEditingInput(with: options, completionHandler: { (input, info) in
+            completionHandler(input?.fullSizeImageURL)
+        })*/
+        
+    } else if asset.mediaType == .video {
+        let options: PHVideoRequestOptions = PHVideoRequestOptions()
+        options.version = .original
+        
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options, resultHandler: { (av, audio, info) in
+            
+            if let urlAsset = av as? AVURLAsset {
+                completionHandler(urlAsset.url)
+            } else {
+                completionHandler(nil)
+            }
+        })
+    }
+}
+
 func fetchAlbumIdentifier() -> String? {
     let string = UserDefaults.standard.object(forKey: defaultAlbumIdentifier) as? String
     return string
@@ -111,7 +150,7 @@ func fetchAlbumList() -> [Album] {
         
         result.enumerateObjects({ (collection: PHAssetCollection, idx: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             let album = collection
-            guard  album.localizedTitle !=  NSLocalizedString("Recently Deleted", comment: "") else {
+            guard  album.localizedTitle != NSLocalizedString("Recently Deleted", comment: "") else {
                 return
             }
             
@@ -136,7 +175,8 @@ func fetchAlbumList() -> [Album] {
     return list
 }
 
-func fetchImageWithAsset(_ asset: PHAsset?, targetSize: CGSize, imageResultHandler: @escaping (_ image: UIImage?)->Void) -> PHImageRequestID? {
+@discardableResult
+func fetchImage(with asset: PHAsset?, targetSize: CGSize, imageResultHandler: @escaping (_ image: UIImage?) -> Void) -> PHImageRequestID? {
     guard let asset = asset else {
         return nil
     }
