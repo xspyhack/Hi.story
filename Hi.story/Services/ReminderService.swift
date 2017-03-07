@@ -24,18 +24,19 @@ func fetchReminders(at date: Date = Date(), completion: @escaping ([Reminder]) -
     var results: [Reminder] = []
     
     let store = EKEventStore()
-    let predicate = store.predicateForReminders(in: nil)
+    let calendars = store.calendars(for: .reminder)
+    let predicate = store.predicateForReminders(in: calendars)
     
     store.fetchReminders(matching: predicate) { (reminders) in
         reminders?.forEach({ (reminder) in
             
             // alarm? trigger date?
+            // 防止重复
             if let dueDate = reminder.dueDateComponents?.date, dueDate.hi.monthDay == date.hi.monthDay {
                 // due date
                 results.append(Reminder(title: reminder.title, createdAt: dueDate.timeIntervalSince1970, isCompleted: reminder.isCompleted, completionDate: reminder.completionDate, dueDate: reminder.dueDateComponents?.date, alarm: reminder.alarms?.first?.absoluteDate))
-            }
-            
-            if let completionDate = reminder.completionDate, completionDate.hi.monthDay == date.hi.monthDay {
+                
+            } else if let completionDate = reminder.completionDate, completionDate.hi.monthDay == date.hi.monthDay {
                 // complete date
                 results.append(Reminder(title: reminder.title, createdAt: completionDate.timeIntervalSince1970, isCompleted: reminder.isCompleted, completionDate: reminder.completionDate, dueDate: reminder.dueDateComponents?.date, alarm: reminder.alarms?.first?.absoluteDate))
             }
