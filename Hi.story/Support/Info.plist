@@ -67,7 +67,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Hi.story need to access your Contacts to match friends.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Hi.story need to get your Location to save in your story.</string>
+	<string>Your location is used when generating Memories.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Hi.story need to access your Microphone to record audio.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

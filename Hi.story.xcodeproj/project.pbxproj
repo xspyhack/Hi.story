@@ -47,6 +47,7 @@
 		782B6E6B1E55FD5E007E33EC /* MattersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782B6E6A1E55FD5E007E33EC /* MattersViewController.swift */; };
 		782B6E6D1E583A7E007E33EC /* k.css in Resources */ = {isa = PBXBuildFile; fileRef = 782B6E6C1E583A7E007E33EC /* k.css */; };
 		782F9FFF1D2183110043F317 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 782F9FFE1D2183110043F317 /* Profile.storyboard */; };
+		7832817E1E6AD38300AAA29B /* TodayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7832817D1E6AD38300AAA29B /* TodayCardView.swift */; };
 		7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */; };
 		783865511CFC73CD005E1503 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783865501CFC73CD005E1503 /* LocationService.swift */; };
 		7844AEA21E0D690B00D7FA11 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7844AEA11E0D690B00D7FA11 /* SwitchCell.swift */; };
@@ -237,6 +238,8 @@
 		78D3BCDD1D44C67E00A155B6 /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3BCDB1D44C66900A155B6 /* Story.swift */; };
 		78D3BCDE1D44C6A300A155B6 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786191451D15D01B005680B3 /* Service.swift */; };
 		78E179A51D58D7F5000641F2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E179A41D58D7F5000641F2 /* ProfileViewController.swift */; };
+		78E32D0E1E6C55D100429266 /* TodayEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E32D0D1E6C55D100429266 /* TodayEmptyView.swift */; };
+		78E32D101E6D924500429266 /* FeedImageItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E32D0F1E6D924500429266 /* FeedImageItemCell.swift */; };
 		78E433891D8E4E050037D646 /* KeyboardMan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78E433881D8E4E050037D646 /* KeyboardMan.framework */; };
 		78E4338A1D8E4E050037D646 /* KeyboardMan.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 78E433881D8E4E050037D646 /* KeyboardMan.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78E4338B1D8ECD040037D646 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D381C51D60D98600AB844E /* Matter.swift */; };
@@ -451,6 +454,7 @@
 		782B6E6C1E583A7E007E33EC /* k.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = k.css; sourceTree = "<group>"; };
 		782F9FFE1D2183110043F317 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		782FA1A31D2FF3AB0043F317 /* Hi.story-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hi.story-Bridging-Header.h"; sourceTree = "<group>"; };
+		7832817D1E6AD38300AAA29B /* TodayCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayCardView.swift; sourceTree = "<group>"; };
 		7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonStatusBarTransitionManager.swift; sourceTree = "<group>"; };
 		783865501CFC73CD005E1503 /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		78409A4E1D5222C600354650 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
@@ -633,6 +637,8 @@
 		78D3BCD71D44C19700A155B6 /* DispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		78D3BCDB1D44C66900A155B6 /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 		78E179A41D58D7F5000641F2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		78E32D0D1E6C55D100429266 /* TodayEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayEmptyView.swift; sourceTree = "<group>"; };
+		78E32D0F1E6D924500429266 /* FeedImageItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedImageItemCell.swift; sourceTree = "<group>"; };
 		78E433881D8E4E050037D646 /* KeyboardMan.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeyboardMan.framework; path = Carthage/Build/iOS/KeyboardMan.framework; sourceTree = "<group>"; };
 		78E481631E068AA200EB81E9 /* ActivityCroppedImageProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityCroppedImageProvider.swift; sourceTree = "<group>"; };
 		78E481641E068AA200EB81E9 /* CropOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropOverlayView.swift; sourceTree = "<group>"; };
@@ -1386,6 +1392,8 @@
 			isa = PBXGroup;
 			children = (
 				78D258061D84492C0032E4F5 /* TodayViewController.swift */,
+				78E32D0D1E6C55D100429266 /* TodayEmptyView.swift */,
+				7832817D1E6AD38300AAA29B /* TodayCardView.swift */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -1499,11 +1507,12 @@
 			children = (
 				78E481831E097B8300EB81E9 /* HistoryHeaderView.swift */,
 				7810FD8D1E4067B900950ABA /* HistoryItemCell.swift */,
-				7810FD7D1E3F127E00950ABA /* MatterItemCell.swift */,
 				7810FD851E40642500950ABA /* PhotoItemCell.swift */,
 				7810FD871E40643300950ABA /* ReminderItemCell.swift */,
 				7810FD891E40644400950ABA /* EventItemCell.swift */,
+				7810FD7D1E3F127E00950ABA /* MatterItemCell.swift */,
 				7810FD8B1E40644E00950ABA /* FeedItemCell.swift */,
+				78E32D0F1E6D924500429266 /* FeedImageItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2136,6 +2145,7 @@
 				788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
 				78D2580C1D8465BE0032E4F5 /* PopoverViewController.swift in Sources */,
+				7832817E1E6AD38300AAA29B /* TodayCardView.swift in Sources */,
 				78E4817F1E06D2D900EB81E9 /* UIImage+Hi.swift in Sources */,
 				78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */,
 				78D258091D8449380032E4F5 /* HistoryViewController.swift in Sources */,
@@ -2161,6 +2171,7 @@
 				7877275C1E266F2700D9748A /* DraftCell.swift in Sources */,
 				78D257F61D8444170032E4F5 /* MatterCellModel.swift in Sources */,
 				7810FD801E4049E900950ABA /* PhotoService.swift in Sources */,
+				78E32D0E1E6C55D100429266 /* TodayEmptyView.swift in Sources */,
 				789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */,
 				7844AEE31E14059F00D7FA11 /* LabsViewController.swift in Sources */,
 				786191591D169097005680B3 /* ShortcutItems.swift in Sources */,
@@ -2173,6 +2184,7 @@
 				7844AED11E12C0B900D7FA11 /* StorybookCellModel.swift in Sources */,
 				78AEC10B1DD215CA00AE1780 /* FeedsFlowLayout.swift in Sources */,
 				7810FD8E1E4067B900950ABA /* HistoryItemCell.swift in Sources */,
+				78E32D101E6D924500429266 /* FeedImageItemCell.swift in Sources */,
 				7844AEC71E12C09C00D7FA11 /* SettingsViewController.swift in Sources */,
 				78F4D2451CEEE3C300DAA210 /* TextPresentable.swift in Sources */,
 				78D381D21D60E45000AB844E /* ModelType.swift in Sources */,
