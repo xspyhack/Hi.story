@@ -26,7 +26,7 @@ struct StorybookCellModel: StorybookCellModelType {
     
     init(storybook: Storybook) {
         self.name = storybook.name
-        self.count = storybook.stories.count
+        self.count = (storybook.stories.filter { $0.isPublished == true }).count // Ignore unpublish story
         
         if let urlString = storybook.latestPicturedStory?.attachment?.urlString {
             self.coverImageURL =  URL(string: urlString)

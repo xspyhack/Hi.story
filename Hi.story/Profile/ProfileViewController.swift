@@ -324,7 +324,8 @@ final class ProfileViewController: BaseViewController {
     
     fileprivate func updateStorybooks() {
         guard let viewModel = viewModel else { return }
-        
+    
+        // 这里取出来的 Story 有可能是 Draft，即没有 publish
         let predicate = NSPredicate(format: "creator.id = %@", viewModel.user.id)
         storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
     }
@@ -562,9 +563,13 @@ extension ProfileViewController: SegueHandlerType {
             break
         case .showStories:
             
+            guard let storybook = sender as? Storybook else { return }
+            
             let vc = segue.destination as? StoriesViewController
-            if let storybook = sender as? Storybook, !storybook.stories.isEmpty {
-                vc?.stories = Array(storybook.stories)
+            
+            let stories = storybook.stories.filter({ $0.isPublished == true })
+            if !stories.isEmpty {
+                vc?.stories = Array(stories)
             }
             
             vc?.delegate = self
