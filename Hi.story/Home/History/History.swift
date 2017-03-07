@@ -10,6 +10,5 @@ import Foundation
 import Hikit
 
 struct History {
-    
     var hasImage: Bool
 }

@@ -19,13 +19,12 @@ final class HistoryViewController: UIViewController {
         didSet {
             collectionView.delegate = self
             collectionView.dataSource = self
-            collectionView.hi.register(reusableCell: FeedCell.self)
-            collectionView.hi.register(reusableCell: FeedImageCell.self)
+            collectionView.hi.register(reusableCell: FeedItemCell.self)
+            collectionView.hi.register(reusableCell: FeedImageItemCell.self)
             collectionView.hi.register(reusableCell: MatterItemCell.self)
             collectionView.hi.register(reusableCell: PhotoItemCell.self)
             collectionView.hi.register(reusableCell: ReminderItemCell.self)
             collectionView.hi.register(reusableCell: EventItemCell.self)
-            collectionView.hi.register(reusableCell: FeedItemCell.self)
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: HistoryHeaderView.self)
             collectionView.alwaysBounceVertical = true
             collectionView.contentInset.top = Constant.navigationBarHeight
@@ -57,7 +56,7 @@ final class HistoryViewController: UIViewController {
         title = "History"
         
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = 24.0
+            flowLayout.minimumLineSpacing = 0.0
             flowLayout.sectionInset.bottom = 48.0
             flowLayout.sectionHeadersPinToVisibleBounds = true
         }
@@ -237,12 +236,12 @@ extension HistoryViewController: UICollectionViewDataSource {
         
         if let feed = history as? Feed, let story = feed.story {
             if story.attachment != nil {
-                let cell: FeedImageCell = collectionView.hi.dequeueReusableCell(for: indexPath)
-                cell.configure(withPresenter: FeedImageCellModel(story: story))
+                let cell: FeedImageItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+                cell.configure(withPresenter: FeedImageItemCellModel(story: story))
                 return cell
             } else {
-                let cell: FeedCell = collectionView.hi.dequeueReusableCell(for: indexPath)
-                cell.configure(withPresenter: FeedCellModel(story: story))
+                let cell: FeedItemCell = collectionView.hi.dequeueReusableCell(for: indexPath)
+                cell.configure(withPresenter: FeedItemCellModel(story: story))
                 return cell
             }
         } else if let matter = history as? Matter {
@@ -312,7 +311,7 @@ extension HistoryViewController: UICollectionViewDelegateFlowLayout {
         
         let height: CGFloat
         if let feed = history as? Feed {
-            height = FeedCell.height(with: feed, width: width)
+            height = FeedItemCell.height(with: feed, width: width)
         } else if let matter = history as? Matter {
             height = MatterItemCell.height(with: MatterCellModel(matter: matter), width: width)
         } else if let photo = history as? Photo {
