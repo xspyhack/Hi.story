@@ -37,6 +37,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
         label.font = UIFont(name: "Didot-Bold", size: 20.0)
         label.textColor = UIColor.white
         label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
