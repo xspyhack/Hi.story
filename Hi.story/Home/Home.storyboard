@@ -28,6 +28,7 @@
                         <outlet property="segmentedControl" destination="d4W-1j-FmU" id="u7f-0b-DUf"/>
                         <segue destination="j3B-lK-9wg" kind="show" identifier="showFeed" id="B9V-OE-QyN"/>
                         <segue destination="qea-Dn-3WB" kind="show" identifier="showMatter" id="eHE-nI-Hra"/>
+                        <segue destination="CB2-hQ-w8A" kind="presentation" identifier="presentNewFeed" id="3H5-tB-ZJN"/>
                     </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i0x-VQ-3Qm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -48,7 +49,15 @@
                 <viewControllerPlaceholder storyboardName="Matter" referencedIdentifier="MatterViewController" id="qea-Dn-3WB" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Enu-qu-Cop" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1754" y="3130"/>
+            <point key="canvasLocation" x="-1809" y="3130"/>
+        </scene>
+        <!--NewFeedViewController-->
+        <scene sceneID="dm5-fr-kTg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="CB2-hQ-w8A" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ulA-FG-Db3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1470" y="3130"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Zhf-Ic-dyd">
@@ -66,7 +75,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cnp-Th-DJ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1383" y="1838"/>
+            <point key="canvasLocation" x="-1924" y="1896"/>
         </scene>
         <!--Today View Controller-->
         <scene sceneID="Koi-cb-1XM">
@@ -83,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1M3-jp-QHj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1051" y="2679"/>
+            <point key="canvasLocation" x="-863" y="2667"/>
         </scene>
         <!--History View Controller-->
         <scene sceneID="Ucg-pG-7YU">

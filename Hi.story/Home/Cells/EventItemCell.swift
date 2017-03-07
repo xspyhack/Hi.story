@@ -59,7 +59,7 @@ class EventItemCell: HistoryItemCell, Reusable {
         ]
         
         let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": EventItemCell.iconPadding], views: views)
-        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]|", options: [], metrics: ["margin": EventItemCell.iconContainerHeight], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-24.0-|", options: [], metrics: ["margin": EventItemCell.iconContainerHeight], views: views)
         
         NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate(v)
@@ -67,7 +67,7 @@ class EventItemCell: HistoryItemCell, Reusable {
     
     static func height(with event: Event, width: CGFloat) -> CGFloat {
         let titleHeight = event.title.hi.height(with: width - 2 * EventItemCell.iconPadding, fontSize: titleFont.pointSize)
-        return HistoryItemCell.iconContainerHeight + titleHeight
+        return HistoryItemCell.iconContainerHeight + titleHeight + 24.0
     }
 }
 

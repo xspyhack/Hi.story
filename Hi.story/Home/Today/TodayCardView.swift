@@ -23,7 +23,7 @@ struct TodayCardViewModel: TodayCardViewModelType {
     
     init(story: Story, creator: User) {
         
-        self.text = story.title != "Untitle" ? story.title : story.body
+        self.text = story.title != Defaults.storyTitle ? story.title : story.body
         self.date = Date(timeIntervalSince1970: story.createdAt).hi.monthDayYear
         self.avatar = URL(string: creator.avatarURLString)
         self.imageURL = (story.attachment?.urlString).flatMap { URL(string: $0) }
@@ -84,7 +84,7 @@ final class TodayCardView: UIView, Configurable {
     private(set) lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "avatar")
+        imageView.image = UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width)
         return imageView
     }()
     
@@ -180,7 +180,7 @@ final class TodayCardView: UIView, Configurable {
             let textLabelV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[textLabel]-8-|", options: [.alignAllCenterX], metrics: nil, views: views)
             NSLayoutConstraint.activate(textLabelV)
 
-            let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-46-[dateLabel]-8-[contentView]-16-[avatarImageView(40.0)]-16-|", options: [.alignAllCenterX], metrics: nil, views: views)
+            let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-36-[dateLabel]-8-[contentView]-16-[avatarImageView(40.0)]-16-|", options: [.alignAllCenterX], metrics: nil, views: views)
             
             NSLayoutConstraint.activate(vConstraints)
             

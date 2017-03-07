@@ -74,7 +74,17 @@ extension HistoryHeaderView: Configurable {
         let year = Date(timeIntervalSince1970: presenter.createdAt).hi.year
         if let years = Int(year), let thisYears = Int(Date().hi.year) {
             let ago = thisYears - years
-            agoLabel.text = (ago == 0) ? "THIS YEAR" : (ago == 1 ? "1 YEAR AGO" : "\(thisYears - years) YEARS AGO")
+            if ago == 0 {
+                agoLabel.text = "THIS YEAR"
+            } else if ago == 1 {
+                agoLabel.text = "1 YEAR AGO"
+            } else if ago == -1 {
+                agoLabel.text = "1 YEAR LATER"
+            } else if ago > 0 {
+                agoLabel.text = "\(ago) YEARS AGO"
+            } else {
+                agoLabel.text = "\(ago) YEARS LATER"
+            }
         }
         
         let weak = Date(timeIntervalSince1970: presenter.createdAt).hi.weekdayIndex

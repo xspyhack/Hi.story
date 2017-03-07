@@ -59,7 +59,7 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         ]
         
         let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": MatterItemCell.iconPadding], views: views)
-        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[notesLabel]", options: [.alignAllLeading, .alignAllTrailing], metrics: ["margin": MatterItemCell.iconContainerHeight], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[notesLabel]-24.0-|", options: [.alignAllLeading, .alignAllTrailing], metrics: ["margin": MatterItemCell.iconContainerHeight], views: views)
         
         NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate(v)
@@ -75,9 +75,9 @@ final class MatterItemCell: HistoryItemCell, Reusable {
     static func height(with viewModel: MatterCellModelType, width: CGFloat) -> CGFloat {
         let titleHeight = titleFont.lineHeight.rounded(.up)
         if viewModel.notes.isEmpty {
-            return MatterItemCell.iconContainerHeight + titleHeight
+            return MatterItemCell.iconContainerHeight + titleHeight + 24.0
         } else {
-            return MatterItemCell.iconContainerHeight + viewModel.notes.hi.height(with: width - 2 * MatterItemCell.iconPadding, fontSize: 14.0) + 16.0 + titleHeight
+            return MatterItemCell.iconContainerHeight + viewModel.notes.hi.height(with: width - 2 * MatterItemCell.iconPadding, fontSize: 14.0) + 16.0 + titleHeight + 24.0
         }
     }
 }

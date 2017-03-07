@@ -84,7 +84,7 @@ class ReminderItemCell: HistoryItemCell, Reusable {
         ]
         
         let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(padding)-[titleLabel]-(padding)-|", options: [], metrics: ["padding": ReminderItemCell.iconPadding], views: views)
-        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[completedImageView(16)]|", options: [.alignAllLeading], metrics: ["margin": ReminderItemCell.iconContainerHeight], views: views)
+        let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(margin)-[titleLabel]-16-[completedImageView(16)]-24-|", options: [.alignAllLeading], metrics: ["margin": ReminderItemCell.iconContainerHeight], views: views)
         
         let completedH = NSLayoutConstraint.constraints(withVisualFormat: "H:[completedImageView(16)]-8-[completedLabel]", options: [.alignAllCenterY], metrics: nil, views: views)
         NSLayoutConstraint.activate(completedH)
@@ -94,7 +94,7 @@ class ReminderItemCell: HistoryItemCell, Reusable {
     
     static func height(with reminder: Reminder, width: CGFloat) -> CGFloat {
         let titleHeight = reminder.title.hi.height(with: width - 2 * ReminderItemCell.iconPadding, fontSize: titleFont.pointSize)
-        return ReminderItemCell.iconContainerHeight + titleHeight + 16.0 + 16.0
+        return ReminderItemCell.iconContainerHeight + titleHeight + 16.0 + 16.0 + 24.0
     }
 }
 

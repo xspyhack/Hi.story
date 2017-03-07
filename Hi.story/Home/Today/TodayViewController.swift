@@ -12,7 +12,14 @@ import RealmSwift
 
 final class TodayViewController: UIViewController {
     
-    var isEmpty: Bool = true
+    var newAction: (() -> Void)?
+    
+    var isEmpty: Bool = true {
+        didSet {
+            todayCardView.isHidden = !isEmpty
+            emptyView.isHidden = isEmpty
+        }
+    }
    
     fileprivate struct Constant {
         static let navigationBarHeight: CGFloat = 64.0
@@ -22,7 +29,14 @@ final class TodayViewController: UIViewController {
     
     private lazy var todayCardView: TodayCardView = {
         let cardView = TodayCardView(style: .top)
+        cardView.isHidden = true
         return cardView
+    }()
+    
+    private lazy var emptyView: TodayEmptyView = {
+        let emptyView = TodayEmptyView()
+        //emptyView.backgroundColor = UIColor.white
+        return emptyView
     }()
     
     private var isViewAppeared: Bool = false
@@ -34,6 +48,11 @@ final class TodayViewController: UIViewController {
         
         title = "Today"
         
+        setupEmptyView()
+        
+        emptyView.newAction = { [weak self] in
+            self?.newAction?()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -55,8 +74,11 @@ final class TodayViewController: UIViewController {
     }
     
     func snapshot() -> UIImage? {
-        
         return todayCardView.hi.capture()
+    }
+    
+    func tryToAnalyzing() {
+        analyzing()
     }
     
     private func analyzing() {
@@ -72,8 +94,22 @@ final class TodayViewController: UIViewController {
         }
         
         isEmpty = false
-        todayCardView.isHidden = false
+        
         todayCardView.configure(withPresenter: TodayCardViewModel(story: story, creator: creator))
+    }
+    
+    private func setupEmptyView() {
+        view.addSubview(emptyView)
+        emptyView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = ["emptyView": emptyView]
+        
+        let vConstaints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[emptyView]-bottom-|", options: [], metrics: ["top": Constant.navigationBarHeight + Constant.gap, "bottom": Constant.bottomToolbarHeight + Constant.gap], views: views)
+        let ratio = NSLayoutConstraint(item: emptyView, attribute: .width, relatedBy: .equal, toItem: emptyView, attribute: .height, multiplier: 10 / 16.0, constant: 0.0)
+        NSLayoutConstraint.activate(vConstaints)
+        NSLayoutConstraint.activate([ratio])
+        
+        emptyView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
     private func setupCardView() {

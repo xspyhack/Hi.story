@@ -13,7 +13,7 @@ import RxCocoa
 
 final class HomeViewController: UIPageViewController {
 
-    @IBOutlet weak var segmentedControl: UISegmentedControl! {
+    @IBOutlet private weak var segmentedControl: UISegmentedControl! {
         didSet {
             segmentedControl.removeAllSegments()
             (0..<Channel.count).forEach({
@@ -22,6 +22,12 @@ final class HomeViewController: UIPageViewController {
             })
         }
     }
+    
+    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+        let manager = PresentationTransitionManager()
+        manager.presentedViewHeight = self.view.bounds.height
+        return manager
+    }()
     
     fileprivate enum Channel: Int {
         case today = 0
@@ -44,16 +50,12 @@ final class HomeViewController: UIPageViewController {
     }
     
     fileprivate lazy var historyViewController: HistoryViewController = {
-       
         let vc = Storyboard.home.viewController(of: HistoryViewController.self)
-
         return vc
     }()
     
     fileprivate lazy var todayViewController: TodayViewController = {
-       
         let vc = Storyboard.home.viewController(of: TodayViewController.self)
-        
         return vc
     }()
     
@@ -80,7 +82,12 @@ final class HomeViewController: UIPageViewController {
         
         selectingChannel(.today)
         
-        historyViewController.showFeedAction = { feed in
+        todayViewController.newAction = { [weak self] in
+            self?.performSegue(withIdentifier: .presentNewFeed, sender: nil)
+        }
+        
+        historyViewController.showFeedAction = { [weak self] feed in
+            self?.performSegue(withIdentifier: .showFeed, sender: feed)
         }
         
         historyViewController.showMatterAction = { [weak self] matter in
@@ -97,7 +104,6 @@ final class HomeViewController: UIPageViewController {
         }, rejected: {
             Defaults.notificationsEnabled = false
         })
-        
     }
     
     private func selecting(at index: Int) {
@@ -139,6 +145,12 @@ final class HomeViewController: UIPageViewController {
         let activityVC = UIActivityViewController(activityItems: [shareImage], applicationActivities: nil)
         
         present(activityVC, animated: true, completion: nil)
+    }
+    
+    fileprivate func needsUpdateToday() {
+        if segmentedControl.selectedSegmentIndex == Channel.today.index {
+            todayViewController.tryToAnalyzing()
+        }
     }
     
     func collectingMemories() {
@@ -190,12 +202,26 @@ extension HomeViewController: UIPageViewControllerDelegate {
 extension HomeViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
+        case presentNewFeed
         case showMatter
         case showFeed
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(forSegue: segue) {
+        case .presentNewFeed:
+            let viewController = segue.destination as? NewFeedViewController
+            
+            viewController?.modalPresentationStyle = .custom
+            viewController?.transitioningDelegate = presentationTransitionManager
+            
+            if let viewModel = sender as? NewFeedViewModel {
+                viewController?.viewModel = viewModel
+            }
+            
+            viewController?.beforeDisappear = { [weak self] in
+                self?.needsUpdateToday()
+            }
         case .showFeed:
             let vc = segue.destination as? FeedViewController
             if let feed = sender as? Feed {
