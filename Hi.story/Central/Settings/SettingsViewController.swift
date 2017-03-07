@@ -27,9 +27,9 @@ final class SettingsViewController: UITableViewController {
         
         var describe: String {
             switch self {
-            case .connector: return "Story from your photos/reminders/calendar"
+            case .connector: return "Gather stories from your photos/reminders/calendar"
             case .notification: return "Background collecting your memories and notify you"
-            case .birthday: return ""
+            case .birthday: return "Surprise for you"
             }
         }
         
@@ -280,7 +280,8 @@ final class SettingsViewController: UITableViewController {
             } else {
                 let cell: DisclosureCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.textLabel?.text = "Your birthday"
-                cell.textLabel?.textColor = UIColor.hi.detail
+                cell.textLabel?.textColor = UIColor.hi.title
+                cell.detailTextLabel?.textColor = UIColor.hi.detail
                 cell.detailTextLabel?.text = pickedDate?.hi.yearMonthDay ?? Defaults.birthday.map { Date(timeIntervalSince1970: $0).hi.yearMonthDay } ?? "unspecified"
                 cell.accessoryType = .disclosureIndicator
                 return cell
