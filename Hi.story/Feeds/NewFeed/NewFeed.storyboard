@@ -80,7 +80,7 @@
                                     <constraint firstAttribute="height" constant="44" id="rL7-6y-nnh"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="New Feed" id="UBh-0D-Uj7">
+                                    <navigationItem title="New" id="UBh-0D-Uj7">
                                         <barButtonItem key="leftBarButtonItem" title="CANCEL" id="4Sc-vT-RcF"/>
                                         <barButtonItem key="rightBarButtonItem" title="POST" style="done" id="90B-7t-pkS"/>
                                     </navigationItem>

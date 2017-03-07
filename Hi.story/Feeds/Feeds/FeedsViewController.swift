@@ -100,6 +100,8 @@ final class FeedsViewController: BaseViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
+        // TODO: - Dispose
     }
     
     fileprivate func fetchFeeds() {
@@ -263,7 +265,6 @@ extension FeedsViewController: SegueHandlerType {
             if let viewModel = sender as? NewFeedViewModel {
                 viewController.viewModel = viewModel
             }
- 
         case .showProfile:
             let vc = segue.destination as? ProfileViewController
             vc?.viewModel = (sender as? User).flatMap { ProfileViewModel(user: $0) }

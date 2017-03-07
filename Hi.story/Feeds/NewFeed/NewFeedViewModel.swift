@@ -134,7 +134,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
           
             let newStory = Story()
             newStory.id = storyID
-            newStory.title = title.isEmpty ? "Untitle" : title
+            newStory.title = title.isEmpty ? Defaults.storyTitle : title
             newStory.body = body.hi.trimming(.whitespaceAndNewline)
             
             newStory.withStorybook = storybook
@@ -186,7 +186,13 @@ struct NewFeedViewModel: NewFeedViewModelType {
             .withLatestFrom(feed)
             .map { feed in
                 feed.story?.isPublished = true
-                Feed.didCreate.onNext(feed)
+                if Feed.didCreate.hasObservers {
+                    Feed.didCreate.onNext(feed)
+                } else {
+                    if let realm = try? Realm() {
+                        FeedService.shared.synchronize(feed, toRealm: realm)
+                    }
+                }
             }
             .asDriver()
         
@@ -194,7 +200,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             .withLatestFrom(story)
             .map { story in
                 // Save draft
-                guard let realm = try? Realm(), !(story.title.isEmpty && story.body.isEmpty ) else { return }
+                guard let realm = try? Realm(), !((story.title.isEmpty || story.title == Defaults.storyTitle) && story.body.isEmpty) else { return }
                 StoryService.shared.synchronize(story, toRealm: realm)
             }
             .asDriver()

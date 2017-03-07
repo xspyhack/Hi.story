@@ -24,6 +24,7 @@ final class NewFeedViewController: BaseViewController {
     var viewModel: NewFeedViewModel?
     
     var afterAppeared: (() -> Void)?
+    var beforeDisappear: (() -> Void)?
     
     // MARK: UI
     
@@ -42,7 +43,7 @@ final class NewFeedViewController: BaseViewController {
     
     @IBOutlet private weak var titleTextField: UITextField! {
         didSet {
-            titleTextField.placeholder = "Untitle"
+            titleTextField.placeholder = Defaults.storyTitle
             titleTextField.contentVerticalAlignment = .center
         }
     }
@@ -281,6 +282,8 @@ final class NewFeedViewController: BaseViewController {
     private func dismiss() {
         editor.resignFirstResponder()
         
+        beforeDisappear?()
+        
         delay(0.2) { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }
@@ -365,7 +368,7 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
-    fileprivate func handleDismiss(completion: (() -> Void)? = nil) {
+    private func handleDismiss(completion: (() -> Void)? = nil) {
         self.dismiss(animated: true) { [weak self] in
             self?.view.center.y += Defaults.statusBarHeight
             completion?()
