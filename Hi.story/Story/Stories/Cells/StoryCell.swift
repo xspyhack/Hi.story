@@ -74,7 +74,7 @@ final class StoryCell: UITableViewCell, Reusable {
         
         let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(margin)-[titleLabel]-(margin)-|", options: [], metrics: ["margin": StoryImageCell.margin], views: views)
         
-        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[titleLabel]-16-[bodyLabel]-32-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[titleLabel]-16-[bodyLabel]-48-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
         
         NSLayoutConstraint.activate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
@@ -85,7 +85,7 @@ final class StoryCell: UITableViewCell, Reusable {
         let titleHeight = story.title.hi.height(with: width - StoryCell.margin * 2, fontSize: 24.0)
         let contentHeight = story.body.hi.height(with: width - StoryCell.margin * 2, fontSize: 14.0)
         
-        let height = titleHeight + 16.0 + min(contentHeight, Defaults.storiesMaxContentHeight) + 32.0
+        let height = titleHeight + 16.0 + min(contentHeight, Defaults.storiesMaxContentHeight) + 48.0
         
         if story.attachment != nil {
             return 16.0 + height + width * 9.0 / 16.0

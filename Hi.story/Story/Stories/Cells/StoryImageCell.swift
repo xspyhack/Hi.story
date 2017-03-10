@@ -87,7 +87,7 @@ final class StoryImageCell: UITableViewCell, Reusable {
         NSLayoutConstraint.activate(imageViewVConstraints)
         NSLayoutConstraint.activate([imageViewHeightConstraint])
         
-        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[titleLabel]-16-[bodyLabel]-32-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:[titleLabel]-16-[bodyLabel]-48-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
         
         NSLayoutConstraint.activate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
