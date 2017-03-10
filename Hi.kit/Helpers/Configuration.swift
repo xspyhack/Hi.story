@@ -1,14 +1,14 @@
 //
-//  Configure.swift
+//  Configuration.swift
 //  Hi.story
 //
-//  Created by bl4ckra1sond3tre on 8/3/16.
-//  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
+//  Created by bl4ckra1sond3tre on 09/03/2017.
+//  Copyright © 2017 bl4ckra1sond3tre. All rights reserved.
 //
 
 import Foundation
 
-public class Configure {
+public struct Configuration {
     
     public static let appGroupIdentifier = "group.com.xspyhack.History"
     

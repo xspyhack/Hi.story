@@ -1,5 +1,5 @@
 //
-//  Share.swift
+//  Shared.swift
 //  Hi.story
 //
 //  Created by bl4ckra1sond3tre on 15/10/2016.
@@ -110,10 +110,10 @@ public struct SharedUser: Hashable {
     public static func user(with user: User) -> SharedUser {
         return SharedUser(id: user.id, username: user.username, nickname: user.nickname, bio: user.bio, avatarURLString: user.avatarURLString, createdAt: user.createdAt, lastSignInAt: user.lastSignInAt)
     }
-}
-
-public func ==(lhs: SharedUser, rhs: SharedUser) -> Bool {
-    return lhs.id == rhs.id
+    
+    public static func ==(lhs: SharedUser, rhs: SharedUser) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 public struct SharedMatter: Hashable {
@@ -138,10 +138,10 @@ public struct SharedMatter: Hashable {
     public static func matter(with matter: Matter) -> SharedMatter {
         return SharedMatter(id: matter.id, createdAt: matter.createdAt, updatedAt: matter.updatedAt, title: matter.title, body: matter.body, happenedAt: matter.happenedAt, kind: matter.kind, tag: matter.tag)
     }
-}
-
-public func ==(lhs: SharedMatter, rhs: SharedMatter) -> Bool {
-    return lhs.id == rhs.id
+    
+    public static func ==(lhs: SharedMatter, rhs: SharedMatter) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 public struct SharedFeed: Hashable {
@@ -151,8 +151,9 @@ public struct SharedFeed: Hashable {
     public var hashValue: Int {
         return id.hashValue
     }
+    
+    public static func ==(lhs: SharedFeed, rhs: SharedFeed) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-public func ==(lhs: SharedFeed, rhs: SharedFeed) -> Bool {
-    return lhs.id == rhs.id
-}

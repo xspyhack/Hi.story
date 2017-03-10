@@ -108,10 +108,10 @@ public func metadataString(of image: UIImage) -> String {
     let thumbnailHeight: CGFloat
     
     if imageWidth > imageHeight {
-        thumbnailWidth = min(imageWidth, Configure.Metadata.thumbnailMaxSize)
+        thumbnailWidth = min(imageWidth, Configuration.Metadata.thumbnailMaxSize)
         thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
     } else {
-        thumbnailHeight = min(imageHeight, Configure.Metadata.thumbnailMaxSize)
+        thumbnailHeight = min(imageHeight, Configuration.Metadata.thumbnailMaxSize)
         thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
     }
     

@@ -13,7 +13,7 @@ public func realmConfig() -> Realm.Configuration {
 
     // 默认将 Realm 放在 App Group 里
 
-    let directory: URL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configure.appGroupIdentifier)!
+    let directory: URL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.appGroupIdentifier)!
     let realmFileURL = directory.appendingPathComponent("db.realm")
 
     var config = Realm.Configuration()

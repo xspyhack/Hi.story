@@ -9,7 +9,7 @@
 import Hikit
 import RealmSwift
 
-struct Configuration {
+struct Launcher {
     
     static func hi() {
         

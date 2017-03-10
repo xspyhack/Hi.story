@@ -88,7 +88,7 @@ public func indexFeedSearchableItems() {
     let searchableItems = feeds.map {
         CSSearchableItem(
             uniqueIdentifier: searchableItemID(searchableItemType: .feed, itemID: $0.id),
-            domainIdentifier: Configure.Domain.feed,
+            domainIdentifier: Configuration.Domain.feed,
             attributeSet: $0.attributeSet
         )
     }
