@@ -48,6 +48,7 @@ final class TodayCardView: UIView, Configurable {
         imageView.image = UIImage(named: "album")
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16.0
+        imageView.backgroundColor = UIColor.white
         return imageView
     }()
     
@@ -55,6 +56,7 @@ final class TodayCardView: UIView, Configurable {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         view.layer.cornerRadius = 16.0
+        view.isHidden = true
         return view
     }()
     
@@ -227,5 +229,6 @@ final class TodayCardView: UIView, Configurable {
         dateLabel.text = "- \(presenter.date) -"
         imageView.setImage(with: presenter.imageURL)
         avatarImageView.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+        overlayView.isHidden = false
     }
 }

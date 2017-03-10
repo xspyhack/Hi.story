@@ -13,15 +13,16 @@ import RealmSwift
 final class TodayViewController: UIViewController {
     
     var newAction: (() -> Void)?
+    var analyzedAction: ((Bool) -> Void)?
     
     var isEmpty: Bool = true {
         didSet {
-            todayCardView.isHidden = !isEmpty
-            emptyView.isHidden = isEmpty
+            todayCardView.isHidden = isEmpty
+            emptyView.isHidden = !isEmpty
         }
     }
    
-    fileprivate struct Constant {
+    private struct Constant {
         static let navigationBarHeight: CGFloat = 64.0
         static let bottomToolbarHeight: CGFloat = 44.0
         static let gap: CGFloat = 16.0
@@ -82,6 +83,10 @@ final class TodayViewController: UIViewController {
     }
     
     private func analyzing() {
+        
+        defer {
+            analyzedAction?(!isEmpty)
+        }
        
         guard let realm = try? Realm(), let userID = HiUserDefaults.userID.value else { return }
         
@@ -105,7 +110,7 @@ final class TodayViewController: UIViewController {
         let views: [String: Any] = ["emptyView": emptyView]
         
         let vConstaints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[emptyView]-bottom-|", options: [], metrics: ["top": Constant.navigationBarHeight + Constant.gap, "bottom": Constant.bottomToolbarHeight + Constant.gap], views: views)
-        let ratio = NSLayoutConstraint(item: emptyView, attribute: .width, relatedBy: .equal, toItem: emptyView, attribute: .height, multiplier: 10 / 16.0, constant: 0.0)
+        let ratio = NSLayoutConstraint(item: emptyView, attribute: .width, relatedBy: .equal, toItem: emptyView, attribute: .height, multiplier: 10.0 / 16.0, constant: 0.0)
         NSLayoutConstraint.activate(vConstaints)
         NSLayoutConstraint.activate([ratio])
         
@@ -119,7 +124,7 @@ final class TodayViewController: UIViewController {
         let views: [String: Any] = ["todayCardView": todayCardView]
         
         let vConstaints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[todayCardView]-bottom-|", options: [], metrics: ["top": Constant.navigationBarHeight + Constant.gap, "bottom": Constant.bottomToolbarHeight + Constant.gap], views: views)
-        let ratio = NSLayoutConstraint(item: todayCardView, attribute: .width, relatedBy: .equal, toItem: todayCardView, attribute: .height, multiplier: 10 / 16.0, constant: 0.0)
+        let ratio = NSLayoutConstraint(item: todayCardView, attribute: .width, relatedBy: .equal, toItem: todayCardView, attribute: .height, multiplier: 10.0 / 16.0, constant: 0.0)
         NSLayoutConstraint.activate(vConstaints)
         NSLayoutConstraint.activate([ratio])
         

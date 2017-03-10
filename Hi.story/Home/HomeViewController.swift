@@ -86,6 +86,18 @@ final class HomeViewController: UIPageViewController {
             self?.performSegue(withIdentifier: .presentNewFeed, sender: nil)
         }
         
+        todayViewController.analyzedAction = { [weak self] notEmpty in
+            
+            if self?.selectedChannel() == .today {
+                
+                if notEmpty {
+                    self?.navigationItem.rightBarButtonItem = self?.shareItem
+                } else {
+                    self?.navigationItem.rightBarButtonItem = nil
+                }
+            }
+        }
+        
         historyViewController.showFeedAction = { [weak self] feed in
             self?.performSegue(withIdentifier: .showFeed, sender: feed)
         }
@@ -140,15 +152,25 @@ final class HomeViewController: UIPageViewController {
         segmentedControl.selectedSegmentIndex = channel.index
     }
     
-    func shareAction(_ sender: UIBarButtonItem) {
+    @objc private func shareAction(_ sender: UIBarButtonItem) {
         guard let shareImage = todayViewController.snapshot() else { return }
         let activityVC = UIActivityViewController(activityItems: [shareImage], applicationActivities: nil)
         
         present(activityVC, animated: true, completion: nil)
     }
     
+    private func selectedChannel() -> Channel {
+        
+        guard let channel = Channel(rawValue: segmentedControl.selectedSegmentIndex) else {
+            assertionFailure("Invalid channel")
+            return .today
+        }
+        
+        return channel
+    }
+    
     fileprivate func needsUpdateToday() {
-        if segmentedControl.selectedSegmentIndex == Channel.today.index {
+        if selectedChannel() == .today {
             todayViewController.tryToAnalyzing()
         }
     }

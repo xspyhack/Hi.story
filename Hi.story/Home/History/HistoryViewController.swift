@@ -37,7 +37,7 @@ final class HistoryViewController: UIViewController {
     @IBOutlet private weak var promptedViewTopConstraint: NSLayoutConstraint!
     @IBOutlet private weak var promptedView: PromptedView! {
         didSet {
-            promptedView.promptLabel.text = "Enable Hi.story to access your Photos/Reminders/Calendar in Settings to show you your memories of this day in history."
+            promptedView.promptLabel.text = "Enable Hi.story to access your Photos/Reminders/Calendar in Hi.stroy App Settings to show you your memories of this day in history."
         }
     }
     @IBOutlet private weak var analyzingView: UIView!

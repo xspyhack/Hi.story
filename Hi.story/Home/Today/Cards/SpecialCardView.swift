@@ -8,6 +8,13 @@
 
 import UIKit
 
+enum Special {
+    case christmas
+    case newYear
+    case birthday
+    case midAutumn
+}
+
 class SpecialCardView: UIView {
 
     /*
