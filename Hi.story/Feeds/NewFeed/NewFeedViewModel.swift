@@ -79,7 +79,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             self.visible = Variable(true)
            
             if let userID = HiUserDefaults.userID.value {
-                self.storybook = Variable(Configuration.defaultStorybook(of: userID))
+                self.storybook = Variable(Launcher.defaultStorybook(of: userID))
             } else {
                 self.storybook = Variable(nil)
             }

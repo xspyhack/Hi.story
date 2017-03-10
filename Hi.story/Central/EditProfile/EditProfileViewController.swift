@@ -105,11 +105,18 @@ final class EditProfileViewController: BaseViewController {
                 
                 self?.profileIsDirty.value = false
                 self?.avatarIsDirty = false
-            }, onCompleted: { [weak self] in
+                self?.usernameAvailable.value = false
+                
                 delay(1.0, task: { [weak self] in
-                    self?.activityIndicator.stopAnimating()
+                    DispatchQueue.main.async {
+                        self?.activityIndicator.stopAnimating()
+                    }
                 })
                 self?.doneItem.isEnabled = false
+                
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.prepare()
+                generator.impactOccurred()
             })
             .addDisposableTo(disposeBag)
         

@@ -62,6 +62,10 @@ final class FeedsViewController: BaseViewController {
                     sSelf.collectionView.insertSections([0])
                 }
                 FeedService.shared.synchronize(feed, toRealm: realm)
+                
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.prepare()
+                generator.impactOccurred()
             })
             .addDisposableTo(disposeBag)
         
@@ -108,10 +112,15 @@ final class FeedsViewController: BaseViewController {
         
         guard let realm = try? Realm() else { return }
         
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        
         feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
        
         SafeDispatch.async { [weak self] in
             self?.collectionView.reloadData()
+            
+            generator.impactOccurred()
         }
     }
     

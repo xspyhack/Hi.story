@@ -274,6 +274,8 @@ final class NewMatterViewController: BaseViewController {
     
     fileprivate var notesRowHeight: CGFloat = 120.0
     
+    fileprivate let generator = UISelectionFeedbackGenerator()
+    
     fileprivate var pickedDate: Date = Date() {
         willSet {
             guard newValue != pickedDate else { return }
@@ -345,6 +347,8 @@ final class NewMatterViewController: BaseViewController {
         body.asObservable()
             .bindTo(viewModel.body)
             .addDisposableTo(disposeBag)
+        
+        generator.prepare()
         
     }
 
@@ -464,6 +468,7 @@ extension NewMatterViewController: UITableViewDataSource {
             cell.items = Tag.tags
             cell.pickedAction = { [weak self] tag in
                 self?.tag.value = tag
+                self?.generator.selectionChanged()
             }
             return cell
         case .notes:

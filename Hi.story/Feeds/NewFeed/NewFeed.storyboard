@@ -46,7 +46,7 @@
                                                 </connections>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L2a-Aw-1vu" userLabel="Separator">
-                                                <rect key="frame" x="20" y="82" width="335" height="0.5"/>
+                                                <rect key="frame" x="20" y="82" width="335" height="1"/>
                                                 <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="0.5" id="2bA-Sc-l0x"/>
@@ -90,7 +90,7 @@
                                 <rect key="frame" x="0.0" y="603" width="375" height="44"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MgZ-gu-UDX">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
                                         <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="0.5" id="Mww-us-95M"/>
@@ -102,20 +102,20 @@
                                             <constraint firstAttribute="width" constant="44" id="YHn-RL-EOC"/>
                                             <constraint firstAttribute="height" constant="44" id="raj-fI-yUp"/>
                                         </constraints>
-                                        <state key="normal" image="image"/>
+                                        <state key="normal" image="bar_camera"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPD-3N-1F4">
                                         <rect key="frame" x="64" y="0.0" width="44" height="44"/>
-                                        <state key="normal" image="location"/>
-                                        <state key="selected" image="location_selected"/>
+                                        <state key="normal" image="bar_location_normal"/>
+                                        <state key="selected" image="bar_location_selected"/>
                                         <connections>
                                             <action selector="locationButtonTapped:" destination="QHI-hn-Noi" eventType="touchUpInside" id="GGE-YQ-LUx"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Svx-Kq-B1k">
                                         <rect key="frame" x="116" y="0.0" width="44" height="44"/>
-                                        <state key="normal" image="visible"/>
-                                        <state key="selected" image="visible_selected"/>
+                                        <state key="normal" image="bar_visible_normal"/>
+                                        <state key="selected" image="bar_visible_selected"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BO6-TV-dwl">
                                         <rect key="frame" x="168" y="0.0" width="44" height="44"/>
@@ -220,13 +220,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bar_camera" width="25" height="25"/>
         <image name="bar_details" width="25" height="25"/>
         <image name="bar_keyboard" width="25" height="25"/>
+        <image name="bar_location_normal" width="25" height="25"/>
+        <image name="bar_location_selected" width="25" height="25"/>
         <image name="bar_markdown" width="25" height="25"/>
-        <image name="image" width="25" height="25"/>
-        <image name="location" width="25" height="25"/>
-        <image name="location_selected" width="25" height="25"/>
-        <image name="visible" width="25" height="25"/>
-        <image name="visible_selected" width="25" height="25"/>
+        <image name="bar_visible_normal" width="25" height="25"/>
+        <image name="bar_visible_selected" width="25" height="25"/>
     </resources>
 </document>
