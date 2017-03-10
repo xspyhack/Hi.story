@@ -571,6 +571,7 @@ extension ProfileViewController: SegueHandlerType {
             if !stories.isEmpty {
                 vc?.stories = Array(stories)
             }
+            vc?.title = storybook.name
             
             vc?.delegate = self
         }
