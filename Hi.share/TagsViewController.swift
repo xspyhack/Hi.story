@@ -26,7 +26,7 @@ class TagsViewController: UITableViewController {
         view.backgroundColor = UIColor.clear
         
         tableView.tableFooterView = UIView()
-        tableView.rowHeight = CGFloat(Configure.rowHeight)
+        tableView.rowHeight = CGFloat(Configuration.rowHeight)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +37,7 @@ class TagsViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        preferredContentSize = CGSize(width: view.bounds.width, height: CGFloat(Configure.rowHeight) * CGFloat(tags.count))
+        preferredContentSize = CGSize(width: view.bounds.width, height: CGFloat(Configuration.rowHeight) * CGFloat(tags.count))
     }
     
     override func viewDidDisappear(_ animated: Bool) {

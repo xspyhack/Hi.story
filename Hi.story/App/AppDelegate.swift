@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !Defaults.sayHi {
             
             DispatchQueue.global(qos: .default).async {
-                Configuration.hi()
+                Launcher.hi()
                 Defaults.sayHi = true
             }
         }
@@ -258,7 +258,7 @@ extension AppDelegate: WCSessionDelegate {
             if let realm = try? Realm() {
                 let matters: [SharedMatter] = MatterService.shared.fetchAll(fromRealm: realm).flatMap { SharedMatter.matter(with: $0) }
                 
-                WatchSessionService.shared.update(withApplicationContext: [Configure.sharedMattersKey: matters.first!])
+                WatchSessionService.shared.update(withApplicationContext: [Configuration.sharedMattersKey: matters.first!])
                 
                 print("did update application context: \(matters.count)")
             }

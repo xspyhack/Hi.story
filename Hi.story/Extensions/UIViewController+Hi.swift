@@ -10,11 +10,11 @@ import UIKit
 import Hikit
 
 extension UIViewController: Identifiable {
-    var identifier: String {
+    public var identifier: String {
         return String(describing: self)
     }
     
-    static var identifier: String {
+    public static var identifier: String {
         return String(describing: self)
     }
     

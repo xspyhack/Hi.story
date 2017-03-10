@@ -23,6 +23,14 @@ extension Hi where Base: UIImage {
         return avatar?.hi.image(withRoundRadius: radius, fit: CGSize(width: radius * 2, height: radius * 2))
     }
     
+    static var authorAvatar: UIImage? {
+        return UIImage(named: "megumi")
+    }
+    
+    static var hiTeamAvatar: UIImage? {
+        return UIImage(named: "hi_team")
+    }
+    
     static var storybook: UIImage? {
         return UIImage(named: "album")
     }
@@ -32,19 +40,19 @@ extension Hi where Base: UIImage {
     }
     
     static var matterIcon: UIImage? {
-        return UIImage(named: "calendar")
+        return UIImage(named: "icon_calendar")
     }
     
     static var feedIcon: UIImage? {
-        return UIImage(named: "feed")
+        return UIImage(named: "icon_feed")
     }
     
     static var remindersIcon: UIImage? {
-        return UIImage(named: "reminders")
+        return UIImage(named: "icon_reminders")
     }
     
     static var photosIcon: UIImage? {
-        return UIImage(named: "photos")
+        return UIImage(named: "icon_photos")
     }
     
     static var calendarIcon: UIImage? {
