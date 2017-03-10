@@ -1,5 +1,5 @@
 //
-//  Configuration.swift
+//  Launcher.swift
 //  Hi.story
 //
 //  Created by bl4ckra1sond3tre on 24/01/2017.
@@ -12,7 +12,6 @@ import RealmSwift
 struct Launcher {
     
     static func hi() {
-        
         guard let realm = try? Realm() else { return }
         
         bornAuthor(withRealm: realm)
@@ -32,7 +31,7 @@ struct Launcher {
         team.username = "hi"
         team.nickname = "Hi Team"
         team.bio = "We craft *cool* things"
-        if let image = UIImage(named: "hi_team") {
+        if let image = UIImage.hi.hiTeamAvatar {
             let key = URL.hi.imageURL(withPath: "hiteam").absoluteString
             CacheService.shared.store(image, forKey: key)
             team.avatarURLString = key
@@ -102,7 +101,7 @@ struct Launcher {
         author.nickname = "Blessing Software"
         author.username = "blessingsoft"
         author.bio = "Megumi soft"
-        if let image = UIImage(named: "author") {
+        if let image = UIImage.hi.authorAvatar {
             let key = URL.hi.imageURL(withPath: "author").absoluteString
             CacheService.shared.store(image, forKey: key)
             author.avatarURLString = key
