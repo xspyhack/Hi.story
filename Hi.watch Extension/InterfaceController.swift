@@ -16,6 +16,7 @@ class InterfaceController: WKInterfaceController {
     //private var matters: [Matter] = []
 
     @IBOutlet private var tableView: WKInterfaceTable!
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
@@ -38,32 +39,33 @@ class InterfaceController: WKInterfaceController {
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
+        
+        print("Deactivate")
     }
 
-    /*
     fileprivate func configure(with matters: [SharedMatter]) {
         
         tableView.setNumberOfRows(matters.count, withRowType: "MatterRow")
-        
+
         for (index, matter) in matters.enumerated() {
             if let row = tableView.rowController(at: index) as? MatterRow {
                 let viewModel = MatterRowModel(matter: matter)
                 row.configure(withPresenter: viewModel)
             }
         }
-    }*/
+    }
 }
 
 extension InterfaceController: WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         
-        //guard let matters = applicationContext[Configure.sharedMattersKey] as? [SharedMatter] else { return }
+        guard let jsons = applicationContext[Configuration.sharedMattersKey] as? [[String: Any]] else { return }
         
-        //configure(with: matters)
+        let matters = jsons.flatMap { SharedMatter.with(json: $0) }
+        configure(with: matters)
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
     }
 }

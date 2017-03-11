@@ -12,23 +12,21 @@ import Hiwatchkit
 protocol MatterRowModelType {
     var title: String { get }
     var days: Int { get }
-    var tag: String { get }
+    var tag: Tag { get }
 }
 
 struct MatterRowModel: MatterRowModelType {
     
     var title: String
     var days: Int
-    var tag: String
+    var tag: Tag
     
-    /*
     init(matter: SharedMatter) {
         self.title = matter.title
-        self.days = Date().hi.days(with: Date(timeIntervalSince1970: matter.happenedAt))
-        self.tag = "#233333"
-    }*/
+        self.days = Date().hi.absoluteDays(with: Date(timeIntervalSince1970: matter.happenedAt))
+        self.tag = Tag(rawValue: matter.tag) ?? Tag.random()
+    }
 }
-
 
 class MatterRow: NSObject {
 
@@ -37,7 +35,7 @@ class MatterRow: NSObject {
     
     func configure(withPresenter presenter: MatterRowModelType) {
         titleLabel.setText(presenter.title)
-        daysLabel.setText("\(presenter.days)")
-        daysLabel.setTextColor(UIColor.red)
+        daysLabel.setText((presenter.days > 0) ? "+\(presenter.days)" : "\(presenter.days)")
+        daysLabel.setTextColor(UIColor(hex: presenter.tag.value))
     }
 }
