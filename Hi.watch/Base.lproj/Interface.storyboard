@@ -8,15 +8,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11508"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Matters-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Hi_watch" customModuleProvider="target">
+                <controller title="Matters" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Hi_watch" customModuleProvider="target">
                     <items>
-                        <label alignment="left" text="Matters" id="E2q-Pz-tVB">
-                            <color key="textColor" red="0.1058823529" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
-                        </label>
                         <table alignment="left" id="0kn-Ol-ggX">
                             <items>
                                 <tableRow identifier="MatterRow" id="CBj-Wc-OUY" customClass="MatterRow" customModule="Hi_watch_Extension">
@@ -47,4 +43,5 @@
             </objects>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.1058823529" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
 </document>

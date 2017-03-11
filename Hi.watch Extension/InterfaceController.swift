@@ -23,7 +23,7 @@ class InterfaceController: WKInterfaceController {
         // Configure interface objects here.
         
         print("awake")
-        
+
         WatchSessionService.shared.start(withDelegate: self)
     }
 
