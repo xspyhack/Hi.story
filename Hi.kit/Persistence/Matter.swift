@@ -1,6 +1,6 @@
 //
 //  Matter.swift
-//  Hi.story
+//  Hi.kit
 //
 //  Created by bl4ckra1sond3tre on 8/15/16.
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
@@ -60,6 +60,13 @@ open class MatterService: Synchronizable {
         let _ = try? realm.write {
             realm.add(resource)
         }
+    }
+}
+
+extension Matter {
+    
+    public static func shared(with matter: Matter) -> SharedMatter {
+        return SharedMatter(id: matter.id, createdAt: matter.createdAt, updatedAt: matter.updatedAt, title: matter.title, body: matter.body, happenedAt: matter.happenedAt, kind: matter.kind, tag: matter.tag)
     }
 }
 

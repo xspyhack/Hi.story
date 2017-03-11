@@ -23,15 +23,22 @@ public class WatchSessionService: NSObject {
         if session?.delegate == nil {
             session?.delegate = delegate
         }
-        session?.activate()
+        
+        if session?.activationState == .notActivated {
+            session?.activate()
+        }
     }
     
     private var valid: WCSession? {
+        #if os(iOS)
         if let session = session, session.isPaired && session.isWatchAppInstalled {
             return session
         } else {
             return nil
         }
+        #elseif os(watchOS)
+            return session
+        #endif
     }
     
     private var reachable: WCSession? {
@@ -49,7 +56,7 @@ public class WatchSessionService: NSObject {
      */
     public func update(withApplicationContext applicationContext: [String: Any]) {
        
-        assert(unavalibleContext(applicationContext), "Context only support plist type")
+        assert(!unavalibleContext(applicationContext), "Context only support plist type")
         
         do {
             try session?.updateApplicationContext(applicationContext)
@@ -58,7 +65,7 @@ public class WatchSessionService: NSObject {
         }
     }
     
-    func unavalibleContext(_ context: [String: Any]) -> Bool {
+    private func unavalibleContext(_ context: [String: Any]) -> Bool {
         let invalid = (context.values.filter {
             !($0 is Array<Any>) && !($0 is [String: Any]) && !($0 is Date) && !($0 is NSNumber) && !($0 is String) && !($0 is Data) && !($0 is Bool)
         })
@@ -80,9 +87,11 @@ public class WatchSessionService: NSObject {
         return valid?.transferFile(url, metadata: metadata)
     }
     
+    #if os(iOS)
     @discardableResult
     public func transfer(currentComplicationUserInfo userInfo: [String: Any]) -> WCSessionUserInfoTransfer? {
         return valid?.transferCurrentComplicationUserInfo(userInfo)
     }
+    #endif
 }
 

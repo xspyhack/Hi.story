@@ -1,6 +1,6 @@
 //
 //  Shared.swift
-//  Hi.story
+//  Hi.kit
 //
 //  Created by bl4ckra1sond3tre on 15/10/2016.
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
@@ -107,10 +107,6 @@ public struct SharedUser: Hashable {
         return id.hashValue
     }
     
-    public static func user(with user: User) -> SharedUser {
-        return SharedUser(id: user.id, username: user.username, nickname: user.nickname, bio: user.bio, avatarURLString: user.avatarURLString, createdAt: user.createdAt, lastSignInAt: user.lastSignInAt)
-    }
-    
     public static func ==(lhs: SharedUser, rhs: SharedUser) -> Bool {
         return lhs.id == rhs.id
     }
@@ -131,12 +127,35 @@ public struct SharedMatter: Hashable {
     
     public let tag: Int
     
-    public var hashValue: Int {
-        return id.hashValue
+    public var json: [String: Any] {
+        return [
+            "id": id,
+            "createdAt": createdAt,
+            "updatedAt": updatedAt,
+            "title": title,
+            "body": body,
+            "happendedAt": happenedAt,
+            "kind": kind,
+            "tag": tag,
+        ]
     }
     
-    public static func matter(with matter: Matter) -> SharedMatter {
-        return SharedMatter(id: matter.id, createdAt: matter.createdAt, updatedAt: matter.updatedAt, title: matter.title, body: matter.body, happenedAt: matter.happenedAt, kind: matter.kind, tag: matter.tag)
+    public static func with(json: [String: Any]) -> SharedMatter? {
+        guard let id = json["id"] as? String,
+            let createdAt = json["createdAt"] as? TimeInterval,
+            let updatedAt = json["updatedAt"] as? TimeInterval,
+            let title = json["title"] as? String,
+            let body = json["body"] as? String,
+            let happendedAt = json["happendedAt"] as? TimeInterval,
+            let kind = json["kind"] as? Int,
+            let tag = json["tag"] as? Int
+            else { return nil }
+        
+        return SharedMatter(id: id, createdAt: createdAt, updatedAt: updatedAt, title: title, body: body, happenedAt: happendedAt, kind: kind, tag: tag)
+    }
+    
+    public var hashValue: Int {
+        return id.hashValue
     }
     
     public static func ==(lhs: SharedMatter, rhs: SharedMatter) -> Bool {

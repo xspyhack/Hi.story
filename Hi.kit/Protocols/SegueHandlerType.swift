@@ -1,6 +1,6 @@
 //
 //  SegueHandlerType.swift
-//  Viewer
+//  Hi.kit
 //
 //  Created by bl4ckra1sond3tre on 3/11/16.
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.

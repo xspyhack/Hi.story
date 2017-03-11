@@ -1,6 +1,6 @@
 //
 //  Models.swift
-//  Hi.story
+//  Hi.kit
 //
 //  Created by bl4ckra1sond3tre on 8/3/16.
 //  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
@@ -39,6 +39,11 @@ public extension User {
         guard let userID = HiUserDefaults.userID.value, let realm = try? Realm() else { return nil }
         let predicate = NSPredicate(format: "id = %@", userID)
         return realm.objects(User.self).filter(predicate).first
+    }
+    
+    
+    public static func shared(with user: User) -> SharedUser {
+        return SharedUser(id: user.id, username: user.username, nickname: user.nickname, bio: user.bio, avatarURLString: user.avatarURLString, createdAt: user.createdAt, lastSignInAt: user.lastSignInAt)
     }
 }
 
