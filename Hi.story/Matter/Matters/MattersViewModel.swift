@@ -70,7 +70,7 @@ struct MattersViewModel: MattersViewModelType {
        
         // Sync to watchOS
         
-        delay(5.0) {
+        delay(1.0) {
             update(matters.value)
         }
         
