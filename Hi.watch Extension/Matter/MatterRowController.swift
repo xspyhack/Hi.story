@@ -1,5 +1,5 @@
 //
-//  MatterRow.swift
+//  MatterRowController.swift
 //  Hi.story
 //
 //  Created by bl4ckra1sond3tre on 14/10/2016.
@@ -28,7 +28,7 @@ struct MatterRowModel: MatterRowModelType {
     }
 }
 
-class MatterRow: NSObject {
+class MatterRowController: NSObject {
 
     @IBOutlet var daysLabel: WKInterfaceLabel!
     @IBOutlet var titleLabel: WKInterfaceLabel!

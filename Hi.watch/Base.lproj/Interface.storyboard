@@ -11,11 +11,11 @@
         <!--Matters-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller title="Matters" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Hi_watch" customModuleProvider="target">
+                <controller title="Matters" alwaysBounce="YES" id="AgC-eL-Hgc" customClass="MattersInterfaceController" customModule="Hi_watch_Extension">
                     <items>
                         <table alignment="left" id="0kn-Ol-ggX">
                             <items>
-                                <tableRow identifier="MatterRow" id="CBj-Wc-OUY" customClass="MatterRow" customModule="Hi_watch_Extension">
+                                <tableRow identifier="MatterRowType" id="CBj-Wc-OUY" customClass="MatterRowController" customModule="Hi_watch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="lnN-X2-Rwx">
                                         <items>
                                             <label alignment="left" verticalAlignment="center" text="Label" id="B9S-ho-O9c">
@@ -27,10 +27,24 @@
                                             </label>
                                         </items>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="fGl-rB-Y9a" kind="push" identifier="showMatter" id="6FD-Ff-HpX"/>
+                                        </connections>
                                     </group>
                                     <connections>
                                         <outlet property="daysLabel" destination="RZf-Mm-yG4" id="4T3-dH-7Qw"/>
                                         <outlet property="titleLabel" destination="B9S-ho-O9c" id="8Lh-eb-yrO"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="NoMattersRowType" id="VyS-6F-C6A" customClass="NoMattersRowController" customModule="Hi_watch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="79M-8Z-l0E">
+                                        <items>
+                                            <label alignment="left" verticalAlignment="center" text="No Matters" baselineAdjustment="alignCenters" id="JhC-rJ-Iqp"/>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="textLabel" destination="JhC-rJ-Iqp" id="ddR-5g-NVV"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -41,6 +55,44 @@
                     </connections>
                 </controller>
             </objects>
+        </scene>
+        <!--Matter-->
+        <scene sceneID="p7u-MB-IZQ">
+            <objects>
+                <controller identifier="MatterInterfaceController" title="Matter" id="fGl-rB-Y9a" customClass="MatterInterfaceController" customModule="Hi_watch_Extension">
+                    <items>
+                        <group width="1" alignment="left" id="cau-44-GoZ">
+                            <items>
+                                <label alignment="center" text="Matter" id="GFO-GS-qYv">
+                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                </label>
+                            </items>
+                        </group>
+                        <group width="1" alignment="left" id="xOn-Kw-0IT">
+                            <items>
+                                <label alignment="center" text="Label" id="uar-9S-khK">
+                                    <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                </label>
+                            </items>
+                        </group>
+                        <group width="1" alignment="left" spacing="10" id="bNF-P5-d6r">
+                            <items>
+                                <label alignment="left" text="Notes" numberOfLines="0" id="clP-yN-uRc">
+                                    <color key="textColor" red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
+                            </items>
+                            <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <edgeInsets key="margins" left="2" right="2" top="4" bottom="4"/>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="happenLabel" destination="uar-9S-khK" id="VBV-Tp-bXN"/>
+                        <outlet property="notesLabel" destination="clP-yN-uRc" id="vpb-s3-Qh7"/>
+                        <outlet property="titleLabel" destination="GFO-GS-qYv" id="U4I-Z4-ceo"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="373" y="37"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.1058823529" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>

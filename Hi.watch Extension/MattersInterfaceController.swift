@@ -11,10 +11,25 @@ import Foundation
 import Hiwatchkit
 import WatchConnectivity
 
-class InterfaceController: WKInterfaceController {
+class MattersInterfaceController: WKInterfaceController {
     
-    //private var matters: [Matter] = []
+    // MARK: Types
+    
+    struct Storyboard {
+        struct RowTypes {
+            static let matter = "MatterRowType"
+            static let noMatters = "NoMattersRowType"
+        }
+        
+        struct Segues {
+            static let matterSelection = "showMatter"
+        }
+    }
+    
+    fileprivate var matters: [SharedMatter] = []
 
+    // MARK: Properties
+    
     @IBOutlet private var tableView: WKInterfaceTable!
     
     override func awake(withContext context: Any?) {
@@ -24,6 +39,7 @@ class InterfaceController: WKInterfaceController {
         
         print("awake")
 
+        configure(with: matters)
         WatchSessionService.shared.start(withDelegate: self)
     }
 
@@ -45,10 +61,25 @@ class InterfaceController: WKInterfaceController {
 
     fileprivate func configure(with matters: [SharedMatter]) {
         
-        tableView.setNumberOfRows(matters.count, withRowType: "MatterRow")
+        self.matters = matters
+        
+        guard !matters.isEmpty else {
+            
+            tableView.setNumberOfRows(0, withRowType: Storyboard.RowTypes.matter)
+            tableView.setNumberOfRows(1, withRowType: Storyboard.RowTypes.noMatters)
+            
+            let row = tableView.rowController(at: 0) as? NoMattersRowController
+            row?.setText(text: "No Matters")
+            row?.setColor(color: UIColor.red)
+            
+            return
+        }
+        
+        tableView.setNumberOfRows(0, withRowType: Storyboard.RowTypes.noMatters)
+        tableView.setNumberOfRows(matters.count, withRowType: Storyboard.RowTypes.matter)
 
         for (index, matter) in matters.enumerated() {
-            if let row = tableView.rowController(at: index) as? MatterRow {
+            if let row = tableView.rowController(at: index) as? MatterRowController {
                 let viewModel = MatterRowModel(matter: matter)
                 row.configure(withPresenter: viewModel)
             }
@@ -56,7 +87,21 @@ class InterfaceController: WKInterfaceController {
     }
 }
 
-extension InterfaceController: WCSessionDelegate {
+extension MattersInterfaceController {
+    
+    override func contextForSegue(withIdentifier segueIdentifier: String, in table: WKInterfaceTable, rowIndex: Int) -> Any? {
+        
+        if segueIdentifier == Storyboard.Segues.matterSelection {
+            let matter = matters[rowIndex]
+            
+            return matter
+        }
+        
+        return nil
+    }
+}
+
+extension MattersInterfaceController: WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         
