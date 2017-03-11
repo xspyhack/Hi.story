@@ -52,15 +52,27 @@ struct MattersViewModel: MattersViewModelType {
     
     init(with userID: String? = nil, realm: Realm) {
       
+        func update(_ matters: [Matter]) {
+            let mattersDictionary = (matters.map { Matter.shared(with: $0) }).map { $0.json }
+            WatchSessionService.shared.update(withApplicationContext: [Configuration.sharedMattersKey: mattersDictionary])
+        }
+        
         let predicate: NSPredicate
         if let userID = userID {
             predicate = NSPredicate(format: "creator.id = %@", userID)
         } else {
             predicate = NSPredicate(value: true)
         }
+        
         let matters = Variable<[Matter]>(MatterService.shared.fetchAll(withPredicate: predicate,fromRealm: realm).sorted(by: { (matter0, matter1) in
             matter0.happenedAt > matter1.happenedAt
         }))
+       
+        // Sync to watchOS
+        
+        delay(5.0) {
+            update(matters.value)
+        }
         
         self.matters = matters
         
@@ -130,6 +142,8 @@ struct MattersViewModel: MattersViewModelType {
             .subscribe(onNext: { matter in
                 matters.value.insert(matter, at: 0)
                 MatterService.shared.synchronize(matter, toRealm: realm)
+                
+                update(matters.value)
             })
             .addDisposableTo(disposeBag)
         
@@ -138,10 +152,13 @@ struct MattersViewModel: MattersViewModelType {
                 if let index = matters.value.index(of: matter) {
                     matters.value.remove(at: index)
                     MatterService.shared.remove(matter, fromRealm: realm)
+                    
+                    update(matters.value)
                 }
             })
             .addDisposableTo(disposeBag)
     }
+    
 }
 
 extension Matter: ModelType {}

@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import RealmSwift
+import WatchConnectivity
 
 final class MattersViewController: BaseViewController {
     
@@ -48,6 +49,8 @@ final class MattersViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        WatchSessionService.shared.start(withDelegate: self)
         
         self.registerForPreviewing(with: self, sourceView: tableView)
         
@@ -195,5 +198,25 @@ extension MattersViewController: UIPopoverPresentationControllerDelegate {
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
+    }
+}
+
+extension MattersViewController: WCSessionDelegate {
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        
+    }
+    
+    /** ------------------------- iOS App State For Watch ------------------------ */
+    
+    /** Called when the session can no longer be used to modify or add any new transfers and, all interactive messages will be cancelled, but delegate callbacks for background transfers can still occur. This will happen when the selected watch is being changed. */
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        
+    }
+    
+    
+    /** Called when all delegate callbacks for the previously selected watch has occurred. The session can be re-activated for the now selected watch using activateSession. */
+    func sessionDidDeactivate(_ session: WCSession) {
+        
     }
 }
