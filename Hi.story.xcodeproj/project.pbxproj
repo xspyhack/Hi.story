@@ -125,6 +125,13 @@
 		7871F2E01E645308002B5C0C /* PromptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DF1E645308002B5C0C /* PromptedView.swift */; };
 		7871F2E21E66F824002B5C0C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2E11E66F824002B5C0C /* NotificationService.swift */; };
 		7871F2E41E67026E002B5C0C /* AnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2E31E67026E002B5C0C /* AnalysisService.swift */; };
+		7872B39B1E73E98100446420 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872B3991E73E97800446420 /* WatchSessionService.swift */; };
+		7872B39C1E73E98200446420 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872B3991E73E97800446420 /* WatchSessionService.swift */; };
+		7872B39D1E73E98300446420 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872B3991E73E97800446420 /* WatchSessionService.swift */; };
+		7872B39E1E73ED0100446420 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E32D271E71AB4A00429266 /* Shared.swift */; };
+		7872B3A11E73F2DD00446420 /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872B39F1E73F2CE00446420 /* UIColor+Shared.swift */; };
+		7872B3A21E73F2DE00446420 /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872B39F1E73F2CE00446420 /* UIColor+Shared.swift */; };
+		7872B3A31E73F2DE00446420 /* UIColor+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7872B39F1E73F2CE00446420 /* UIColor+Shared.swift */; };
 		787727581E213F4800D9748A /* MarkdownToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787727571E213F4800D9748A /* MarkdownToolbar.swift */; };
 		7877275A1E266E5800D9748A /* DraftsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787727591E266E5800D9748A /* DraftsViewModel.swift */; };
 		7877275C1E266F2700D9748A /* DraftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7877275B1E266F2700D9748A /* DraftCell.swift */; };
@@ -164,8 +171,6 @@
 		788BCFF31DB1F24A00535519 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A501D5222DA00354650 /* RealmSwift.framework */; };
 		788BCFF51DB204A000535519 /* Date+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786AD4B31D8D3688008709D2 /* Date+Hi.swift */; };
 		788BCFF61DB204A400535519 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B2052F1D7169DD0057D722 /* Base.swift */; };
-		788BD0001DB2286300535519 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BCFFF1DB2286300535519 /* WatchSessionService.swift */; };
-		788BD0021DB22F1600535519 /* WatchSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD0011DB22F1600535519 /* WatchSessionService.swift */; };
 		788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD0281DBC9E3000535519 /* FeedCell.swift */; };
 		788BD02B1DBC9E6600535519 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD02A1DBC9E6600535519 /* FeedImageCell.swift */; };
 		788BD02D1DBCA80100535519 /* FeedSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788BD02C1DBCA80100535519 /* FeedSectionHeaderView.swift */; };
@@ -534,6 +539,8 @@
 		7871F2DF1E645308002B5C0C /* PromptedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptedView.swift; sourceTree = "<group>"; };
 		7871F2E11E66F824002B5C0C /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		7871F2E31E67026E002B5C0C /* AnalysisService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisService.swift; sourceTree = "<group>"; };
+		7872B3991E73E97800446420 /* WatchSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionService.swift; sourceTree = "<group>"; };
+		7872B39F1E73F2CE00446420 /* UIColor+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Shared.swift"; sourceTree = "<group>"; };
 		787727571E213F4800D9748A /* MarkdownToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownToolbar.swift; sourceTree = "<group>"; };
 		787727591E266E5800D9748A /* DraftsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftsViewModel.swift; sourceTree = "<group>"; };
 		7877275B1E266F2700D9748A /* DraftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftCell.swift; sourceTree = "<group>"; };
@@ -577,8 +584,6 @@
 		788BCFF81DB20A2D00535519 /* Hi.watch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hi.watch.entitlements; sourceTree = "<group>"; };
 		788BCFF91DB20B7000535519 /* Hi.watch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Hi.watch Extension.entitlements"; sourceTree = "<group>"; };
 		788BCFFA1DB2128500535519 /* Hi.share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hi.share.entitlements; sourceTree = "<group>"; };
-		788BCFFF1DB2286300535519 /* WatchSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionService.swift; sourceTree = "<group>"; };
-		788BD0011DB22F1600535519 /* WatchSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchSessionService.swift; sourceTree = "<group>"; };
 		788BD0281DBC9E3000535519 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		788BD02A1DBC9E6600535519 /* FeedImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
 		788BD02C1DBCA80100535519 /* FeedSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSectionHeaderView.swift; sourceTree = "<group>"; };
@@ -1356,7 +1361,6 @@
 			children = (
 				78CFB2111D563AE1009D7293 /* InterfaceController.swift */,
 				78CFB2131D563AE1009D7293 /* ExtensionDelegate.swift */,
-				788BCFFF1DB2286300535519 /* WatchSessionService.swift */,
 				788BCF911DB0EC5D00535519 /* Matter */,
 				78CFB2151D563AE1009D7293 /* Assets.xcassets */,
 				788BCFF91DB20B7000535519 /* Hi.watch Extension.entitlements */,
@@ -1497,7 +1501,9 @@
 		78E32D241E71AAE100429266 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7872B3991E73E97800446420 /* WatchSessionService.swift */,
 				78E32D271E71AB4A00429266 /* Shared.swift */,
+				7872B39F1E73F2CE00446420 /* UIColor+Shared.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1577,7 +1583,6 @@
 		78F4D22F1CEEC48000DAA210 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				788BD0011DB22F1600535519 /* WatchSessionService.swift */,
 				78F4D2581CEF687600DAA210 /* Request.swift */,
 				78F4D25A1CEF69AF00DAA210 /* Networking.swift */,
 				783865501CFC73CD005E1503 /* LocationService.swift */,
@@ -2235,7 +2240,6 @@
 				788BCF7E1DA2142A00535519 /* FeedViewController.swift in Sources */,
 				78E179A51D58D7F5000641F2 /* ProfileViewController.swift in Sources */,
 				7851BBCD1DE9755800599861 /* MarkdownParser.swift in Sources */,
-				788BD0021DB22F1600535519 /* WatchSessionService.swift in Sources */,
 				78AEC10D1DD36D4400AE1780 /* HomeViewController.swift in Sources */,
 				78E4817D1E06CE6C00EB81E9 /* ImageCacheController.swift in Sources */,
 				78E32D141E6F012D00429266 /* TodayCardView.swift in Sources */,
@@ -2261,6 +2265,7 @@
 				7844AEA31E0E442300D7FA11 /* Feed.swift in Sources */,
 				7895AEBE1D524B370004B8C3 /* SyncService.swift in Sources */,
 				786191541D16843F005680B3 /* UserDefaults.swift in Sources */,
+				7872B39B1E73E98100446420 /* WatchSessionService.swift in Sources */,
 				78E32D1D1E7031F800429266 /* Sequence+Group.swift in Sources */,
 				7895AEB51D5234FC0004B8C3 /* Models.swift in Sources */,
 				78D381C61D60D98600AB844E /* Matter.swift in Sources */,
@@ -2270,6 +2275,7 @@
 				78E32D291E71B56C00429266 /* Shared.swift in Sources */,
 				7895AEBC1D5246AB0004B8C3 /* SearchableItem.swift in Sources */,
 				78E32D221E71889200429266 /* Configuration.swift in Sources */,
+				7872B3A11E73F2DD00446420 /* UIColor+Shared.swift in Sources */,
 				786191151D1591E1005680B3 /* SegueHandlerType.swift in Sources */,
 				78B205371D7180FC0057D722 /* Reusable.swift in Sources */,
 				78E32D1C1E7031E700429266 /* Identifiable.swift in Sources */,
@@ -2305,6 +2311,8 @@
 				78B205431D71B4390057D722 /* String+Hi.swift in Sources */,
 				78E4338B1D8ECD040037D646 /* Matter.swift in Sources */,
 				7808AF7B1DD714B7000B3625 /* Listenable.swift in Sources */,
+				7872B3A21E73F2DE00446420 /* UIColor+Shared.swift in Sources */,
+				7872B39C1E73E98200446420 /* WatchSessionService.swift in Sources */,
 				788BCF711DA2128100535519 /* RealmConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2334,6 +2342,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7872B39E1E73ED0100446420 /* Shared.swift in Sources */,
+				7872B39D1E73E98300446420 /* WatchSessionService.swift in Sources */,
+				7872B3A31E73F2DE00446420 /* UIColor+Shared.swift in Sources */,
 				78E32D2D1E71B64800429266 /* Configuration.swift in Sources */,
 				788BCFF61DB204A400535519 /* Base.swift in Sources */,
 				788BCFF51DB204A000535519 /* Date+Hi.swift in Sources */,
@@ -2354,7 +2365,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				788BD0001DB2286300535519 /* WatchSessionService.swift in Sources */,
 				78CFB2141D563AE1009D7293 /* ExtensionDelegate.swift in Sources */,
 				788BCF931DB0EC7A00535519 /* MatterRow.swift in Sources */,
 				78CFB2121D563AE1009D7293 /* InterfaceController.swift in Sources */,
