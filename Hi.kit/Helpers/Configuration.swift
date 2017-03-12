@@ -16,6 +16,11 @@ public struct Configuration {
     
     public static let sharedMattersKey = "com.xspyhack.History.Matters"
     
+    public struct Defaults {
+        public static let storyTitle = "Untitled"
+        public static let storybookName = "Stories"
+    }
+    
     public struct Domain {
         static let feed = "com.xspyhack.History.Feed"
         static let user = "com.xspyhack.History.User"
