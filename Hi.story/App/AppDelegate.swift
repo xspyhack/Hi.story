@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // default storybook
             let book = Storybook()
-            book.name = Defaults.storybookName
+            book.name = Configuration.Defaults.storybookName
             book.creator = user
             
             try? realm.write {

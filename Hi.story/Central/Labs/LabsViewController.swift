@@ -25,7 +25,7 @@ final class LabsViewController: UITableViewController {
         
         var describe: String {
             switch self {
-            case .spotlight: return "Open Spotlight to search your story"
+            case .spotlight: return "Open Spotlight to search your stories"
             case .handoff: return "Handoff, free your hands"
             case .siri: return "Hey Siri"
             }

@@ -46,8 +46,7 @@ struct Defaults {
         static let hadInitializeBackgroundMode = prefix + "hadInitializeBackgroundMode"
     }
     
-    static let storyTitle = "Untitled"
-    static let storybookName = "Stories"
+
     
     static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
     static let tabBarHeight: CGFloat = 44.0

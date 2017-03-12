@@ -420,7 +420,7 @@ extension ProfileViewController: UICollectionViewDelegate {
         
         let storybookCellModel = StorybookCellModel(storybook: storybook)
         cell.configure(withPresenter: storybookCellModel)
-        cell.isEditing = isEditingStorybook && storybook.name != Defaults.storybookName
+        cell.isEditing = isEditingStorybook && storybook.name != Configuration.Defaults.storybookName
         
         cell.deleteAction = { [weak self] in
             // alert

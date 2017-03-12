@@ -23,7 +23,7 @@ struct TodayCardViewModel: TodayCardViewModelType {
     
     init(story: Story, creator: User) {
         
-        self.text = story.title != Defaults.storyTitle ? story.title : story.body
+        self.text = story.title != Configuration.Defaults.storyTitle ? story.title : story.body
         self.date = Date(timeIntervalSince1970: story.createdAt).hi.monthDayYear
         self.avatar = URL(string: creator.avatarURLString)
         self.imageURL = (story.attachment?.urlString).flatMap { URL(string: $0) }

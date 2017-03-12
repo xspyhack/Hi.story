@@ -20,7 +20,7 @@ struct Launcher {
     
     static func defaultStorybook(of userID: String) -> Storybook? {
         guard let realm = try? Realm() else { return nil }
-        let predicate = NSPredicate(format: "name = %@ AND creator.id = %@", Defaults.storybookName, userID)
+        let predicate = NSPredicate(format: "name = %@ AND creator.id = %@", Configuration.Defaults.storybookName, userID)
         return realm.objects(Storybook.self).filter(predicate).first
     }
     

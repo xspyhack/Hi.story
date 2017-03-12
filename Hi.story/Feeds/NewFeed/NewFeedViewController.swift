@@ -43,7 +43,7 @@ final class NewFeedViewController: BaseViewController {
     
     @IBOutlet private weak var titleTextField: UITextField! {
         didSet {
-            titleTextField.placeholder = Defaults.storyTitle
+            titleTextField.placeholder = Configuration.Defaults.storyTitle
             titleTextField.contentVerticalAlignment = .center
         }
     }
