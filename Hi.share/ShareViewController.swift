@@ -14,15 +14,15 @@ import RealmSwift
 
 class ShareViewController: SLComposeServiceViewController {
     
-    fileprivate enum StoryboardIdentifier: String {
+    private enum StoryboardIdentifier: String {
         case titleViewController = "TitleViewController"
-        case tagsViewController = "TagsViewController"
+        case storybooksViewController = "StorybooksViewController"
     }
     
-    fileprivate lazy var titleItem: SLComposeSheetConfigurationItem = {
+    private lazy var titleItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
         item?.title = "Title"
-        item?.value = Date().hi.yearMonthDay
+        item?.value = Configuration.Defaults.storyTitle
         item?.tapHandler = { [weak self] in
             if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.titleViewController.rawValue) as? TitleViewController {
                 vc.pickAction = { [weak self] (title) in
@@ -36,16 +36,16 @@ class ShareViewController: SLComposeServiceViewController {
         return item!
     }()
     
-    fileprivate lazy var tagItem: SLComposeSheetConfigurationItem = {
+    private lazy var storybookItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
-        item?.title = "Tag"
-        item?.value = "Default"
+        item?.title = "Storybook"
+        item?.value = Configuration.Defaults.storybookName
         item?.tapHandler = { [weak self] in
-            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.tagsViewController.rawValue) as? TagsViewController {
-                vc.pickAction = { [weak self] (tag) in
+            if let vc = self?.storyboard?.instantiateViewController(withIdentifier: StoryboardIdentifier.storybooksViewController.rawValue) as? StorybooksViewController {
+                vc.choosedAction = { [weak self] (storybook) in
                     self?.popConfigurationViewController()
                     DispatchQueue.main.async {
-                        item?.value = tag
+                        item?.value = storybook
                     }
                 }
                 self?.pushConfigurationViewController(vc)
@@ -54,7 +54,7 @@ class ShareViewController: SLComposeServiceViewController {
         return item!
     }()
     
-    fileprivate var images: [UIImage] = []
+    private var images: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,10 +90,12 @@ class ShareViewController: SLComposeServiceViewController {
         let shareType: ShareType
         let body = contentText ?? ""
         let title = titleItem.value
+        let storybook = storybookItem.value
+        
         if let image = images.first {
-            shareType = .image(title: title!, body: body, image: image)
+            shareType = .image(title: title!, body: body, image: image, storybook: storybook!)
         } else {
-            shareType = .plainText(title: title!, body: body)
+            shareType = .plainText(title: title!, body: body, storybook: storybook!)
         }
         
         post(shareType: shareType) { [weak self] (finished) in
@@ -103,7 +105,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func configurationItems() -> [Any]! {
         // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return [titleItem, tagItem]
+        return [titleItem, storybookItem]
     }
     
     
@@ -111,25 +113,32 @@ class ShareViewController: SLComposeServiceViewController {
     
     fileprivate enum ShareType {
         
-        case plainText(title: String, body: String)
-        case image(title: String, body: String, image: UIImage)
+        case plainText(title: String, body: String, storybook: String)
+        case image(title: String, body: String, image: UIImage, storybook: String)
         
         var body: String {
             switch self {
-            case .plainText(_, let body): return body
-            case .image(_, let body, _): return body
+            case .plainText(_, let body, _): return body
+            case .image(_, let body, _, _): return body
             }
         }
         
         var title: String {
             switch self {
-            case .plainText(let title, _): return title
-            case .image(let title, _, _): return title
+            case .plainText(let title, _, _): return title
+            case .image(let title, _, _, _): return title
+            }
+        }
+        
+        var storybook: String {
+            switch self {
+            case .image(_, _, _, let book): return book
+            case .plainText(_, _, let book): return book
             }
         }
     }
     
-    fileprivate func post(shareType: ShareType, completion: (_ finished: Bool) -> Void) {
+    private func post(shareType: ShareType, completion: (_ finished: Bool) -> Void) {
         
         guard let realm = try? Realm() else {
             completion(false)
@@ -147,7 +156,6 @@ class ShareViewController: SLComposeServiceViewController {
         
         StoryService.shared.synchronize(story, toRealm: realm)
     }
-
 }
 
 extension ShareViewController {
@@ -186,5 +194,4 @@ extension ShareViewController {
             completion(images)
         }
     }
-
 }
