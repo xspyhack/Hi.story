@@ -104,7 +104,7 @@ public class Coordinate: Object {
     }
 }
 
-public func metadataString(of image: UIImage) -> String {
+public func metadataString(of image: UIImage, quality: CGFloat = 0.7) -> String {
     
     let imageWidth = image.size.width
     let imageHeight = image.size.height
@@ -124,7 +124,7 @@ public func metadataString(of image: UIImage) -> String {
     
     if let thumbnail = image.hi.resized(to: thumbnailSize, withInterpolationQuality: .high) {
 
-        let data = UIImageJPEGRepresentation(thumbnail, 0.7)!
+        let data = UIImageJPEGRepresentation(thumbnail, quality)!
         let string = data.base64EncodedString(options: [])
         
         return string
