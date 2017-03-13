@@ -9,16 +9,25 @@
 import UIKit
 import Hikit
 
-struct FeedImageCellModel: FeedCellModelType {
+protocol FeedImageCellModelType {
+    var title: String { get }
+    var body: String { get }
+    var imageURL: String? { get }
+    var thumbnailData: Data? { get }
+}
+
+struct FeedImageCellModel: FeedImageCellModelType {
     
     let title: String
     let body: String
     let imageURL: String?
+    let thumbnailData: Data?
     
     init(story: Story) {
         self.title = story.title
         self.body = story.body
         self.imageURL = story.attachment?.urlString
+        self.thumbnailData = story.attachment?.thumbnailImageData
     }
 }
 
@@ -98,9 +107,20 @@ class FeedImageCell: UICollectionViewCell, Reusable {
 
 extension FeedImageCell: Configurable {
     
-    func configure(withPresenter presenter: FeedCellModelType) {
+    func configure(withPresenter presenter: FeedImageCellModelType) {
         titleLabel.text = presenter.title
         bodyLabel.text = presenter.body
-        imageView.setImage(with: presenter.imageURL.flatMap { URL(string: $0) })
+        
+        if let url = presenter.imageURL, url.isEmpty, let thumbnailData = presenter.thumbnailData {
+            DispatchQueue.global(qos: .default).async {
+                if let image = UIImage(data: thumbnailData)?.hi.normalized {
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                }
+            }
+        } else {
+            imageView.setImage(with: presenter.imageURL.flatMap { URL(string: $0) })
+        }
     }
 }
