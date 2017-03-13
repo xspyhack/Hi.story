@@ -90,7 +90,6 @@
 		786190DE1D1589D1005680B3 /* HikitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786190DD1D1589D1005680B3 /* HikitTests.swift */; };
 		786190E21D1589D1005680B3 /* Hikit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786190CD1D1589D1005680B3 /* Hikit.framework */; };
 		786190E31D1589D1005680B3 /* Hikit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 786190CD1D1589D1005680B3 /* Hikit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		786190EF1D158BDC005680B3 /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786190EE1D158BDC005680B3 /* TagsViewController.swift */; };
 		786190F01D158FDC005680B3 /* Hikit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786190CD1D1589D1005680B3 /* Hikit.framework */; };
 		786191151D1591E1005680B3 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786190EC1D158AE5005680B3 /* SegueHandlerType.swift */; };
 		7861913A1D15B9C7005680B3 /* TitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786191391D15B9C7005680B3 /* TitleViewController.swift */; };
@@ -516,7 +515,6 @@
 		786190DD1D1589D1005680B3 /* HikitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikitTests.swift; sourceTree = "<group>"; };
 		786190DF1D1589D1005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		786190EC1D158AE5005680B3 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
-		786190EE1D158BDC005680B3 /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
 		786191391D15B9C7005680B3 /* TitleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleViewController.swift; sourceTree = "<group>"; };
 		7861913D1D15BCA0005680B3 /* UIColor+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hi.swift"; sourceTree = "<group>"; };
 		786191451D15D01B005680B3 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -1345,7 +1343,6 @@
 				78CEFD081D157EF50098516A /* ShareViewController.swift */,
 				7872B3A81E75088700446420 /* StorybooksViewController.swift */,
 				786191391D15B9C7005680B3 /* TitleViewController.swift */,
-				786190EE1D158BDC005680B3 /* TagsViewController.swift */,
 				78CEFD0A1D157EF50098516A /* MainInterface.storyboard */,
 				7861914B1D166642005680B3 /* Assets.xcassets */,
 				78CEFD0D1D157EF50098516A /* Info.plist */,
@@ -2365,7 +2362,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78CEFD091D157EF50098516A /* ShareViewController.swift in Sources */,
-				786190EF1D158BDC005680B3 /* TagsViewController.swift in Sources */,
 				7861913A1D15B9C7005680B3 /* TitleViewController.swift in Sources */,
 				7872B3A91E75088700446420 /* StorybooksViewController.swift in Sources */,
 			);
