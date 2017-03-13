@@ -35,6 +35,12 @@ class TitleViewController: UIViewController {
         preferredContentSize = CGSize(width: view.bounds.width, height: 100.0)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        view.endEditing(true)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         

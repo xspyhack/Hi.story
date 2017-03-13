@@ -12,7 +12,7 @@ import RealmSwift
 
 class StorybooksViewController: UITableViewController {
     
-    var choosedAction: ((_ tag: String) -> Void)?
+    var choosedAction: ((_ storybook: String) -> Void)?
     
     private(set) var storybooks: [Storybook] = []
     

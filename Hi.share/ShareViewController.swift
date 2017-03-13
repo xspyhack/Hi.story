@@ -59,6 +59,8 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Realm.Configuration.defaultConfiguration = realmConfig()
+        
         view.tintColor = UIColor.hi.tint
     }
     
@@ -136,6 +138,13 @@ class ShareViewController: SLComposeServiceViewController {
             case .plainText(_, _, let book): return book
             }
         }
+        
+        var image: UIImage? {
+            switch self {
+            case .plainText: return nil
+            case .image(_, _, let image, _): return image
+            }
+        }
     }
     
     private func post(shareType: ShareType, completion: (_ finished: Bool) -> Void) {
@@ -150,11 +159,31 @@ class ShareViewController: SLComposeServiceViewController {
         story.body = shareType.body
         story.title = shareType.title
         
-        let attement = Attachment()
-        attement.urlString = ""
-        story.attachment = attement
+        if let storybook = realm.objects(Storybook.self).filter("name = %@", shareType.storybook).first {
+            story.withStorybook = storybook
+        }
         
-        StoryService.shared.synchronize(story, toRealm: realm)
+        if let image = shareType.image {
+            let attement = Attachment()
+            let meta = Meta()
+            meta.widht = Double(image.size.width)
+            meta.height = Double(image.size.height)
+            attement.meta = meta
+            attement.metadata = metadataString(of: image)
+            story.attachment = attement
+        }
+        
+        story.isPublished = true
+        
+        let feed = Feed()
+        feed.story = story
+        
+        let creator = User.current
+        feed.creator = creator
+        
+        feed.visible = 1
+        
+        FeedService.shared.synchronize(feed, toRealm: realm)
     }
 }
 
