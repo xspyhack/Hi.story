@@ -79,8 +79,9 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
     fileprivate enum Row: Int {
         case review = 1
         case recommend
-        case privacyPolicy
-        case termsOfService
+        //case privacyPolicy
+        //case termsOfService
+        case coverPhotos
         case acknowledgements
         
         var annotation: String {
@@ -88,8 +89,9 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             switch self {
             case .review: return "Review"
             case .recommend: return "Recommend"
-            case .privacyPolicy: return "Privacy Policy"
-            case .termsOfService: return "Terms of Service"
+            case .coverPhotos: return "Cover Photos"
+            //case .privacyPolicy: return "Privacy Policy"
+            //case .termsOfService: return "Terms of Service"
             case .acknowledgements: return "Acknowledgements"
             }
         }
@@ -134,10 +136,12 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             break
         case .recommend?:
             break
-        case .privacyPolicy?:
-            break
-        case .termsOfService?:
-            break
+        //case .privacyPolicy?:
+            //break
+        //case .termsOfService?:
+            //break
+        case .coverPhotos?:
+            performSegue(withIdentifier: .showCovers, sender: nil)
         case .acknowledgements?:
             break
         default:
@@ -150,6 +154,7 @@ extension AboutViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case showProfile
+        case showCovers
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -158,6 +163,8 @@ extension AboutViewController: SegueHandlerType {
         case .showProfile:
             let vc = segue.destination as? ProfileViewController
             vc?.viewModel = sender as? ProfileViewModel
+        case .showCovers:
+            break
         }
     }
 }

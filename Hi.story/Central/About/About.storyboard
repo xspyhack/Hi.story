@@ -33,16 +33,16 @@
                                 </connections>
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hi_line_fill" translatesAutoresizingMaskIntoConstraints="NO" id="3is-Sd-wN7">
-                                <rect key="frame" x="138" y="40" width="100" height="100"/>
+                                <rect key="frame" x="138" y="48" width="100" height="100"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi.story" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mcl-wT-Ahf">
-                                <rect key="frame" x="138" y="159" width="102.5" height="36"/>
+                                <rect key="frame" x="138" y="172" width="102.5" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Joh-vz-alE">
-                                <rect key="frame" x="149.5" y="203" width="80" height="17"/>
+                                <rect key="frame" x="149.5" y="220" width="80" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -56,8 +56,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Joh-vz-alE" firstAttribute="top" secondItem="Mcl-wT-Ahf" secondAttribute="bottom" constant="8" id="CMJ-41-iEn"/>
-                            <constraint firstItem="3is-Sd-wN7" firstAttribute="top" secondItem="SCt-tA-N9C" secondAttribute="bottom" constant="20" id="Fqs-jZ-p14"/>
+                            <constraint firstItem="Joh-vz-alE" firstAttribute="top" secondItem="Mcl-wT-Ahf" secondAttribute="bottom" constant="12" id="CMJ-41-iEn"/>
+                            <constraint firstItem="3is-Sd-wN7" firstAttribute="top" secondItem="SCt-tA-N9C" secondAttribute="bottom" constant="28" id="Fqs-jZ-p14"/>
                             <constraint firstAttribute="centerX" secondItem="3is-Sd-wN7" secondAttribute="centerX" id="LXO-c6-xTe"/>
                             <constraint firstAttribute="bottom" secondItem="3uo-Fo-uZ3" secondAttribute="bottom" constant="8" id="MvH-53-dRE"/>
                             <constraint firstItem="Joh-vz-alE" firstAttribute="centerX" secondItem="Mcl-wT-Ahf" secondAttribute="centerX" id="UOr-hb-6pt"/>
@@ -65,7 +65,7 @@
                             <constraint firstItem="3uo-Fo-uZ3" firstAttribute="top" secondItem="sdX-Zl-yfY" secondAttribute="bottom" constant="8" id="dN7-Bg-sEZ"/>
                             <constraint firstItem="Mcl-wT-Ahf" firstAttribute="centerX" secondItem="3is-Sd-wN7" secondAttribute="centerX" constant="0.5" id="dqw-V5-LxS"/>
                             <constraint firstAttribute="centerX" secondItem="3uo-Fo-uZ3" secondAttribute="centerX" id="eu1-1K-LJC"/>
-                            <constraint firstItem="Mcl-wT-Ahf" firstAttribute="top" secondItem="3is-Sd-wN7" secondAttribute="bottom" constant="19" id="hkh-dZ-s5u"/>
+                            <constraint firstItem="Mcl-wT-Ahf" firstAttribute="top" secondItem="3is-Sd-wN7" secondAttribute="bottom" constant="24" id="hkh-dZ-s5u"/>
                             <constraint firstItem="sdX-Zl-yfY" firstAttribute="leading" secondItem="FzW-se-Jde" secondAttribute="leading" id="zFT-ZU-0Zb"/>
                         </constraints>
                     </view>
@@ -79,11 +79,12 @@
                         <outlet property="appVersionLabel" destination="Joh-vz-alE" id="R7r-iQ-Zyi"/>
                         <outlet property="copyrightLabel" destination="3uo-Fo-uZ3" id="lX6-QG-mOh"/>
                         <segue destination="laJ-Ij-5K2" kind="show" identifier="showProfile" id="2iP-VZ-Ig4"/>
+                        <segue destination="wIR-5l-CXW" kind="show" identifier="showCovers" id="GZd-IU-Oki"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5t-QB-hQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3466" y="191"/>
+            <point key="canvasLocation" x="3412" y="197"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="CW3-gK-Poh">
@@ -92,6 +93,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N0n-Tv-hjz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4108" y="190"/>
+        </scene>
+        <!--CoversViewController-->
+        <scene sceneID="SaG-rs-NYZ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Covers" referencedIdentifier="CoversViewController" id="wIR-5l-CXW" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sxU-R6-ZvV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4105" y="273"/>
         </scene>
     </scenes>
     <resources>
