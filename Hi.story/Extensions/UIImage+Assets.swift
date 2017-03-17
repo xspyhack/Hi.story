@@ -16,7 +16,7 @@ extension Hi where Base: UIImage {
     }
     
     static var avatar: UIImage? {
-        return UIImage(named: "avatar")
+        return UIImage(named: "default_avatar")
     }
     
     static func roundedAvatar(radius: CGFloat) -> UIImage? {
@@ -69,5 +69,40 @@ extension Hi where Base: UIImage {
     
     static var storybookDelete: UIImage? {
         return UIImage(named: "icon_delete_oval")
+    }
+}
+
+extension Hi where Base: UIImage {
+    
+    static var suoh: UIImage? {
+        return UIImage(named: "Suoh Mikoto")
+    }
+    
+    static var munakata: UIImage? {
+        return UIImage(named: "Munakata Reisi")
+    }
+    
+    static var adolf: UIImage? {
+        return UIImage(named: "Adolf·K·Weismann")
+    }
+    
+    static var hisui: UIImage? {
+        return UIImage(named: "Hisui Nagare")
+    }
+    
+    static var kokujoji: UIImage? {
+        return UIImage(named: "Kokujoji Daikaku")
+    }
+    
+    static var misyakuji: UIImage? {
+        return UIImage(named: "Misyakuji Yukari")
+    }
+    
+    static var tenkei: UIImage? {
+        return UIImage(named: "Tenkei Iwahune")
+    }
+    
+    static var goRA: UIImage? {
+        return UIImage(named: "GoRA")
     }
 }

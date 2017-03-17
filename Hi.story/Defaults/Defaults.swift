@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 
 struct Defaults {
     
@@ -44,9 +45,9 @@ struct Defaults {
         static let latestAnalyingDate = prefix + "latestAnalyingDate"
         
         static let hadInitializeBackgroundMode = prefix + "hadInitializeBackgroundMode"
+        
+        static let selectingCover = prefix + "selectingCover"
     }
-    
-
     
     static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
     static let tabBarHeight: CGFloat = 44.0
@@ -177,6 +178,14 @@ struct Defaults {
             userDefaults.set(newValue, forKey: Key.hadInitializeBackgroundMode)
         }
     }
+    
+    static var selectingCover: Listenable<Int> = {
+        let index = userDefaults.integer(forKey: Key.selectingCover)
+        
+        return Listenable<Int>(index) { index in
+            userDefaults.set(index, forKey: Key.selectingCover)
+        }
+    }()
 }
 
 class Wrapper<T> {
