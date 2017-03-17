@@ -227,7 +227,10 @@ final class TodayCardView: UIView, Configurable {
     func configure(withPresenter presenter: TodayCardViewModelType) {
         textLabel.text = presenter.text
         dateLabel.text = "- \(presenter.date) -"
-        imageView.setImage(with: presenter.imageURL)
+        
+        let cover = King.all[Defaults.selectingCover.value].card
+        imageView.setImage(with: presenter.imageURL, placeholder: cover)
+        
         avatarImageView.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
         overlayView.isHidden = false
     }

@@ -28,7 +28,8 @@ final class TodayEmptyView: UIView {
         label.textColor = UIColor.hi.description
         label.font = UIFont.systemFont(ofSize: 14.0)
         label.textAlignment = .center
-        label.text = "No memories today, write a story now?"
+        label.numberOfLines = 0
+        label.text = "我们所经历的每个平凡的日常，\n也许就是连续发生的奇迹。\n\nNo memories today, write a story now?"
         return label
     }()
 

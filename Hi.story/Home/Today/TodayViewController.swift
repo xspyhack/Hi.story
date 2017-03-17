@@ -42,6 +42,8 @@ final class TodayViewController: UIViewController {
     
     private var isViewAppeared: Bool = false
     
+    private let selectingCoverLinstener = "TodayViewController.selectingCover"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,6 +55,10 @@ final class TodayViewController: UIViewController {
         
         emptyView.newAction = { [weak self] in
             self?.newAction?()
+        }
+        
+        Defaults.selectingCover.bindListener(with: selectingCoverLinstener) { (index) in
+            print(index)
         }
     }
 
