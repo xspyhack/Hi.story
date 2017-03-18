@@ -14,7 +14,8 @@ import RxDataSources
 import RealmSwift
 
 protocol MatterViewModelType {
-    
+
+    var matter: Matter { get }
 }
 
 struct MatterViewModel: MatterViewModelType {
@@ -24,9 +25,13 @@ struct MatterViewModel: MatterViewModelType {
     var when: Driver<String?>
     var notes: Driver<String>
     
-    fileprivate let disposeBag = DisposeBag()
+    let matter: Matter
+    
+    private let disposeBag = DisposeBag()
     
     init(matter: Matter) {
+        
+        self.matter = matter
         
         self.title = Driver.just(matter.title)
         

@@ -38,6 +38,37 @@ final class MatterViewController: BaseViewController {
         
         guard let viewModel = viewModel else { return }
         
+        configure(with: viewModel)
+
+        if Defaults.handoffEnabled {
+            startUserActivity()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let userInfo = userActivity?.userInfo {
+            if let json = userInfo[Configuration.UserActivity.matterUserInfoKey] as? [String: Any], let sharedMatter = SharedMatter.with(json: json) {
+                
+                let matter = Matter.from(sharedMatter)
+                self.viewModel = MatterViewModel(matter: matter)
+                
+                if let viewModel = self.viewModel {
+                    configure(with: viewModel)
+                }
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        stopUserActivity()
+    }
+    
+    private func configure(with viewModel: MatterViewModel) {
+        
         viewModel.title
             .drive(titleLabel.rx.text)
             .addDisposableTo(disposeBag)
@@ -56,12 +87,33 @@ final class MatterViewController: BaseViewController {
                 self?.whenLabel.textColor = textColor
             })
             .addDisposableTo(disposeBag)
-
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func restoreUserActivityState(_ activity: NSUserActivity) {
+        userActivity = activity
+        
+        super.restoreUserActivityState(activity)
     }
-
+    
+    override func updateUserActivityState(_ activity: NSUserActivity) {
+        if let matter = viewModel?.matter {
+            activity.addUserInfoEntries(from: [Configuration.UserActivity.matterUserInfoKey: Matter.shared(with: matter).json])
+        }
+        super.updateUserActivityState(activity)
+    }
+    
+    private func startUserActivity() {
+        guard let matter = viewModel?.matter else { return }
+        
+        let activity = NSUserActivity(activityType: Configuration.UserActivity.watch)
+        activity.title = "Watch Matter"
+        activity.userInfo = [Configuration.UserActivity.matterUserInfoKey: Matter.shared(with: matter).json]
+            
+        userActivity = activity
+        userActivity?.becomeCurrent()
+    }
+    
+    private func stopUserActivity() {
+        userActivity?.invalidate()
+    }
 }
