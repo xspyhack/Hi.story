@@ -78,6 +78,11 @@
 	<array>
 		<string>fetch</string>
 	</array>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.xspyhack.History.edit</string>
+		<string>com.xspyhack.History.watch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -15,13 +15,15 @@ final class AboutViewController: BaseViewController {
     @IBOutlet private weak var appLogoImageView: UIImageView! {
         didSet {
             appLogoImageView.isUserInteractionEnabled = true
-            appLogoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AboutViewController.tapLogo)))
+            appLogoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AboutViewController.tappedLogo)))
         }
     }
     @IBOutlet private weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var appNameLabel: UILabel!
     @IBOutlet private weak var appNameLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sloganLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var sloganLabel: UILabel!
     @IBOutlet private weak var appVersionLabel: UILabel!
     
     @IBOutlet private weak var aboutTableView: UITableView! {
@@ -42,12 +44,17 @@ final class AboutViewController: BaseViewController {
         
         title = "About"
         
-        appLogoImageViewTopConstraint.constant = 20.0
+        sloganLabel.isHidden = true
+        sloganLabel.text = "The real story, we call it history"
+        sloganLabelTopConstraint.constant = -12.0
+        
+        appLogoImageViewTopConstraint.constant = 60.0
         appNameLabelTopConstraint.constant = 10.0
         
         let motionEffect = UIMotionEffect.hi.twoAxiesShift(40.0)
         appLogoImageView.addMotionEffect(motionEffect)
         appNameLabel.addMotionEffect(motionEffect)
+        sloganLabel.addMotionEffect(motionEffect)
         appVersionLabel.addMotionEffect(motionEffect)
         
         appNameLabel.textColor = UIColor.hi.tint
@@ -61,7 +68,21 @@ final class AboutViewController: BaseViewController {
         aboutTableViewHeightConstraint.constant = Constant.rowHeight * CGFloat(Row.count - 1) + 1.0
     }
     
-    func tapLogo() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        if sloganLabel.isHidden {
+            sloganLabel.isHidden = false
+            sloganLabelTopConstraint.constant = 8.0
+            view.layoutIfNeeded()
+        } else {
+            sloganLabel.isHidden = true
+            sloganLabelTopConstraint.constant = -8.0
+            view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func tappedLogo() {
         
         guard let realm = try? Realm() else { return }
         
@@ -81,7 +102,6 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         case recommend
         //case privacyPolicy
         //case termsOfService
-        case coverPhotos
         case acknowledgements
         
         var annotation: String {
@@ -89,7 +109,6 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             switch self {
             case .review: return "Review"
             case .recommend: return "Recommend"
-            case .coverPhotos: return "Cover Photos"
             //case .privacyPolicy: return "Privacy Policy"
             //case .termsOfService: return "Terms of Service"
             case .acknowledgements: return "Acknowledgements"
@@ -140,10 +159,8 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             //break
         //case .termsOfService?:
             //break
-        case .coverPhotos?:
-            performSegue(withIdentifier: .showCovers, sender: nil)
         case .acknowledgements?:
-            break
+            performSegue(withIdentifier: .showAcknowledgements, sender: nil)
         default:
             break
         }
@@ -154,7 +171,7 @@ extension AboutViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case showProfile
-        case showCovers
+        case showAcknowledgements
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -163,7 +180,7 @@ extension AboutViewController: SegueHandlerType {
         case .showProfile:
             let vc = segue.destination as? ProfileViewController
             vc?.viewModel = sender as? ProfileViewModel
-        case .showCovers:
+        default:
             break
         }
     }

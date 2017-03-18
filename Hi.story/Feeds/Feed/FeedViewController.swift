@@ -41,7 +41,7 @@ final class FeedViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     private func setupWebView() {
         
         view.addSubview(webView)

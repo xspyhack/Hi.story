@@ -8,6 +8,7 @@
 
 import UIKit
 import Hikit
+import SafariServices
 
 extension UIViewController: Identifiable {
     public var identifier: String {
@@ -20,5 +21,22 @@ extension UIViewController: Identifiable {
     
     static func instantiate(from storyboard: Storyboard) -> Self {
         return storyboard.viewController(of: self)
+    }
+}
+
+extension Hi where Base: UIViewController {
+    
+    func open(_ url: URL) {
+        if (url.scheme?.hasPrefix("http"))! {
+            
+            let safariViewController = SFSafariViewController(url: url)
+            base.present(safariViewController, animated: true, completion: nil)
+        } else {
+            UIApplication.shared.open(url, options: [UIApplicationOpenURLOptionUniversalLinksOnly: true], completionHandler: nil)
+        }
+    }
+    
+    func canOpenURL(_ url: URL) -> Bool {
+        return UIApplication.shared.canOpenURL(url)
     }
 }
