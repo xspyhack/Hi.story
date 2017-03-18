@@ -17,11 +17,14 @@ final class SettingsViewController: UITableViewController {
         
         case birthday
         
+        case personalized
+        
         var annotation: String {
             switch self {
             case .connector: return "Connector"
             case .notification: return "Notifications"
             case .birthday: return "Birthday"
+            case .personalized: return "Personalized"
             }
         }
         
@@ -30,11 +33,12 @@ final class SettingsViewController: UITableViewController {
             case .connector: return "Gather stories from your photos/reminders/calendar"
             case .notification: return "Background collecting your memories and notify you"
             case .birthday: return "Surprise for you"
+            case .personalized: return ""
             }
         }
         
         static var count: Int {
-            return Section.birthday.rawValue + 1
+            return Section.personalized.rawValue + 1
         }
     }
     
@@ -170,6 +174,8 @@ final class SettingsViewController: UITableViewController {
             return NotificationRow.count
         case .birthday?:
             return hasInlineDatePicker() ? 2 : 1
+        case .personalized?:
+            return 1
         default:
             return 0
         }
@@ -286,6 +292,13 @@ final class SettingsViewController: UITableViewController {
                 cell.accessoryType = .disclosureIndicator
                 return cell
             }
+            
+        case .personalized:
+            let cell: DisclosureCell = tableView.hi.dequeueReusableCell(for: indexPath)
+            cell.textLabel?.text = "Personalized"
+            cell.textLabel?.textColor = UIColor.hi.title
+            cell.accessoryType = .disclosureIndicator
+            return cell
         }
     }
     
@@ -313,6 +326,10 @@ final class SettingsViewController: UITableViewController {
         } else {
             hideInlineDatePicker()
         }
+        
+        if indexPath.section == Section.personalized.rawValue {
+            performSegue(withIdentifier: .showPersonalized, sender: nil)
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -321,5 +338,12 @@ final class SettingsViewController: UITableViewController {
         } else {
             return Constant.rowHeight
         }
+    }
+}
+
+extension SettingsViewController: SegueHandlerType {
+    
+    enum SegueIdentifier: String {
+        case showPersonalized
     }
 }

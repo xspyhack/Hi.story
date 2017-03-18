@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -32,10 +32,21 @@
                             <outlet property="delegate" destination="hqy-jF-92x" id="fsg-0j-8TG"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="eWD-JM-W2n" kind="show" identifier="showPersonalized" id="Sy0-eQ-c3K"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bb0-Wr-0vM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="1506"/>
+            <point key="canvasLocation" x="881" y="1555"/>
+        </scene>
+        <!--PersonalizedViewController-->
+        <scene sceneID="B4d-97-BUk">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Personalized" referencedIdentifier="PersonalizedViewController" id="eWD-JM-W2n" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6hU-Il-ZGa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1510" y="1554"/>
         </scene>
     </scenes>
 </document>
