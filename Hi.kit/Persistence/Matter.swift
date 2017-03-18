@@ -68,6 +68,19 @@ extension Matter {
     public static func shared(with matter: Matter) -> SharedMatter {
         return SharedMatter(id: matter.id, createdAt: matter.createdAt, updatedAt: matter.updatedAt, title: matter.title, body: matter.body, happenedAt: matter.happenedAt, kind: matter.kind, tag: matter.tag)
     }
+    
+    public static func from(_ shared: SharedMatter) -> Matter {
+        let matter = Matter()
+        matter.id = shared.id
+        matter.createdAt = shared.createdAt
+        matter.updatedAt = shared.updatedAt
+        matter.title = shared.title
+        matter.body = shared.body
+        matter.happenedAt = shared.happenedAt
+        matter.kind = shared.kind
+        matter.tag = shared.tag
+        return matter
+    }
 }
 
 

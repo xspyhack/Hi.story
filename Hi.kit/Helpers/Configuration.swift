@@ -16,6 +16,18 @@ public struct Configuration {
     
     public static let sharedMattersKey = "com.xspyhack.History.Matters"
     
+    // Keys used to store relevant list data in the userInfo dictionary of an NSUserActivity for continuation.
+    public struct UserActivity {
+        // The editing user activity
+        public static let editing = "com.xspyhack.History.editing"
+        
+        // The watch user activity is used to continue activities started on the watch on other devices.
+        public static let watch = "com.xspyhack.History.watch"
+        
+        // The user info key used for storing the matter raw value.
+        public static var matterUserInfoKey = "matterUserInfoKey"
+    }
+    
     public struct Defaults {
         public static let storyTitle = "Untitled"
         public static let storybookName = "Stories"
