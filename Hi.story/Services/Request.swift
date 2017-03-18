@@ -8,15 +8,12 @@
 
 import Foundation
 import Hikit
-/*
- import Alamofire
- 
-typealias RequestCompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, Error?) -> Void
 
-protocol Requestable {
-    func request(_ urlString: String, method: Alamofire.HTTPMethod, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: RequestCompletionHandler?)
-    func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary?, completionHandler: RequestCompletionHandler?)
-    func authRequest(_ urlString: String, method: Alamofire.HTTPMethod) -> NSMutableURLRequest
+enum HTTPMethod {
+    case get
+    case post
+    case delete
+    case put
 }
 
 protocol Authorizable {
@@ -26,6 +23,17 @@ protocol Authorizable {
 extension Authorizable {
     var token: String? { return nil }
 }
+
+/*
+ import Alamofire
+
+ typealias RequestCompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, Error?) -> Void
+ 
+ protocol Requestable {
+ func request(_ urlString: String, method: HTTPMethod, parameters: JSONDictionary?, encoding: ParameterEncoding, completionHandler: RequestCompletionHandler?)
+ func request(_ urlRequest: NSURLRequest, parameters: JSONDictionary?, completionHandler: RequestCompletionHandler?)
+ func authRequest(_ urlString: String, method: HTTPMethod) -> NSMutableURLRequest
+ }
 
 struct Request: Requestable {
 

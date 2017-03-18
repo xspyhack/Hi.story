@@ -9,6 +9,8 @@
 import Foundation
 import Hikit
 
+/*
+ 
 let baseURL = "http://historyapp.sinaapp.com/"
 
 struct NetworkingError: Error {
@@ -132,3 +134,5 @@ protocol Wrapable {
     
     func errorHandler(_ json: JSONDictionary) -> String
 }
+
+*/
