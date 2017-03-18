@@ -209,6 +209,7 @@
 		78C9A20F1E7D39410072E3F8 /* Personalized.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C9A20E1E7D39410072E3F8 /* Personalized.storyboard */; };
 		78C9A2121E7D398C0072E3F8 /* Themes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C9A2111E7D398C0072E3F8 /* Themes.storyboard */; };
 		78C9A2141E7D4A940072E3F8 /* AcknowledgementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C9A2131E7D4A940072E3F8 /* AcknowledgementsViewController.swift */; };
+		78C9A2161E7D97CF0072E3F8 /* DraftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C9A2151E7D97CF0072E3F8 /* DraftImageCell.swift */; };
 		78CEFCC81D02AD440098516A /* UIScrollView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CEFCC71D02AD440098516A /* UIScrollView+Extension.swift */; };
 		78CEFCCA1D02B1420098516A /* Refreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CEFCC91D02B1420098516A /* Refreshable.swift */; };
 		78CEFD091D157EF50098516A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CEFD081D157EF50098516A /* ShareViewController.swift */; };
@@ -630,6 +631,7 @@
 		78C9A20E1E7D39410072E3F8 /* Personalized.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Personalized.storyboard; sourceTree = "<group>"; };
 		78C9A2111E7D398C0072E3F8 /* Themes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Themes.storyboard; sourceTree = "<group>"; };
 		78C9A2131E7D4A940072E3F8 /* AcknowledgementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcknowledgementsViewController.swift; sourceTree = "<group>"; };
+		78C9A2151E7D97CF0072E3F8 /* DraftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftImageCell.swift; sourceTree = "<group>"; };
 		78CEFCC71D02AD440098516A /* UIScrollView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extension.swift"; sourceTree = "<group>"; };
 		78CEFCC91D02B1420098516A /* Refreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Refreshable.swift; sourceTree = "<group>"; };
 		78CEFD061D157EF50098516A /* Hi.share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hi.share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -949,6 +951,7 @@
 				7844AED81E14056000D7FA11 /* DraftsViewController.swift */,
 				787727591E266E5800D9748A /* DraftsViewModel.swift */,
 				7877275B1E266F2700D9748A /* DraftCell.swift */,
+				78C9A2151E7D97CF0072E3F8 /* DraftImageCell.swift */,
 				7877275D1E266F4A00D9748A /* DraftCellModel.swift */,
 			);
 			path = Drafts;
@@ -2314,6 +2317,7 @@
 				78F4D2471CEEE40200DAA210 /* ImagePresentable.swift in Sources */,
 				7871F2CD1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift in Sources */,
 				7844AEA21E0D690B00D7FA11 /* SwitchCell.swift in Sources */,
+				78C9A2161E7D97CF0072E3F8 /* DraftImageCell.swift in Sources */,
 				788BB9381E2A0465007BF8CB /* Operators.swift in Sources */,
 				78C9A20C1E7D39320072E3F8 /* Covers.swift in Sources */,
 				7857FBE11E17E6E9001D0061 /* ValidationService.swift in Sources */,

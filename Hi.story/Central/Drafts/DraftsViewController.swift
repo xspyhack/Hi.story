@@ -18,6 +18,7 @@ final class DraftsViewController: BaseViewController {
     @IBOutlet private weak var tableView: UITableView! {
         didSet {
             tableView.hi.register(reusableCell: DraftCell.self)
+            tableView.hi.register(reusableCell: DraftImageCell.self)
             tableView.rowHeight = Constant.rowHeight
             tableView.estimatedRowHeight = Constant.rowHeight
             tableView.tableFooterView = UIView()
@@ -35,7 +36,7 @@ final class DraftsViewController: BaseViewController {
     fileprivate var viewModel: DraftsViewModel? // Reference it!!
     
     private struct Constant {
-        static let rowHeight: CGFloat = 120.0
+        static let rowHeight: CGFloat = 148.0
     }
     
     override func viewDidLoad() {
@@ -49,9 +50,15 @@ final class DraftsViewController: BaseViewController {
         self.viewModel = viewModel
        
         dataSource.configureCell = { _, tableView, indexPath, viewModel in
-            let cell: DraftCell = tableView.hi.dequeueReusableCell(for: indexPath)
-            cell.configure(withPresenter: viewModel)
-            return cell
+            if viewModel.hasAttachment {
+                let cell: DraftImageCell = tableView.hi.dequeueReusableCell(for: indexPath)
+                cell.configure(withPresenter: viewModel)
+                return cell
+            } else {
+                let cell: DraftCell = tableView.hi.dequeueReusableCell(for: indexPath)
+                cell.configure(withPresenter: viewModel)
+                return cell
+            }
         }
         
         viewModel.sections

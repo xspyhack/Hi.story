@@ -98,24 +98,7 @@ final class NewFeedViewController: BaseViewController {
     
     private lazy var transitionManager = NonStatusBarTransitionManager()
 
-    fileprivate var pickedImage: UIImage? {
-        willSet {
-            guard let image = newValue else { return }
-            
-            self.attachmentImage.value = newValue
-            
-            let width = image.size.width
-            let height = image.size.height
-            
-            let imageViewHeight = contentView.bounds.width * height / width
-            contentViewHeightConstraint.constant = imageViewHeight + Constant.footerHeight - view.bounds.height
-            imageViewHeightConstraint.constant = imageViewHeight
-            
-            contentView.layoutIfNeeded()
-        }
-    }
-    
-    private var attachmentImage: Variable<UIImage?> = Variable(nil)
+    private(set) var attachmentImage: Variable<UIImage?> = Variable(nil)
     private var storybook: Variable<Storybook?> = Variable(nil)
 
     private var isFristTimeAppear = true
@@ -202,6 +185,17 @@ final class NewFeedViewController: BaseViewController {
        
         (visibleButton.rx.isSelected <-> viewModel.visible)
             .addDisposableTo(disposeBag)
+       
+        viewModel.attachmentImage.asDriver()
+            .filter { [unowned self] image in
+                return self.imageView.image == nil
+            }
+            .map { [weak self] image -> UIImage? in
+                self?.fitsImageView(with: image)
+                return image
+            }
+            .drive(imageView.rx.image)
+            .addDisposableTo(disposeBag)
         
         location.asObservable()
             .bindTo(viewModel.location)
@@ -213,6 +207,7 @@ final class NewFeedViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         attachmentImage.asObservable()
+            .skip(1)
             .bindTo(viewModel.attachmentImage)
             .addDisposableTo(disposeBag)
     
@@ -275,6 +270,20 @@ final class NewFeedViewController: BaseViewController {
         editor.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: 24.0).isActive = true
         editor.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 86.0).isActive = true
         NSLayoutConstraint.activate(h)
+    }
+    
+    fileprivate func fitsImageView(with image: UIImage?) {
+        
+        imageView.isHidden = image == nil
+        
+        let width = image?.size.width ?? 0.0
+        let height = image?.size.height ?? 0.0
+        
+        let imageViewHeight = width == 0.0 ? 0.0 : contentView.bounds.width * height / width
+        contentViewHeightConstraint.constant = imageViewHeight + Constant.footerHeight - view.bounds.height
+        imageViewHeightConstraint.constant = imageViewHeight
+        
+        contentView.layoutIfNeeded()
     }
     
     // MARK: Actions
@@ -428,7 +437,8 @@ extension NewFeedViewController: PhotoEditingViewControllerDelegate {
     private func updateImageView(with image: UIImage, fromPhotoEditingViewController viewController: PhotoEditingViewController) {
         
         imageView.image = image
-        pickedImage = image
+        attachmentImage.value = image
+        fitsImageView(with: image)
         
         if viewController.croppingStyle != .circular {
             

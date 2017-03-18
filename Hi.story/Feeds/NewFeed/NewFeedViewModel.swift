@@ -100,7 +100,12 @@ struct NewFeedViewModel: NewFeedViewModelType {
             self.visible = Variable(true)
             
             self.storybook = Variable(story.withStorybook)
-            self.attachmentImage = Variable(nil)
+            if let urlString = story.attachment?.urlString {
+                let image = CacheService.shared.retrieveImageInDiskCache(forKey: urlString)
+                self.attachmentImage = Variable(image)
+            } else {
+                self.attachmentImage = Variable(nil)
+            }
         }
         
         let attachmentInfo = self.attachmentImage.asObservable()
