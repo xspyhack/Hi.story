@@ -173,7 +173,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             return handleUniversalLink(webpageURL)
         case CSSearchableItemActionType:
-            
             guard let searchableItemID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
                 return false
             }
@@ -183,13 +182,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             switch itemType {
-                
             case .user:
                 return handleUserSearchActivity(userID: itemID)
-                
             case .feed:
                 return handleFeedSearchActivity(feedID: itemID)
             }
+        case Configuration.UserActivity.watch:
+            return handleWatchActivity(userActivity)
         default:
             return false
         }
@@ -222,6 +221,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             let vc: FeedViewController = Storyboard.feed.viewController(of: FeedViewController.self)
             vc.viewModel = FeedViewModel(feed: feed)
+            vc.hidesBottomBarWhenPushed = true
+            
+            _ = delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
+            
+            return true
+        }
+    }
+    
+    private func handleWatchActivity(_ activity: NSUserActivity) -> Bool {
+        
+        guard Defaults.handoffEnabled else { return false }
+        
+        guard let tabBarVC = window?.rootViewController as? UITabBarController,
+            let nvc = tabBarVC.selectedViewController as? UINavigationController else {
+                return false
+        }
+        
+        if let matterViewController = nvc.topViewController as? MatterViewController {
+            matterViewController.restoreUserActivityState(activity)
+            return true
+        } else {
+            let vc: MatterViewController = Storyboard.matter.viewController(of: MatterViewController.self)
+            vc.restoreUserActivityState(activity)
             vc.hidesBottomBarWhenPushed = true
             
             _ = delay(0.25) {
