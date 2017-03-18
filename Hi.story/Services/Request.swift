@@ -7,9 +7,10 @@
 //
 
 import Foundation
-import Alamofire
 import Hikit
-
+/*
+ import Alamofire
+ 
 typealias RequestCompletionHandler = (URLRequest?, HTTPURLResponse?, AnyObject?, Error?) -> Void
 
 protocol Requestable {
@@ -94,3 +95,4 @@ struct Request: Requestable {
     }
     */
 }
+*/
