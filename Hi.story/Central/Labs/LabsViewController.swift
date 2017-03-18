@@ -13,13 +13,13 @@ final class LabsViewController: UITableViewController {
     enum Section: Int {
         case spotlight
         case handoff
-        case siri
+        //case siri
         
         var annotation: String {
             switch self {
             case .spotlight: return "Spotlight"
             case .handoff: return "Handoff"
-            case .siri: return "Siri"
+            //case .siri: return "Siri"
             }
         }
         
@@ -27,12 +27,12 @@ final class LabsViewController: UITableViewController {
             switch self {
             case .spotlight: return "Open Spotlight to search your stories"
             case .handoff: return "Handoff, free your hands"
-            case .siri: return "Hey Siri"
+            //case .siri: return "Hey Siri"
             }
         }
         
         static var count: Int {
-            return Section.siri.rawValue + 1
+            return Section.handoff.rawValue + 1
         }
     }
     
@@ -65,8 +65,8 @@ final class LabsViewController: UITableViewController {
             return 1
         case .handoff?:
             return 1
-        case .siri?:
-            return 1
+        //case .siri?:
+        //    return 1
         default:
             return 0
         }
@@ -94,6 +94,7 @@ final class LabsViewController: UITableViewController {
             }
             
             return cell
+        /*
         case .siri:
             let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.titleLabel.text = section.annotation
@@ -102,6 +103,7 @@ final class LabsViewController: UITableViewController {
                 Defaults.siriEnabled = isOn
             }
             return cell
+        */
         }
     }
     
