@@ -121,10 +121,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88e-02-zRz" customClass="LoadingView" customModule="Hi_story" customModuleProvider="target">
-                                        <rect key="frame" x="87" y="303" width="200" height="60"/>
+                                        <rect key="frame" x="37" y="303" width="300" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="3F8-ue-WNC"/>
+                                            <constraint firstAttribute="width" constant="300" id="3F8-ue-WNC"/>
                                             <constraint firstAttribute="height" constant="60" id="yEW-fh-Zy7"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
