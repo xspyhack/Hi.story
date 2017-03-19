@@ -49,7 +49,7 @@
                 <viewControllerPlaceholder storyboardName="Matter" referencedIdentifier="MatterViewController" id="qea-Dn-3WB" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Enu-qu-Cop" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1809" y="3130"/>
+            <point key="canvasLocation" x="-1794" y="3130"/>
         </scene>
         <!--NewFeedViewController-->
         <scene sceneID="dm5-fr-kTg">
@@ -120,27 +120,22 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsV-6o-Lhh">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88l-2l-CbY" customClass="NVActivityIndicatorView" customModule="Hi_story" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="283.5" width="375" height="100"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88e-02-zRz" customClass="LoadingView" customModule="Hi_story" customModuleProvider="target">
+                                        <rect key="frame" x="87" y="303" width="200" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="Q0i-by-fb6"/>
+                                            <constraint firstAttribute="width" constant="200" id="3F8-ue-WNC"/>
+                                            <constraint firstAttribute="height" constant="60" id="yEW-fh-Zy7"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                                <color key="value" red="0.1058823529" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="padding">
-                                                <real key="value" value="0.0"/>
-                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="Collecting Memories"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="88l-2l-CbY" secondAttribute="trailing" id="EOx-PC-Roz"/>
-                                    <constraint firstItem="88l-2l-CbY" firstAttribute="centerY" secondItem="PsV-6o-Lhh" secondAttribute="centerY" id="aDi-SN-16D"/>
-                                    <constraint firstItem="88l-2l-CbY" firstAttribute="leading" secondItem="PsV-6o-Lhh" secondAttribute="leading" id="rKx-JS-8K5"/>
+                                    <constraint firstItem="88e-02-zRz" firstAttribute="centerY" secondItem="PsV-6o-Lhh" secondAttribute="centerY" id="3lZ-MS-LUZ"/>
+                                    <constraint firstItem="88e-02-zRz" firstAttribute="centerX" secondItem="PsV-6o-Lhh" secondAttribute="centerX" id="wij-LX-G8K"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6gM-jq-ajq" customClass="PromptedView" customModule="Hi_story" customModuleProvider="target">
@@ -167,9 +162,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="88l-2l-CbY" id="jJZ-GQ-Qox"/>
                         <outlet property="analyzingView" destination="PsV-6o-Lhh" id="Q9U-yE-BTH"/>
                         <outlet property="collectionView" destination="pMB-tB-yyX" id="oKM-J6-7Ik"/>
+                        <outlet property="loadingView" destination="88e-02-zRz" id="Pl6-sI-NDE"/>
                         <outlet property="promptedView" destination="6gM-jq-ajq" id="q9T-oG-Btx"/>
                         <outlet property="promptedViewTopConstraint" destination="OCc-nb-RH4" id="OGP-8i-5op"/>
                     </connections>

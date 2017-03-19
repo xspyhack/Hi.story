@@ -41,8 +41,8 @@ final class HistoryViewController: UIViewController {
         }
     }
     @IBOutlet private weak var analyzingView: UIView!
-    @IBOutlet private weak var activityIndicatorView: NVActivityIndicatorView!
     
+    @IBOutlet weak var loadingView: LoadingView!
     fileprivate var histories: [[Timetable]] = []
     
     private struct Constant {
@@ -97,7 +97,7 @@ final class HistoryViewController: UIViewController {
         /// loading, analyzing
         show() { [weak self] in
             SafeDispatch.async { [weak self] in
-                self?.activityIndicatorView.startAnimating()
+                self?.loadingView.alpha = 1.0
                 self?.analyzing() { [weak self] datas in
                     // Group by year
                     self?.group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
@@ -106,7 +106,7 @@ final class HistoryViewController: UIViewController {
                         self?.collectionView.reloadData()
                         
                         hide { [weak self] in
-                            self?.activityIndicatorView.stopAnimating()
+                            self?.loadingView.alpha = 0.0
                         }
                     }
                 }
