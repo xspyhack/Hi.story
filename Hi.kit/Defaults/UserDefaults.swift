@@ -11,7 +11,7 @@ import RealmSwift
 
 public struct HiUserDefaults {
     
-    private static let userDefaults = Foundation.UserDefaults(suiteName: Configuration.appGroupIdentifier)!
+    private static let userDefaults = Foundation.UserDefaults(suiteName: Configuration.App.groupIdentifier)!
 
     private struct Key {
         static let prefix = "com.xspyhack.History."

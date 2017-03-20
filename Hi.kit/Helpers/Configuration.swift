@@ -9,8 +9,12 @@
 import Foundation
 
 public struct Configuration {
-    
-    public static let appGroupIdentifier = "group.com.xspyhack.History"
+   
+    public struct App {
+        public static let urlString = "itms-apps://itunes.apple.com/app/id1051799810"
+        public static let groupIdentifier = "group.com.xspyhack.History"
+        public static let reviewURLString = "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1051799810&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"
+    }
     
     public static let rowHeight: Float = 44.0
     
