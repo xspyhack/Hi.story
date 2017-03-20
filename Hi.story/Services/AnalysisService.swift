@@ -80,8 +80,17 @@ public func analyzing(finish: (([Timetable], URL?) -> Void)? = nil) {
         }
     } else {
         if localURL == nil, let asset = photos.first?.asset {
-            fetchURL(of: asset) { (url) in
-                finish?(datas, url)
+            let size = CGSize(width: 1024.0, height: 1024.0)
+            fetchImage(with: asset, targetSize: size) { (image) in
+                guard let image = image else {
+                    finish?(datas, nil)
+                    return
+                }
+                let key = UUID().uuidString
+                PhotoCache.shared.store(image, forKey: key) {
+                    let localURL = URL(fileURLWithPath: PhotoCache.shared.filePath(forKey: key))
+                    finish?(datas, localURL)
+                }
             }
         } else {
             finish?(datas, localURL)

@@ -25,28 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Realm.Configuration.defaultConfiguration = realmConfig()
         
         if let realm = try? Realm(), Service.god(of: realm) == nil {
-            let userID = UUID.uuid
-            let nickname = "What's your name?"
-            let user = User()
-            user.id = userID
-            user.nickname = nickname
-            user.bio = "No introduction yet."
-            try? realm.write {
-                realm.add(user, update: true)
-            }
-            
-            HiUserDefaults.userID.value = userID
-            HiUserDefaults.nickname.value = nickname
-            HiUserDefaults.bio.value = "No introduction yet."
-            
-            // default storybook
-            let book = Storybook()
-            book.name = Configuration.Defaults.storybookName
-            book.creator = user
-            
-            try? realm.write {
-                realm.add(book, update: true)
-            }
+            Launcher.setupGod(with: realm)
         } else {
             // Waiting for register
         }
@@ -79,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Background fetch
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        
-        print("Latest Analying: \(Defaults.latestAnalyingDate)")
         
         return true
     }
@@ -123,42 +100,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Background fetch
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        print("background fetch")
-        
-        let today = Date().hi.yearMonthDay
-        
-        guard Defaults.latestAnalyingDate != today, Defaults.notificationsEnabled else {
-            completionHandler(.failed)
-            return
-        }
-        
-        if (Defaults.birthday.flatMap { Date(timeIntervalSince1970: $0) })?.hi.monthDay == Date().hi.monthDay {
-            // trigger notification
-            let body = "Happy birthday to you!"
-            let title = HiUserDefaults.nickname.value.map { "Hi, \($0)" } ?? "Hi, Master"
-            NotificationService.shared.trigger(title: title, body: body, userInfo: ["isBirthday": true], requestIdentifier: today)
-            completionHandler(.newData)
-            return
-        }
-        
-        analyzing { datas, url in
-            
-            print("complete")
-            
-            Defaults.latestAnalyingDate = today
-            
-            if !datas.isEmpty {
-                // trigger notification
-                let body = datas.count == 1 ? "There is memory about you in this day of history." : "There are \(datas.count) memories about you in this day of history."
-                let title = HiUserDefaults.nickname.value.map { "Hi, \($0)" } ?? "Hi, Master"
-
-                NotificationService.shared.trigger(title: title, body: body, fileURL: url, requestIdentifier: today)
-                completionHandler(.newData)
-            } else {
-                completionHandler(.noData)
-            }
-        }
+       
+        BackgroundFetchService.shared.fetch(completionHandler: completionHandler)
     }
     
     // MARK: Spotlight
@@ -223,7 +166,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc.viewModel = FeedViewModel(feed: feed)
             vc.hidesBottomBarWhenPushed = true
             
-            _ = delay(0.25) {
+            delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
             
@@ -248,7 +191,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc.restoreUserActivityState(activity)
             vc.hidesBottomBarWhenPushed = true
             
-            _ = delay(0.25) {
+            delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
             

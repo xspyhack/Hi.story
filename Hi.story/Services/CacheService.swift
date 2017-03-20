@@ -16,7 +16,7 @@ class PhotoCache {
     
     private init() {
         cache.pathExtension = "jpg"
-        cache.maxCachePeriodInSecond = 60 * 5 // never expiring
+        cache.maxCachePeriodInSecond = 60 * 5
     }
     
     func store(_ image: UIImage, forKey key: String, completionHandler: (() -> Void)? = nil) {
