@@ -57,11 +57,7 @@ struct DraftsViewModel: DraftsViewModelType {
         
         self.itemDeleted
             .subscribe(onNext: { indexPath in
-                print(indexPath.row)
-                
                 if let story = drafts.value.safe[indexPath.row] {
-                    
-                    print(story)
                     
                     drafts.value.remove(at: indexPath.row)
                     // delete

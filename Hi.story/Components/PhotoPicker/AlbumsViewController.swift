@@ -163,7 +163,6 @@ final class AlbumsViewController: UITableViewController {
         photoPicker.delegate = delegate
         photoPicker.title = album.name
         
-        print("before push")
         navigationController?.pushViewController(photoPicker, animated: true)
     }
 }

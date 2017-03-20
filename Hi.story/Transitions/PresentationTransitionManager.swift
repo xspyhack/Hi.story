@@ -57,7 +57,6 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
             toViewController.view.center.y += Defaults.statusBarHeight
             
         }) { (finished) -> Void in
-            print("finish")
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }

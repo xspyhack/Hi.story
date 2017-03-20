@@ -64,17 +64,10 @@ class ShareViewController: SLComposeServiceViewController {
         view.tintColor = UIColor.hi.tint
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func presentationAnimationDidFinish() {
         
         images(from: extensionContext!) { [weak self] images in
             self?.images = images
-            
-            print("images: \(self?.images)")
         }
     }
 

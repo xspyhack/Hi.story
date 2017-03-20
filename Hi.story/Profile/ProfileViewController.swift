@@ -427,7 +427,6 @@ extension ProfileViewController: UICollectionViewDelegate {
             let alertController = UIAlertController(title: "Delete “\(storybook.name)”", message: "Are you sure you want to delete the storybook ”\(storybook.name)“? The storys will be deleted.", preferredStyle: .actionSheet)
            
             let deleteAction = UIAlertAction(title: "Delete Storybook", style: .destructive, handler: { (action) in
-                print("delete")
                 
                 guard let realm = self?.realm else { return }
                 

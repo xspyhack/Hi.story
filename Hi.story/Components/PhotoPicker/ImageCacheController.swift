@@ -45,7 +45,6 @@ final class ImageCacheController {
             if !updatedCache.contains(index) {
                 let asset: PHAsset! = self.images[index]
                 self.imageCache.stopCachingImages(for: [asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
-                //println("Stopping caching image \(index)")
             }
         }
         // And which are new?
@@ -53,7 +52,6 @@ final class ImageCacheController {
             if !self.cachedIndices.contains(index) {
                 let asset: PHAsset = self.images[index]
                 self.imageCache.startCachingImages(for: [asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
-                //println("Starting caching image \(index)")
             }
         }
 

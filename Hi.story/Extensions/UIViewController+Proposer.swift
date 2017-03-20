@@ -22,7 +22,6 @@ extension Hi where Base: UIViewController {
             if granted {
                 successAction()
             } else {
-                print(error!)
                 failureAction?()
             }
         }
