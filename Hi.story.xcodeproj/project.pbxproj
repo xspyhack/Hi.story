@@ -104,6 +104,7 @@
 		786191731D18452F005680B3 /* HimarkdownTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786191721D18452F005680B3 /* HimarkdownTests.swift */; };
 		786191771D18452F005680B3 /* Himarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786191621D18452F005680B3 /* Himarkdown.framework */; };
 		786191781D18452F005680B3 /* Himarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 786191621D18452F005680B3 /* Himarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78655C3D1E7F950E007F5A2D /* BackgroundFetchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78655C3C1E7F950E007F5A2D /* BackgroundFetchService.swift */; };
 		786A26981D53A71E002CC8E1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786A26971D53A71E002CC8E1 /* Alamofire.framework */; };
 		786A26A31D53A796002CC8E1 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7895AEC01D5390840004B8C3 /* RxSwift.framework */; };
 		786A26A41D53A7A1002CC8E1 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7895AED81D539C020004B8C3 /* RxCocoa.framework */; };
@@ -540,6 +541,7 @@
 		7861916B1D18452F005680B3 /* HimarkdownTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HimarkdownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		786191721D18452F005680B3 /* HimarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HimarkdownTests.swift; sourceTree = "<group>"; };
 		786191741D18452F005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78655C3C1E7F950E007F5A2D /* BackgroundFetchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFetchService.swift; sourceTree = "<group>"; };
 		786A26971D53A71E002CC8E1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		786AD4B31D8D3688008709D2 /* Date+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Hi.swift"; sourceTree = "<group>"; };
 		7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorAnimationPacman.swift; sourceTree = "<group>"; };
@@ -1668,6 +1670,7 @@
 				7810FD831E4050E300950ABA /* CalendarService.swift */,
 				7871F2E11E66F824002B5C0C /* NotificationService.swift */,
 				7871F2E31E67026E002B5C0C /* AnalysisService.swift */,
+				78655C3C1E7F950E007F5A2D /* BackgroundFetchService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2279,6 +2282,7 @@
 				78E481711E068AA200EB81E9 /* PhotoEditingToolbar.swift in Sources */,
 				78FF41CD1D85341800CAA097 /* NewMatterViewModel.swift in Sources */,
 				7877275C1E266F2700D9748A /* DraftCell.swift in Sources */,
+				78655C3D1E7F950E007F5A2D /* BackgroundFetchService.swift in Sources */,
 				78D257F61D8444170032E4F5 /* MatterCellModel.swift in Sources */,
 				7810FD801E4049E900950ABA /* PhotoService.swift in Sources */,
 				789224F71CFAD16200A44040 /* ImagePreviewTransitionManager.swift in Sources */,

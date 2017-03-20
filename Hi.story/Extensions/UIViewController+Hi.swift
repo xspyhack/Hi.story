@@ -26,9 +26,8 @@ extension UIViewController: Identifiable {
 
 extension Hi where Base: UIViewController {
     
-    func open(_ url: URL) {
-        if (url.scheme?.hasPrefix("http"))! {
-            
+    func open(_ url: URL, preferSafari: Bool = true) {
+        if (url.scheme?.hasPrefix("http"))!, preferSafari {
             let safariViewController = SFSafariViewController(url: url)
             base.present(safariViewController, animated: true, completion: nil)
         } else {

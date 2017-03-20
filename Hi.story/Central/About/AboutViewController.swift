@@ -151,8 +151,10 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         switch Row(rawValue: indexPath.row) {
             
         case .review?:
-            //UIApplication.shared.yep_reviewOnTheAppStore()
-            break
+            if let url = URL(string: Configuration.App.reviewURLString), hi.canOpenURL(url) {
+                //hi.open(url, preferSafari: false)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         case .recommend?:
             break
         //case .privacyPolicy?:
