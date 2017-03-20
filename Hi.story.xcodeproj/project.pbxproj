@@ -105,6 +105,7 @@
 		786191771D18452F005680B3 /* Himarkdown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786191621D18452F005680B3 /* Himarkdown.framework */; };
 		786191781D18452F005680B3 /* Himarkdown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 786191621D18452F005680B3 /* Himarkdown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78655C3D1E7F950E007F5A2D /* BackgroundFetchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78655C3C1E7F950E007F5A2D /* BackgroundFetchService.swift */; };
+		78655C3F1E80109D007F5A2D /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78655C3E1E80109D007F5A2D /* ThemesViewController.swift */; };
 		786A26981D53A71E002CC8E1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786A26971D53A71E002CC8E1 /* Alamofire.framework */; };
 		786A26A31D53A796002CC8E1 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7895AEC01D5390840004B8C3 /* RxSwift.framework */; };
 		786A26A41D53A7A1002CC8E1 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7895AED81D539C020004B8C3 /* RxCocoa.framework */; };
@@ -542,6 +543,7 @@
 		786191721D18452F005680B3 /* HimarkdownTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HimarkdownTests.swift; sourceTree = "<group>"; };
 		786191741D18452F005680B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78655C3C1E7F950E007F5A2D /* BackgroundFetchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFetchService.swift; sourceTree = "<group>"; };
+		78655C3E1E80109D007F5A2D /* ThemesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		786A26971D53A71E002CC8E1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		786AD4B31D8D3688008709D2 /* Date+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Hi.swift"; sourceTree = "<group>"; };
 		7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorAnimationPacman.swift; sourceTree = "<group>"; };
@@ -1393,6 +1395,7 @@
 			isa = PBXGroup;
 			children = (
 				78C9A2111E7D398C0072E3F8 /* Themes.storyboard */,
+				78655C3E1E80109D007F5A2D /* ThemesViewController.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -2295,6 +2298,7 @@
 				78EBD5361CF2DB9F0039AAE5 /* CardView.swift in Sources */,
 				78F4D25B1CEF69AF00DAA210 /* Networking.swift in Sources */,
 				78F4D2591CEF687600DAA210 /* Request.swift in Sources */,
+				78655C3F1E80109D007F5A2D /* ThemesViewController.swift in Sources */,
 				78C9A21B1E7E9F420072E3F8 /* LoadingView.swift in Sources */,
 				788BCF6E1DA0043C00535519 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				7844AED11E12C0B900D7FA11 /* StorybookCellModel.swift in Sources */,
