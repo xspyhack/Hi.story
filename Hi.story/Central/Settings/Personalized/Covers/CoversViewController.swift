@@ -18,6 +18,8 @@ final class CoversViewController: UICollectionViewController, UICollectionViewDe
         static let gap: CGFloat = 24.0
         static let ratio: CGFloat = 6.0 / 10.0
     }
+    
+    private let generator = UISelectionFeedbackGenerator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +32,8 @@ final class CoversViewController: UICollectionViewController, UICollectionViewDe
             let inset = Constant.gap / 2.0
             flowLayout.sectionInset = UIEdgeInsets(top: Constant.gap, left: Constant.padding, bottom: inset + Defaults.tabBarHeight, right: Constant.padding)
         }
+        
+        generator.prepare()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,6 +73,8 @@ final class CoversViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         Defaults.selectingCover.value = indexPath.item
+        
+        generator.selectionChanged()
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
