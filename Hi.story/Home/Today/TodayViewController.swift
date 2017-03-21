@@ -40,6 +40,11 @@ final class TodayViewController: UIViewController {
         return emptyView
     }()
     
+    private lazy var birthdayView: BirthdayCardView = {
+        let cardView = BirthdayCardView()
+        return cardView
+    }()
+    
     private var isViewAppeared: Bool = false
     
     private let selectingCoverLinstener = "TodayViewController.selectingCover"
@@ -51,7 +56,7 @@ final class TodayViewController: UIViewController {
         
         title = "Today"
         
-        setupEmptyView()
+        //setupEmptyView()
         
         emptyView.newAction = { [weak self] in
             self?.newAction?()
@@ -59,6 +64,10 @@ final class TodayViewController: UIViewController {
         
         Defaults.selectingCover.bindListener(with: selectingCoverLinstener) { (index) in
             print(index)
+        }
+        
+        SafeDispatch.async {
+            self.setup(cardView: self.birthdayView)
         }
     }
 
@@ -68,14 +77,13 @@ final class TodayViewController: UIViewController {
         if !isViewAppeared {
             isViewAppeared = true
             
-            SafeDispatch.async {
-                self.setupCardView()
-            }
         }
         
-        delay(2.5) {
+        birthdayView.start()
+        delay(22.5) {
             SafeDispatch.async {
-                self.analyzing()
+                //self.analyzing()
+                self.birthdayView.stop()
             }
         }
     }
@@ -123,17 +131,17 @@ final class TodayViewController: UIViewController {
         emptyView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
-    private func setupCardView() {
-        view.addSubview(todayCardView)
-        todayCardView.translatesAutoresizingMaskIntoConstraints = false
+    private func setup(cardView: UIView) {
+        view.addSubview(cardView)
+        cardView.translatesAutoresizingMaskIntoConstraints = false
         
-        let views: [String: Any] = ["todayCardView": todayCardView]
+        let views: [String: Any] = ["cardView": cardView]
         
-        let vConstaints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[todayCardView]-bottom-|", options: [], metrics: ["top": Constant.navigationBarHeight + Constant.gap, "bottom": Constant.bottomToolbarHeight + Constant.gap], views: views)
-        let ratio = NSLayoutConstraint(item: todayCardView, attribute: .width, relatedBy: .equal, toItem: todayCardView, attribute: .height, multiplier: 10.0 / 16.0, constant: 0.0)
+        let vConstaints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[cardView]-bottom-|", options: [], metrics: ["top": Constant.navigationBarHeight + Constant.gap, "bottom": Constant.bottomToolbarHeight + Constant.gap], views: views)
+        let ratio = NSLayoutConstraint(item: cardView, attribute: .width, relatedBy: .equal, toItem: cardView, attribute: .height, multiplier: 10.0 / 16.0, constant: 0.0)
         NSLayoutConstraint.activate(vConstaints)
         NSLayoutConstraint.activate([ratio])
         
-        todayCardView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cardView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
 }
