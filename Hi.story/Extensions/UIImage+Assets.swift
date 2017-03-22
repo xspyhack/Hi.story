@@ -70,6 +70,10 @@ extension Hi where Base: UIImage {
     static var storybookDelete: UIImage? {
         return UIImage(named: "icon_delete_oval")
     }
+    
+    static var birthday: UIImage? {
+        return UIImage(named: "birthday")
+    }
 }
 
 extension Hi where Base: UIImage {
