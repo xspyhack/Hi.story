@@ -36,7 +36,7 @@ enum MemoriesCardViewStyle {
     case bottom
 }
 
-final class MemoriesCardView: UIView, Configurable {
+final class MemoriesCardView: TodayCardView, Configurable {
     
     private struct Constant {
         static let avatarSize = CGSize(width: 40.0, height: 40.0)
@@ -98,7 +98,7 @@ final class MemoriesCardView: UIView, Configurable {
         setup(style)
     }
     
-    private override init(frame: CGRect) {
+    override init(frame: CGRect) {
         self.style = .middle
         
         super.init(frame: frame)
@@ -109,21 +109,8 @@ final class MemoriesCardView: UIView, Configurable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-    }
-    
     fileprivate func setup(_ style: TodayCardViewStyle = .middle) {
-        
-        backgroundColor = UIColor.clear
-        layer.shadowRadius = 12.0
-        layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        layer.masksToBounds = false
-        layer.shadowOpacity = 1.0
-        
+  
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         

@@ -36,7 +36,7 @@ final class TodayViewController: UIViewController {
     
     private lazy var emptyView: TodayEmptyView = {
         let emptyView = TodayEmptyView()
-        //emptyView.backgroundColor = UIColor.white
+        emptyView.backgroundColor = UIColor.white
         return emptyView
     }()
     
@@ -52,11 +52,9 @@ final class TodayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
         title = "Today"
         
-        //setupEmptyView()
+        setupEmptyView()
         
         emptyView.newAction = { [weak self] in
             self?.newAction?()
@@ -66,8 +64,8 @@ final class TodayViewController: UIViewController {
             print(index)
         }
         
+        self.setup(cardView: self.birthdayView)
         SafeDispatch.async {
-            self.setup(cardView: self.birthdayView)
         }
     }
 

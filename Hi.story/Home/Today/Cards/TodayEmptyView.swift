@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-final class TodayEmptyView: UIView {
+final class TodayEmptyView: TodayCardView {
     
     var newAction: (() -> Void)?
 
@@ -43,20 +43,7 @@ final class TodayEmptyView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-    }
-    
     private func setup() {
-        
-        backgroundColor = UIColor.clear
-        layer.shadowRadius = 12.0
-        layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        layer.masksToBounds = false
-        layer.shadowOpacity = 1.0
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white

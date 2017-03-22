@@ -15,7 +15,7 @@ enum Special {
     case midAutumn
 }
 
-class SpecialCardView: UIView {
+class SpecialCardView: TodayCardView {
 
     /*
     // Only override draw() if you perform custom drawing.
