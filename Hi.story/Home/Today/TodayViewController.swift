@@ -17,7 +17,7 @@ final class TodayViewController: UIViewController {
     
     var isEmpty: Bool = true {
         didSet {
-            todayCardView.isHidden = isEmpty
+            memoriesCardView.isHidden = isEmpty
             emptyView.isHidden = !isEmpty
         }
     }
@@ -28,8 +28,8 @@ final class TodayViewController: UIViewController {
         static let gap: CGFloat = 16.0
     }
     
-    private lazy var todayCardView: TodayCardView = {
-        let cardView = TodayCardView(style: .top)
+    private lazy var memoriesCardView: MemoriesCardView = {
+        let cardView = MemoriesCardView(style: .top)
         cardView.isHidden = true
         return cardView
     }()
@@ -42,6 +42,7 @@ final class TodayViewController: UIViewController {
     
     private lazy var birthdayView: BirthdayCardView = {
         let cardView = BirthdayCardView()
+        cardView.isHidden = true
         return cardView
     }()
     
@@ -64,9 +65,7 @@ final class TodayViewController: UIViewController {
             print(index)
         }
         
-        self.setup(cardView: self.birthdayView)
-        SafeDispatch.async {
-        }
+        setup(cardView: memoriesCardView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -74,20 +73,18 @@ final class TodayViewController: UIViewController {
         
         if !isViewAppeared {
             isViewAppeared = true
-            
+           
         }
         
-        birthdayView.start()
-        delay(22.5) {
-            SafeDispatch.async {
-                //self.analyzing()
-                self.birthdayView.stop()
-            }
+        if let birthday = Defaults.birthday, Date(timeIntervalSince1970: birthday).hi.monthDay == "" {
+            setup(cardView: birthdayView)
+            birthdayView.start()
         }
+     
     }
     
     func snapshot() -> UIImage? {
-        return todayCardView.hi.capture()
+        return memoriesCardView.hi.capture()
     }
     
     func tryToAnalyzing() {
@@ -112,7 +109,7 @@ final class TodayViewController: UIViewController {
         
         isEmpty = false
         
-        todayCardView.configure(withPresenter: TodayCardViewModel(story: story, creator: creator))
+        memoriesCardView.configure(withPresenter: MemoriesCardView(story: story, creator: creator))
     }
     
     private func setupEmptyView() {

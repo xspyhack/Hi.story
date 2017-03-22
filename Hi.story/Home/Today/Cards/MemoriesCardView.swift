@@ -88,9 +88,9 @@ final class MemoriesCardView: TodayCardView, Configurable {
         return imageView
     }()
     
-    private(set) var style: TodayCardViewStyle
+    private(set) var style: MemoriesCardViewStyle
     
-    convenience init(style: TodayCardViewStyle) {
+    convenience init(style: MemoriesCardViewStyle) {
         self.init(frame: .zero)
         
         self.style = style
@@ -109,7 +109,7 @@ final class MemoriesCardView: TodayCardView, Configurable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup(_ style: TodayCardViewStyle = .middle) {
+    fileprivate func setup(_ style: MemoriesCardViewStyle = .middle) {
   
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
