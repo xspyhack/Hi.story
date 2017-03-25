@@ -209,6 +209,7 @@ final class ProfileViewController: BaseViewController {
                     DispatchQueue.main.async { [weak self] in
                         self?.updateStorybooks()
                         self?.storybookCollectionView.reloadData()
+                        self?.storybookCollectionView.hi.scrollsToBottom(animated: true)
                     }
                 })
                 .addDisposableTo(disposeBag)
