@@ -226,6 +226,9 @@ final class ProfileViewController: BaseViewController {
                         sSelf.editItem.title = "Done"
                         sSelf.editItem.style = .done
                     }
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.prepare()
+                    generator.impactOccurred()
                     
                     sSelf.storybookCollectionView.reloadData()
                 })
