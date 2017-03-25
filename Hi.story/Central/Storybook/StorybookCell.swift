@@ -136,6 +136,12 @@ class StorybookCell: UICollectionViewCell, Reusable {
     var isEditing: Bool = false {
         didSet {
             deleteButton.isHidden = !isEditing
+            
+            if isEditing {
+                transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+            } else {
+                transform = CGAffineTransform.identity
+            }
         }
     }
 }
