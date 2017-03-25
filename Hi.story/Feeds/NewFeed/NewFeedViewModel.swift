@@ -48,6 +48,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
     var location: Variable<LocationInfo?>
     var attachmentImage: Variable<UIImage?>
     var storybook: Variable<Storybook?>
+    var createdAt: Variable<TimeInterval>
     
     // visible
     var visible: Variable<Bool>
@@ -75,6 +76,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             self.body = Variable("")
             self.tag = Variable(.none)
             self.location = Variable(nil)
+            self.createdAt = Variable<TimeInterval>(Date().timeIntervalSince1970)
             
             self.visible = Variable(true)
            
@@ -97,6 +99,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             } else {
                 self.location = Variable(nil)
             }
+            self.createdAt = Variable(story.createdAt)
             self.visible = Variable(true)
             
             self.storybook = Variable(story.withStorybook)
@@ -134,13 +137,16 @@ struct NewFeedViewModel: NewFeedViewModelType {
             body.asDriver(),
             location.asDriver(),
             storybook.asDriver(),
+            createdAt.asDriver(),
             attachmentInfo
-        ) { title, body, locationInfo, storybook, attachmentInfo -> Story in
+        ) { title, body, locationInfo, storybook, createdAt, attachmentInfo -> Story in
           
             let newStory = Story()
             newStory.id = storyID
             newStory.title = title.isEmpty ? Configuration.Defaults.storyTitle : title
             newStory.body = body.hi.trimming(.whitespaceAndNewline)
+            newStory.createdAt = createdAt
+            newStory.updatedAt = Date().timeIntervalSince1970
             
             newStory.withStorybook = storybook
             

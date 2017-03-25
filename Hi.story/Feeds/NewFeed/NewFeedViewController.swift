@@ -63,12 +63,13 @@ final class NewFeedViewController: BaseViewController {
     @IBOutlet private weak var imageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageViewWidthConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var visibleButton: UIButton!
-    @IBOutlet private weak var keyboardButton: UIButton!
-    @IBOutlet private weak var markdownButton: UIButton!
     @IBOutlet private weak var photoButton: UIButton!
     @IBOutlet private weak var locationButton: UIButton!
+    @IBOutlet private weak var visibleButton: UIButton!
+    @IBOutlet private weak var markdownButton: UIButton!
+    @IBOutlet private weak var storybookButton: UIButton!
     @IBOutlet private weak var detailsButton: UIButton!
+    @IBOutlet private weak var keyboardButton: UIButton!
     
     @IBOutlet private weak var postItem: UIBarButtonItem!
     @IBOutlet private weak var cancelItem: UIBarButtonItem!
@@ -142,7 +143,7 @@ final class NewFeedViewController: BaseViewController {
         
         photoButton.rx.tap
             .subscribe(onNext: { [unowned self] in
-                self.pickPhoto()
+                self.picksPhoto()
             })
             .addDisposableTo(disposeBag)
         
@@ -160,9 +161,15 @@ final class NewFeedViewController: BaseViewController {
             })
             .addDisposableTo(disposeBag)
         
+        storybookButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.choosesStorybook()
+            })
+            .addDisposableTo(disposeBag)
+        
         detailsButton.rx.tap
             .subscribe(onNext: { [unowned self] in
-                self.chooseStorybook()
+                self.showsDetails()
             })
             .addDisposableTo(disposeBag)
         
@@ -307,7 +314,7 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
-    private func pickPhoto() {
+    private func picksPhoto() {
         hi.propose(for: .photos, agreed: { [weak self] in
             let picker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
             picker.delegate = self
@@ -318,7 +325,7 @@ final class NewFeedViewController: BaseViewController {
         })
     }
     
-    private func chooseStorybook() {
+    private func choosesStorybook() {
         
         guard let userID = HiUserDefaults.userID.value else { return }
         
@@ -334,6 +341,20 @@ final class NewFeedViewController: BaseViewController {
         nav.transitioningDelegate = presentationTransitionManager
         
         self.present(nav, animated: true, completion: nil)
+    }
+    
+    private func showsDetails() {
+        let viewController = Storyboard.details.viewController(of: DetailsViewController.self)
+        viewController.viewModel = DetailsViewModel(body: "Hi", created: 0, updated: 0)
+        
+        viewController.modalPresentationStyle = .popover
+        viewController.modalTransitionStyle = .coverVertical
+        viewController.preferredContentSize = CGSize(width: view.bounds.width - 80.0, height: 250.0)
+        
+        viewController.popoverPresentationController?.sourceView = detailsButton
+        viewController.popoverPresentationController?.delegate = self
+        
+        self.present(viewController, animated: true, completion: nil)
     }
     
     @IBAction func locationButtonTapped(_ sender: UIButton) {
@@ -460,3 +481,9 @@ extension NewFeedViewController: PhotoEditingViewControllerDelegate {
     }
 }
 
+extension NewFeedViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
