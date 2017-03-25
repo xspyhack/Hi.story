@@ -6,4 +6,15 @@
 //  Copyright © 2017 bl4ckra1sond3tre. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import RxSwift
+import RxCocoa
+
+extension Reactive where Base: UIView {
+    
+    public var isVisible: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver(UIElement: self.base) { view, visible in
+            view.isHidden = !visible
+        }
+    }
+}
