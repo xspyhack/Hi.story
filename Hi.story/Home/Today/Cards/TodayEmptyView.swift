@@ -45,6 +45,8 @@ final class TodayEmptyView: TodayCardView {
     
     private func setup() {
         
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.white
         backgroundView.layer.cornerRadius = 12.0
