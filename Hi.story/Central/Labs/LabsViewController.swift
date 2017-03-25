@@ -13,12 +13,14 @@ final class LabsViewController: UITableViewController {
     enum Section: Int {
         case spotlight
         case handoff
+        case watch
         //case siri
         
         var annotation: String {
             switch self {
             case .spotlight: return "Spotlight"
             case .handoff: return "Handoff"
+            case .watch: return "Watch"
             //case .siri: return "Siri"
             }
         }
@@ -27,12 +29,13 @@ final class LabsViewController: UITableViewController {
             switch self {
             case .spotlight: return "Open Spotlight to search your stories"
             case .handoff: return "Handoff, free your hands"
+            case .watch: return " Watch support"
             //case .siri: return "Hey Siri"
             }
         }
         
         static var count: Int {
-            return Section.handoff.rawValue + 1
+            return Section.watch.rawValue + 1
         }
     }
     
@@ -46,6 +49,7 @@ final class LabsViewController: UITableViewController {
         title = "Labs"
         
         tableView.hi.register(reusableCell: SwitchCell.self)
+        tableView.hi.register(reusableCell: DisclosureCell.self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +68,8 @@ final class LabsViewController: UITableViewController {
         case .spotlight?:
             return 1
         case .handoff?:
+            return 1
+        case .watch?:
             return 1
         //case .siri?:
         //    return 1
@@ -92,6 +98,21 @@ final class LabsViewController: UITableViewController {
             cell.toggleSwitchStateChangedAction = { isOn in
                 Defaults.handoffEnabled = isOn
             }
+            
+            return cell
+            
+        case .watch:
+            let cell: DisclosureCell = tableView.hi.dequeueReusableCell(for: indexPath)
+            cell.textLabel?.text = section.annotation
+            cell.textLabel?.textColor = UIColor.hi.title
+            cell.detailTextLabel?.textColor = UIColor.hi.detail
+            let state = WatchActivationState(rawValue: Defaults.watchActivationState.value)
+            cell.detailTextLabel?.text = state?.name
+            Defaults.watchActivationState.bindListener(with: "Labs.watch") { (state) in
+                cell.detailTextLabel?.text = WatchActivationState(rawValue: state)?.name
+            }
+            
+            cell.accessoryType = .none
             
             return cell
         /*

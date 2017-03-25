@@ -41,6 +41,7 @@ struct Defaults {
         static let spotlightEnabled = prefix + "spotlightEnabled"
         static let handoffEnabled = prefix + "handoffEnabled"
         static let siriEnabled = prefix + "siriEnabled"
+        static let watchActivationState = prefix + "watchActivationState"
         
         static let latestAnalyingDate = prefix + "latestAnalyingDate"
         
@@ -160,6 +161,14 @@ struct Defaults {
             userDefaults.set(newValue, forKey: Key.siriEnabled)
         }
     }
+    
+    static var watchActivationState: Listenable<Int> = {
+        let state = userDefaults.integer(forKey: Key.watchActivationState)
+        
+        return Listenable<Int>(state) { state in
+            userDefaults.set(state, forKey: Key.watchActivationState)
+        }
+    }()
     
     static var latestAnalyingDate: String {
         get {

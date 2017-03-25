@@ -204,7 +204,7 @@ extension MattersViewController: UIPopoverPresentationControllerDelegate {
 extension MattersViewController: WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
+        Defaults.watchActivationState.value = activationState.rawValue
     }
     
     /** ------------------------- iOS App State For Watch ------------------------ */
@@ -218,5 +218,21 @@ extension MattersViewController: WCSessionDelegate {
     /** Called when all delegate callbacks for the previously selected watch has occurred. The session can be re-activated for the now selected watch using activateSession. */
     func sessionDidDeactivate(_ session: WCSession) {
         
+    }
+}
+
+enum WatchActivationState: Int {
+    case notActivated
+    
+    case inactive
+    
+    case activated
+    
+    var name: String {
+        switch self {
+        case .notActivated: return "not activated"
+        case .inactive: return "inactive"
+        case .activated: return "activated"
+        }
     }
 }
