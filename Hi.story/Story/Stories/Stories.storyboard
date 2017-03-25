@@ -10,23 +10,38 @@
     </dependencies>
     <scenes>
         <!--Stories View Controller-->
-        <scene sceneID="aq7-9r-MEx">
+        <scene sceneID="p6l-k7-Ulk">
             <objects>
-                <tableViewController storyboardIdentifier="StoriesViewController" id="5Xb-s7-rzF" customClass="StoriesViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mDh-bA-FGp">
+                <viewController storyboardIdentifier="StoriesViewController" id="Nyx-UD-ymR" customClass="StoriesViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ebF-j1-FAh"/>
+                        <viewControllerLayoutGuide type="bottom" id="FS8-a0-6XL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9bD-vS-sDa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="W6R-dz-ARW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="5Xb-s7-rzF" id="ZOr-Dc-tVh"/>
-                            <outlet property="delegate" destination="5Xb-s7-rzF" id="rnC-g7-T1j"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="WDZ-Xp-3ad"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h62-j0-tp2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="W6R-dz-ARW" secondAttribute="bottom" id="465-u4-Swl"/>
+                            <constraint firstAttribute="trailing" secondItem="W6R-dz-ARW" secondAttribute="trailing" id="GHw-1y-3so"/>
+                            <constraint firstItem="W6R-dz-ARW" firstAttribute="top" secondItem="9bD-vS-sDa" secondAttribute="top" id="NHJ-lk-n8J"/>
+                            <constraint firstItem="W6R-dz-ARW" firstAttribute="leading" secondItem="9bD-vS-sDa" secondAttribute="leading" id="awQ-EO-U7v"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZxJ-Fo-hBs"/>
+                    <connections>
+                        <outlet property="tableView" destination="W6R-dz-ARW" id="Chf-Zs-GnY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hS8-7y-Tox" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="415" y="184"/>
+            <point key="canvasLocation" x="485.60000000000002" y="183.95802098950526"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xfs-ed-LBI">
@@ -39,12 +54,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="5Xb-s7-rzF" kind="relationship" relationship="rootViewController" id="d8a-d3-f17"/>
+                        <segue destination="Nyx-UD-ymR" kind="relationship" relationship="rootViewController" id="Y6v-lE-PUp"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5zH-ji-P9J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-375.19999999999999" y="183.95802098950526"/>
+            <point key="canvasLocation" x="-302" y="184"/>
         </scene>
     </scenes>
 </document>

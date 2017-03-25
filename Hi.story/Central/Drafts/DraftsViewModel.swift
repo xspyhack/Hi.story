@@ -37,6 +37,8 @@ struct DraftsViewModel: DraftsViewModelType {
     let sections: Driver<[DraftsViewSection]>
     let editDraft: Driver<NewFeedViewModel>
     
+    let empty: Driver<Bool>
+    
     // MARK: Private
     
     private let disposeBag = DisposeBag()
@@ -54,6 +56,8 @@ struct DraftsViewModel: DraftsViewModelType {
                 return [section]
             }
             .asDriver(onErrorJustReturn: [])
+        
+        self.empty = drafts.asDriver().map { $0.isEmpty }
         
         self.itemDeleted
             .subscribe(onNext: { indexPath in

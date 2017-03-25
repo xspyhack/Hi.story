@@ -15,43 +15,62 @@ protocol StoriesViewControllerDelegate: class {
     func canEditViewController(_ viewController: StoriesViewController) -> Bool
 }
 
-final class StoriesViewController: UITableViewController {
+final class StoriesViewController: UIViewController {
 
     var stories: [Story] = []
     
+    @IBOutlet private weak var tableView: UITableView! {
+        didSet {
+            tableView.hi.register(reusableCell: StoryCell.self)
+            tableView.hi.register(reusableCell: StoryImageCell.self)
+            tableView.separatorStyle = .none
+            tableView.contentInset.bottom = 12.0
+            tableView.scrollIndicatorInsets.bottom = 12.0
+        }
+    }
     weak var delegate: StoriesViewControllerDelegate?
+    
+    fileprivate lazy var emptyView: EmptyView = {
+        let view = EmptyView(frame: .zero)
+        view.backgroundColor = UIColor.white
+        view.isHidden = true
+        view.imageView.image = UIImage.hi.emptyStory
+        view.textLabel.text = "There are no stories in this storybook."
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.clearsSelectionOnViewWillAppear = false
 
         if (delegate?.canEditViewController(self)) ?? false {
             self.navigationItem.rightBarButtonItem = self.editButtonItem
         }
         
-        tableView.hi.register(reusableCell: StoryCell.self)
-        tableView.hi.register(reusableCell: StoryImageCell.self)
-        tableView.separatorStyle = .none
-        tableView.contentInset.bottom = 12.0
-        tableView.scrollIndicatorInsets.bottom = 12.0
+        setupEmptyView()
+        
+        if stories.isEmpty {
+            emptyView.isHidden = false
+        }
     }
     
+    private func setupEmptyView() {
+        emptyView.addTo(view)
+    }
 }
 
 // MARK: - UITableViewDataSource
 
-extension StoriesViewController {
+extension StoriesViewController: UITableViewDataSource {
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stories.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let story = stories.safe[indexPath.row] else { fatalError() }
         
@@ -66,17 +85,21 @@ extension StoriesViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return delegate?.canEditViewController(self) ?? false
     }
     
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             let story = stories.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             delegate?.viewController(self, didDelete: story, at: indexPath.row)
+            
+            if stories.isEmpty {
+                emptyView.isHidden = false
+            }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -85,9 +108,9 @@ extension StoriesViewController {
 
 // MARK: - UITableViewDelegate
 
-extension StoriesViewController {
+extension StoriesViewController: UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        
         guard let story = stories.safe[indexPath.row] else { return 0.0 }
         

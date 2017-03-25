@@ -25,6 +25,14 @@ final class DraftsViewController: BaseViewController {
         }
     }
     
+    private lazy var emptyView: EmptyView = {
+        let view = EmptyView(frame: .zero)
+        view.backgroundColor = UIColor.white
+        view.imageView.image = UIImage.hi.emptyDraft
+        view.textLabel.text = "Looks like you don't have any drafts."
+        return view
+    }()
+    
     fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
@@ -43,6 +51,8 @@ final class DraftsViewController: BaseViewController {
         super.viewDidLoad()
 
         title = "Drafts"
+        
+        setupEmptyView()
         
         guard let realm = try? Realm() else { return }
         
@@ -70,6 +80,11 @@ final class DraftsViewController: BaseViewController {
                 self?.performSegue(withIdentifier: .presentNewFeed, sender: viewModel)
             })
             .addDisposableTo(disposeBag)
+        
+        viewModel.empty
+            .map { !$0 }
+            .drive(emptyView.rx.isHidden)
+            .addDisposableTo(disposeBag)
        
         tableView.rx.itemDeleted
             .bindTo(viewModel.itemDeleted)
@@ -85,6 +100,10 @@ final class DraftsViewController: BaseViewController {
         dataSource.canEditRowAtIndexPath = { _ in
             return true
         }
+    }
+    
+    private func setupEmptyView() {
+        emptyView.addTo(view)
     }
 }
 
