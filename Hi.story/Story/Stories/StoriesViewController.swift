@@ -26,6 +26,8 @@ final class StoriesViewController: UIViewController {
             tableView.separatorStyle = .none
             tableView.contentInset.bottom = 12.0
             tableView.scrollIndicatorInsets.bottom = 12.0
+            tableView.delegate = self
+            tableView.dataSource = self
         }
     }
     weak var delegate: StoriesViewControllerDelegate?
@@ -42,7 +44,7 @@ final class StoriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if (delegate?.canEditViewController(self)) ?? false {
+        if ((delegate?.canEditViewController(self)) ?? false) && !stories.isEmpty {
             self.navigationItem.rightBarButtonItem = self.editButtonItem
         }
         
