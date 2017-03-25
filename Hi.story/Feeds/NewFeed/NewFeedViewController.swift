@@ -197,12 +197,19 @@ final class NewFeedViewController: BaseViewController {
             .drive(imageView.rx.image)
             .addDisposableTo(disposeBag)
         
+        viewModel.storybook.asObservable()
+            .take(1)
+            .debug()
+            .bindTo(storybook)
+            .addDisposableTo(disposeBag)
+        
         location.asObservable()
             .bindTo(viewModel.location)
             .addDisposableTo(disposeBag)
         
         storybook.asObservable()
             .skip(1)
+            .debug()
             .bindTo(viewModel.storybook)
             .addDisposableTo(disposeBag)
         
@@ -315,6 +322,7 @@ final class NewFeedViewController: BaseViewController {
         
         let chooser = ChooseStorybookViewController()
         chooser.ownerID = userID
+        chooser.selecting = storybook.value?.name
         chooser.selectedAction = { [weak self] storybook in
             self?.storybook.value = storybook
         }

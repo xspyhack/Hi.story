@@ -15,6 +15,7 @@ import RxSwift
 final class ChooseStorybookViewController: UITableViewController {
     
     var ownerID: String?
+    var selecting: String?
     
     var selectedAction: ((Storybook) -> Void)?
     
@@ -23,6 +24,7 @@ final class ChooseStorybookViewController: UITableViewController {
     
     fileprivate struct Constant {
         static let rowHeight: CGFloat = 64.0
+        static let bottomInset: CGFloat = 28.0
     }
 
     override func viewDidLoad() {
@@ -56,6 +58,7 @@ final class ChooseStorybookViewController: UITableViewController {
         self.tableView.hi.register(reusableCell: SelectableCell.self)
         self.tableView.rowHeight = Constant.rowHeight
         self.tableView.estimatedRowHeight = Constant.rowHeight
+        self.tableView.contentInset.bottom = Constant.bottomInset
         
         guard let realm = try? Realm() else { return }
         
@@ -68,6 +71,11 @@ final class ChooseStorybookViewController: UITableViewController {
         }
         
         storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
+       
+        if let selecting = selecting, let index = storybooks.index(where: { $0.name == selecting }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+        }
     }
     
     private func done() {
