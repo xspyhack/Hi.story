@@ -10,6 +10,9 @@
 		7805A66E1E85632700242C35 /* UIView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7805A66D1E85632700242C35 /* UIView+Rx.swift */; };
 		7805A6711E85784500242C35 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7805A6701E85784500242C35 /* EmptyView.swift */; };
 		7805A6731E863C1D00242C35 /* ThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7805A6721E863C1D00242C35 /* ThemeCell.swift */; };
+		78078EDC1E86A22C00991225 /* Details.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78078EDB1E86A22C00991225 /* Details.storyboard */; };
+		78078EDE1E86B5AB00991225 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78078EDD1E86B5AB00991225 /* DetailsViewModel.swift */; };
+		78078EE01E86BAC500991225 /* PopupPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78078EDF1E86BAC500991225 /* PopupPresentationController.swift */; };
 		7808AF781DD714AF000B3625 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF761DD71489000B3625 /* Collection+Safe.swift */; };
 		7808AF791DD714B1000B3625 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF761DD71489000B3625 /* Collection+Safe.swift */; };
 		7808AF7A1DD714B7000B3625 /* Listenable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF741DD6D263000B3625 /* Listenable.swift */; };
@@ -122,6 +125,7 @@
 		786A26A91D53A80A002CC8E1 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 786A26971D53A71E002CC8E1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		786AD4B51D8D368E008709D2 /* Date+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786AD4B31D8D3688008709D2 /* Date+Hi.swift */; };
 		786AD4B61D8D3693008709D2 /* Date+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786AD4B31D8D3688008709D2 /* Date+Hi.swift */; };
+		7871D28D1E869D320058A26D /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871D28C1E869D320058A26D /* DetailsViewController.swift */; };
 		7871F2CD1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */; };
 		7871F2CF1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2CE1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift */; };
 		7871F2D11E61CDA3002B5C0C /* NVActivityIndicatorShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D01E61CDA3002B5C0C /* NVActivityIndicatorShape.swift */; };
@@ -450,6 +454,9 @@
 		7805A66D1E85632700242C35 /* UIView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Rx.swift"; sourceTree = "<group>"; };
 		7805A6701E85784500242C35 /* EmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		7805A6721E863C1D00242C35 /* ThemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeCell.swift; sourceTree = "<group>"; };
+		78078EDB1E86A22C00991225 /* Details.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Details.storyboard; sourceTree = "<group>"; };
+		78078EDD1E86B5AB00991225 /* DetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
+		78078EDF1E86BAC500991225 /* PopupPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupPresentationController.swift; sourceTree = "<group>"; };
 		7808AF741DD6D263000B3625 /* Listenable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listenable.swift; sourceTree = "<group>"; };
 		7808AF761DD71489000B3625 /* Collection+Safe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		7808AF7C1DD71A21000B3625 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -558,6 +565,7 @@
 		78655C451E818494007F5A2D /* Effects.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Effects.xcassets; sourceTree = "<group>"; };
 		786A26971D53A71E002CC8E1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		786AD4B31D8D3688008709D2 /* Date+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Hi.swift"; sourceTree = "<group>"; };
+		7871D28C1E869D320058A26D /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorAnimationPacman.swift; sourceTree = "<group>"; };
 		7871F2CE1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorAnimationDelegate.swift; sourceTree = "<group>"; };
 		7871F2D01E61CDA3002B5C0C /* NVActivityIndicatorShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorShape.swift; sourceTree = "<group>"; };
@@ -1208,6 +1216,16 @@
 			path = Effects;
 			sourceTree = "<group>";
 		};
+		7871D28B1E869D0A0058A26D /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				7871D28C1E869D320058A26D /* DetailsViewController.swift */,
+				78078EDD1E86B5AB00991225 /* DetailsViewModel.swift */,
+				78078EDB1E86A22C00991225 /* Details.storyboard */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
 		7871F2CB1E61CD0A002B5C0C /* Pacman */ = {
 			isa = PBXGroup;
 			children = (
@@ -1357,6 +1375,7 @@
 				789224F51CFAD16200A44040 /* PresentationController.swift */,
 				789224F61CFAD16200A44040 /* PresentationTransitionManager.swift */,
 				7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */,
+				78078EDF1E86BAC500991225 /* PopupPresentationController.swift */,
 			);
 			path = Transitions;
 			sourceTree = "<group>";
@@ -1759,6 +1778,7 @@
 		78F4D2511CEEED6300DAA210 /* Story */ = {
 			isa = PBXGroup;
 			children = (
+				7871D28B1E869D0A0058A26D /* Details */,
 				782B6E5E1E50A533007E33EC /* Stories */,
 				788BCF5F1D9FFDE500535519 /* Story */,
 				78EBD5351CF2DB9F0039AAE5 /* CardView.swift */,
@@ -2112,6 +2132,7 @@
 				7844AEDB1E14056900D7FA11 /* Drafts.storyboard in Resources */,
 				782B6E6D1E583A7E007E33EC /* k.css in Resources */,
 				78D257F81D8444760032E4F5 /* Matters.storyboard in Resources */,
+				78078EDC1E86A22C00991225 /* Details.storyboard in Resources */,
 				78D258011D84450D0032E4F5 /* NewMatter.storyboard in Resources */,
 				78C9A20F1E7D39410072E3F8 /* Personalized.storyboard in Resources */,
 				7872B3AB1E7985D100446420 /* Themes.xcassets in Resources */,
@@ -2297,7 +2318,9 @@
 				788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
 				78D2580C1D8465BE0032E4F5 /* PopoverViewController.swift in Sources */,
+				78078EDE1E86B5AB00991225 /* DetailsViewModel.swift in Sources */,
 				78E4817F1E06D2D900EB81E9 /* UIImage+Hi.swift in Sources */,
+				78078EE01E86BAC500991225 /* PopupPresentationController.swift in Sources */,
 				78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */,
 				78D258091D8449380032E4F5 /* HistoryViewController.swift in Sources */,
 				7844AED01E12C0B900D7FA11 /* StorybookCell.swift in Sources */,
@@ -2373,6 +2396,7 @@
 				7851BBCD1DE9755800599861 /* MarkdownParser.swift in Sources */,
 				78AEC10D1DD36D4400AE1780 /* HomeViewController.swift in Sources */,
 				78E4817D1E06CE6C00EB81E9 /* ImageCacheController.swift in Sources */,
+				7871D28D1E869D320058A26D /* DetailsViewController.swift in Sources */,
 				78E32D141E6F012D00429266 /* TodayCardView.swift in Sources */,
 				7871F2CF1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift in Sources */,
 				788BCF6D1DA0043C00535519 /* TPKeyboardAvoidingTableView.m in Sources */,

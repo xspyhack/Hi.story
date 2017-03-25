@@ -50,6 +50,8 @@ enum Storyboard: String {
     
     case editProfile
     
+    case details
+    
     var instance: UIStoryboard {
         return UIStoryboard(name: self.rawValue.capitalized, bundle: nil)
     }

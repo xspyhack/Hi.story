@@ -29,8 +29,8 @@ class PresentationController: UIPresentationController {
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { (context) -> Void in
             self.dimmingView.alpha = 0.6
-            }, completion: { (context) -> Void in
-                //
+        }, completion: { (context) -> Void in
+            //
         })
         
         dimmingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDimmingView(_:))))
