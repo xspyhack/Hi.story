@@ -64,6 +64,7 @@ class MarkdownToolbar: UIView {
         layer.shadowColor   = UIColor.lightGray.cgColor
         layer.shadowOffset  = CGSize(width: 0.0, height: 0.0)
         layer.shadowOpacity = 0.5
+        layer.shadowRadius  = 6.0
         alpha               = 0.0
         
         dataset = [
