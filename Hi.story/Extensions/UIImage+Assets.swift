@@ -74,7 +74,26 @@ extension Hi where Base: UIImage {
     static var birthday: UIImage? {
         return UIImage(named: "birthday")
     }
+    
+    static var emptyStory: UIImage? {
+        return UIImage(named: "empty_story")
+    }
+    
+    static var emptyDraft: UIImage? {
+        return UIImage(named: "empty_draft")
+    }
 }
+
+// MARK: - Themes
+
+extension Hi where Base: UIImage {
+    
+    static var themeK: UIImage? {
+        return UIImage(named: "theme_k")
+    }
+}
+
+// MARK: - Covers
 
 extension Hi where Base: UIImage {
     

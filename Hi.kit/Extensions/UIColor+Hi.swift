@@ -26,6 +26,10 @@ public extension Hi where Base: UIColor {
         return UIColor(hex: "#8F8F8F")
     }
     
+    public static var emptyText: UIColor {
+        return UIColor(hex: "#A0A0A0")
+    }
+    
     public static var placeholder: UIColor {
         return UIColor(hex: "#C7C7C7")
     }

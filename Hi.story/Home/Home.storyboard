@@ -128,7 +128,7 @@
                                             <constraint firstAttribute="height" constant="60" id="yEW-fh-Zy7"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="Collecting Memories"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="Collecting Memories..."/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>

@@ -36,7 +36,6 @@ final class TodayViewController: UIViewController {
     
     private lazy var emptyView: TodayEmptyView = {
         let emptyView = TodayEmptyView()
-        emptyView.backgroundColor = UIColor.white
         return emptyView
     }()
     
@@ -80,7 +79,6 @@ final class TodayViewController: UIViewController {
             setup(cardView: birthdayView)
             birthdayView.start()
         }
-     
     }
     
     func snapshot() -> UIImage? {
@@ -109,7 +107,7 @@ final class TodayViewController: UIViewController {
         
         isEmpty = false
         
-        memoriesCardView.configure(withPresenter: MemoriesCardView(story: story, creator: creator))
+        memoriesCardView.configure(withPresenter: MemoriesCardViewModel(story: story, creator: creator))
     }
     
     private func setupEmptyView() {
