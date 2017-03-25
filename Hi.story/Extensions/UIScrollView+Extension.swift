@@ -21,7 +21,7 @@ extension Hi where Base: UIScrollView {
     }
     
     func scrollsToBottom(animated animate: Bool = true) {
-        let bottomOffset = CGPoint(x: 0, y: max(0, base.contentSize.height - base.bounds.height))
+        let bottomOffset = CGPoint(x: 0, y: max(0, base.contentSize.height - base.bounds.height + base.contentInset.bottom))
         base.setContentOffset(bottomOffset, animated: true)
     }
     
