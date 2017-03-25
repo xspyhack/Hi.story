@@ -173,7 +173,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
     }
-    
+   
+    /// Handoff, not Apple Watch
     private func handleWatchActivity(_ activity: NSUserActivity) -> Bool {
         
         guard Defaults.handoffEnabled else { return false }
