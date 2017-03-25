@@ -300,6 +300,8 @@ final class NewFeedViewController: BaseViewController {
         
         beforeDisappear?()
         
+        LocationService.shared.turnOff()
+        
         delay(0.2) { [weak self] in
             self?.dismiss(animated: true, completion: nil)
         }
@@ -354,32 +356,26 @@ final class NewFeedViewController: BaseViewController {
     private func startLocating() {
         locationButton.isEnabled = false
         
-        locateInBackground()
-    }
-    
-    private func locateInBackground() {
+        // Can't location in other thread
         
-        DispatchQueue.global(qos: .default).async {
-            let service = LocationService.shared
-            service.turnOn()
+        let service = LocationService.shared
+        service.turnOn()
+        
+        service.didLocateHandler = { [weak self] result in
             
-            service.didLocateHandler = { [weak self] result in
-               
-                print(result)
-                DispatchQueue.main.sync {
-                    self?.locationButton.isEnabled = true
+            DispatchQueue.main.async {
+                self?.locationButton.isEnabled = true
+                
+                switch result {
                     
-                    switch result {
-                        
-                    case let .success(address, coordinate):
-                        self?.location.value = LocationInfo(address: address, coordinate: coordinate)
-                        
-                        self?.locationButton.isSelected = true
-                        self?.canLocate = true
-                        
-                    case .failure(let error):
-                        print(error)
-                    }
+                case let .success(address, coordinate):
+                    self?.location.value = LocationInfo(address: address, coordinate: coordinate)
+                    
+                    self?.locationButton.isSelected = true
+                    self?.canLocate = true
+                    
+                case .failure(let error):
+                    print(error)
                 }
             }
         }

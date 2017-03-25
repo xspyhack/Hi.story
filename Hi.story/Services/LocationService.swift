@@ -19,7 +19,7 @@ struct LocationError: Error {
     }
 }
 
-class LocationService: NSObject {
+final class LocationService: NSObject {
     static let shared = LocationService()
     
     fileprivate lazy var locationManager: CLLocationManager = {
@@ -34,7 +34,13 @@ class LocationService: NSObject {
     }()
     
     func turnOn() {
+        guard CLLocationManager.locationServicesEnabled() else { return }
         self.locationManager.startUpdatingLocation()
+    }
+    
+    func turnOff() {
+        guard CLLocationManager.locationServicesEnabled() else { return }
+        locationManager.stopUpdatingLocation()
     }
     
     var afterUpdatedLocationAction: ((CLLocation) -> Void)?
@@ -67,5 +73,9 @@ extension LocationService: CLLocationManagerDelegate {
                 self?.didLocateHandler?(.success(address, newLocation.coordinate))
             }
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        didLocateHandler?(.failure(error))
     }
 }
