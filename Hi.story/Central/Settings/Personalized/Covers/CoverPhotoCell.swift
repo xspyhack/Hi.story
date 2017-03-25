@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CoverPhotoCell: UICollectionViewCell {
+final class CoverPhotoCell: UICollectionViewCell {
     
     @IBOutlet weak var maskedView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -22,8 +22,6 @@ class CoverPhotoCell: UICollectionViewCell {
         avatarImageView.layer.cornerRadius = 20.0
         avatarImageView.clipsToBounds = true
         
-        backgroundImageView.clipsToBounds = true
-        
         layer.shadowRadius = 16.0
         layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
         layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
@@ -31,6 +29,7 @@ class CoverPhotoCell: UICollectionViewCell {
         layer.shadowOpacity = 1.0
         
         backgroundImageView.layer.cornerRadius = 6.0
+        backgroundImageView.clipsToBounds = true
         maskedView.layer.cornerRadius = 6.0
     }
     

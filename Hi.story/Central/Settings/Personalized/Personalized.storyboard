@@ -24,6 +24,7 @@
                     </tableView>
                     <connections>
                         <segue destination="m3P-s0-5Xk" kind="show" identifier="showCovers" id="Nj5-1q-80z"/>
+                        <segue destination="sDY-EB-wMm" kind="show" identifier="showThemes" id="JWd-ye-Vip"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tuT-tS-IhM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -37,6 +38,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iy1-G1-fvp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="681" y="109"/>
+        </scene>
+        <!--ThemesViewController-->
+        <scene sceneID="nnB-lc-pLq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Themes" referencedIdentifier="ThemesViewController" id="sDY-EB-wMm" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tR2-tz-dBl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="681" y="176"/>
         </scene>
     </scenes>
 </document>

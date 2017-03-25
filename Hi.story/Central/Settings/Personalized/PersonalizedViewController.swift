@@ -70,7 +70,7 @@ final class PersonalizedViewController: UITableViewController {
         
         switch Row(rawValue: indexPath.row) {
         case .themes?:
-            break
+            performSegue(withIdentifier: .showThemes, sender: nil)
         case .covers?:
             performSegue(withIdentifier: .showCovers, sender: nil)
         default:
@@ -83,5 +83,6 @@ extension PersonalizedViewController: SegueHandlerType {
     
     enum SegueIdentifier: String {
         case showCovers
+        case showThemes
     }
 }
