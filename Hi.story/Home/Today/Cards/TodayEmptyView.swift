@@ -30,7 +30,7 @@ final class TodayEmptyView: TodayCardView {
         label.font = UIFont.systemFont(ofSize: 14.0)
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.text = "我们所经历的每个平凡的日常，\n也许就是连续发生的奇迹。\n\nNo memories today, write a story now?"
+        label.text = "我们所经历的每个平凡的日常，\n也许就是连续发生的奇迹。\n\n我々が経験しているそれぞれの普通の生活は、おそらく奇跡が連続して発生しました\n\nNo memories today, write a story now?"
         return label
     }()
 
