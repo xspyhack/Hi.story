@@ -16,7 +16,8 @@ final class TodayEmptyView: TodayCardView {
     private(set) lazy var newButton: BorderedButton = {
         let button = BorderedButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitle("+ New", for: .normal)
+        button.setTitle("New", for: .normal)
+        button.setImage(UIImage(named: "icon_add"), for: .normal)
         button.setTitleColor(UIColor.hi.tint, for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
         button.addTarget(self, action: #selector(TodayEmptyView.new(_:)), for: .touchUpInside)
