@@ -123,7 +123,7 @@ struct Launcher {
     private static func bornAuthor(withRealm realm: Realm) {
         let author = User()
         author.id = UUID.uuid
-        author.nickname = "Blessing Software"
+        author.nickname = "blessing software"
         author.username = "blessingsoft"
         author.bio = "Megumi soft"
         if let image = UIImage.hi.authorAvatar {
