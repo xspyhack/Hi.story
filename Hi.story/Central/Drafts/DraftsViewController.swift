@@ -54,6 +54,18 @@ final class DraftsViewController: BaseViewController {
         
         setupEmptyView()
         
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        self.editButtonItem.rx.tap
+            .map { [unowned self] in
+                self.tableView.isEditing
+            }
+            .subscribe(onNext: { [weak self] editing in
+                self?.isEditing = !editing
+                self?.tableView.setEditing(!editing, animated: true)
+            })
+            .addDisposableTo(disposeBag)
+        
         guard let realm = try? Realm() else { return }
         
         let viewModel = DraftsViewModel(realm: realm)
@@ -84,6 +96,11 @@ final class DraftsViewController: BaseViewController {
         viewModel.empty
             .map { !$0 }
             .drive(emptyView.rx.isHidden)
+            .addDisposableTo(disposeBag)
+        
+        viewModel.empty
+            .map { !$0 }
+            .drive(editButtonItem.rx.isEnabled)
             .addDisposableTo(disposeBag)
        
         tableView.rx.itemDeleted

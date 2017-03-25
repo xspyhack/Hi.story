@@ -15,7 +15,7 @@ protocol StoriesViewControllerDelegate: class {
     func canEditViewController(_ viewController: StoriesViewController) -> Bool
 }
 
-final class StoriesViewController: UIViewController {
+final class StoriesViewController: BaseViewController {
 
     var stories: [Story] = []
     
@@ -46,6 +46,16 @@ final class StoriesViewController: UIViewController {
 
         if ((delegate?.canEditViewController(self)) ?? false) && !stories.isEmpty {
             self.navigationItem.rightBarButtonItem = self.editButtonItem
+            
+            self.editButtonItem.rx.tap
+                .map { [unowned self] in
+                    self.tableView.isEditing
+                }
+                .subscribe(onNext: { [weak self] editing in
+                    self?.isEditing = !editing
+                    self?.tableView.setEditing(!editing, animated: true)
+                })
+                .addDisposableTo(disposeBag)
         }
         
         setupEmptyView()
