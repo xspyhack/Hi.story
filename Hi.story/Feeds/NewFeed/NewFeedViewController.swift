@@ -98,6 +98,8 @@ final class NewFeedViewController: BaseViewController {
     private let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
     
     private lazy var transitionManager = NonStatusBarTransitionManager()
+    
+    private var popoverTransitioningDelegate: PopoverTransitioningDelegate?
 
     private(set) var attachmentImage: Variable<UIImage?> = Variable(nil)
     private var storybook: Variable<Storybook?> = Variable(nil)
@@ -130,6 +132,11 @@ final class NewFeedViewController: BaseViewController {
         }
         
         let viewModel = self.viewModel ?? NewFeedViewModel(token: UUID().uuidString)
+       
+        // reference it
+        if self.viewModel == nil {
+            self.viewModel = viewModel
+        }
         
         cancelItem.rx.tap
             .bindTo(viewModel.cancelAction)
@@ -345,14 +352,24 @@ final class NewFeedViewController: BaseViewController {
     
     private func showsDetails() {
         let viewController = Storyboard.details.viewController(of: DetailsViewController.self)
-        viewController.viewModel = DetailsViewModel(body: "Hi", created: 0, updated: 0)
-        
-        viewController.modalPresentationStyle = .popover
+        let now = Date().timeIntervalSince1970
+        viewController.viewModel = DetailsViewModel(body: editor.text, created: viewModel?.createdAt.value ?? now, updated: now, location: location.value)
+       
+        viewController.modalPresentationStyle = .custom
         viewController.modalTransitionStyle = .coverVertical
-        viewController.preferredContentSize = CGSize(width: view.bounds.width - 80.0, height: 250.0)
+       
+        let size: CGSize
+        if location.value != nil {
+            size = CGSize(width: view.bounds.width - 80.0, height: 300.0)
+        } else {
+            size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
+        }
         
-        viewController.popoverPresentationController?.sourceView = detailsButton
-        viewController.popoverPresentationController?.delegate = self
+        let shadow = PopoverPresentationShadow(radius: 32.0)
+        let context = PopoverPresentationContext(presentedContentSize: size, cornerRadius: 16.0, chromeAlpha: 0.0, shadow: shadow)
+        self.popoverTransitioningDelegate = PopoverTransitioningDelegate(presentationContext: context)
+        
+        viewController.transitioningDelegate = popoverTransitioningDelegate
         
         self.present(viewController, animated: true, completion: nil)
     }
@@ -478,12 +495,5 @@ extension NewFeedViewController: PhotoEditingViewControllerDelegate {
             
             viewController.presentingViewController?.dismiss(animated: true, completion: nil)
         }
-    }
-}
-
-extension NewFeedViewController: UIPopoverPresentationControllerDelegate {
-    
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
     }
 }
