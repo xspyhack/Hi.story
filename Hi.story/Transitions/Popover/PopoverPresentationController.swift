@@ -10,10 +10,30 @@ import UIKit
 
 // ref: https://developer.apple.com/videos/play/wwdc2014/228/
 
+struct PopoverPresentationShadow {
+    let radius: CGFloat
+    let color: UIColor
+    let offset: CGSize
+    
+    init(radius: CGFloat = 12.0, color: UIColor = UIColor.black.withAlphaComponent(0.4), offset: CGSize = .zero) {
+        self.radius = radius
+        self.color = color
+        self.offset = offset
+    }
+}
+
 struct PopoverPresentationContext {
-    let size: CGSize
+    let presentedContentSize: CGSize
     let cornerRadius: CGFloat
-    let showsShadow: Bool
+    let chromeAlpha: CGFloat
+    let shadow: PopoverPresentationShadow?
+    
+    init(presentedContentSize size: CGSize, cornerRadius: CGFloat = 6.0, chromeAlpha: CGFloat = 0.6, shadow: PopoverPresentationShadow? = nil) {
+        self.presentedContentSize = size
+        self.cornerRadius = cornerRadius
+        self.chromeAlpha = chromeAlpha
+        self.shadow = shadow
+    }
 }
 
 final class PopoverPresentationController: UIPresentationController, UIAdaptivePresentationControllerDelegate {
@@ -27,10 +47,34 @@ final class PopoverPresentationController: UIPresentationController, UIAdaptiveP
         return view
     }()
     
+    /// just for shadow and corner
+    /// shows shadow in background view
+    private lazy var backgroundView: UIView = {
+        let view = UIView(frame: .zero)
+        view.isUserInteractionEnabled = false
+        view.alpha = 0.0
+        return view
+    }()
+    
     init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, presentationContext context: PopoverPresentationContext) {
         self.presentationContext = context
         
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+        
+        setup(presented: presentedViewController)
+    }
+    
+    private func setup(presented: UIViewController) {
+        presented.view.layer.cornerRadius = presentationContext.cornerRadius
+        presented.view.layer.masksToBounds = true
+        
+        if let shadow = presentationContext.shadow {
+            backgroundView.layer.shadowColor = shadow.color.cgColor
+            backgroundView.layer.shadowRadius = shadow.radius
+            backgroundView.layer.shadowOffset = shadow.offset
+            backgroundView.layer.masksToBounds = false
+            backgroundView.layer.shadowOpacity = 1.0
+        }
     }
     
     override func presentationTransitionWillBegin() {
@@ -38,29 +82,49 @@ final class PopoverPresentationController: UIPresentationController, UIAdaptiveP
         
         // Add the dimming view and the presented view to the heirarchy.
         containerView?.addSubview(dimmingView)
+       
+        if presentationContext.chromeAlpha <= 0.0 {
+            dimmingView.backgroundColor = UIColor.clear
+            dimmingView.alpha = 1.0
+        }
+        if presentationContext.shadow != nil {
+            containerView?.addSubview(backgroundView)
+            //backgroundView.transform = CGAffineTransform(scaleX: 1.8, y: 1.8)
+        }
         containerView?.addSubview(presentedView)
-        
+       
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { (context) -> Void in
-            self.dimmingView.alpha = 0.6
+            if self.presentationContext.chromeAlpha > 0.0 {
+                self.dimmingView.alpha = self.presentationContext.chromeAlpha
+            }
+            
+            if self.presentationContext.shadow != nil {
+                //self.backgroundView.transform = .identity
+                self.backgroundView.alpha = 1.0
+            }
         }, completion: { (context) -> Void in
             //
         })
         
-        dimmingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDimmingView(_:))))
+        dimmingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(PopoverPresentationController.handleTapDimmingView(_:))))
     }
     
     override func presentationTransitionDidEnd(_ completed: Bool) {
         // If the presentation didn't complete, here should remove the dimming view.
         if !completed {
             dimmingView.removeFromSuperview()
+            backgroundView.removeFromSuperview()
         }
     }
     
     override func dismissalTransitionWillBegin() {
+        backgroundView.alpha = 0.0
+        
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { (context) -> Void in
             self.dimmingView.alpha = 0
+            self.backgroundView.alpha = 0.0
         }, completion:nil)
     }
     
@@ -68,6 +132,7 @@ final class PopoverPresentationController: UIPresentationController, UIAdaptiveP
         // If the dismissal completed, here should remove the dimming view.
         if completed {
             dimmingView.removeFromSuperview()
+            backgroundView.removeFromSuperview()
         }
     }
     
@@ -90,7 +155,7 @@ final class PopoverPresentationController: UIPresentationController, UIAdaptiveP
     }
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
-        return presentationContext.size
+        return presentationContext.presentedContentSize
     }
    
     // Rotation support
@@ -101,7 +166,14 @@ final class PopoverPresentationController: UIPresentationController, UIAdaptiveP
         guard let containerView = containerView else { return }
         
         dimmingView.frame = containerView.bounds
-        presentedView?.frame = frameOfPresentedViewInContainerView
+        
+        let presentedViewFrame = frameOfPresentedViewInContainerView
+        presentedView?.frame = presentedViewFrame
+        
+        if presentationContext.shadow != nil {
+            backgroundView.frame = presentedViewFrame
+            backgroundView.layer.shadowPath = UIBezierPath(rect: backgroundView.bounds).cgPath
+        }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
