@@ -35,7 +35,7 @@ extension DateProxy {
     }
     
     public var dmyAtHourMinute: String {
-        _Date.formatter.dateFormat = "dd MMM, yyyy HH:mm"
+        _Date.formatter.dateFormat = "dd MMM, yyyy 'at' HH:mm"
         return _Date.formatter.string(from: base)
     }
     

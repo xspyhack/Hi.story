@@ -360,7 +360,7 @@ final class NewFeedViewController: BaseViewController {
        
         let size: CGSize
         if location.value != nil {
-            size = CGSize(width: view.bounds.width - 80.0, height: 300.0)
+            size = CGSize(width: view.bounds.width - 70.0, height: 300.0)
         } else {
             size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
         }
@@ -382,6 +382,8 @@ final class NewFeedViewController: BaseViewController {
             hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
                 self?.startLocating()
             })
+        } else {
+            location.value = nil
         }
     }
     
@@ -408,7 +410,9 @@ final class NewFeedViewController: BaseViewController {
                     
                 case let .success(address, coordinate):
                     self?.location.value = LocationInfo(address: address, coordinate: coordinate)
-                    
+                   
+                    // 由于是异步，所以可能会导致问题，
+                    // 这里应该根据 button 是否认为的 deselect
                     self?.locationButton.isSelected = true
                     self?.canLocate = true
                     
