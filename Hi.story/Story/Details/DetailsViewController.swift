@@ -8,7 +8,9 @@
 
 import UIKit
 
-final class DetailsViewController: UIViewController {
+final class DetailsViewController: BaseViewController {
+    
+    var showsLocationAction: ((LocationInfo) -> Void)?
     
     var viewModel: DetailsViewModel?
 
@@ -31,6 +33,14 @@ final class DetailsViewController: UIViewController {
         
         updatedLabel.text = viewModel.updated
         createdLabel.text = viewModel.created
+        
+        locationButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                if let location = viewModel.location {
+                    self?.showsLocationAction?(location)
+                }
+            })
+            .addDisposableTo(disposeBag)
         
         if let address = viewModel.address {
             locationButton.isHidden = false
