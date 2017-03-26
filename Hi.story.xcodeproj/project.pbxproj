@@ -12,7 +12,8 @@
 		7805A6731E863C1D00242C35 /* ThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7805A6721E863C1D00242C35 /* ThemeCell.swift */; };
 		78078EDC1E86A22C00991225 /* Details.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78078EDB1E86A22C00991225 /* Details.storyboard */; };
 		78078EDE1E86B5AB00991225 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78078EDD1E86B5AB00991225 /* DetailsViewModel.swift */; };
-		78078EE01E86BAC500991225 /* PopupPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78078EDF1E86BAC500991225 /* PopupPresentationController.swift */; };
+		78078EE81E87AC0B00991225 /* PopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78078EE61E87AC0B00991225 /* PopoverPresentationController.swift */; };
+		78078EE91E87AC0B00991225 /* PopoverTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78078EE71E87AC0B00991225 /* PopoverTransitioningDelegate.swift */; };
 		7808AF781DD714AF000B3625 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF761DD71489000B3625 /* Collection+Safe.swift */; };
 		7808AF791DD714B1000B3625 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF761DD71489000B3625 /* Collection+Safe.swift */; };
 		7808AF7A1DD714B7000B3625 /* Listenable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7808AF741DD6D263000B3625 /* Listenable.swift */; };
@@ -456,7 +457,8 @@
 		7805A6721E863C1D00242C35 /* ThemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeCell.swift; sourceTree = "<group>"; };
 		78078EDB1E86A22C00991225 /* Details.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Details.storyboard; sourceTree = "<group>"; };
 		78078EDD1E86B5AB00991225 /* DetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
-		78078EDF1E86BAC500991225 /* PopupPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupPresentationController.swift; sourceTree = "<group>"; };
+		78078EE61E87AC0B00991225 /* PopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverPresentationController.swift; sourceTree = "<group>"; };
+		78078EE71E87AC0B00991225 /* PopoverTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverTransitioningDelegate.swift; sourceTree = "<group>"; };
 		7808AF741DD6D263000B3625 /* Listenable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listenable.swift; sourceTree = "<group>"; };
 		7808AF761DD71489000B3625 /* Collection+Safe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		7808AF7C1DD71A21000B3625 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -842,6 +844,15 @@
 				7805A6701E85784500242C35 /* EmptyView.swift */,
 			);
 			path = EmptyView;
+			sourceTree = "<group>";
+		};
+		78078EE51E87ABD400991225 /* Popover */ = {
+			isa = PBXGroup;
+			children = (
+				78078EE61E87AC0B00991225 /* PopoverPresentationController.swift */,
+				78078EE71E87AC0B00991225 /* PopoverTransitioningDelegate.swift */,
+			);
+			path = Popover;
 			sourceTree = "<group>";
 		};
 		7808AF7E1DDF778D000B3625 /* Components */ = {
@@ -1371,11 +1382,11 @@
 		789224F31CFAD16200A44040 /* Transitions */ = {
 			isa = PBXGroup;
 			children = (
+				78078EE51E87ABD400991225 /* Popover */,
 				789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */,
 				789224F51CFAD16200A44040 /* PresentationController.swift */,
 				789224F61CFAD16200A44040 /* PresentationTransitionManager.swift */,
 				7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */,
-				78078EDF1E86BAC500991225 /* PopupPresentationController.swift */,
 			);
 			path = Transitions;
 			sourceTree = "<group>";
@@ -2315,12 +2326,12 @@
 				786191571D168FF1005680B3 /* ShortcutType.swift in Sources */,
 				7857FBEC1E1A35D1001D0061 /* ReusableTableViewCell.swift in Sources */,
 				7810FD841E4050E300950ABA /* CalendarService.swift in Sources */,
+				78078EE81E87AC0B00991225 /* PopoverPresentationController.swift in Sources */,
 				788BD0291DBC9E3000535519 /* FeedCell.swift in Sources */,
 				789225001CFAD3D500A44040 /* TabBarController.swift in Sources */,
 				78D2580C1D8465BE0032E4F5 /* PopoverViewController.swift in Sources */,
 				78078EDE1E86B5AB00991225 /* DetailsViewModel.swift in Sources */,
 				78E4817F1E06D2D900EB81E9 /* UIImage+Hi.swift in Sources */,
-				78078EE01E86BAC500991225 /* PopupPresentationController.swift in Sources */,
 				78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */,
 				78D258091D8449380032E4F5 /* HistoryViewController.swift in Sources */,
 				7844AED01E12C0B900D7FA11 /* StorybookCell.swift in Sources */,
@@ -2370,6 +2381,7 @@
 				78F4D2451CEEE3C300DAA210 /* TextPresentable.swift in Sources */,
 				78D381D21D60E45000AB844E /* ModelType.swift in Sources */,
 				78BF387B1D9E35D900119F04 /* CacheService.swift in Sources */,
+				78078EE91E87AC0B00991225 /* PopoverTransitioningDelegate.swift in Sources */,
 				7805A66E1E85632700242C35 /* UIView+Rx.swift in Sources */,
 				78E32D171E6F015000429266 /* BirthdayCardView.swift in Sources */,
 				7810FD8C1E40644E00950ABA /* FeedItemCell.swift in Sources */,

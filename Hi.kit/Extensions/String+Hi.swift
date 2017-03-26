@@ -67,4 +67,16 @@ public extension StringProxy {
         return String(format: hash as String)
     }
 
+    public var words: [String] {
+        let range = Range<String.Index>(uncheckedBounds: (lower: base.startIndex, upper: base.endIndex))
+        var words = [String]()
+        
+        base.enumerateSubstrings(in: range, options: .byWords, { (substring, _, _, _) -> () in
+            if let substring = substring {
+                words.append(substring)
+            }
+        })
+        
+        return words
+    }
 }

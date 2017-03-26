@@ -34,6 +34,11 @@ extension DateProxy {
         return _Date.formatter.string(from: base)
     }
     
+    public var dmyAtHourMinute: String {
+        _Date.formatter.dateFormat = "dd MMM, yyyy HH:mm"
+        return _Date.formatter.string(from: base)
+    }
+    
     public var monthDayYear: String {
         _Date.formatter.dateFormat = Date.mdyDateFormatString
         return _Date.formatter.string(from: base)
@@ -144,7 +149,6 @@ public extension Date {
     fileprivate static let mdyDateFormatString = "MMM dd, yyy"
     fileprivate static let timeFormatString = "HH:mm:ss"
     fileprivate static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
-    
 }
 
 public extension IntProxy {
