@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 import Hikit
 
-final class FeedViewController: UIViewController {
+final class FeedViewController: BaseViewController {
     
     var viewModel: FeedViewModel?
     
@@ -28,9 +28,22 @@ final class FeedViewController: UIViewController {
         
         return webView
     }()
+    
+    private lazy var detailsItem: UIBarButtonItem = UIBarButtonItem()
+    
+    private var popoverTransitioningDelegate: PopoverTransitioningDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        detailsItem.image = UIImage.hi.navDetails
+        navigationItem.rightBarButtonItem = detailsItem
+        
+        detailsItem.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.showsDetails()
+            })
+            .addDisposableTo(disposeBag)
         
         setupWebView()
         
@@ -57,6 +70,34 @@ final class FeedViewController: UIViewController {
         
         NSLayoutConstraint.activate(hConstraints)
         NSLayoutConstraint.activate(vConstraints)
+    }
+    
+    private func showsDetails() {
+        guard let viewModel = viewModel, let story = viewModel.feed.story else { return }
+        
+        let viewController = Storyboard.details.viewController(of: DetailsViewController.self)
+        viewController.viewModel = DetailsViewModel(story: story)
+        
+        viewController.modalPresentationStyle = .custom
+        viewController.modalTransitionStyle = .crossDissolve
+        
+        let size: CGSize
+        if story.location != nil {
+            size = CGSize(width: view.bounds.width - 70.0, height: 300.0)
+        } else {
+            size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
+        }
+        
+        print(webView.scrollView.contentOffset.y)
+        let shadowAlpha: CGFloat = (webView.scrollView.contentOffset.y > (view.bounds.height / 2.0) || story.attachment == nil) ? 0.3 : 0.4
+        
+        let shadow = PopoverPresentationShadow(radius: 32.0, color: UIColor.black.withAlphaComponent(shadowAlpha))
+        let context = PopoverPresentationContext(presentedContentSize: size, cornerRadius: 16.0, chromeAlpha: 0.0, shadow: shadow)
+        self.popoverTransitioningDelegate = PopoverTransitioningDelegate(presentationContext: context)
+        
+        viewController.transitioningDelegate = popoverTransitioningDelegate
+        
+        self.present(viewController, animated: true, completion: nil)
     }
     
     private func display() {

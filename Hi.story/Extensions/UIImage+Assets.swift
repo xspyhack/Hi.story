@@ -82,6 +82,10 @@ extension Hi where Base: UIImage {
     static var emptyDraft: UIImage? {
         return UIImage(named: "empty_draft")
     }
+    
+    static var navDetails: UIImage? {
+        return UIImage(named: "nav_details")
+    }
 }
 
 // MARK: - Themes
