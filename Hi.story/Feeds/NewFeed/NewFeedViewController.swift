@@ -356,7 +356,7 @@ final class NewFeedViewController: BaseViewController {
         viewController.viewModel = DetailsViewModel(body: editor.text, created: viewModel?.createdAt.value ?? now, updated: now, location: location.value)
        
         viewController.modalPresentationStyle = .custom
-        viewController.modalTransitionStyle = .coverVertical
+        viewController.modalTransitionStyle = .crossDissolve
        
         let size: CGSize
         if location.value != nil {
@@ -365,7 +365,7 @@ final class NewFeedViewController: BaseViewController {
             size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
         }
         
-        let shadow = PopoverPresentationShadow(radius: 32.0)
+        let shadow = PopoverPresentationShadow(radius: 32.0, color: UIColor.black.withAlphaComponent(0.3))
         let context = PopoverPresentationContext(presentedContentSize: size, cornerRadius: 16.0, chromeAlpha: 0.0, shadow: shadow)
         self.popoverTransitioningDelegate = PopoverTransitioningDelegate(presentationContext: context)
         
