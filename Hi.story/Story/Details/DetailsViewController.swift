@@ -29,8 +29,8 @@ final class DetailsViewController: UIViewController {
         wordsCountLabel.text = String(viewModel.words)
         charsCountLabel.text = String(viewModel.chars)
         
-        updatedLabel.text = "UPDATED " + viewModel.updated
-        createdLabel.text = "CREATED " + viewModel.created
+        updatedLabel.text = viewModel.updated
+        createdLabel.text = viewModel.created
         
         if let address = viewModel.address {
             locationButton.isHidden = false

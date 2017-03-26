@@ -16,24 +16,30 @@ struct DetailsViewModel {
     let created: String
     let updated: String
     
-    let coordinate: CLLocationCoordinate2D?
+    let location: LocationInfo?
     let address: String?
     
-    init(body: String, created: TimeInterval, updated: TimeInterval, location: Location? = nil) {
-        self.words = 233
-        self.chars = 1024
-        self.created = Date(timeIntervalSince1970: created).hi.yearMonthDay
-        self.updated = Date(timeIntervalSince1970: updated).hi.yearMonthDay
-        self.coordinate = location?.coordinate.map { CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) }
-        self.address = location?.name
+    init(body: String, created: TimeInterval, updated: TimeInterval, location: LocationInfo? = nil) {
+        self.words = body.hi.words.count
+        self.chars = body.characters.count
+        self.created = "CREATED " + Date(timeIntervalSince1970: created).hi.dmyAtHourMinute
+        self.updated = "UPDATED " + Date(timeIntervalSince1970: updated).hi.dmyAtHourMinute
+        self.location = location
+        self.address = location?.address
     }
     
     init(story: Story) {
-        self.words = 0
-        self.chars = 0
-        self.created = Date(timeIntervalSince1970: story.createdAt).hi.yearMonthDay
-        self.updated = Date(timeIntervalSince1970: story.updatedAt).hi.yearMonthDay
-        self.coordinate = story.location?.coordinate.map { CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude) }
+        self.words = story.body.hi.words.count
+        self.chars = story.body.characters.count
+        self.created = "CREATED " + Date(timeIntervalSince1970: story.createdAt).hi.dmyAtHourMinute
+        self.updated = "UPDATED " + Date(timeIntervalSince1970: story.updatedAt).hi.dmyAtHourMinute
+        self.location = story.location.flatMap {
+            if let coordinate = $0.coordinate {
+                return LocationInfo(address: $0.name, coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude))
+            } else {
+                return nil
+            }
+        }
         self.address = story.location?.name
     }
 }
