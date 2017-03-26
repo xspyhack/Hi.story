@@ -48,6 +48,7 @@ final class MemoriesCardView: TodayCardView, Configurable {
         imageView.image = UIImage(named: "album")
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16.0
+        imageView.backgroundColor = UIColor.white
         return imageView
     }()
     
@@ -55,6 +56,7 @@ final class MemoriesCardView: TodayCardView, Configurable {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         view.layer.cornerRadius = 16.0
+        view.isHidden = true
         return view
     }()
     
@@ -204,7 +206,6 @@ final class MemoriesCardView: TodayCardView, Configurable {
         
         NSLayoutConstraint.activate(contentViewH)
         
-        
         avatarImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         NSLayoutConstraint(item: avatarImageView, attribute: .width, relatedBy: .equal, toItem: avatarImageView, attribute: .height, multiplier: 1.0, constant: 0.0).isActive = true
     }
@@ -212,7 +213,12 @@ final class MemoriesCardView: TodayCardView, Configurable {
     func configure(withPresenter presenter: MemoriesCardViewModelType) {
         textLabel.text = presenter.text
         dateLabel.text = "- \(presenter.date) -"
-        imageView.setImage(with: presenter.imageURL)
+        
+        let cover = King.all[Defaults.selectingCover.value].card
+        imageView.setImage(with: presenter.imageURL, placeholder: cover)
+        
         avatarImageView.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+        
+        overlayView.isHidden = false
     }
 }

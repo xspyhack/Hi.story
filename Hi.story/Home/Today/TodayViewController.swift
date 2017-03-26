@@ -72,12 +72,18 @@ final class TodayViewController: UIViewController {
         
         if !isViewAppeared {
             isViewAppeared = true
-           
         }
         
-        if let birthday = Defaults.birthday, Date(timeIntervalSince1970: birthday).hi.monthDay == "" {
+        let today = Date().hi.monthDay
+        if let birthday = Defaults.birthday, Date(timeIntervalSince1970: birthday).hi.monthDay == today {
             setup(cardView: birthdayView)
             birthdayView.start()
+        } else {
+            delay(2.5) {
+                SafeDispatch.async {
+                    self.analyzing()
+                }
+            }
         }
     }
     
