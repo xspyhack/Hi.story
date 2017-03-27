@@ -119,10 +119,6 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BO6-TV-dwl">
                                         <rect key="frame" x="168" y="0.0" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="fyO-E0-Afr"/>
-                                            <constraint firstAttribute="height" constant="44" id="yf3-JV-EtK"/>
-                                        </constraints>
                                         <state key="normal" image="bar_markdown"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FSZ-dw-kIe">
@@ -135,32 +131,28 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vh-AD-4iT">
                                         <rect key="frame" x="272" y="0.0" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="ATX-BM-aFW"/>
-                                            <constraint firstAttribute="height" constant="44" id="g3E-eH-kSb"/>
-                                        </constraints>
                                         <state key="normal" image="bar_details"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oqy-Mg-Dly">
                                         <rect key="frame" x="220" y="0.5" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="KFF-nq-I78"/>
-                                            <constraint firstAttribute="width" constant="44" id="TlK-Ct-cec"/>
-                                        </constraints>
                                         <state key="normal" image="bar_storybook"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="Oqy-Mg-Dly" firstAttribute="width" secondItem="4M9-x1-2c1" secondAttribute="width" id="07r-ez-J9k"/>
                                     <constraint firstItem="hPD-3N-1F4" firstAttribute="centerY" secondItem="4M9-x1-2c1" secondAttribute="centerY" id="2Bv-h4-0MX"/>
                                     <constraint firstItem="0vh-AD-4iT" firstAttribute="leading" secondItem="Oqy-Mg-Dly" secondAttribute="trailing" constant="8" id="4dc-QL-Uyf"/>
                                     <constraint firstItem="Oqy-Mg-Dly" firstAttribute="leading" secondItem="BO6-TV-dwl" secondAttribute="trailing" constant="8" id="A82-ay-RU8"/>
                                     <constraint firstItem="BO6-TV-dwl" firstAttribute="leading" secondItem="Svx-Kq-B1k" secondAttribute="trailing" constant="8" id="C9W-1n-txf"/>
                                     <constraint firstItem="hPD-3N-1F4" firstAttribute="leading" secondItem="4M9-x1-2c1" secondAttribute="trailing" constant="8" id="D83-U9-IBO"/>
                                     <constraint firstItem="BO6-TV-dwl" firstAttribute="centerY" secondItem="4M9-x1-2c1" secondAttribute="centerY" id="Eft-t8-5CL"/>
+                                    <constraint firstItem="0vh-AD-4iT" firstAttribute="height" secondItem="4M9-x1-2c1" secondAttribute="height" id="FO2-2N-7tx"/>
+                                    <constraint firstItem="Oqy-Mg-Dly" firstAttribute="height" secondItem="4M9-x1-2c1" secondAttribute="height" id="GCW-Sb-CgP"/>
                                     <constraint firstItem="4M9-x1-2c1" firstAttribute="centerY" secondItem="9P2-jB-sFj" secondAttribute="centerY" id="Ha1-BU-0Va"/>
                                     <constraint firstItem="Oqy-Mg-Dly" firstAttribute="centerY" secondItem="4M9-x1-2c1" secondAttribute="centerY" id="JXg-Fs-dIn"/>
                                     <constraint firstItem="0vh-AD-4iT" firstAttribute="centerY" secondItem="4M9-x1-2c1" secondAttribute="centerY" id="Jor-z8-KDN"/>
+                                    <constraint firstItem="0vh-AD-4iT" firstAttribute="width" secondItem="4M9-x1-2c1" secondAttribute="width" id="R2o-8x-8wp"/>
                                     <constraint firstAttribute="trailing" secondItem="MgZ-gu-UDX" secondAttribute="trailing" id="RJj-S5-cCR"/>
                                     <constraint firstItem="Svx-Kq-B1k" firstAttribute="centerY" secondItem="4M9-x1-2c1" secondAttribute="centerY" id="ZpL-ZW-1U8"/>
                                     <constraint firstAttribute="height" constant="44" id="b3q-Rz-cF2"/>
@@ -173,7 +165,9 @@
                                     <constraint firstItem="hPD-3N-1F4" firstAttribute="width" secondItem="4M9-x1-2c1" secondAttribute="width" id="otr-Wf-Mzm"/>
                                     <constraint firstItem="hPD-3N-1F4" firstAttribute="height" secondItem="4M9-x1-2c1" secondAttribute="height" id="qJN-mm-H9G"/>
                                     <constraint firstItem="Svx-Kq-B1k" firstAttribute="height" secondItem="4M9-x1-2c1" secondAttribute="height" id="uJ6-bE-wZl"/>
+                                    <constraint firstItem="BO6-TV-dwl" firstAttribute="height" secondItem="4M9-x1-2c1" secondAttribute="height" id="vIf-Bz-YoU"/>
                                     <constraint firstItem="Svx-Kq-B1k" firstAttribute="leading" secondItem="hPD-3N-1F4" secondAttribute="trailing" constant="8" id="vIk-b3-7yS"/>
+                                    <constraint firstItem="BO6-TV-dwl" firstAttribute="width" secondItem="4M9-x1-2c1" secondAttribute="width" id="vYG-cH-c86"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2aV-xG-dqo" customClass="MarkdownToolbar" customModule="Hi_story" customModuleProvider="target">
@@ -204,6 +198,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonItemWidthConstraint" destination="YHn-RL-EOC" id="LYu-LP-Mol"/>
                         <outlet property="cancelItem" destination="4Sc-vT-RcF" id="q4S-sx-yim"/>
                         <outlet property="contentView" destination="YX2-Vg-Evg" id="qVE-Hq-Fd8"/>
                         <outlet property="contentViewHeightConstraint" destination="ac6-nl-3JL" id="uGw-xs-Jbh"/>

@@ -75,6 +75,7 @@ final class NewFeedViewController: BaseViewController {
     @IBOutlet private weak var cancelItem: UIBarButtonItem!
     @IBOutlet weak var markdownToolbar: MarkdownToolbar!
     
+    @IBOutlet weak var buttonItemWidthConstraint: NSLayoutConstraint!
     // MARK: Property
     
     fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
@@ -111,14 +112,17 @@ final class NewFeedViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        
         view.layer.cornerRadius = 8.0
         view.clipsToBounds = true
         
         titleTextField.borderStyle = .none // ⚠️ Fix text offset when inputting
         
         scrollView.contentInset.top = Constant.scrollViewContentInsetTop
+       
+        // 简单的调整，暂时不需要 Ruler
+        if let keyWindow = UIApplication.shared.keyWindow, keyWindow.bounds.width < 375.0 {
+            buttonItemWidthConstraint.constant = 35.0
+        }
         
         setupEditor()
         
