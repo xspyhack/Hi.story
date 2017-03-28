@@ -310,7 +310,6 @@
 		78F4D2551CEEEEB400DAA210 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4D2541CEEEEB400DAA210 /* Array+Extension.swift */; };
 		78F4D2591CEF687600DAA210 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4D2581CEF687600DAA210 /* Request.swift */; };
 		78F4D25B1CEF69AF00DAA210 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4D25A1CEF69AF00DAA210 /* Networking.swift */; };
-		78FF33E41E0ACD5300E37BA0 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FF33E31E0ACD5300E37BA0 /* History.swift */; };
 		78FF41CD1D85341800CAA097 /* NewMatterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FF41CC1D85341800CAA097 /* NewMatterViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -737,7 +736,6 @@
 		78F4D2541CEEEEB400DAA210 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		78F4D2581CEF687600DAA210 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		78F4D25A1CEF69AF00DAA210 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
-		78FF33E31E0ACD5300E37BA0 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		78FF41CC1D85341800CAA097 /* NewMatterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMatterViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1556,7 +1554,6 @@
 			isa = PBXGroup;
 			children = (
 				78D258081D8449380032E4F5 /* HistoryViewController.swift */,
-				78FF33E31E0ACD5300E37BA0 /* History.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -2282,7 +2279,6 @@
 				78E4816F1E068AA200EB81E9 /* CropScrollView.swift in Sources */,
 				78CEFCC81D02AD440098516A /* UIScrollView+Extension.swift in Sources */,
 				7851BBCB1DE9727100599861 /* MarkdownPreviewViewController.swift in Sources */,
-				78FF33E41E0ACD5300E37BA0 /* History.swift in Sources */,
 				78E481841E097B8300EB81E9 /* HistoryHeaderView.swift in Sources */,
 				782B6E651E50A740007E33EC /* StoryImageCell.swift in Sources */,
 				78F4D2551CEEEEB400DAA210 /* Array+Extension.swift in Sources */,
