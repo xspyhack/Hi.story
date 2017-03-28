@@ -31,23 +31,21 @@ public extension NSObjectProtocol {
     }
 }
 
-public struct K<Base: BaseType> {
+public struct K<Base> {
     public let base: Base
     public init(_ base: Base) {
         self.base = base
     }
 }
 
-public typealias BaseType = BaseProtocol
-
-public protocol BaseProtocol {
-    associatedtype Base
+public protocol KCompatible {
+    associatedtype BaseType
     
-    var hi: Base { get }
-    static var hi: Base.Type { get }
+    public var hi: K<BaseType> { get }
+    public static var hi: K<BaseType>.Type { get }
 }
 
-public extension BaseProtocol {
+public extension KCompatible {
     
     public var hi: K<Self> {
         return K(self)
@@ -57,3 +55,5 @@ public extension BaseProtocol {
         return K.self
     }
 }
+
+extension NSObject: KCompatible {}
