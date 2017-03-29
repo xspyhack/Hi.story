@@ -35,7 +35,7 @@ class MatterInterfaceController: WKInterfaceController {
         happenLabel.setText(formatter.string(from: happenedAt))
         happenLabel.setTextColor(color)
         
-        notesLabel.setText(matter.body)
+        notesLabel.setText(matter.body.isEmpty ? " " : matter.body)
     }
 
     override func willActivate() {
