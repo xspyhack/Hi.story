@@ -9,26 +9,10 @@
 import Foundation
 import CommonCrypto
 
-public struct StringProxy {
-    public let base: String
-    public init(_ base: String) {
-        self.base = base
-    }
+extension String: HistoryCompatible {
 }
 
-extension String: BaseType {
-    public typealias Base = StringProxy
-    
-    public var hi: StringProxy {
-        return StringProxy(self)
-    }
-    
-    public static var hi: StringProxy.Type {
-        return StringProxy.self
-    }
-}
-
-public extension StringProxy {
+public extension Hi where Base == String {
 
     public enum TrimmingType {
         case whitespace

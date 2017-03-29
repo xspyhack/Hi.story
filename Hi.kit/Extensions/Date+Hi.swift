@@ -8,27 +8,11 @@
 
 import Foundation
 
-public struct DateProxy {
-    public let base: Date
-    public init(_ base: Date) {
-        self.base = base
-    }
+extension Date: HistoryCompatible {
 }
 
-extension Date: BaseType {
-    public typealias Base = DateProxy
-    
-    public var hi: DateProxy {
-        return DateProxy(self)
-    }
-    
-    public static var hi: DateProxy.Type {
-        return DateProxy.self
-    }
-}
+public extension Hi where Base == Date {
 
-extension DateProxy {
-    
     public var timestamp: String {
         _Date.formatter.dateFormat = Date.timestampFormatString
         return _Date.formatter.string(from: base)
@@ -151,7 +135,10 @@ public extension Date {
     fileprivate static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
 }
 
-public extension IntProxy {
+extension Int: HistoryCompatible {
+}
+
+public extension Hi where Base == Int {
     
     public var day: TimeInterval {
         let DAY_IN_SECONDS = 60 * 60 * 24
@@ -220,23 +207,3 @@ public enum TimeIntervalUnit {
     }
 }
 
-public struct IntProxy {
-    
-    public let base: Int
-    
-    init(_ base: Int) {
-        self.base = base
-    }
-}
-
-extension Int: BaseType {
-    public typealias Base = IntProxy
-    
-    public var hi: IntProxy {
-        return IntProxy(self)
-    }
-    
-    public static var hi: IntProxy.Type {
-        return IntProxy.self
-    }
-}
