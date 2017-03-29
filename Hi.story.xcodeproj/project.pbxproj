@@ -127,12 +127,6 @@
 		786AD4B51D8D368E008709D2 /* Date+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786AD4B31D8D3688008709D2 /* Date+Hi.swift */; };
 		786AD4B61D8D3693008709D2 /* Date+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786AD4B31D8D3688008709D2 /* Date+Hi.swift */; };
 		7871D28D1E869D320058A26D /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871D28C1E869D320058A26D /* DetailsViewController.swift */; };
-		7871F2CD1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */; };
-		7871F2CF1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2CE1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift */; };
-		7871F2D11E61CDA3002B5C0C /* NVActivityIndicatorShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D01E61CDA3002B5C0C /* NVActivityIndicatorShape.swift */; };
-		7871F2D51E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D21E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift */; };
-		7871F2D61E61CEB2002B5C0C /* NVActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D31E61CEB2002B5C0C /* NVActivityIndicatorView.swift */; };
-		7871F2D71E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */; };
 		7871F2DD1E644ABD002B5C0C /* UIImage+Hi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */; };
 		7871F2E01E645308002B5C0C /* PromptedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2DF1E645308002B5C0C /* PromptedView.swift */; };
 		7871F2E21E66F824002B5C0C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7871F2E11E66F824002B5C0C /* NotificationService.swift */; };
@@ -567,12 +561,6 @@
 		786A26971D53A71E002CC8E1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		786AD4B31D8D3688008709D2 /* Date+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Hi.swift"; sourceTree = "<group>"; };
 		7871D28C1E869D320058A26D /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
-		7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorAnimationPacman.swift; sourceTree = "<group>"; };
-		7871F2CE1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorAnimationDelegate.swift; sourceTree = "<group>"; };
-		7871F2D01E61CDA3002B5C0C /* NVActivityIndicatorShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorShape.swift; sourceTree = "<group>"; };
-		7871F2D21E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorPresenter.swift; sourceTree = "<group>"; };
-		7871F2D31E61CEB2002B5C0C /* NVActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorView.swift; sourceTree = "<group>"; };
-		7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NVActivityIndicatorViewable.swift; sourceTree = "<group>"; };
 		7871F2DB1E6449EE002B5C0C /* UIImage+Hi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Hi.swift"; sourceTree = "<group>"; };
 		7871F2DF1E645308002B5C0C /* PromptedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromptedView.swift; sourceTree = "<group>"; };
 		7871F2E11E66F824002B5C0C /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -857,7 +845,6 @@
 			isa = PBXGroup;
 			children = (
 				78C9A2171E7E9E1A0072E3F8 /* Loading */,
-				7871F2CB1E61CD0A002B5C0C /* Pacman */,
 				787727561E213DBC00D9748A /* MarkdownToolbar */,
 				787727541E20BB4500D9748A /* WebViewJavascriptBridge */,
 				78E481771E06C88600EB81E9 /* PhotoPicker */,
@@ -1233,19 +1220,6 @@
 				78078EDB1E86A22C00991225 /* Details.storyboard */,
 			);
 			path = Details;
-			sourceTree = "<group>";
-		};
-		7871F2CB1E61CD0A002B5C0C /* Pacman */ = {
-			isa = PBXGroup;
-			children = (
-				7871F2D21E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift */,
-				7871F2D31E61CEB2002B5C0C /* NVActivityIndicatorView.swift */,
-				7871F2D41E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift */,
-				7871F2CC1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift */,
-				7871F2D01E61CDA3002B5C0C /* NVActivityIndicatorShape.swift */,
-				7871F2CE1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift */,
-			);
-			path = Pacman;
 			sourceTree = "<group>";
 		};
 		7871F2DE1E6452E6002B5C0C /* PromptedView */ = {
@@ -2275,7 +2249,6 @@
 				78E4816D1E068AA200EB81E9 /* CropOverlayView.swift in Sources */,
 				78D381D41D620FD500AB844E /* UIStoryboard+Hi.swift in Sources */,
 				78E481701E068AA200EB81E9 /* CropView.swift in Sources */,
-				7871F2D61E61CEB2002B5C0C /* NVActivityIndicatorView.swift in Sources */,
 				78E4816F1E068AA200EB81E9 /* CropScrollView.swift in Sources */,
 				78CEFCC81D02AD440098516A /* UIScrollView+Extension.swift in Sources */,
 				7851BBCB1DE9727100599861 /* MarkdownPreviewViewController.swift in Sources */,
@@ -2312,9 +2285,7 @@
 				7805A6711E85784500242C35 /* EmptyView.swift in Sources */,
 				7838654C1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift in Sources */,
 				789224F81CFAD16200A44040 /* PresentationController.swift in Sources */,
-				7871F2D11E61CDA3002B5C0C /* NVActivityIndicatorShape.swift in Sources */,
 				7844AED91E14056000D7FA11 /* DraftsViewController.swift in Sources */,
-				7871F2D51E61CEB2002B5C0C /* NVActivityIndicatorPresenter.swift in Sources */,
 				7857FBDB1E17894D001D0061 /* AboutCell.swift in Sources */,
 				788BCF6C1DA0043C00535519 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				7810FD7E1E3F127E00950ABA /* MatterItemCell.swift in Sources */,
@@ -2331,7 +2302,6 @@
 				78BF38791D9E33F800119F04 /* Kingfisher+Hi.swift in Sources */,
 				78D258091D8449380032E4F5 /* HistoryViewController.swift in Sources */,
 				7844AED01E12C0B900D7FA11 /* StorybookCell.swift in Sources */,
-				7871F2D71E61CEB2002B5C0C /* NVActivityIndicatorViewable.swift in Sources */,
 				7877275A1E266E5800D9748A /* DraftsViewModel.swift in Sources */,
 				78CEFCCA1D02B1420098516A /* Refreshable.swift in Sources */,
 				788BCF891DA220BE00535519 /* FeedsViewModel.swift in Sources */,
@@ -2406,12 +2376,10 @@
 				78E4817D1E06CE6C00EB81E9 /* ImageCacheController.swift in Sources */,
 				7871D28D1E869D320058A26D /* DetailsViewController.swift in Sources */,
 				78E32D141E6F012D00429266 /* TodayCardView.swift in Sources */,
-				7871F2CF1E61CD4D002B5C0C /* NVActivityIndicatorAnimationDelegate.swift in Sources */,
 				788BCF6D1DA0043C00535519 /* TPKeyboardAvoidingTableView.m in Sources */,
 				78C9A2041E7D39030072E3F8 /* PersonalizedViewController.swift in Sources */,
 				788BCF871DA21F6E00535519 /* NewFeedViewModel.swift in Sources */,
 				78F4D2471CEEE40200DAA210 /* ImagePresentable.swift in Sources */,
-				7871F2CD1E61CD32002B5C0C /* NVActivityIndicatorAnimationPacman.swift in Sources */,
 				7844AEA21E0D690B00D7FA11 /* SwitchCell.swift in Sources */,
 				78C9A2161E7D97CF0072E3F8 /* DraftImageCell.swift in Sources */,
 				788BB9381E2A0465007BF8CB /* Operators.swift in Sources */,

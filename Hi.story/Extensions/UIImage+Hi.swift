@@ -243,7 +243,7 @@ extension Hi where Base: UIImage {
         // if d is odd, use three box-blurs of size 'd', centered on the output pixel.
         let s = max(radius, 2.0)
         // We will do blur on a resized image (*0.5), so the blur radius could be half as well.
-        var targetRadius = floor((Double(s * 3.0) * sqrt(2 * M_PI) / 4.0 + 0.5))
+        var targetRadius = floor((Double(s * 3.0) * sqrt(2 * .pi) / 4.0 + 0.5))
         
         if targetRadius.isEven {
             targetRadius += 1

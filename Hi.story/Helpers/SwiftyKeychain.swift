@@ -94,7 +94,7 @@ struct Keychain: OptionsType {
         guard let data = try getData(key) else {
             return nil
         }
-        guard let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String else {
+        guard let string = String(data: data, encoding: .utf8) else {
             throw NSError(domain: kSwiftyKeychainDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to convert data to string."])
         }
         return string
