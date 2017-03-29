@@ -204,7 +204,8 @@ extension MattersViewController: UIPopoverPresentationControllerDelegate {
 extension MattersViewController: WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        Defaults.watchActivationState.value = activationState.rawValue
+        print(String(describing: error))
+        Defaults.watchState.value = activationState.rawValue
     }
     
     /** ------------------------- iOS App State For Watch ------------------------ */
@@ -221,18 +222,24 @@ extension MattersViewController: WCSessionDelegate {
     }
 }
 
-enum WatchActivationState: Int {
+enum WatchState: Int {
     case notActivated
     
     case inactive
     
     case activated
     
+    case notInstalled
+    
+    case unpaired
+    
     var name: String {
         switch self {
         case .notActivated: return "not activated"
         case .inactive: return "inactive"
         case .activated: return "activated"
+        case .notInstalled: return "not installed"
+        case .unpaired: return "unpaired"
         }
     }
 }

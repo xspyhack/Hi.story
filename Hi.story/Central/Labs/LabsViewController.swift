@@ -106,10 +106,10 @@ final class LabsViewController: UITableViewController {
             cell.textLabel?.text = section.annotation
             cell.textLabel?.textColor = UIColor.hi.title
             cell.detailTextLabel?.textColor = UIColor.hi.detail
-            let state = WatchActivationState(rawValue: Defaults.watchActivationState.value)
+            let state = WatchState(rawValue: Defaults.watchState.value)
             cell.detailTextLabel?.text = state?.name
-            Defaults.watchActivationState.bindListener(with: "Labs.watch") { (state) in
-                cell.detailTextLabel?.text = WatchActivationState(rawValue: state)?.name
+            Defaults.watchState.bindListener(with: "Labs.watch") { (state) in
+                cell.detailTextLabel?.text = WatchState(rawValue: state)?.name
             }
             
             cell.accessoryType = .none

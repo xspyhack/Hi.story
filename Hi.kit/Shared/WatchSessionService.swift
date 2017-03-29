@@ -29,6 +29,20 @@ public class WatchSessionService: NSObject {
         }
     }
     
+    public var activationState: WCSessionActivationState? {
+        return session?.activationState
+    }
+    
+    #if os(iOS)
+    public var isPaired: Bool {
+        return session?.isPaired ?? false
+    }
+    
+    public var isInstalled: Bool {
+        return session?.isWatchAppInstalled ?? false
+    }
+    #endif
+    
     private var valid: WCSession? {
         #if os(iOS)
         if let session = session, session.isPaired && session.isWatchAppInstalled {
@@ -54,15 +68,11 @@ public class WatchSessionService: NSObject {
      
      - parameter withApplicationContext: Plist Type Dictionary
      */
-    public func update(withApplicationContext applicationContext: [String: Any]) {
+    public func update(withApplicationContext applicationContext: [String: Any]) throws {
        
         assert(!unavalibleContext(applicationContext), "Context only support plist type")
         
-        do {
-            try session?.updateApplicationContext(applicationContext)
-        } catch {
-            print("Error updating watch application context: \(error.localizedDescription)")
-        }
+        try session?.updateApplicationContext(applicationContext)
     }
     
     private func unavalibleContext(_ context: [String: Any]) -> Bool {

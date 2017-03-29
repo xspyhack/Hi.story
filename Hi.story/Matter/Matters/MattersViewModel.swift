@@ -54,7 +54,16 @@ struct MattersViewModel: MattersViewModelType {
       
         func update(_ matters: [Matter]) {
             let mattersDictionary = (matters.map { Matter.shared(with: $0) }).map { $0.json }
-            WatchSessionService.shared.update(withApplicationContext: [Configuration.sharedMattersKey: mattersDictionary])
+            do {
+                try WatchSessionService.shared.update(withApplicationContext: [Configuration.sharedMattersKey: mattersDictionary])
+            } catch {
+                if !WatchSessionService.shared.isInstalled {
+                    Defaults.watchState.value = WatchState.notInstalled.rawValue
+                } else if !WatchSessionService.shared.isPaired {
+                    Defaults.watchState.value = WatchState.unpaired.rawValue
+                }
+                print("Error updating watch application context: \(error.localizedDescription)")
+            }
         }
         
         let predicate: NSPredicate
