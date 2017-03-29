@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-extension StringProxy {
+extension Hi where Base == String {
     
     fileprivate enum FileKey: UInt {
         case record

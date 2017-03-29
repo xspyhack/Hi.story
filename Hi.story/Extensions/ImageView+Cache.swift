@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import Hikit
 
-extension URLProxy {
+extension Hi where Base == URL {
     
     static func imageURL(withPath path: String) -> URL {
         return URL(string: "https://blessingsoft.com/hi/images/" + path)!
@@ -24,14 +24,5 @@ public struct URLProxy {
     }
 }
 
-extension URL: BaseType {
-    public typealias Base = URLProxy
-    
-    public var hi: URLProxy {
-        return URLProxy(self)
-    }
-    
-    public static var hi: URLProxy.Type {
-        return URLProxy.self
-    }
+extension URL: HistoryCompatible {
 }

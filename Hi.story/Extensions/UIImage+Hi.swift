@@ -392,25 +392,11 @@ enum ImageFormat {
 }
 
 // MARK: - Misc Helpers
-public struct DataProxy {
-    fileprivate let base: Data
-    init(_ base: Data) {
-        self.base = base
-    }
+
+extension Data: HistoryCompatible {
 }
 
-extension Data: BaseType {
-    public typealias Base = DataProxy
-    public var hi: DataProxy {
-        return DataProxy(self)
-    }
-    
-    public static var hi: DataProxy.Type {
-        return DataProxy.self
-    }
-}
-
-extension DataProxy {
+extension Hi where Base == Data {
     var imageFormat: ImageFormat {
         var buffer = [UInt8](repeating: 0, count: 8)
         (base as NSData).getBytes(&buffer, length: 8)
@@ -432,25 +418,10 @@ extension DataProxy {
     }
 }
 
-public struct CGSizeProxy {
-    fileprivate let base: CGSize
-    init(_ base: CGSize) {
-        self.base = base
-    }
+extension CGSize: HistoryCompatible {
 }
 
-extension CGSize: BaseType {
-    public typealias Base = CGSizeProxy
-    public var hi: CGSizeProxy {
-        return CGSizeProxy(self)
-    }
-   
-    public static var hi: CGSizeProxy.Type {
-        return CGSizeProxy.self
-    }
-}
-
-extension CGSizeProxy {
+extension Hi where Base == CGSize {
     func constrained(_ size: CGSize) -> CGSize {
         let aspectWidth = round(aspectRatio * size.height)
         let aspectHeight = round(size.width / aspectRatio)

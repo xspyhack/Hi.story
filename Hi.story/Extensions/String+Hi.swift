@@ -9,10 +9,10 @@
 import Foundation
 import Hikit
 
-extension StringProxy {
+extension Hi where Base == String {
     
     func height(with width: CGFloat, fontSize: CGFloat) -> CGFloat {
-        return ceil(base.boundingRect(with: CGSize(width: width, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: fontSize)], context: nil).height)
+        return ceil(base.boundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: fontSize)], context: nil).height)
     }
 }
 
