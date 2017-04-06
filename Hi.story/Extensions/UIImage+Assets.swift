@@ -40,7 +40,7 @@ extension Hi where Base: UIImage {
     }
     
     static var matterIcon: UIImage? {
-        return UIImage(named: "icon_calendar")
+        return UIImage(named: "icon_matter")
     }
     
     static var feedIcon: UIImage? {

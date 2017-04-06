@@ -48,6 +48,8 @@ struct Defaults {
         static let hadInitializeBackgroundMode = prefix + "hadInitializeBackgroundMode"
         
         static let selectingCover = prefix + "selectingCover"
+        
+        static let showBirthdayDateString = prefix + "showBirthdayDateString"
     }
     
     static let navigationBarWithoutStatusBarHeight: CGFloat = 44.0
@@ -185,6 +187,15 @@ struct Defaults {
         }
         set {
             userDefaults.set(newValue, forKey: Key.hadInitializeBackgroundMode)
+        }
+    }
+    
+    static var showBirthdayDateString: String {
+        get {
+            return userDefaults.string(forKey: Key.showBirthdayDateString) ?? ""
+        }
+        set {
+            userDefaults.set(newValue, forKey: Key.showBirthdayDateString)
         }
     }
     

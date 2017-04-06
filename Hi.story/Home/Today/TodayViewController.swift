@@ -75,10 +75,16 @@ final class TodayViewController: UIViewController {
         }
         
         let today = Date().hi.monthDay
-        if let birthday = Defaults.birthday, Date(timeIntervalSince1970: birthday).hi.monthDay == today {
+        if let birthday = Defaults.birthday, Date(timeIntervalSince1970: birthday).hi.monthDay == today && Date().hi.monthDayYear != Defaults.showBirthdayDateString {
+            Defaults.showBirthdayDateString = Date().hi.monthDayYear
+            
             setup(cardView: birthdayView)
+            birthdayView.isHidden = false
             birthdayView.start()
         } else {
+            
+            birthdayView.isHidden = true
+            
             delay(2.5) {
                 SafeDispatch.async {
                     self.analyzing()

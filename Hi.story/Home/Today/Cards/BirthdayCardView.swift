@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class BirthdayCardView: TodayCardView {
     
@@ -17,8 +18,8 @@ class BirthdayCardView: TodayCardView {
         return fireworks
     }()
     
-    private lazy var backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
+    private lazy var backgroundImageView: AnimatedImageView = {
+        let imageView = AnimatedImageView()
         imageView.image = UIImage.hi.birthday
         imageView.contentMode = .scaleAspectFit
         imageView.alpha = 0.0
@@ -30,6 +31,7 @@ class BirthdayCardView: TodayCardView {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20.0)
         label.alpha = 0.0
+        label.text = "~ HAPPY BIRTHDAY ~"
         return label
     }()
    
