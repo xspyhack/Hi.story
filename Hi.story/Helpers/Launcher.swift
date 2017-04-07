@@ -92,7 +92,7 @@ struct Launcher {
         // Feed
         let story = Story()
         story.title = "Welcome to Hi.story"
-        story.body = "Hi.story is a simple, flexible recording app for life and time. It's easy to get started and master Hi.story, so let's show you around."
+        story.body = "Hi.story is a simple, flexible recording app for life and time. It's easy to get started and master Hi.story, so let's show you around.\n\n### Features\n\n#### Stories\n\n* Timeline: Displaying your stories in chronological order. All your stories live here.\n\n* Editor: This is where your magic happens. You can also use **Markdown** syntax to write your `story`.\n\n#### Matters\n\nYou can record some important matters with Hi.story. It helps you counting days when the matter *happened* or *will happen*. `+233` means that the matter will happen after 233 days. otherwise `-233` means that the matter happened 233 days ago.\n\n#### History\n\nCollecting your memories from *Photos* *Reminders* *Calendar* system build-in apps and *Stories* *Matters* you recorded with **Hi.story** to show you what were you doing a year ago today.\n\n### More\n\nYou can check the **Hi.story** website [official website](https://blessingsoft.com) to know more about **Hi.story**.\n\nWe would *love* to hear your feedback at [xspyhack@gmail.com](mailto:xspyhack@gmail.com)"
         
         story.location = princePlanet()
         story.isPublished = true

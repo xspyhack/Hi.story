@@ -19,6 +19,7 @@ class PopoverViewController: UIViewController {
     fileprivate lazy var tipsLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
@@ -47,11 +48,11 @@ class PopoverViewController: UIViewController {
             "tipsLabel": tipsLabel,
         ]
         
-        let H = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[tipsLabel]-|", options: [], metrics: nil, views: views)
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[tipsLabel]-16-|", options: [], metrics: nil, views: views)
         
         let centerY = NSLayoutConstraint(item: tipsLabel, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         
-        NSLayoutConstraint.activate(H)
+        NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate([centerY])
     }
 }

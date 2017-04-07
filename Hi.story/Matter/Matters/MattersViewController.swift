@@ -131,7 +131,7 @@ final class MattersViewController: BaseViewController {
     private func show() {
         
         let viewController = PopoverViewController()
-        viewController.tips = "Look at me!"
+        viewController.tips = "Counting the important matters"
         
         viewController.modalPresentationStyle = .popover
         viewController.popoverPresentationController?.barButtonItem = addItem
