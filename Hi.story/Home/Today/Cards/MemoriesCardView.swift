@@ -153,7 +153,7 @@ final class MemoriesCardView: TodayCardView, Configurable {
             "textLabel": textLabel,
             "dateLabel": dateLabel,
             "avatarImageView": avatarImageView,
-            ]
+        ]
         
         let imageViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: [], metrics: nil, views: views)
         let imageViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: [], metrics: nil, views: views)

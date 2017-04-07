@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Hikit
 import Gifu
 
 final class BirthdayCardView: TodayCardView {
@@ -92,6 +93,9 @@ final class BirthdayCardView: TodayCardView {
         if newSuperview != nil {
             gradientView.hi.apply([UIColor.white, UIColor(hex: "#D6E4EC")], orientation: .vertical)
             addMotionEffect()
+            
+            let avatar = HiUserDefaults.avatar.value.flatMap { URL(string: $0) }
+            avatarImageView.setImage(with: avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
         }
     }
     
