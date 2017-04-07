@@ -20,6 +20,8 @@ public struct Configuration {
     
     public static let sharedMattersKey = "com.xspyhack.History.Matters"
     
+    public static let author = "blessingsoft"
+    
     // Keys used to store relevant list data in the userInfo dictionary of an NSUserActivity for continuation.
     public struct UserActivity {
         // The editing user activity

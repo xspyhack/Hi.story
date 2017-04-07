@@ -124,7 +124,7 @@ struct Launcher {
         let author = User()
         author.id = UUID.uuid
         author.nickname = "blessing software"
-        author.username = "blessingsoft"
+        author.username = Configuration.author
         author.bio = "Megumi soft"
         if let image = UIImage.hi.authorAvatar {
             let key = URL.hi.imageURL(withPath: "author").absoluteString

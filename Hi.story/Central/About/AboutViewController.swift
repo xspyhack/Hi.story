@@ -26,9 +26,17 @@ final class AboutViewController: BaseViewController {
     @IBOutlet private weak var sloganLabel: UILabel!
     @IBOutlet private weak var appVersionLabel: UILabel!
     
+    @IBOutlet weak var footerView: UIView!
+    @IBOutlet weak var footerViewBottomConstraint: NSLayoutConstraint! {
+        didSet {
+            footerViewBottomConstraint.constant = -30.0
+        }
+    }
+    
     @IBOutlet private weak var aboutTableView: UITableView! {
         didSet {
             aboutTableView.hi.register(reusableCell: AboutCell.self)
+            aboutTableView.rowHeight = Constant.rowHeight
         }
     }
     @IBOutlet private weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
@@ -48,7 +56,7 @@ final class AboutViewController: BaseViewController {
         sloganLabel.text = "The real story, we call it history"
         sloganLabelTopConstraint.constant = -12.0
         
-        appLogoImageViewTopConstraint.constant = 60.0
+        appLogoImageViewTopConstraint.constant = 100.0
         appNameLabelTopConstraint.constant = 10.0
         
         let motionEffect = UIMotionEffect.hi.twoAxiesShift(40.0)
@@ -65,7 +73,12 @@ final class AboutViewController: BaseViewController {
             appVersionLabel.text = "Version" + " " + releaseVersionNumber + " (\(buildVersionNumber))"
         }
         
-        aboutTableViewHeightConstraint.constant = Constant.rowHeight * CGFloat(Row.count - 1) + 1.0
+        aboutTableViewHeightConstraint.constant = Constant.rowHeight * CGFloat(Row.count)
+        
+        aboutTableView.layer.shadowOpacity = 1.0
+        aboutTableView.layer.shadowColor = UIColor.lightGray.withAlphaComponent(0.2).cgColor
+        aboutTableView.layer.shadowRadius = 10
+        aboutTableView.layer.shadowOffset = CGSize(width: 0, height: 0.0)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -74,11 +87,21 @@ final class AboutViewController: BaseViewController {
         if sloganLabel.isHidden {
             sloganLabel.isHidden = false
             sloganLabelTopConstraint.constant = 8.0
-            view.layoutIfNeeded()
+            appLogoImageViewTopConstraint.constant = 80.0
         } else {
             sloganLabel.isHidden = true
             sloganLabelTopConstraint.constant = -8.0
-            view.layoutIfNeeded()
+            appLogoImageViewTopConstraint.constant = 100.0
+        }
+        
+        if footerViewBottomConstraint.constant == -30.0 {
+            footerViewBottomConstraint.constant = 0.0
+        } else {
+            footerViewBottomConstraint.constant = -30.0
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -86,7 +109,7 @@ final class AboutViewController: BaseViewController {
         
         guard let realm = try? Realm() else { return }
         
-        if let author = realm.objects(User.self).filter("username = 'blessingsoft'").first {
+        if let author = realm.objects(User.self).filter("username = '\(Configuration.author)'").first {
             let viewModel = ProfileViewModel(user: author)
             performSegue(withIdentifier: .showProfile, sender: viewModel)
         }
@@ -98,8 +121,8 @@ final class AboutViewController: BaseViewController {
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
     
     fileprivate enum Row: Int {
-        case review = 1
-        case recommend
+        //case review
+        //case recommend
         //case privacyPolicy
         //case termsOfService
         case acknowledgements
@@ -107,8 +130,8 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         var annotation: String {
             
             switch self {
-            case .review: return "Review"
-            case .recommend: return "Recommend"
+            //case .review: return "Review"
+            //case .recommend: return "Recommend"
             //case .privacyPolicy: return "Privacy Policy"
             //case .termsOfService: return "Terms of Service"
             case .acknowledgements: return "Acknowledgements"
@@ -133,15 +156,6 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
-            return 1
-        default:
-            return Constant.rowHeight
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         defer {
@@ -149,18 +163,6 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         switch Row(rawValue: indexPath.row) {
-            
-        case .review?:
-            if let url = URL(string: Configuration.App.reviewURLString), hi.canOpenURL(url) {
-                //hi.open(url, preferSafari: false)
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        case .recommend?:
-            break
-        //case .privacyPolicy?:
-            //break
-        //case .termsOfService?:
-            //break
         case .acknowledgements?:
             performSegue(withIdentifier: .showAcknowledgements, sender: nil)
         default:
