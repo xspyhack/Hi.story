@@ -1,3 +1,4 @@
+github "kaishin/Gifu" "v2.0.0"
 github "nixzhu/KeyboardMan" "1.0.0"
 github "onevcat/Kingfisher" "3.6.0"
 github "nixzhu/Proposer" "1.1.0"

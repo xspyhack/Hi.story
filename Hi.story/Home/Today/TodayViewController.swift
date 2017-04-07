@@ -64,6 +64,8 @@ final class TodayViewController: UIViewController {
             print(index)
         }
         
+        Defaults.showBirthdayDateString = ""
+        
         setup(cardView: memoriesCardView)
     }
 

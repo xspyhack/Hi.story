@@ -71,8 +71,8 @@ extension Hi where Base: UIImage {
         return UIImage(named: "icon_delete_oval")
     }
     
-    static var birthday: UIImage? {
-        return UIImage(named: "birthday")
+    static var hat: UIImage? {
+        return UIImage(named: "hat")
     }
     
     static var emptyStory: UIImage? {
