@@ -185,6 +185,10 @@ final class EditProfileViewController: BaseViewController {
         }
         alertController.addAction(cancelAction)
         
+        alertController.popoverPresentationController?.sourceRect = avatarImageView.frame
+        alertController.popoverPresentationController?.sourceView = avatarImageView
+        alertController.popoverPresentationController?.permittedArrowDirections = .up
+        
         self.present(alertController, animated: true, completion: nil)
         
         // touch to create (if need) for faster appear
