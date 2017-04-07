@@ -78,6 +78,10 @@ final class FeedViewController: BaseViewController {
         let viewController = Storyboard.details.viewController(of: DetailsViewController.self)
         viewController.viewModel = DetailsViewModel(story: story)
         
+        viewController.showsLocationAction = { [weak self] location in
+            self?.hi.open(location)
+        }
+        
         viewController.modalPresentationStyle = .custom
         viewController.modalTransitionStyle = .crossDissolve
         
@@ -88,7 +92,6 @@ final class FeedViewController: BaseViewController {
             size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
         }
         
-        print(webView.scrollView.contentOffset.y)
         let shadowAlpha: CGFloat = (webView.scrollView.contentOffset.y > (view.bounds.height / 2.0) || story.attachment == nil) ? 0.3 : 0.4
         
         let shadow = PopoverPresentationShadow(radius: 32.0, color: UIColor.black.withAlphaComponent(shadowAlpha))
