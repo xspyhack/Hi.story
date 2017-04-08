@@ -75,7 +75,7 @@ final class MatterItemCell: HistoryItemCell, Reusable {
     static func height(with viewModel: MatterCellModelType, width: CGFloat) -> CGFloat {
         let titleHeight = titleFont.lineHeight.rounded(.up)
         if viewModel.notes.isEmpty {
-            return MatterItemCell.iconContainerHeight + titleHeight + 24.0
+            return MatterItemCell.iconContainerHeight + titleHeight + 24.0 + 4.0 // for empty text
         } else {
             return MatterItemCell.iconContainerHeight + viewModel.notes.hi.height(with: width - 2 * MatterItemCell.iconPadding, fontSize: 14.0) + 16.0 + titleHeight + 24.0
         }
