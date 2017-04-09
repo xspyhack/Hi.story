@@ -22,6 +22,14 @@ public class Storybook: Object, Timetable {
             $0.createdAt > $1.createdAt
         }).first
     }
+    
+    public var latestPublishedPicturedStory: Story? {
+        return stories.filter({
+            $0.attachment != nil && $0.isPublished == true
+        }).sorted(by: {
+            $0.createdAt > $1.createdAt
+        }).first
+    }
     public dynamic var visible: Int = Visible.public.rawValue
     public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
     public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
