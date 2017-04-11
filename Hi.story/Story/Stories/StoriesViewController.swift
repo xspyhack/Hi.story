@@ -122,6 +122,17 @@ extension StoriesViewController: UITableViewDataSource {
 
 extension StoriesViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        defer {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+        
+        guard let story = stories.safe[indexPath.row] else { return }
+        
+        performSegue(withIdentifier: .showStory, sender: story)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
        
         guard let story = stories.safe[indexPath.row] else { return 0.0 }
@@ -129,5 +140,21 @@ extension StoriesViewController: UITableViewDelegate {
         let width = tableView.bounds.width
         let height = StoryCell.height(with: story, width: width)
         return height
+    }
+}
+
+extension StoriesViewController: SegueHandlerType {
+    
+    enum SegueIdentifier: String {
+        case showStory
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segueIdentifier(forSegue: segue) {
+        case .showStory:
+            let vc = segue.destination as? StoryViewController
+            vc?.viewModel = (sender as? Story).map { StoryViewModel(story: $0) }
+        }
     }
 }

@@ -7,32 +7,133 @@
 //
 
 import UIKit
+import WebKit
 import Hikit
 
-class StoryViewController: UIViewController {
+final class StoryViewController: BaseViewController {
     
-    var story: Story?
-
+    var viewModel: StoryViewModel?
+    
+    fileprivate var messageHandlerName = "StoryHandler"
+    
+    private lazy var webView: WKWebView = {
+        let configuration = WKWebViewConfiguration()
+        configuration.userContentController.add(self, name: self.messageHandlerName)
+        
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.allowsLinkPreview = true
+        webView.navigationDelegate = self
+        webView.uiDelegate = self
+        
+        return webView
+    }()
+    
+    private lazy var detailsItem: UIBarButtonItem = UIBarButtonItem()
+    
+    private var popoverTransitioningDelegate: PopoverTransitioningDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        detailsItem.image = UIImage.hi.navDetails
+        navigationItem.rightBarButtonItem = detailsItem
+        
+        detailsItem.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.showsDetails()
+            })
+            .addDisposableTo(disposeBag)
+        
+        setupWebView()
+        
+        display()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func setupWebView() {
+        
+        view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views: [String: Any] = [
+            "webView": webView,
+            ]
+        
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|", options: [], metrics: nil, views: views)
+        
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|", options: [], metrics: nil, views: views)
+        
+        NSLayoutConstraint.activate(hConstraints)
+        NSLayoutConstraint.activate(vConstraints)
     }
-    */
+    
+    private func showsDetails() {
+        guard let viewModel = viewModel else { return }
+        
+        let story = viewModel.story
+        
+        let viewController = Storyboard.details.viewController(of: DetailsViewController.self)
+        viewController.viewModel = DetailsViewModel(story: story)
+        
+        viewController.showsLocationAction = { [weak self] location in
+            self?.hi.open(location)
+        }
+        
+        viewController.modalPresentationStyle = .custom
+        viewController.modalTransitionStyle = .crossDissolve
+        
+        let size: CGSize
+        if story.location != nil {
+            size = CGSize(width: view.bounds.width - 70.0, height: 300.0)
+        } else {
+            size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
+        }
+        
+        let shadowAlpha: CGFloat = (webView.scrollView.contentOffset.y > (view.bounds.height / 2.0) || story.attachment == nil) ? 0.3 : 0.4
+        
+        let shadow = PopoverPresentationShadow(radius: 32.0, color: UIColor.black.withAlphaComponent(shadowAlpha))
+        let context = PopoverPresentationContext(presentedContentSize: size, cornerRadius: 16.0, chromeAlpha: 0.0, shadow: shadow)
+        self.popoverTransitioningDelegate = PopoverTransitioningDelegate(presentationContext: context)
+        
+        viewController.transitioningDelegate = popoverTransitioningDelegate
+        
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    private func display() {
+        
+        guard let viewModel = viewModel else { return }
+        
+        title = viewModel.story.title
+        
+        webView.loadHTMLString(viewModel.displayContents, baseURL: Bundle.main.bundleURL)
+    }
+}
 
+extension StoryViewController: WKUIDelegate {
+    
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        
+        completionHandler()
+    }
+}
+
+extension StoryViewController: WKNavigationDelegate {
+    
+}
+
+extension StoryViewController: WKScriptMessageHandler {
+    
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        
+        if message.name == messageHandlerName {
+            
+        }
+        print(message.name)
+        print(message.body)
+    }
 }
