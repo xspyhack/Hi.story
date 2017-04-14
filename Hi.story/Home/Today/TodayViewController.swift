@@ -114,6 +114,7 @@ final class TodayViewController: UIViewController {
         
         // Feeds
         guard let feed = (FeedService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { Date(timeIntervalSince1970: $0.createdAt).hi.yearMonthDay == today.hi.yearMonthDay }).first, let story = feed.story, let creator = feed.creator else {
+            isEmpty = true
             return
         }
         
