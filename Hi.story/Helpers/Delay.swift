@@ -13,7 +13,7 @@ typealias Task = (_ cancel: Bool) -> Void
 @discardableResult
 func delay(_ time: TimeInterval, task: @escaping () -> Void) -> Task? {
     
-    func dispatch_later(_ block: @escaping () -> Void) {
+    func dispatchLater(_ block: @escaping () -> Void) {
         DispatchQueue.main.asyncAfter(
             deadline: DispatchTime.now() + Double(Int64(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC),
             execute: block)
@@ -34,7 +34,7 @@ func delay(_ time: TimeInterval, task: @escaping () -> Void) -> Task? {
     
     result = delayedClosure
     
-    dispatch_later {
+    dispatchLater {
         if let delayedClosure = result {
             delayedClosure(false)
         }
