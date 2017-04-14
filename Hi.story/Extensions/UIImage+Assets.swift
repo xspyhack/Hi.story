@@ -56,7 +56,7 @@ extension Hi where Base: UIImage {
     }
     
     static var calendarIcon: UIImage? {
-        return UIImage(named: "calendar")
+        return UIImage(named: "icon_calendar")
     }
     
     static var completed: UIImage? {
