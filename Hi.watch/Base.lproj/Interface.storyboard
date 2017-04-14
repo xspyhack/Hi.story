@@ -18,7 +18,7 @@
                                 <tableRow identifier="MatterRowType" id="CBj-Wc-OUY" customClass="MatterRowController" customModule="Hi_watch_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="lnN-X2-Rwx">
                                         <items>
-                                            <label width="34" alignment="right" verticalAlignment="center" text="999" id="RZf-Mm-yG4">
+                                            <label width="34" alignment="right" verticalAlignment="center" text="999" textAlignment="right" id="RZf-Mm-yG4">
                                                 <fontDescription key="font" type="system" pointSize="18"/>
                                             </label>
                                             <label alignment="left" verticalAlignment="center" text="四月是你的谎言" id="B9S-ho-O9c">
