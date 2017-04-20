@@ -125,7 +125,7 @@ struct Launcher {
         author.id = UUID.uuid
         author.nickname = "blessing software"
         author.username = Configuration.author
-        author.bio = "Megumi soft"
+        author.bio = "megumi soft"
         if let image = UIImage.hi.authorAvatar {
             let key = URL.hi.imageURL(withPath: "author").absoluteString
             CacheService.shared.store(image, forKey: key)
