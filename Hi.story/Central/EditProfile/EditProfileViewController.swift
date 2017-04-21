@@ -124,7 +124,7 @@ final class EditProfileViewController: BaseViewController {
                 dirty || available
             }
             .skip(1) // Skip the first time
-            .bindTo(doneItem.rx.isEnabled)
+            .bind(to: doneItem.rx.isEnabled)
             .addDisposableTo(disposeBag)
         
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
@@ -265,12 +265,12 @@ extension EditProfileViewController: UITableViewDataSource {
                         .shareReplay(1)
                     
                     invalided
-                        .bindTo(self.promptLabel.rx.validationResult)
+                        .bind(to: self.promptLabel.rx.validationResult)
                         .addDisposableTo(cell.rx.prepareForReuseBag)
                     
                     invalided
                         .map { $0.isValid }
-                        .bindTo(self.usernameAvailable)
+                        .bind(to: self.usernameAvailable)
                         .addDisposableTo(cell.rx.prepareForReuseBag)
                
                 }

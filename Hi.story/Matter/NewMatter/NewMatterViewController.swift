@@ -314,11 +314,11 @@ final class NewMatterViewController: BaseViewController {
         let viewModel = self.viewModel ?? NewMatterViewModel()
         
         cancelItem.rx.tap
-            .bindTo(viewModel.cancelAction)
+            .bind(to: viewModel.cancelAction)
             .addDisposableTo(disposeBag)
         
         postItem.rx.tap
-            .bindTo(viewModel.postAction)
+            .bind(to: viewModel.postAction)
             .addDisposableTo(disposeBag)
         
         viewModel.postButtonEnabled
@@ -333,19 +333,19 @@ final class NewMatterViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         subject.asObservable()
-            .bindTo(viewModel.title)
+            .bind(to: viewModel.title)
             .addDisposableTo(disposeBag)
         
         tag.asObservable()
-            .bindTo(viewModel.tag)
+            .bind(to: viewModel.tag)
             .addDisposableTo(disposeBag)
         
         happenedDate.asObservable()
-            .bindTo(viewModel.happenedAt)
+            .bind(to: viewModel.happenedAt)
             .addDisposableTo(disposeBag)
         
         body.asObservable()
-            .bindTo(viewModel.body)
+            .bind(to: viewModel.body)
             .addDisposableTo(disposeBag)
         
         generator.prepare()

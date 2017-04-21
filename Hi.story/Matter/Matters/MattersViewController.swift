@@ -67,7 +67,7 @@ final class MattersViewController: BaseViewController {
         }
         
         addItem.rx.tap
-            .bindTo(viewModel.addAction)
+            .bind(to: viewModel.addAction)
             .addDisposableTo(disposeBag)
         
         viewModel.sections
@@ -93,11 +93,11 @@ final class MattersViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         tableView.rx.itemDeleted
-            .bindTo(viewModel.itemDeleted)
+            .bind(to: viewModel.itemDeleted)
             .addDisposableTo(disposeBag)
         
         tableView.rx.itemSelected
-            .bindTo(viewModel.itemDidSelect)
+            .bind(to: viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
         dataSource.titleForHeaderInSection = { dataSource, index in

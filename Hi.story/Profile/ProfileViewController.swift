@@ -278,7 +278,7 @@ final class ProfileViewController: BaseViewController {
             .addDisposableTo(disposeBag)
         
         matterTableView.rx.itemSelected
-            .bindTo(mattersViewModel.itemDidSelect)
+            .bind(to: mattersViewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
         mattersViewModel.itemDidDeselect
@@ -373,7 +373,7 @@ final class ProfileViewController: BaseViewController {
                 disposable = textField.rx.text.orEmpty
                     .map { !$0.isEmpty }
                     .debug()
-                    .bindTo(saveAction.rx.isEnabled)
+                    .bind(to: saveAction.rx.isEnabled)
             }
             
             let cancelAction = UIAlertAction(title: "Canecl", style: .cancel) { (action) in

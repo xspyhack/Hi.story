@@ -143,11 +143,11 @@ final class NewFeedViewController: BaseViewController {
         }
         
         cancelItem.rx.tap
-            .bindTo(viewModel.cancelAction)
+            .bind(to: viewModel.cancelAction)
             .addDisposableTo(disposeBag)
         
         postItem.rx.tap
-            .bindTo(viewModel.postAction)
+            .bind(to: viewModel.postAction)
             .addDisposableTo(disposeBag)
         
         // options
@@ -163,7 +163,7 @@ final class NewFeedViewController: BaseViewController {
                 self.visibleButton.isSelected = !self.visibleButton.isSelected
                 return self.visibleButton.isSelected
             }
-            .bindTo(viewModel.visible)
+            .bind(to: viewModel.visible)
             .addDisposableTo(disposeBag)
         
         markdownButton.rx.tap
@@ -218,22 +218,22 @@ final class NewFeedViewController: BaseViewController {
         viewModel.storybook.asObservable()
             .take(1)
             .debug()
-            .bindTo(storybook)
+            .bind(to: storybook)
             .addDisposableTo(disposeBag)
         
         location.asObservable()
-            .bindTo(viewModel.location)
+            .bind(to: viewModel.location)
             .addDisposableTo(disposeBag)
         
         storybook.asObservable()
             .skip(1)
             .debug()
-            .bindTo(viewModel.storybook)
+            .bind(to: viewModel.storybook)
             .addDisposableTo(disposeBag)
         
         attachmentImage.asObservable()
             .skip(1)
-            .bindTo(viewModel.attachmentImage)
+            .bind(to: viewModel.attachmentImage)
             .addDisposableTo(disposeBag)
     
         keyboardButton.rx.tap

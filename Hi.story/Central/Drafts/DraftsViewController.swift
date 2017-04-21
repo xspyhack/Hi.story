@@ -104,11 +104,11 @@ final class DraftsViewController: BaseViewController {
             .addDisposableTo(disposeBag)
        
         tableView.rx.itemDeleted
-            .bindTo(viewModel.itemDeleted)
+            .bind(to: viewModel.itemDeleted)
             .addDisposableTo(disposeBag)
         
         tableView.rx.itemSelected
-            .bindTo(viewModel.itemDidSelect)
+            .bind(to: viewModel.itemDidSelect)
             .addDisposableTo(disposeBag)
         
         tableView.rx.enablesAutoDeselect()
