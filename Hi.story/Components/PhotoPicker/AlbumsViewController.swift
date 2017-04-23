@@ -158,7 +158,7 @@ final class AlbumsViewController: UITableViewController {
         
         let photoPicker = PhotoPickerViewController(collectionViewLayout: UICollectionViewFlowLayout())
         photoPicker.imagesDidFetch = true
-        photoPicker.images = album.asset
+        photoPicker.fetchResult = album.asset
         photoPicker.contentInset = contentInset
         photoPicker.delegate = delegate
         photoPicker.title = album.name

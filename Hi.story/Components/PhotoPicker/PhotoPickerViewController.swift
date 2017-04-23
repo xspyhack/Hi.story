@@ -17,6 +17,8 @@ final class PhotoCell: UICollectionViewCell, Reusable {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
+    var representedAssetIdentifier: String = ""
    
     var imageManager: PHImageManager?
     
@@ -25,6 +27,8 @@ final class PhotoCell: UICollectionViewCell, Reusable {
             guard let imageAsset = newValue else {
                 return
             }
+            
+            representedAssetIdentifier = imageAsset.localIdentifier
             
             let options = PHImageRequestOptions.sharedOptions
             
@@ -35,8 +39,10 @@ final class PhotoCell: UICollectionViewCell, Reusable {
             DispatchQueue.global(qos: .default).async { [weak self] in
                 self?.imageManager?.requestImage(for: imageAsset, targetSize: targetSize, contentMode: .aspectFill, options: options) { [weak self] image, info in
                     
-                    SafeDispatch.async { [weak self] in
-                        self?.imageView.image = image
+                    if self?.representedAssetIdentifier == imageAsset.localIdentifier {
+                        SafeDispatch.async { [weak self] in
+                            self?.imageView.image = image
+                        }
                     }
                 }
             }
@@ -86,11 +92,7 @@ extension PhotoPickerViewControllerDelegate {
 
 final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
     
-    var images: PHFetchResult<PHAsset>? {
-        didSet {
-            collectionView?.reloadData()
-        }
-    }
+    var fetchResult: PHFetchResult<PHAsset>?
     
     weak var delegate: PhotoPickerViewControllerDelegate?
     
@@ -102,8 +104,11 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
 
     var needsScrollToBottom: Bool = true
     var imagesDidFetch: Bool = false
-    fileprivate let imageManager = PHCachingImageManager()
+    private let imageManager = PHCachingImageManager()
     private var imageCacheController: ImageCacheController?
+    
+    private var thumbnailSize: CGSize = .zero
+    private var previousPreheatRect = CGRect.zero
     
     private var navigationDidConfigure = false
     
@@ -129,7 +134,7 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
             
             layout.minimumInteritemSpacing = gap
             layout.minimumLineSpacing = gap
-            layout.sectionInset = UIEdgeInsets(top: gap + 64, left: gap, bottom: gap, right: gap)
+            layout.sectionInset = UIEdgeInsets(top: gap + 44, left: gap, bottom: gap, right: gap)
         }
         
         let backBarButtonItem = UIBarButtonItem(image: UIImage.hi.navBack, style: .plain, target: self, action: #selector(PhotoPickerViewController.back(_:)))
@@ -144,7 +149,8 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
                 NSSortDescriptor(key: "creationDate", ascending: true)
             ]
             title = "All Photos"
-            images = PHAsset.fetchAssets(with: .image, options: options)
+            fetchResult = PHAsset.fetchAssets(with: .image, options: options)
+            collectionView.reloadData()
             
         }
         PHPhotoLibrary.shared().register(self)
@@ -184,11 +190,22 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
             navigationController?.interactivePopGestureRecognizer?.delegate = self
         }
         
-        guard let images = images else { return }
+        guard let images = fetchResult else { return }
         
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    deinit {
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
+    
+    // MARK: UIScrollView
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let indexPaths = collectionView?.indexPathsForVisibleItems else { return }
+        imageCacheController?.updateVisibleCells(at: indexPaths)
     }
     
     // MARK: Actions
@@ -202,7 +219,7 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
     }
     
     private func scrollToBottom() {
-        guard let images = images, let collectionView = collectionView else { return }
+        guard let images = fetchResult, let collectionView = collectionView else { return }
         
         collectionView.scrollToItem(at: IndexPath(item: images.count - 1, section: 0), at: .centeredVertically, animated: false)
     }
@@ -225,7 +242,7 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images?.count ?? 0
+        return fetchResult?.count ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -233,7 +250,7 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
         let cell: PhotoCell = collectionView.hi.dequeueReusableCell(for: indexPath)
         
         cell.imageManager = imageManager
-        if let imageAsset = images?[indexPath.item] {
+        if let imageAsset = fetchResult?[indexPath.item] {
             cell.imageAsset = imageAsset
         }
         
@@ -245,7 +262,7 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let imageAsset = images?[indexPath.item] {
+        if let imageAsset = fetchResult?[indexPath.item] {
             pick(imageAsset)
         }
     }
@@ -254,26 +271,41 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
     
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         
-        guard let changeDetails = changeInstance.changeDetails(for: images!) else {
-            return
-        }
+        guard let changes = changeInstance.changeDetails(for: fetchResult!)
+            else { return }
         
-        self.images = changeDetails.fetchResultAfterChanges
-        
-        SafeDispatch.async {
-            // Loop through the visible cell indices
-            guard let
-                indexPaths = self.collectionView?.indexPathsForVisibleItems,
-                let changedIndexes = changeDetails.changedIndexes else {
-                    return
+        // Change notifications may be made on a background queue. Re-dispatch to the
+        // main queue before acting on the change as we'll be updating the UI.
+        DispatchQueue.main.sync {
+            // Hang on to the new fetch result.
+            fetchResult = changes.fetchResultAfterChanges
+            if changes.hasIncrementalChanges {
+                // If we have incremental diffs, animate them in the collection view.
+                guard let collectionView = self.collectionView else { fatalError() }
+                collectionView.performBatchUpdates({
+                    // For indexes to make sense, updates must be in this order:
+                    // delete, insert, reload, move
+                    if let removed = changes.removedIndexes, removed.count > 0 {
+                        collectionView.deleteItems(at: removed.map({ IndexPath(item: $0, section: 0) }))
+                    }
+                    if let inserted = changes.insertedIndexes, inserted.count > 0 {
+                        collectionView.insertItems(at: inserted.map({ IndexPath(item: $0, section: 0) }))
+                    }
+                    if let changed = changes.changedIndexes, changed.count > 0 {
+                        collectionView.reloadItems(at: changed.map({ IndexPath(item: $0, section: 0) }))
+                    }
+                    changes.enumerateMoves { fromIndex, toIndex in
+                        collectionView.moveItem(at: IndexPath(item: fromIndex, section: 0),
+                                                to: IndexPath(item: toIndex, section: 0))
+                    }
+                }, completion: { finished -> Void in
+                    self.scrollToBottom()
+                })
+            } else {
+                // Reload the collection view if incremental diffs are not available.
+                collectionView!.reloadData()
             }
-            
-            for indexPath in indexPaths {
-                if changedIndexes.contains(indexPath.item) {
-                    let cell = self.collectionView?.cellForItem(at: indexPath) as! PhotoCell
-                    cell.imageAsset = changeDetails.fetchResultAfterChanges[indexPath.item]
-                }
-            }
+            self.imageCacheController?.resetCachedAssets()
         }
     }
 }
@@ -289,6 +321,13 @@ extension PhotoPickerViewController: UIGestureRecognizerDelegate {
             return true
         }
         return false
+    }
+}
+
+private extension UICollectionView {
+    func indexPathsForElements(in rect: CGRect) -> [IndexPath] {
+        let allLayoutAttributes = collectionViewLayout.layoutAttributesForElements(in: rect)!
+        return allLayoutAttributes.map { $0.indexPath }
     }
 }
 

@@ -11,12 +11,12 @@ import Photos
 
 final class ImageCacheController {
 
-    fileprivate var cachedIndices = NSIndexSet()
-    fileprivate let cachePreheatSize: Int
-    fileprivate let imageCache: PHCachingImageManager
-    fileprivate let images: PHFetchResult<PHAsset>
-    fileprivate let targetSize = CGSize(width: 80, height: 80)
-    fileprivate let contentMode = PHImageContentMode.aspectFill
+    private var cachedIndices = NSIndexSet()
+    private let cachePreheatSize: Int
+    private let imageCache: PHCachingImageManager
+    private let images: PHFetchResult<PHAsset>
+    private let targetSize = CGSize(width: 80, height: 80)
+    private let contentMode = PHImageContentMode.aspectFill
 
     init(imageManager: PHCachingImageManager, images: PHFetchResult<PHAsset>, preheatSize: Int = 1) {
         self.cachePreheatSize = preheatSize
@@ -24,14 +24,14 @@ final class ImageCacheController {
         self.images = images
     }
 
-    func updateVisibleCells(_ visibleCells: [IndexPath]) {
+    func updateVisibleCells(at indexPaths: [IndexPath]) {
 
-        guard !visibleCells.isEmpty else {
+        guard !indexPaths.isEmpty else {
             return
         }
 
         let updatedCache = NSMutableIndexSet()
-        for path in visibleCells {
+        for path in indexPaths {
             updatedCache.add(path.item)
         }
 
@@ -56,6 +56,12 @@ final class ImageCacheController {
         }
 
         cachedIndices = updatedCache
+    }
+    
+    // MARK: Asset Caching
+    
+    func resetCachedAssets() {
+        imageCache.stopCachingImagesForAllAssets()
     }
 }
 
