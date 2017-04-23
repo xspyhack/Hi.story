@@ -25,8 +25,6 @@ enum AspectRatioPreset: Int {
     case _9x16 // 9 x 16
     case custom
     
-
-    
     var size: CGSize {
         let aspectRatio: CGSize
         switch self {

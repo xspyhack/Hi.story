@@ -92,7 +92,7 @@ final class PresetCell: UICollectionViewCell {
         case tinted
     }
     
-    private lazy var imageView: UIImageView = {
+    private(set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -100,7 +100,7 @@ final class PresetCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var textLabel: UILabel = {
+    private(set) lazy var textLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = UIColor.gray
@@ -126,11 +126,12 @@ final class PresetCell: UICollectionViewCell {
         didSet {
             switch selectedStyle {
             case .bordered:
+                imageView.layer.borderColor = isSelected ? tintColor.cgColor : nil
                 imageView.layer.borderWidth = isSelected ? 2.0 : 0.0
             case .tinted:
-                imageView.image = isSelected ? image?.tinted(UIColor.blue) : image
+                imageView.image = isSelected ? image?.tinted(tintColor) : image
             }
-            textLabel.textColor = isSelected ? UIColor.blue : UIColor.gray
+            textLabel.textColor = isSelected ? tintColor : UIColor.gray
         }
     }
     
@@ -325,10 +326,12 @@ final class PhotoEditingToolbar: UIView {
             case .filter:
                 filterButton.isSelected = true
                 ratioButton.isSelected = false
+                
             case .ratio:
                 filterButton.isSelected = false
                 ratioButton.isSelected = true
             }
+            
             collectionView.reloadData()
         }
     }
@@ -412,7 +415,7 @@ extension PhotoEditingToolbar: UICollectionViewDataSource {
         switch preset {
         case .filter:
             let filter = filters[indexPath.item]
-            cell.configure(with: filter, image: image?.hi.apply(filter))
+            cell.configure(with: filter, image: image?.hi.apply(filter), selectedStyle: .bordered)
         case .ratio:
             let ratio = ratioes[indexPath.item]
             cell.configure(with: ratio, image: UIImage(named: "ratio_\(ratio.named)"), selectedStyle: .tinted)
