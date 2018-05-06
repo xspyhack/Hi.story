@@ -35,7 +35,7 @@ public class Storage: NSTextStorage {
     /// - parameter range:    The range to find attributes for.
     ///
     /// - returns: The attributes on a String within a certain range.
-    override public func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [String : Any] {
+    override public func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [NSAttributedStringKey : Any] {
         return backingStore.attributes(at: location, effectiveRange: range)
     }
 
@@ -46,7 +46,7 @@ public class Storage: NSTextStorage {
     override public func replaceCharacters(in range: NSRange, with str: String) {
         self.beginEditing()
         backingStore.replaceCharacters(in: range, with: str)
-        self.edited([.editedCharacters, .editedAttributes], range: range, changeInLength: str.characters.count - range.length)
+        self.edited([.editedCharacters, .editedAttributes], range: range, changeInLength: str.count - range.length)
         self.endEditing()
     }
 
@@ -54,7 +54,7 @@ public class Storage: NSTextStorage {
     ///
     /// - parameter attrs: The attributes to add to the string for the range.
     /// - parameter range: The range in which to add attributes.
-    override public func setAttributes(_ attrs: [String : Any]?, range: NSRange) {
+    override public func setAttributes(_ attrs: [NSAttributedStringKey : Any]?, range: NSRange) {
         self.beginEditing()
         backingStore.setAttributes(attrs, range: range)
         self.edited(.editedAttributes, range: range, changeInLength: 0)
@@ -66,7 +66,7 @@ public class Storage: NSTextStorage {
         let backingString = backingStore.string
         let nsRange = backingString.range(from: NSMakeRange(NSMaxRange(editedRange), 0))!
         let indexRange = backingString.lineRange(for: nsRange)
-        let extendedRange: NSRange = NSUnionRange(editedRange, backingString.nsRange(from: indexRange))
+        let extendedRange: NSRange = NSUnionRange(editedRange, backingString.nsRange(from: indexRange)!)
 
         applyStyles(extendedRange)
         super.processEditing()
@@ -82,7 +82,7 @@ public class Storage: NSTextStorage {
         for (style) in theme.styles {
             style.regex.enumerateMatches(in: backingString, options: .withoutAnchoringBounds, range: range, using: { (match, flags, stop) in
                 if match != nil {
-                    addAttributes(style.attributes, range: match!.rangeAt(0))
+                    addAttributes(style.attributes, range: match!.range(at: 0))
                 }
             })
         }

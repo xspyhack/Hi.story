@@ -26,7 +26,7 @@ public struct Theme {
     ///
     /// - returns: The Theme.
     init(_ name: String) {
-        if let path = Bundle(for: object_getClass(self)).path(forResource: "Himarkdown.framework/\(name)", ofType: "json") {
+        if let aClass = object_getClass(self), let path = Bundle(for: aClass).path(forResource: "Himarkdown.framework/\(name)", ofType: "json") {
             if let data = convertFile(path) {
                 configure(data)
             }
@@ -52,15 +52,15 @@ public struct Theme {
             }
             else { // Create a default body font so other styles can inherit from it.
                 let attributes = [
-                    NSForegroundColorAttributeName: UIColor.black,
-                    NSFontAttributeName: UIFont.systemFont(ofSize: 15)
+                    NSAttributedStringKey.foregroundColor: UIColor.black,
+                    NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)
                 ]
                 body = Style(element: .body, attributes: attributes)
             }
 
             allStyles.removeValue(forKey: "body")
             for (element, attributes) in allStyles {
-                if let parsedStyles = parse(attributes as! [String : AnyObject]) {
+                if let parsedStyles = parse(attributes as! [String: AnyObject]) {
                     if let regexString = attributes["regex"] as? String {
                         let regex = regexString.toRegex()
                         styles.append(Style(regex: regex, attributes: parsedStyles))
@@ -93,12 +93,12 @@ public struct Theme {
     /// - parameter attributes: The attributes to parse.
     ///
     /// - returns: The converted attribute/key constant pairings.
-    func parse(_ attributes: [String: AnyObject]) -> [String: Any]? {
-        var final: [String: Any] = [:]
+    func parse(_ attributes: [String: AnyObject]) -> [NSAttributedStringKey: Any]? {
+        var final: [NSAttributedStringKey: Any] = [:]
 
         if let color = attributes["color"] {
             let value = color as! String
-            final[NSForegroundColorAttributeName] = UIColor(hexString: value)
+            final[NSAttributedStringKey.foregroundColor] = UIColor(hexString: value)
         }
         
         if let lineSpacing = attributes["line-spacing"] {
@@ -106,13 +106,13 @@ public struct Theme {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = value
             paragraphStyle.paragraphSpacing = value * 4.0
-            final[NSParagraphStyleAttributeName] = paragraphStyle
+            final[NSAttributedStringKey.paragraphStyle] = paragraphStyle
         }
 
         if let decoration = attributes["decoration"] {
             let value = decoration as! String
             if value == "line-through" {
-                final[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleSingle.rawValue
+                final[NSAttributedStringKey.strikethroughStyle] = NSUnderlineStyle.styleSingle.rawValue
             }
         }
         
@@ -124,24 +124,24 @@ public struct Theme {
                 fontSize = size as! CGFloat
             }
             else {
-                let bodyFont: UIFont = body.attributes[NSFontAttributeName] as! UIFont
+                let bodyFont: UIFont = body.attributes[NSAttributedStringKey.font] as! UIFont
                 fontSize = bodyFont.pointSize
             }
 
             if fontName == "System" {
-                final[NSFontAttributeName] = UIFont.systemFont(ofSize: fontSize)
+                final[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: fontSize)
             }
             else {
-                final[NSFontAttributeName] = UIFont(name: fontName, size: fontSize)
+                final[NSAttributedStringKey.font] = UIFont(name: fontName, size: fontSize)
             }
         }
         else {
             // Just change font size (based on body font) if no font is specified for item.
             if let size = attributes["size"] {
-                let bodyFont: UIFont = body.attributes[NSFontAttributeName] as! UIFont
+                let bodyFont: UIFont = body.attributes[NSAttributedStringKey.font] as! UIFont
                 let fontSize = size as! CGFloat
 
-                final[NSFontAttributeName] = UIFont(name: bodyFont.fontName, size: fontSize)
+                final[NSAttributedStringKey.font] = UIFont(name: bodyFont.fontName, size: fontSize)
             }
         }
 
