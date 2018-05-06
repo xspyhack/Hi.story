@@ -26,7 +26,7 @@ class MattersInterfaceController: WKInterfaceController {
         }
     }
     
-    fileprivate var matters: [SharedMatter] = []
+    private var matters: [SharedMatter] = []
 
     // MARK: Properties
     
@@ -59,7 +59,7 @@ class MattersInterfaceController: WKInterfaceController {
         print("Deactivate")
     }
 
-    fileprivate func configure(with matters: [SharedMatter]) {
+    private func configure(with matters: [SharedMatter]) {
         
         self.matters = matters
         
@@ -107,7 +107,7 @@ extension MattersInterfaceController: WCSessionDelegate {
         
         guard let jsons = applicationContext[Configuration.sharedMattersKey] as? [[String: Any]] else { return }
         
-        let matters = jsons.flatMap { SharedMatter.with(json: $0) }
+        let matters = jsons.compactMap { SharedMatter.with(json: $0) }
         configure(with: matters)
     }
     
