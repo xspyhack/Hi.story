@@ -3,7 +3,7 @@
 //  Hi.kit
 //
 //  Created by bl4ckra1sond3tre on 12/11/2016.
-//  Copyright © 2016 bl4ckra1sond3tre. All rights reserved.
+//  Copyright © 2016 blessingsoftware. All rights reserved.
 //
 
 import Foundation
@@ -24,7 +24,7 @@ public func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
     return lhs.name == rhs.name
 }
 
-/// Push
+/// Push Driver
 public class Listenable<U> {
     
     public typealias SetterAction = (U) -> Void
