@@ -16,7 +16,7 @@ class PopoverViewController: UIViewController {
         }
     }
     
-    fileprivate lazy var tipsLabel: UILabel = {
+    private lazy var tipsLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -39,7 +39,7 @@ class PopoverViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         view.addSubview(tipsLabel)
         tipsLabel.translatesAutoresizingMaskIntoConstraints = false

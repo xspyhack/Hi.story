@@ -13,10 +13,11 @@ import RxCocoa
 import RxDataSources
 import RealmSwift
 import WatchConnectivity
+import Hiroute
 
 final class MattersViewController: BaseViewController {
     
-    @IBOutlet fileprivate weak var tableView: UITableView! {
+    @IBOutlet private weak var tableView: UITableView! {
         didSet {
             tableView.hi.register(reusableCell: MatterCell.self)
             tableView.rowHeight = Constant.rowHeight
@@ -25,7 +26,7 @@ final class MattersViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var addItem: UIBarButtonItem!
+    @IBOutlet private weak var addItem: UIBarButtonItem!
     
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -33,9 +34,7 @@ final class MattersViewController: BaseViewController {
         return searchBar
     }()
     
-    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
-    
-    fileprivate var viewModel: MattersViewModel? // Reference it!!
+    private var viewModel: MattersViewModel? // Reference it!!
     
     lazy var presentationTransition: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
@@ -60,52 +59,52 @@ final class MattersViewController: BaseViewController {
         
         self.viewModel = viewModel
         
-        dataSource.configureCell = { _, tableView, indexPath, viewModel in
+        let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>(configureCell: { _, tableView, indexPath, viewModel in
             let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.configure(withPresenter: viewModel)
             return cell
-        }
+        })
         
         addItem.rx.tap
             .bind(to: viewModel.addAction)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.sections
             .drive(tableView.rx.items(dataSource: dataSource))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.showMatterViewModel
-            .drive(onNext: { [weak self] viewModel in
-                self?.performSegue(withIdentifier: .showMatter, sender: Wrapper<MatterViewModel>(bullet: viewModel))
+            .drive(onNext: { viewModel in
+                Router.route(URL(string: "hi://matter/" + viewModel.matter.id)!)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.showNewMatterViewModel
             .drive(onNext: { [weak self] viewModel in
                 self?.performSegue(withIdentifier: .presentNewMatter, sender: Wrapper<NewMatterViewModel>(bullet: viewModel))
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.itemDidDeselect
             .drive(onNext: { [weak self] indexPath in
                 self?.tableView.deselectRow(at: indexPath, animated: true)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         tableView.rx.itemDeleted
             .bind(to: viewModel.itemDeleted)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
             .bind(to: viewModel.itemDidSelect)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         dataSource.titleForHeaderInSection = { dataSource, index in
             let section = dataSource[index]
             return section.model
         }
 
-        dataSource.canEditRowAtIndexPath = { _ in
+        dataSource.canEditRowAtIndexPath = { _, _ in
             return true
         }
     }
@@ -115,6 +114,16 @@ final class MattersViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if #available(iOS 11.0, *) {
+//            navigationController?.navigationBar.prefersLargeTitles = true
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -122,10 +131,6 @@ final class MattersViewController: BaseViewController {
             Defaults.showedNewMatterTip = true
             show()
         }
-    }
-    
-    func tryToAddNewMatter() {
-        
     }
     
     private func show() {

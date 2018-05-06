@@ -23,13 +23,13 @@ final class HomeViewController: UIPageViewController {
         }
     }
     
-    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+    private lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
     
-    fileprivate enum Channel: Int {
+    private enum Channel: Int {
         case today = 0
         case history
         
@@ -49,12 +49,12 @@ final class HomeViewController: UIPageViewController {
         }
     }
     
-    fileprivate lazy var historyViewController: HistoryViewController = {
+    private lazy var historyViewController: HistoryViewController = {
         let vc = Storyboard.home.viewController(of: HistoryViewController.self)
         return vc
     }()
     
-    fileprivate lazy var todayViewController: TodayViewController = {
+    private lazy var todayViewController: TodayViewController = {
         let vc = Storyboard.home.viewController(of: TodayViewController.self)
         return vc
     }()
@@ -75,7 +75,7 @@ final class HomeViewController: UIPageViewController {
             .subscribe(onNext: { [weak self] index in
                 self?.selecting(at: index)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.dataSource = self
         self.delegate = self
@@ -124,7 +124,7 @@ final class HomeViewController: UIPageViewController {
         selectingChannel(channel)
     }
     
-    fileprivate func selectingChannel(_ channel: Channel) {
+    private func selectingChannel(_ channel: Channel) {
         
         isPageViewTransitioning = true
         

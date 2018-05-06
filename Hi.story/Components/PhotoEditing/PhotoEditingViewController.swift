@@ -833,7 +833,7 @@ class PhotoEditingViewController: UIViewController {
     private func selectedFilter(_ filter: Filter) {
         selectingFilter = filter
         
-        cropView.transform(filter)
+        cropView.transform(with: filter)
     }
     
     private func selectedRatio(_ ratio: AspectRatioPreset) {

@@ -57,7 +57,7 @@ func configureShortcuts() {
     UIApplication.shared.shortcutItems = shortcutItems
 }
 
-func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
+func tryHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
     
     guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
         return
@@ -92,7 +92,6 @@ func tryToHandleQuickAction(shortcutItem: UIApplicationShortcutItem, inWindow wi
         tabBarController.selectedTab.value = .matters
         if let nvc = tabBarController.selectedViewController as? UINavigationController {
             if let vc = nvc.topViewController as? MattersViewController {
-                vc.tryToAddNewMatter()
             }
         }
     }

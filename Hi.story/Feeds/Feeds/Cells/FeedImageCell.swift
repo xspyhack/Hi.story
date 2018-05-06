@@ -35,14 +35,14 @@ class FeedImageCell: UICollectionViewCell, Reusable {
     
     static let margin: CGFloat = 16.0
     
-    fileprivate lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "四月是你的谎言"
         label.font = UIFont.systemFont(ofSize: 24.0)
@@ -51,7 +51,7 @@ class FeedImageCell: UICollectionViewCell, Reusable {
         return label
     }()
     
-    fileprivate lazy var bodyLabel: UILabel = {
+    private lazy var bodyLabel: UILabel = {
         let label = UILabel()
         label.text = "飞机穿梭于茫茫星海中逐渐远去，你如猫般，无声靠近，从意想不到的角度玩弄他人，而我只能呆愣在原地，永远只能跟随你的步伐。"
         label.font = UIFont.systemFont(ofSize: 14.0)
@@ -120,7 +120,7 @@ extension FeedImageCell: Configurable {
                 }
             }
         } else {
-            imageView.setImage(with: presenter.imageURL.flatMap { URL(string: $0) })
+            imageView.hi.setImage(with: presenter.imageURL.flatMap { URL(string: $0) })
         }
     }
 }

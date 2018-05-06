@@ -15,7 +15,7 @@ class MarkdownPreviewViewController: UIViewController {
     var markdownText: String = ""
     
     //
-    fileprivate lazy var webView: WKWebView = {
+    private lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.allowsLinkPreview = true
         webView.navigationDelegate = self

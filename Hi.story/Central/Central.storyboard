@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,27 +14,24 @@
         <scene sceneID="G6R-bT-nVR">
             <objects>
                 <viewController storyboardIdentifier="CentralViewController" id="8RC-9v-hRH" customClass="CentralViewController" customModule="Hi_story" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vKf-Jd-4e1"/>
-                        <viewControllerLayoutGuide type="bottom" id="CX7-E8-cU0"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Qmc-FD-M9b">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="12" sectionFooterHeight="12" translatesAutoresizingMaskIntoConstraints="NO" id="ayc-3a-kVF">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="ayc-3a-kVF" secondAttribute="trailing" id="DBp-9C-t74"/>
-                            <constraint firstItem="ayc-3a-kVF" firstAttribute="leading" secondItem="Qmc-FD-M9b" secondAttribute="leading" id="Kvy-3R-deP"/>
-                            <constraint firstAttribute="bottom" secondItem="ayc-3a-kVF" secondAttribute="bottom" id="Y0V-tS-NP3"/>
-                            <constraint firstItem="ayc-3a-kVF" firstAttribute="top" secondItem="Qmc-FD-M9b" secondAttribute="top" id="sks-fM-5qb"/>
+                            <constraint firstItem="PIg-4V-7IL" firstAttribute="trailing" secondItem="ayc-3a-kVF" secondAttribute="trailing" id="DBp-9C-t74"/>
+                            <constraint firstItem="ayc-3a-kVF" firstAttribute="top" secondItem="PIg-4V-7IL" secondAttribute="top" id="G47-fS-zQs"/>
+                            <constraint firstItem="ayc-3a-kVF" firstAttribute="leading" secondItem="PIg-4V-7IL" secondAttribute="leading" id="Kvy-3R-deP"/>
+                            <constraint firstItem="ayc-3a-kVF" firstAttribute="bottom" secondItem="PIg-4V-7IL" secondAttribute="bottom" id="hv9-hY-cY6"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="PIg-4V-7IL"/>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="ayc-3a-kVF" id="lkj-45-Y22"/>

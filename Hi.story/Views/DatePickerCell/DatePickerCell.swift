@@ -24,7 +24,7 @@ final class DatePickerCell: UITableViewCell, Reusable {
         return datePicker
     }()
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,13 +36,13 @@ final class DatePickerCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
     
         datePicker.rx.date
             .subscribe(onNext: { [weak self] (date) in
                 self?.pickedAction?(date)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         contentView.addSubview(datePicker)
         datePicker.translatesAutoresizingMaskIntoConstraints = false

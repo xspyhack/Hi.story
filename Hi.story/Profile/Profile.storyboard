@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KZE-a4-Teh">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KZE-a4-Teh">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,11 +35,11 @@
                         <viewControllerLayoutGuide type="bottom" id="XuZ-qx-BZe"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Q8V-hB-tCw">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jf1-Zn-nL4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -48,7 +48,7 @@
                                 </connections>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1FS-rW-X8G">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="P6I-bc-HNS">
                                     <size key="itemSize" width="50" height="50"/>
@@ -140,7 +140,7 @@
                                 </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGu-hV-PFl">
-                                <rect key="frame" x="0.0" y="667" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="812" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Fl0-Cg-zC6"/>
                                 </constraints>
@@ -153,6 +153,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="VGu-hV-PFl" firstAttribute="top" secondItem="Q8V-hB-tCw" secondAttribute="bottom" id="5nJ-uk-dVi"/>
                             <constraint firstAttribute="bottom" secondItem="1FS-rW-X8G" secondAttribute="bottom" id="ChL-8o-uwC"/>
                             <constraint firstAttribute="trailing" secondItem="Jf1-Zn-nL4" secondAttribute="trailing" id="EMn-3l-Zm7"/>
                             <constraint firstItem="1FS-rW-X8G" firstAttribute="top" secondItem="Q8V-hB-tCw" secondAttribute="top" id="GRn-RT-Xu3"/>
@@ -164,12 +165,11 @@
                             <constraint firstAttribute="trailing" secondItem="VGu-hV-PFl" secondAttribute="trailing" id="TQY-16-Nf7"/>
                             <constraint firstAttribute="bottom" secondItem="Jf1-Zn-nL4" secondAttribute="bottom" id="TxX-fX-4iz"/>
                             <constraint firstAttribute="trailing" secondItem="1FS-rW-X8G" secondAttribute="trailing" id="Uw4-T7-9Nr"/>
-                            <constraint firstAttribute="bottom" secondItem="VGu-hV-PFl" secondAttribute="bottom" constant="-44" id="lbC-Eq-ojx"/>
                             <constraint firstItem="bDY-E1-kSi" firstAttribute="leading" secondItem="Q8V-hB-tCw" secondAttribute="leading" id="myx-5l-rf3"/>
                             <constraint firstItem="Jf1-Zn-nL4" firstAttribute="leading" secondItem="Q8V-hB-tCw" secondAttribute="leading" id="sHY-c2-RY9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="UqM-pz-KRe"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="UqM-pz-KRe"/>
                     <connections>
                         <outlet property="avatarImageView" destination="0v1-XM-1Kt" id="O9y-gT-oN9"/>
                         <outlet property="avatarImageViewWidthConstraint" destination="e2R-sf-mMU" id="ugU-U8-bWR"/>
@@ -185,7 +185,6 @@
                         <outlet property="segmentedControl" destination="qRi-0L-p7E" id="Wbv-Xs-QPD"/>
                         <outlet property="storybookCollectionView" destination="1FS-rW-X8G" id="iCI-P9-SQe"/>
                         <outlet property="toolbar" destination="VGu-hV-PFl" id="wly-AS-mOO"/>
-                        <outlet property="toolbarBottomConstraint" destination="lbC-Eq-ojx" id="a7m-Hy-PHe"/>
                         <segue destination="yY1-pq-KnA" kind="show" identifier="showEditProfile" id="h2y-Ge-eaf"/>
                         <segue destination="KUz-lU-dPo" kind="show" identifier="showMatter" id="6yr-qX-3Vf"/>
                         <segue destination="eey-WF-Jfq" kind="show" identifier="showStories" id="0Gi-QN-3XJ"/>
@@ -209,7 +208,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KZE-a4-Teh" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="2nN-Hv-5eL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

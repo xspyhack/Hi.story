@@ -111,7 +111,7 @@ final class MemoriesCardView: TodayCardView, Configurable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup(_ style: MemoriesCardViewStyle = .middle) {
+    private func setup(_ style: MemoriesCardViewStyle = .middle) {
   
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -215,9 +215,9 @@ final class MemoriesCardView: TodayCardView, Configurable {
         dateLabel.text = "- \(presenter.date) -"
         
         let cover = King.all[Defaults.selectingCover.value].card
-        imageView.setImage(with: presenter.imageURL, placeholder: cover)
+        imageView.hi.setImage(with: presenter.imageURL, placeholder: cover)
         
-        avatarImageView.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+        avatarImageView.hi.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width))
         
         overlayView.isHidden = false
     }

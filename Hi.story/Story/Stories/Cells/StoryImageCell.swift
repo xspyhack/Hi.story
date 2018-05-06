@@ -26,14 +26,14 @@ final class StoryImageCell: UITableViewCell, Reusable {
     
     static let margin: CGFloat = 16.0
     
-    fileprivate lazy var storyImageView: UIImageView = {
+    private lazy var storyImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "四月是你的谎言"
         label.font = UIFont.systemFont(ofSize: 24.0)
@@ -41,7 +41,7 @@ final class StoryImageCell: UITableViewCell, Reusable {
         return label
     }()
     
-    fileprivate lazy var bodyLabel: UILabel = {
+    private lazy var bodyLabel: UILabel = {
         let label = UILabel()
         label.text = "飞机穿梭于茫茫星海中逐渐远去，你如猫般，无声靠近，从意想不到的角度玩弄他人，而我只能呆愣在原地，永远只能跟随你的步伐。"
         label.font = UIFont.systemFont(ofSize: 14.0)
@@ -99,6 +99,6 @@ extension StoryImageCell: Configurable {
     func configure(withPresenter presenter: StoryCellModelType) {
         titleLabel.text = presenter.title
         bodyLabel.text = presenter.body
-        storyImageView.setImage(with: presenter.imageURL.flatMap { URL(string: $0) })
+        storyImageView.hi.setImage(with: presenter.imageURL.flatMap { URL(string: $0) })
     }
 }

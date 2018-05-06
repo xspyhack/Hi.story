@@ -20,37 +20,28 @@ extension Reactive where Base: UITableView {
 
 extension Reactive where Base: UITableViewCell {
     var prepareForReuse: Observable<Void> {
-        return Observable.of((base as UITableViewCell).rx.sentMessage(#selector(UITableViewCell.prepareForReuse)).map { _ in }, (base as UITableViewCell).rx.deallocated).merge()
+        return Observable.of(base.rx.sentMessage(#selector(UITableViewCell.prepareForReuse)).map { _ in }, base.rx.deallocated).merge()
     }
     
     var prepareForReuseBag: DisposeBag {
-        return base.rx_prepareForReuseBag
-    }
-}
-
-private var _prepareForReuseBag: Void = ()
-
-extension UITableViewCell {
-    fileprivate var rx_prepareForReuse: Observable<Void> {
-        return Observable.of(self.rx.sentMessage(#selector(UITableViewCell.prepareForReuse)).map { _ in () }, self.rx.deallocated).merge()
-    }
-    
-    fileprivate var rx_prepareForReuseBag: DisposeBag {
         MainScheduler.ensureExecutingOnScheduler()
         
-        if let bag = objc_getAssociatedObject(self, &_prepareForReuseBag) as? DisposeBag {
+        if let bag = objc_getAssociatedObject(base, &_prepareForReuseBag) as? DisposeBag {
             return bag
         }
         
         let bag = DisposeBag()
-        objc_setAssociatedObject(self, &_prepareForReuseBag, bag, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        objc_setAssociatedObject(base, &_prepareForReuseBag, bag, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         
-        _ = self.rx.sentMessage(#selector(UITableViewCell.prepareForReuse))
-            .subscribe(onNext: { [weak self] _ in
+        _ = self.base.rx.sentMessage(#selector(UITableViewCell.prepareForReuse))
+            .subscribe(onNext: { [weak base] _ in
                 let newBag = DisposeBag()
-                objc_setAssociatedObject(self, &_prepareForReuseBag, newBag, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+                objc_setAssociatedObject(base as Any, &_prepareForReuseBag, newBag, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             })
         
         return bag
     }
 }
+
+private var _prepareForReuseBag: Void = ()
+

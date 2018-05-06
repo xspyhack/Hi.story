@@ -30,7 +30,7 @@ struct StoryViewModel: StoryViewModelType {
         var markdown = Markdown()
         let outputHtml: String = markdown.transform(story.body)
         
-        if let attachment = story.attachment, let imageData = CacheService.shared.retrieveImageInDiskCache(forKey: attachment.urlString) {
+        if let attachment = story.attachment, let imageData = ImageCache.shared.retrieve(forKey: attachment.urlString) {
             
             let base64 = UIImageJPEGRepresentation(imageData, 1.0)?.base64EncodedString(options: .lineLength64Characters)
             

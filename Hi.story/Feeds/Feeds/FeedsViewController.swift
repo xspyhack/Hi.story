@@ -8,32 +8,34 @@
 
 import UIKit
 import Hikit
+import Hiroute
 import RxCocoa
 import RxSwift
 import RealmSwift
 
 final class FeedsViewController: BaseViewController {
     
-    @IBOutlet fileprivate weak var collectionView: UICollectionView! {
+    @IBOutlet private weak var collectionView: UICollectionView! {
         didSet {
+            collectionView.showsVerticalScrollIndicator = false
             collectionView.hi.register(reusableCell: FeedCell.self)
             collectionView.hi.register(reusableCell: FeedImageCell.self)
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: FeedSectionHeaderView.self)
         }
     }
     
-    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+    private lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let topInset: CGFloat = 12.0
         static let headerHeight: CGFloat = 48.0
     }
     
-    fileprivate var feeds: [Feed] = []
+    private var feeds: [Feed] = []
     
     private lazy var newItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
@@ -47,6 +49,11 @@ final class FeedsViewController: BaseViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = newItem
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         
         guard let realm = try? Realm() else { return }
        
@@ -67,7 +74,7 @@ final class FeedsViewController: BaseViewController {
                 generator.prepare()
                 generator.impactOccurred()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         
         Feed.didDelete
@@ -86,15 +93,15 @@ final class FeedsViewController: BaseViewController {
                     FeedService.shared.remove(feed, fromRealm: realm)
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         feeds = FeedService.shared.fetchAll(sortby: "createdAt", fromRealm: realm)
         
         newItem.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.performSegue(withIdentifier: .presentNewFeed, sender: NewFeedViewModel(token: UUID().uuidString))
+            .subscribe(onNext: {
+                Router.route(URL(string: "hi://feed/new/")!)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         if traitCollection.forceTouchCapability == .available {
             registerForPreviewing(with: self, sourceView: collectionView)
@@ -108,7 +115,7 @@ final class FeedsViewController: BaseViewController {
         // TODO: - Dispose
     }
     
-    fileprivate func fetchFeeds() {
+    private func fetchFeeds() {
         
         guard let realm = try? Realm() else { return }
         
@@ -188,7 +195,7 @@ extension FeedsViewController: UICollectionViewDelegate {
         
         let viewModel = FeedSectionHeaderViewModel(user: user)
         view.configure(withPresenter: viewModel)
-        view.didSelect = { [weak self] in
+        view.didSelect = { [weak self] () -> Void in
             self?.performSegue(withIdentifier: .showProfile, sender: user)
         }
     }

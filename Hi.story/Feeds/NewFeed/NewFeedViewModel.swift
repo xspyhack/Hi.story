@@ -61,7 +61,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
     let postButtonEnabled: Driver<Bool>
     let dismissViewController: Driver<Void>
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     init(mode: NewFeedMode = .new, token: String) {
        
@@ -104,7 +104,7 @@ struct NewFeedViewModel: NewFeedViewModelType {
             
             self.storybook = Variable(story.withStorybook)
             if let urlString = story.attachment?.urlString {
-                let image = CacheService.shared.retrieveImageInDiskCache(forKey: urlString)
+                let image = ImageCache.shared.retrieve(forKey: urlString)
                 self.attachmentImage = Variable(image)
             } else {
                 self.attachmentImage = Variable(nil)
@@ -117,11 +117,10 @@ struct NewFeedViewModel: NewFeedViewModelType {
                 if let image = image {
                     let size = image.size
                     let metadata = metadataString(of: image)
-                    CacheService.shared.store(image, forKey: url.absoluteString)
+                    ImageCache.shared.store(image, forKey: url.absoluteString)
                     return Observable.just((metadata, url, size))
                 } else {
-                    print("Remove image")
-                    CacheService.shared.removeIfExisting(forKey: url.absoluteString)
+                    ImageCache.shared.remove(forKey: url.absoluteString)
                     return Observable.just(nil)
                 }
             }

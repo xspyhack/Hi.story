@@ -95,7 +95,7 @@ final class BirthdayCardView: TodayCardView {
             addMotionEffect()
             
             let avatar = HiUserDefaults.avatar.value.flatMap { URL(string: $0) }
-            avatarImageView.setImage(with: avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+            avatarImageView.hi.setImage(with: avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width))
         }
     }
     

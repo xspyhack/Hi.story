@@ -246,9 +246,11 @@ final class SettingsViewController: UITableViewController {
                 let cell: SwitchCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.titleLabel.text = "Notifications"
                 cell.toggleSwitch.isOn = Defaults.notificationsEnabled
-                hi.isAuthorizedForNotifications {
-                    cell.toggleSwitch.isOn = $0
-                    Defaults.notificationsEnabled = $0
+                hi.isAuthorizedForNotifications { granted in
+                    SafeDispatch.async(forWork: {
+                        cell.toggleSwitch.isOn = granted
+                        Defaults.notificationsEnabled = granted
+                    })
                 }
                 
                 cell.toggleSwitchStateChangedAction = { isOn in

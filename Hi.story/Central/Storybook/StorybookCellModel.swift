@@ -14,6 +14,7 @@ protocol StorybookCellModelType {
     var name: String { get }
     var count: Int { get }
     var coverImageURL: URL? { get }
+    var fadeIn: Bool { get }
 }
 
 struct StorybookCellModel: StorybookCellModelType {
@@ -24,9 +25,13 @@ struct StorybookCellModel: StorybookCellModelType {
     
     var count: Int
     
-    init(storybook: Storybook) {
+    var fadeIn: Bool
+    
+    init(storybook: Storybook, fadeIn: Bool = true) {
         self.name = storybook.name
-        self.count = (storybook.stories.filter { $0.isPublished == true }).count // Ignore unpublish story
+        let stories = storybook.stories.filter { $0.isPublished }
+        self.count = stories.count
+        self.fadeIn = fadeIn
         
         if let urlString = storybook.latestPublishedPicturedStory?.attachment?.urlString {
             self.coverImageURL =  URL(string: urlString)

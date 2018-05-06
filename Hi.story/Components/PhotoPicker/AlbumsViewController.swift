@@ -104,7 +104,7 @@ final class AlbumsViewController: UITableViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    @objc fileprivate func cancel(_ sender: UIBarButtonItem) {
+    @objc private func cancel(_ sender: UIBarButtonItem) {
         
         dismiss(animated: true, completion: nil)
     }

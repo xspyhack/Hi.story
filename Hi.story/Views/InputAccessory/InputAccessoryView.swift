@@ -8,14 +8,62 @@
 
 import UIKit
 
-class InputAccessoryView: UIView {
+public class InputAccessoryView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    private var allLayoutConstraints = [NSLayoutConstraint]() {
+        didSet {
+            NSLayoutConstraint.deactivate(oldValue)
+            NSLayoutConstraint.activate(allLayoutConstraints)
+        }
     }
-    */
-
+    
+    deinit {
+        allLayoutConstraints = []
+    }
+    
+    public init(for view: UIView) {
+        super.init(frame: .zero)
+        
+        addSubview(view)
+        
+        // Allow 'self' to be sized based on autolayout constraints. Without
+        // this, the frame would have to be set manually.
+        autoresizingMask = .flexibleHeight
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        defer {
+            let leadingAnchor: NSLayoutXAxisAnchor
+            let trailingAnchor: NSLayoutXAxisAnchor
+            let topAnchor: NSLayoutYAxisAnchor
+            let bottomAnchor: NSLayoutYAxisAnchor
+            
+            if #available(iOS 11, *) {
+                leadingAnchor = safeAreaLayoutGuide.leadingAnchor
+                trailingAnchor = safeAreaLayoutGuide.trailingAnchor
+                topAnchor = safeAreaLayoutGuide.topAnchor
+                bottomAnchor = safeAreaLayoutGuide.bottomAnchor
+            } else {
+                leadingAnchor = self.leadingAnchor
+                trailingAnchor = self.trailingAnchor
+                topAnchor = self.topAnchor
+                bottomAnchor = self.bottomAnchor
+            }
+            
+            allLayoutConstraints = [view.leadingAnchor.constraint(equalTo: leadingAnchor),
+                                    view.trailingAnchor.constraint(equalTo: trailingAnchor),
+                                    view.topAnchor.constraint(equalTo: topAnchor),
+                                    view.bottomAnchor.constraint(equalTo: bottomAnchor)]
+        }
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override var intrinsicContentSize: CGSize {
+        // Allow 'self' to be sized based on autolayout constraints. Without
+        // this, the frame would have to be set manually.
+        return .zero
+    }
 }

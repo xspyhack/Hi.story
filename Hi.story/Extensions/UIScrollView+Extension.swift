@@ -15,20 +15,39 @@ extension Hi where Base: UIScrollView {
         return base.contentOffset.y == -base.contentInset.top
     }
     
-    func scrollsToTop(animated aimate: Bool = true) {
-        let topOffset = CGPoint(x: 0, y: -base.contentInset.top)
-        base.setContentOffset(topOffset, animated: aimate)
+    func scrollsToTop(animated: Bool = true) {
+
+        let offset: CGFloat
+        if #available(iOS 11.0, *) {
+            offset = base.adjustedContentInset.top
+        } else {
+            offset = base.contentInset.top
+        }
+
+        let topOffset = CGPoint(x: 0, y: -offset)
+        base.setContentOffset(topOffset, animated: animated)
     }
     
-    func scrollsToBottom(animated animate: Bool = true) {
-        let bottomOffset = CGPoint(x: 0, y: max(0, base.contentSize.height - base.bounds.height + base.contentInset.bottom))
-        base.setContentOffset(bottomOffset, animated: true)
+    func scrollsToBottom(animated: Bool = true) {
+        let offset: CGFloat
+        if #available(iOS 11.0, *) {
+            offset = base.adjustedContentInset.bottom
+        } else {
+            offset = base.contentInset.bottom
+        }
+
+        let bottomOffset = CGPoint(x: 0, y: max(0, base.contentSize.height - base.bounds.height + offset))
+        base.setContentOffset(bottomOffset, animated: animated)
     }
     
     func forcesStop() {
         //scrollEnabled = false
         //scrollEnabled = true
-        
+        if #available(iOS 11.0, *) {
+
+        } else {
+
+        }
         base.setContentOffset(base.contentOffset, animated: false)
     }
 }

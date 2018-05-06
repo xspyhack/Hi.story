@@ -8,6 +8,7 @@
 
 import UIKit
 import Hikit
+import Himemory
 import RealmSwift
 
 final class HistoryViewController: UIViewController {
@@ -27,10 +28,7 @@ final class HistoryViewController: UIViewController {
             collectionView.hi.register(reusableCell: EventItemCell.self)
             collectionView.hi.registerReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, viewType: HistoryHeaderView.self)
             collectionView.alwaysBounceVertical = true
-            collectionView.contentInset.top = Constant.navigationBarHeight
-            collectionView.scrollIndicatorInsets.top = Constant.navigationBarHeight
-            collectionView.contentInset.bottom = 64.0
-            collectionView.scrollIndicatorInsets.bottom = 64.0
+            collectionView.showsVerticalScrollIndicator = false
         }
     }
     
@@ -38,16 +36,19 @@ final class HistoryViewController: UIViewController {
     @IBOutlet private weak var promptedView: PromptedView! {
         didSet {
             promptedView.promptLabel.text = "Enable Hi.story to access your Photos/Reminders/Calendar in Hi.stroy App Settings to show you your memories of this day in history."
+            
+            promptedView.layer.cornerRadius = 10.0
         }
     }
     @IBOutlet private weak var analyzingView: UIView!
     
     @IBOutlet weak var loadingView: LoadingView!
-    fileprivate var histories: [[Timetable]] = []
+    private var histories: [[Timetable]] = []
+    
+    private var photos: [Photo] = []
     
     private struct Constant {
         static let promptedViewHeight: CGFloat = 128.0
-        static let navigationBarHeight: CGFloat = 64.0
     }
     
     override func viewDidLoad() {
@@ -103,11 +104,15 @@ final class HistoryViewController: UIViewController {
                     self?.group(datas.sorted(by: { $0.createdAt > $1.createdAt }))
                     
                     SafeDispatch.async { [weak self] in
-                        self?.collectionView.reloadData()
+//                        self?.collectionView.reloadData()
                         
                         hide { [weak self] in
                             self?.loadingView.alpha = 0.0
                         }
+                        
+                        let ph = self!.photos.map { Photograph(date: Date(timeIntervalSince1970: $0.createdAt), content: $0) }
+                        let vc = MemoriesViewController(viewModel: MemoriesViewModel(photos: ph))
+                        self?.navigationController?.present(vc, animated: true, completion: nil)
                     }
                 }
             }
@@ -139,6 +144,7 @@ final class HistoryViewController: UIViewController {
         if hi.isAuthorized(for: .photos) && Defaults.connectPhotos {
             needsAskForAuthorized = false
             let photos = fetchMoments(at: today)
+            self.photos = photos
             datas.append(contentsOf: (photos.map { $0 as Timetable }))
         } else {
             needsAskForAuthorized = true
@@ -201,7 +207,7 @@ final class HistoryViewController: UIViewController {
     }
     
     private func showsPromptedView() {
-        promptedViewTopConstraint.constant = Constant.navigationBarHeight
+        promptedViewTopConstraint.constant = 0.0 // Constant.navigationBarHeight
         
         UIView.animate(withDuration: 0.35) {
             self.view.layoutIfNeeded()
@@ -273,7 +279,7 @@ extension HistoryViewController: UICollectionViewDataSource {
         if kind == UICollectionElementKindSectionHeader {
             let header: HistoryHeaderView = collectionView.hi.dequeueReusableSupplementaryView(ofKind: kind, for: indexPath)
             var color = UIColor.hi.tint
-            if let tag = (theYears.flatMap { $0 as? Matter }).first?.tag, let value = Tag(rawValue: tag)?.value {
+            if let tag = (theYears.compactMap { $0 as? Matter }).first?.tag, let value = Tag(rawValue: tag)?.value {
                 color = UIColor(hex: value)
             } else if let year = Int(Date(timeIntervalSince1970: history.createdAt).hi.year) {
                 color = UIColor(hex: Tag.with(year).value)

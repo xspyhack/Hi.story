@@ -20,7 +20,7 @@ extension UIImage {
     
     static let ciContext = CIContext(options: nil)
     
-    static let ciContextFast = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES2), options: [kCIContextWorkingColorSpace: NSNull()])
+    static let ciContextFast = CIContext(eaglContext: EAGLContext(api: EAGLRenderingAPI.openGLES2)!, options: [kCIContextWorkingColorSpace: NSNull()])
 }
 
 extension Hi where Base: UIImage {
@@ -42,7 +42,7 @@ extension Hi where Base: UIImage {
             return base
         }
         
-        return UIImage(cgImage: filteredImageRef)
+        return Hi.image(cgImage: filteredImageRef, scale: scale, refImage: base)
     }
     
     func draw(cgImage: CGImage?, to size: CGSize, draw: () -> Void) -> UIImage {
@@ -65,7 +65,7 @@ extension UIImage {
         return tinted(color, blendMode: .overlay)
     }
     
-    fileprivate func tinted(_ tintColor: UIColor, blendMode: CGBlendMode) -> UIImage {
+    private func tinted(_ tintColor: UIColor, blendMode: CGBlendMode) -> UIImage {
         //We want to keep alpha, set opaque to NO; Use 0.0f for scale to use the scale factor of the device’s main screen.
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         tintColor.setFill()
@@ -265,8 +265,8 @@ extension Hi where Base: UIImage {
         let inDataPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: rowBytes * Int(h))
         inDataPointer.initialize(to: 0)
         defer {
-            inDataPointer.deinitialize()
-            inDataPointer.deallocate(capacity: rowBytes * Int(h))
+            inDataPointer.deinitialize(count: rowBytes * Int(h))
+            inDataPointer.deallocate()
         }
             
         let bitmapInfo = cgImage.bitmapInfo.fixed
@@ -290,8 +290,8 @@ extension Hi where Base: UIImage {
         let outDataPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: rowBytes * Int(h))
         outDataPointer.initialize(to: 0)
         defer {
-            outDataPointer.deinitialize()
-            outDataPointer.deallocate(capacity: rowBytes * Int(h))
+            outDataPointer.deinitialize(count: rowBytes * Int(h))
+            outDataPointer.deallocate()
         }
             
         var outBuffer = vImage_Buffer(data: outDataPointer, height: vImagePixelCount(h), width: vImagePixelCount(w), rowBytes: rowBytes)

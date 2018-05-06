@@ -44,23 +44,23 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var headerView: UIView!
+    @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var coverImageView: UIImageView!
-    @IBOutlet fileprivate weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var headerViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet fileprivate weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet private weak var segmentedControl: UISegmentedControl!
-    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var bioLabel: UILabel!
     
-    @IBOutlet fileprivate weak var bioContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var bioContainerHeightConstraint: NSLayoutConstraint!
     
-    fileprivate var headerHeight: CGFloat = 0.0
-    fileprivate var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
+    private var headerHeight: CGFloat = 0.0
+    private var bioHeight: CGFloat = UIFont.systemFont(ofSize: 22.0).lineHeight
     
-    fileprivate lazy var blurEffect = UIBlurEffect(style: .light)
+    private lazy var blurEffect = UIBlurEffect(style: .light)
     
-    @IBOutlet fileprivate weak var blurEffectView: UIVisualEffectView! {
+    @IBOutlet private weak var blurEffectView: UIVisualEffectView! {
         didSet {
             blurEffectView.effect = blurEffect
         }
@@ -69,8 +69,8 @@ final class ProfileViewController: BaseViewController {
     @IBOutlet private weak var newItem: UIBarButtonItem! // right item
     @IBOutlet private weak var toolbar: UIToolbar!
     
-    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
-    fileprivate struct Constant {
+    @IBOutlet weak var toolbarTopConstraint: NSLayoutConstraint!
+    private struct Constant {
         static let gap: CGFloat = 24.0
         static let padding: CGFloat = 32.0
         static let numberOfRow = 2
@@ -146,13 +146,13 @@ final class ProfileViewController: BaseViewController {
     }()
     
     private var viewDidAppear: Bool = false
-    fileprivate var isEditingStorybook: Bool = false
+    private var isEditingStorybook: Bool = false
+    private var isReloading: Bool = false
     
-    fileprivate var storybooks: [Storybook] = []
+    private var storybooks: [Storybook] = []
     
     // Matters
     
-    private let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>()
     private var mattersViewModel: MattersViewModel?
     
     private struct Listener {
@@ -161,7 +161,7 @@ final class ProfileViewController: BaseViewController {
         static let bio = "Profile.bio"
     }
     
-    fileprivate var realm: Realm!
+    private var realm: Realm!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,14 +182,14 @@ final class ProfileViewController: BaseViewController {
             }
             
             HiUserDefaults.avatar.bindAndFireListener(with: Listener.avatar) { [weak self] avatarURLString in
-                self?.avatarImageView.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
+                self?.avatarImageView.hi.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2))
             }
         
             settingsItem.rx.tap
                 .subscribe(onNext: { [weak self] in
                     self?.tryToShowEditProfile()
                 })
-                .addDisposableTo(disposeBag)
+                .disposed(by: disposeBag)
             
             newItem.rx.tap
                 .filter { [unowned self] in self.channel == .storybook }
@@ -212,7 +212,7 @@ final class ProfileViewController: BaseViewController {
                         self?.storybookCollectionView.hi.scrollsToBottom(animated: true)
                     }
                 })
-                .addDisposableTo(disposeBag)
+                .disposed(by: disposeBag)
             
             editItem.rx.tap
                 .subscribe(onNext: { [weak self] in
@@ -231,14 +231,21 @@ final class ProfileViewController: BaseViewController {
                     generator.prepare()
                     generator.impactOccurred()
                     
+                    sSelf.isReloading = true
+                    
                     sSelf.storybookCollectionView.reloadData()
+                    
+                    // reset on next runloop
+                    doInNextRunLoop {
+                        sSelf.isReloading = false
+                    }
                 })
-                .addDisposableTo(disposeBag)
+                .disposed(by: disposeBag)
             
         } else {
             navigationItem.title = viewModel.user.nickname
             bioLabel.text = viewModel.user.bio
-            avatarImageView.setImage(with: URL(string: viewModel.user.avatarURLString), placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
+            avatarImageView.hi.setImage(with: URL(string: viewModel.user.avatarURLString), placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2))
         }
         
         segmentedControl.rx.value
@@ -246,7 +253,7 @@ final class ProfileViewController: BaseViewController {
             .subscribe(onNext: { [weak self] index in
                 self?.channel = Channel(rawValue: index)!
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         if let flowLayout = storybookCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.minimumLineSpacing = Constant.gap
@@ -267,31 +274,31 @@ final class ProfileViewController: BaseViewController {
         
         let mattersViewModel = MattersViewModel(with: viewModel.user.id, realm: realm)
         
-        dataSource.configureCell = { _, tableView, indexPath, viewModel in
+        let dataSource = RxTableViewSectionedReloadDataSource<MattersViewSection>(configureCell: { dataSource, tableView, indexPath, viewModel -> UITableViewCell in
             let cell: MatterCell = tableView.hi.dequeueReusableCell(for: indexPath)
             cell.configure(withPresenter: viewModel)
             return cell
-        }
+        })
         
         mattersViewModel.sections
             .drive(matterTableView.rx.items(dataSource: dataSource))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         matterTableView.rx.itemSelected
             .bind(to: mattersViewModel.itemDidSelect)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         mattersViewModel.itemDidDeselect
             .drive(onNext: { [weak self] indexPath in
                 self?.matterTableView.deselectRow(at: indexPath, animated: true)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         mattersViewModel.showMatterViewModel
             .drive(onNext: { [weak self] viewModel in
                 self?.performSegue(withIdentifier: .showMatter, sender: Wrapper<MatterViewModel>(bullet: viewModel))
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
     }
     
@@ -316,7 +323,14 @@ final class ProfileViewController: BaseViewController {
             return
         }
 
-        toolbarBottomConstraint.constant = show ? 0 : -Constant.bottomToolbarHeight
+        if #available(iOS 11.0, *) {
+            toolbarTopConstraint = NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: show ? -Constant.bottomToolbarHeight : 0.0)
+        } else {
+            toolbarTopConstraint = NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: show ? -Constant.bottomToolbarHeight : 0.0)
+        }
+        
+        toolbarTopConstraint.isActive = true
+        
         if animated {
             UIView.animate(withDuration: 0.25) {
                 self.view.layoutIfNeeded()
@@ -326,7 +340,7 @@ final class ProfileViewController: BaseViewController {
         }
     }
     
-    fileprivate func updateStorybooks() {
+    private func updateStorybooks() {
         guard let viewModel = viewModel else { return }
     
         // 这里取出来的 Story 有可能是 Draft，即没有 publish
@@ -334,7 +348,7 @@ final class ProfileViewController: BaseViewController {
         storybooks = StorybookService.shared.fetchAll(withPredicate: predicate, fromRealm: realm)
     }
     
-    fileprivate func reloadStorybooks() {
+    private func reloadStorybooks() {
         SafeDispatch.async { [weak self] in
             self?.storybookCollectionView.reloadData()
         }
@@ -422,7 +436,7 @@ extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? StorybookCell, let storybook = storybooks.safe[indexPath.item] else { return }
         
-        let storybookCellModel = StorybookCellModel(storybook: storybook)
+        let storybookCellModel = StorybookCellModel(storybook: storybook, fadeIn: !isReloading)
         cell.configure(withPresenter: storybookCellModel)
         cell.isEditing = isEditingStorybook && storybook.name != Configuration.Defaults.storybookName
         

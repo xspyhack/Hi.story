@@ -8,6 +8,7 @@
 
 import UIKit
 import Hikit
+import Hiprelude
 
 final class TabBarController: UITabBarController {
     
@@ -25,7 +26,11 @@ final class TabBarController: UITabBarController {
         }
     }()
     
-    fileprivate var previousTab: Tab = .home
+    var selectedNavigationController: UINavigationController {
+        return self.selectedViewController as! UINavigationController
+    }
+    
+    private var previousTab: Tab = .home
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,20 +52,6 @@ final class TabBarController: UITabBarController {
             item.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
             item.title = nil
         }
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        var tabBarFrame = tabBar.frame
-        tabBarFrame.size.height = Defaults.tabBarHeight
-        tabBarFrame.origin.y = view.frame.height - Defaults.tabBarHeight
-        tabBar.frame = tabBarFrame
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 

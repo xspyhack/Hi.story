@@ -21,7 +21,7 @@ struct DetailsViewModel {
     
     init(body: String, created: TimeInterval, updated: TimeInterval, location: LocationInfo? = nil) {
         self.words = body.hi.words.count
-        self.chars = body.characters.count
+        self.chars = body.count
         self.created = "CREATED " + Date(timeIntervalSince1970: created).hi.dmyAtHourMinute
         self.updated = "UPDATED " + Date(timeIntervalSince1970: updated).hi.dmyAtHourMinute
         self.location = location
@@ -30,7 +30,7 @@ struct DetailsViewModel {
     
     init(story: Story) {
         self.words = story.body.hi.words.count
-        self.chars = story.body.characters.count
+        self.chars = story.body.count
         self.created = "CREATED " + Date(timeIntervalSince1970: story.createdAt).hi.dmyAtHourMinute
         self.updated = "UPDATED " + Date(timeIntervalSince1970: story.updatedAt).hi.dmyAtHourMinute
         self.location = story.location.flatMap {

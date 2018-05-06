@@ -23,7 +23,7 @@ extension Reactive where Base: UIControl {
                 }
                 .startWith(getter(existingSelf))
         }
-        return ControlProperty(values: values, valueSink: UIBindingObserver(UIElement: control) { control, value in
+        return ControlProperty(values: values, valueSink: Binder(control) { control, value in
             setter(control, value)
         })
     }
@@ -34,7 +34,7 @@ extension Reactive where Base: UIButton {
     /**
      Reactive wrapper for `isSelected` property.
      */
-    public var isSelected: ControlProperty<Bool> {
+    public var selected: ControlProperty<Bool> {
         return UIControl.rx.valuePublic(
             self.base,
             getter: { uiButton in

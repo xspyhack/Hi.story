@@ -33,15 +33,13 @@ final class DraftsViewController: BaseViewController {
         return view
     }()
     
-    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+    private lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height
         return manager
     }()
-
-    private let dataSource = RxTableViewSectionedReloadDataSource<DraftsViewSection>()
     
-    fileprivate var viewModel: DraftsViewModel? // Reference it!!
+    private var viewModel: DraftsViewModel? // Reference it!!
     
     private struct Constant {
         static let rowHeight: CGFloat = 148.0
@@ -64,14 +62,14 @@ final class DraftsViewController: BaseViewController {
                 self?.isEditing = !editing
                 self?.tableView.setEditing(!editing, animated: true)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         guard let realm = try? Realm() else { return }
         
         let viewModel = DraftsViewModel(realm: realm)
         self.viewModel = viewModel
        
-        dataSource.configureCell = { _, tableView, indexPath, viewModel in
+        let dataSource = RxTableViewSectionedReloadDataSource<DraftsViewSection>(configureCell: { _, tableView, indexPath, viewModel in
             if viewModel.hasAttachment {
                 let cell: DraftImageCell = tableView.hi.dequeueReusableCell(for: indexPath)
                 cell.configure(withPresenter: viewModel)
@@ -81,40 +79,40 @@ final class DraftsViewController: BaseViewController {
                 cell.configure(withPresenter: viewModel)
                 return cell
             }
-        }
+        })
         
         viewModel.sections
             .drive(tableView.rx.items(dataSource: dataSource))
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.editDraft
             .drive(onNext: { [weak self] viewModel in
                 self?.performSegue(withIdentifier: .presentNewFeed, sender: viewModel)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.empty
             .map { !$0 }
             .drive(emptyView.rx.isHidden)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.empty
             .map { !$0 }
             .drive(editButtonItem.rx.isEnabled)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
        
         tableView.rx.itemDeleted
             .bind(to: viewModel.itemDeleted)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
             .bind(to: viewModel.itemDidSelect)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         tableView.rx.enablesAutoDeselect()
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
-        dataSource.canEditRowAtIndexPath = { _ in
+        dataSource.canEditRowAtIndexPath = { _, _ -> Bool in
             return true
         }
     }

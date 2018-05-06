@@ -11,7 +11,7 @@ import Hikit
 
 extension Hi where Base == String {
     
-    fileprivate enum FileKey: UInt {
+    private enum FileKey: UInt {
         case record
         case programsList
         case hadCachedProgramsList

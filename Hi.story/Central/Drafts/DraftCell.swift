@@ -11,14 +11,14 @@ import Hikit
 
 final class DraftCell: UITableViewCell, Reusable {
     
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.title
-        label.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightBold)
+        label.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.bold)
         return label
     }()
     
-    fileprivate lazy var contentLabel: UILabel = {
+    private lazy var contentLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.body
         label.font = UIFont.systemFont(ofSize: 14.0)
@@ -26,7 +26,7 @@ final class DraftCell: UITableViewCell, Reusable {
         return label
     }()
     
-    fileprivate lazy var updatedAtLabel: UILabel = {
+    private lazy var updatedAtLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.description
         label.font = UIFont.systemFont(ofSize: 12.0)
@@ -50,12 +50,12 @@ final class DraftCell: UITableViewCell, Reusable {
         
         contentView.addSubview(contentLabel)
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow - 1, for: .vertical)
-        contentLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow - 1, for: .vertical)
+        contentLabel.setContentHuggingPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)), for: .vertical)
+        contentLabel.setContentCompressionResistancePriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)), for: .vertical)
         
         contentView.addSubview(updatedAtLabel)
         updatedAtLabel.translatesAutoresizingMaskIntoConstraints = false
-        updatedAtLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        updatedAtLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .vertical)
         
         let views: [String: Any] = [
             "titleLabel": titleLabel,

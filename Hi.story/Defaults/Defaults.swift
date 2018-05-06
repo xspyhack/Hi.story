@@ -8,6 +8,7 @@
 
 import UIKit
 import Hikit
+import Hiprelude
 
 struct Defaults {
     
@@ -58,7 +59,9 @@ struct Defaults {
     
     static let presentedViewControllerHeight: CGFloat = 440.0
     
-    static let statusBarHeight: CGFloat = 20.0
+    static var statusBarHeight: CGFloat {
+        return UIApplication.shared.statusBarFrame.height
+    }
     
     static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 60.0
     
@@ -206,12 +209,4 @@ struct Defaults {
             userDefaults.set(index, forKey: Key.selectingCover)
         }
     }()
-}
-
-class Wrapper<T> {
-    let candy: T
-    
-    init(bullet: T) {
-        self.candy = bullet
-    }
 }

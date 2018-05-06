@@ -12,6 +12,7 @@ import RealmSwift
 import WatchConnectivity
 import CoreSpotlight
 import UserNotifications
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -36,6 +37,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Launcher.hi()
                 Defaults.sayHi = true
             }
+        }
+        
+        if let window = window {
+            let coordinator = AppCoordinator(rootWindow: window)
+            coordinator.loadRoutes()
         }
         
         // Appearence
@@ -212,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) {
         
         if let window = window {
-            tryToHandleQuickAction(shortcutItem: shortcutItem, inWindow: window)
+            tryHandleQuickAction(shortcutItem: shortcutItem, inWindow: window)
         }
     }
 }

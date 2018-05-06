@@ -26,7 +26,7 @@ final class TitleInputableCell: UITableViewCell, Reusable {
         return textField
     }()
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,7 +38,7 @@ final class TitleInputableCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         textLabel?.textColor = UIColor.hi.title
         
@@ -46,7 +46,7 @@ final class TitleInputableCell: UITableViewCell, Reusable {
             .subscribe(onNext: { [weak self] text in
                 self?.changedAction?(text.hi.trimming(.whitespaceAndNewline))
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         contentView.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +99,7 @@ final class InputableCell: UITableViewCell, Reusable {
         return textField
     }()
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -111,7 +111,7 @@ final class InputableCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         textLabel?.textColor = UIColor.hi.title
         
@@ -119,10 +119,10 @@ final class InputableCell: UITableViewCell, Reusable {
             .subscribe(onNext: { [weak self] text in
                 self?.changedAction?(text.hi.trimming(.whitespaceAndNewline))
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        titleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
         
         contentView.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -171,7 +171,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         return label
     }()
     
-    fileprivate let textViewMinixumHeight: CGFloat = 30.0
+    private let textViewMinixumHeight: CGFloat = 30.0
     static let minixumHeight: CGFloat = 16 + 30 + 10 + 30 + 20
     
     lazy var textView: UITextView = {
@@ -188,7 +188,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         return textView
     }()
     
-    fileprivate var textViewHeightConstraint: NSLayoutConstraint!
+    private var textViewHeightConstraint: NSLayoutConstraint!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -200,7 +200,7 @@ final class InfoInputableCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         textLabel?.textColor = UIColor.hi.title
         

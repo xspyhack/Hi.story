@@ -11,14 +11,14 @@ import Hikit
 
 final class DraftImageCell: UITableViewCell, Reusable {
     
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.title
-        label.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightBold)
+        label.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.bold)
         return label
     }()
     
-    fileprivate lazy var contentLabel: UILabel = {
+    private lazy var contentLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.body
         label.font = UIFont.systemFont(ofSize: 14.0)
@@ -26,14 +26,14 @@ final class DraftImageCell: UITableViewCell, Reusable {
         return label
     }()
     
-    fileprivate lazy var updatedAtLabel: UILabel = {
+    private lazy var updatedAtLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.description
         label.font = UIFont.systemFont(ofSize: 12.0)
         return label
     }()
     
-    fileprivate lazy var thumbnailImageView: UIImageView = {
+    private lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -59,8 +59,8 @@ final class DraftImageCell: UITableViewCell, Reusable {
         
         contentView.addSubview(bodyView)
         bodyView.translatesAutoresizingMaskIntoConstraints = false
-        bodyView.setContentHuggingPriority(UILayoutPriorityDefaultLow - 1, for: .vertical)
-        bodyView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow - 1, for: .vertical)
+        bodyView.setContentHuggingPriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)), for: .vertical)
+        bodyView.setContentCompressionResistancePriority(UILayoutPriority(rawValue: UILayoutPriority.RawValue(Int(UILayoutPriority.defaultLow.rawValue) - 1)), for: .vertical)
         
         bodyView.addSubview(contentLabel)
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +70,7 @@ final class DraftImageCell: UITableViewCell, Reusable {
         
         bodyView.addSubview(updatedAtLabel)
         updatedAtLabel.translatesAutoresizingMaskIntoConstraints = false
-        updatedAtLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        updatedAtLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .vertical)
         
         
         let views: [String: Any] = [

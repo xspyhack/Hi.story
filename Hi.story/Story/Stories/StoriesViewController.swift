@@ -32,7 +32,7 @@ final class StoriesViewController: BaseViewController {
     }
     weak var delegate: StoriesViewControllerDelegate?
     
-    fileprivate lazy var emptyView: EmptyView = {
+    private lazy var emptyView: EmptyView = {
         let view = EmptyView(frame: .zero)
         view.backgroundColor = UIColor.white
         view.isHidden = true
@@ -55,7 +55,7 @@ final class StoriesViewController: BaseViewController {
                     self?.isEditing = !editing
                     self?.tableView.setEditing(!editing, animated: true)
                 })
-                .addDisposableTo(disposeBag)
+                .disposed(by: disposeBag)
         }
         
         setupEmptyView()

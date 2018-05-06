@@ -21,14 +21,14 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         }
     }
     
-    fileprivate lazy var outerView: UIView = {
+    private lazy var outerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = Constant.outerSize.width / 2.0
         return view
     }()
 
-    fileprivate lazy var gapView: UIView = {
+    private lazy var gapView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = Constant.gapSize.width / 2.0
@@ -36,14 +36,14 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         return view
     }()
     
-    fileprivate lazy var innerView: UIView = {
+    private lazy var innerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = Constant.innerSize.width / 2.0
         return view
     }()
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let outerSize = CGSize(width: 16.0, height: 16.0)
         static let gapSize = CGSize(width: 14.0, height: 14.0)
         static let innerSize = CGSize(width: 10.0, height: 10.0)
@@ -59,7 +59,7 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         contentView.addSubview(outerView)
         contentView.addSubview(gapView)
@@ -78,13 +78,13 @@ final class TagItemCell: UICollectionViewCell, Reusable {
         NSLayoutConstraint.activate(makeCenter(item: innerView))
     }
     
-    fileprivate func makeSize(item: UIView, constant: CGSize) -> [NSLayoutConstraint] {
+    private func makeSize(item: UIView, constant: CGSize) -> [NSLayoutConstraint] {
         let width = NSLayoutConstraint(item: item, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: constant.width)
         let height =  NSLayoutConstraint(item: item, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: constant.height)
         return [width, height]
     }
     
-    fileprivate func makeCenter(item: UIView) -> [NSLayoutConstraint] {
+    private func makeCenter(item: UIView) -> [NSLayoutConstraint] {
         let centerX = NSLayoutConstraint(item: item, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0)
         let centerY = NSLayoutConstraint(item: item, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0)
         return [centerX, centerY]
@@ -111,11 +111,11 @@ final class TagCell: UITableViewCell, Reusable {
         return label
     }()
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let margin: CGFloat = 20.0
     }
     
-    fileprivate lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
         flowLayout.minimumLineSpacing = 0.0
@@ -140,7 +140,7 @@ final class TagCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         collectionView.hi.register(reusableCell: TagItemCell.self)
         
@@ -231,7 +231,7 @@ final class DisclosureCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
 
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -254,8 +254,8 @@ final class NewMatterViewController: BaseViewController {
     
     var viewModel: NewMatterViewModel?
 
-    @IBOutlet fileprivate weak var navigationBar: UINavigationBar!
-    @IBOutlet fileprivate weak var tableView: TPKeyboardAvoidingTableView! {
+    @IBOutlet private weak var navigationBar: UINavigationBar!
+    @IBOutlet private weak var tableView: TPKeyboardAvoidingTableView! {
         didSet {
             tableView.hi.register(reusableCell: TitleInputableCell.self)
             tableView.hi.register(reusableCell: InfoInputableCell.self)
@@ -265,18 +265,18 @@ final class NewMatterViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var cancelItem: UIBarButtonItem!
-    @IBOutlet fileprivate weak var postItem: UIBarButtonItem!
+    @IBOutlet private weak var cancelItem: UIBarButtonItem!
+    @IBOutlet private weak var postItem: UIBarButtonItem!
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let pickerRowHeight: CGFloat = 200.0
     }
     
-    fileprivate var notesRowHeight: CGFloat = 120.0
+    private var notesRowHeight: CGFloat = 120.0
     
-    fileprivate let generator = UISelectionFeedbackGenerator()
+    private let generator = UISelectionFeedbackGenerator()
     
-    fileprivate var pickedDate: Date = Date() {
+    private var pickedDate: Date = Date() {
         willSet {
             guard newValue != pickedDate else { return }
             
@@ -289,15 +289,15 @@ final class NewMatterViewController: BaseViewController {
         }
     }
     
-    fileprivate var subject: Variable<String> = Variable("")
+    private var subject: Variable<String> = Variable("")
     
-    fileprivate var tag: Variable<Tag> = Variable(.none)
+    private var tag: Variable<Tag> = Variable(.none)
     
-    fileprivate var datePickerIndexPath: IndexPath?
+    private var datePickerIndexPath: IndexPath?
     
     private var happenedDate: Variable<Date> = Variable(Date())
     
-    fileprivate var body: Variable<String> = Variable("")
+    private var body: Variable<String> = Variable("")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -315,38 +315,38 @@ final class NewMatterViewController: BaseViewController {
         
         cancelItem.rx.tap
             .bind(to: viewModel.cancelAction)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         postItem.rx.tap
             .bind(to: viewModel.postAction)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.postButtonEnabled
             .drive(self.postItem.rx.isEnabled)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.dismissViewController
             .drive(onNext: { [weak self] in
                 self?.view.endEditing(true)
                 self?.dismiss(animated: true, completion: nil)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         subject.asObservable()
             .bind(to: viewModel.title)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         tag.asObservable()
             .bind(to: viewModel.tag)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         happenedDate.asObservable()
             .bind(to: viewModel.happenedAt)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         body.asObservable()
             .bind(to: viewModel.body)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         generator.prepare()
         
@@ -359,11 +359,11 @@ final class NewMatterViewController: BaseViewController {
     
     // MARK: Picker
     
-    fileprivate func hasInlineDatePicker() -> Bool {
+    private func hasInlineDatePicker() -> Bool {
         return datePickerIndexPath != nil
     }
     
-    fileprivate func indexPathHasPicker(_ indexPath: IndexPath) -> Bool {
+    private func indexPathHasPicker(_ indexPath: IndexPath) -> Bool {
         return (hasInlineDatePicker() && datePickerIndexPath?.row == indexPath.row)
     }
     
@@ -396,12 +396,12 @@ final class NewMatterViewController: BaseViewController {
         tableView.endUpdates()
     }
     
-    fileprivate func displayInlineDatePicker(for indexPath: IndexPath) {
+    private func displayInlineDatePicker(for indexPath: IndexPath) {
         
         toggleDatePicker(for: indexPath)
     }
     
-    fileprivate func hideInlineDatePicker() {
+    private func hideInlineDatePicker() {
         
         if hasInlineDatePicker(), let indexPath = datePickerIndexPath {
             
@@ -417,7 +417,7 @@ final class NewMatterViewController: BaseViewController {
 
 extension NewMatterViewController: UITableViewDataSource {
     
-    fileprivate enum Section: Int {
+    private enum Section: Int {
         case title = 0
         case tag
         case when

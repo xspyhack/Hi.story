@@ -21,7 +21,7 @@ struct PhotoItemCellModel: PhotoItemCellModelType {
 
 class PhotoItemCell: HistoryItemCell, Reusable {
    
-    fileprivate lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView

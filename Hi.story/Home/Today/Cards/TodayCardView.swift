@@ -30,8 +30,8 @@ class TodayCardView: UIView {
     private func setup() {
         backgroundColor = UIColor.clear
         layer.shadowRadius = 12.0
-        layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.05).cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
         layer.masksToBounds = false
         layer.shadowOpacity = 1.0
     }

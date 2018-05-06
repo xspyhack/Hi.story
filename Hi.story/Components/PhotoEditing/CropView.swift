@@ -256,7 +256,7 @@ class CropView: UIView {
     // MARK: Private 
     /* Views */
     private lazy var backgroundImageView: UIImageView = UIImageView(image: self.image)     /* The main image view, placed within the scroll view */
-    fileprivate var backgroundContainerView: UIView!       /* A view which contains the background image view, to separate its transforms from the scroll view. */
+    private var backgroundContainerView: UIView!       /* A view which contains the background image view, to separate its transforms from the scroll view. */
     private lazy var foregroundImageView: UIImageView = UIImageView(image: self.image)     /* A copy of the background image view, placed over the dimming views */
     private lazy var foregroundContainerView: UIView = {
         let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 200.0, height: 200.0))
@@ -309,7 +309,7 @@ class CropView: UIView {
     //}()
     
     /* Gesture Recognizers */
-    fileprivate lazy var gridPanGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer() /* The gesture recognizer in charge of controlling the resizing of the crop view */
+    private lazy var gridPanGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer() /* The gesture recognizer in charge of controlling the resizing of the crop view */
     
     /* Crop box handling */
     private var applyInitialCroppedImageFrame = false /* No by default, when setting initialCroppedImageFrame this will be set to YES, and set back to NO after first application - so it's only done once */
@@ -359,8 +359,8 @@ class CropView: UIView {
     private var applyInitialRotatedAngle: Bool = false /* No by default, when setting initialRotatedAngle this will be set to YES, and set back to NO after first application - so it's only done once */
     private var cropBoxLastEditedSize: CGSize = .zero /* When performing 90-degree rotations, remember what our last manual size was to use that as a base */
     private var cropBoxLastEditedAngle: Int = 0 /* Remember which angle we were at when we saved the editing size */
-    fileprivate var cropBoxLastEditedZoomScale: CGFloat = 0.0 /* Remember the zoom size when we last edited */
-    fileprivate var cropBoxLastEditedMinZoomScale: CGFloat = 0.0 /* Remember the minimum size when we last edited. */
+    private var cropBoxLastEditedZoomScale: CGFloat = 0.0 /* Remember the zoom size when we last edited */
+    private var cropBoxLastEditedMinZoomScale: CGFloat = 0.0 /* Remember the minimum size when we last edited. */
     private var isRotateAnimationInProgress: Bool = false   /* Disallow any input while the rotation animation is playing */
     
     /* Reset state data */
@@ -549,7 +549,7 @@ class CropView: UIView {
         matchForegroundToBackground()
     }
     
-    fileprivate func checkForCanReset() {
+    private func checkForCanReset() {
         
         if self.angle != 0 { //Image has been rotated
             canBeReset = true
@@ -574,7 +574,7 @@ class CropView: UIView {
         cropBoxLastEditedMinZoomScale = scrollView.minimumZoomScale
     }
     
-    fileprivate func matchForegroundToBackground() {
+    private func matchForegroundToBackground() {
         guard !isDisableForgroundMatching else { return }
         
         //We can't simply match the frames since if the images are rotated, the frame property becomes unusable
@@ -625,7 +625,7 @@ class CropView: UIView {
         }
     }
     
-    fileprivate func startEditing() {
+    private func startEditing() {
         cancelResetTimer()
         setEditing(true, animated: true)
     }
@@ -946,7 +946,7 @@ class CropView: UIView {
     
     // MARK: Timer
     
-    fileprivate func startResetTimer() {
+    private func startResetTimer() {
         guard resetTimer == nil else {
             return
         }
@@ -965,7 +965,7 @@ class CropView: UIView {
         resetTimer = nil
     }
     
-    func transform(_ transformer: ImageTransformer) {
+    func transform(with transformer: ImageTransformer) {
         
         let filteredImage = image?.hi.apply(transformer)
         foregroundImageView.image = filteredImage

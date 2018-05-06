@@ -58,7 +58,7 @@ struct Launcher {
         team.bio = "We craft *cool* things"
         if let image = UIImage.hi.hiTeamAvatar {
             let key = URL.hi.imageURL(withPath: "hiteam").absoluteString
-            CacheService.shared.store(image, forKey: key)
+            ImageCache.shared.store(image, forKey: key)
             team.avatarURLString = key
         }
         team.createdAt = Date.hi.date(with: "2015-08-20", format: "yyyy-MM-dd")!.timeIntervalSince1970
@@ -128,7 +128,7 @@ struct Launcher {
         author.bio = "megumi soft"
         if let image = UIImage.hi.authorAvatar {
             let key = URL.hi.imageURL(withPath: "author").absoluteString
-            CacheService.shared.store(image, forKey: key)
+            ImageCache.shared.store(image, forKey: key)
             author.avatarURLString = key
         }
         author.createdAt = Date.hi.date(with: "2333-3-13", format: "yyyy-MM-dd")!.timeIntervalSince1970

@@ -80,7 +80,7 @@ struct Tint: ImageTransformer {
             let filter = CIFilter(name: "CISourceOverCompositing")!
             filter.setValue(colorImage, forKey: kCIInputImageKey)
             filter.setValue(image, forKey: kCIInputBackgroundImageKey)
-            return filter.outputImage?.cropping(to: image.extent)
+            return filter.outputImage?.cropped(to: image.extent)
         }
     }
 }
@@ -290,11 +290,11 @@ final class PhotoEditingToolbar: UIView {
         static let presetGap: CGFloat = 4.0
     }
     
-    fileprivate var ratioes: [AspectRatioPreset] = [
+    private var ratioes: [AspectRatioPreset] = [
         ._3x2, ._4x3, .square, ._3x4, ._4x5, ._16x9
     ]
     
-    fileprivate var filters: [Filter] = Filter.all
+    private var filters: [Filter] = Filter.all
     
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()

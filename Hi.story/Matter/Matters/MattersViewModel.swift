@@ -23,7 +23,7 @@ protocol MattersViewModelType {
 
 typealias MattersViewSection = SectionModel<String, MatterCellModelType>
 
-fileprivate enum Section: Int {
+private enum Section: Int {
     case comming
     case past
     
@@ -116,7 +116,7 @@ struct MattersViewModel: MattersViewModelType {
                     }
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.showMatterViewModel = self.itemDidSelect
             .map { indexPath in
@@ -154,7 +154,7 @@ struct MattersViewModel: MattersViewModelType {
                 
                 update(matters.value)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         Matter.didDelete
             .subscribe(onNext: { matter in
@@ -165,7 +165,7 @@ struct MattersViewModel: MattersViewModelType {
                     update(matters.value)
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
 }

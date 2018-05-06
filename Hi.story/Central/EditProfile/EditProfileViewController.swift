@@ -16,7 +16,7 @@ import RealmSwift
 final class EditProfileViewController: BaseViewController {
 
     @IBOutlet weak var promptLabelBottomConstraint: NSLayoutConstraint!
-    @IBOutlet fileprivate weak var promptLabel: UILabel!
+    @IBOutlet private weak var promptLabel: UILabel!
     @IBOutlet private weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -27,15 +27,15 @@ final class EditProfileViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet fileprivate weak var avatarImageView: UIImageView! {
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var avatarImageView: UIImageView! {
         didSet {
             let tapRecognizer = UITapGestureRecognizer()
             tapRecognizer.rx.event
                 .subscribe(onNext: { [weak self] _ in
                     self?.pickPhoto()
                 })
-                .addDisposableTo(disposeBag)
+                .disposed(by: disposeBag)
             avatarImageView.addGestureRecognizer(tapRecognizer)
         }
     }
@@ -55,11 +55,11 @@ final class EditProfileViewController: BaseViewController {
         static let avatarSize = CGSize(width: 100.0, height: 100.0)
     }
     
-    fileprivate var avatarIsDirty = false
-    fileprivate var profileIsDirty = Variable(false)
-    fileprivate var usernameAvailable = Variable(true)
+    private var avatarIsDirty = false
+    private var profileIsDirty = Variable(false)
+    private var usernameAvailable = Variable(true)
     
-    fileprivate lazy var doneItem: UIBarButtonItem = {
+    private lazy var doneItem: UIBarButtonItem = {
         let doneItem = UIBarButtonItem()
         doneItem.title = "Done"
         doneItem.style = .done
@@ -69,9 +69,9 @@ final class EditProfileViewController: BaseViewController {
     
     private let keyboardMan = KeyboardMan()
     
-    fileprivate var username: String?
-    fileprivate var nickname: String?
-    fileprivate var bio: String?
+    private var username: String?
+    private var nickname: String?
+    private var bio: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +80,7 @@ final class EditProfileViewController: BaseViewController {
         navigationItem.rightBarButtonItem = doneItem
         
         let avatar = HiUserDefaults.avatar.value
-        avatarImageView.setImage(with: avatar.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+        avatarImageView.hi.setImage(with: avatar.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width))
        
         doneItem.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -118,14 +118,14 @@ final class EditProfileViewController: BaseViewController {
                 generator.prepare()
                 generator.impactOccurred()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         Observable.combineLatest(profileIsDirty.asObservable(), usernameAvailable.asObservable()) { dirty, available in
                 dirty || available
             }
             .skip(1) // Skip the first time
             .bind(to: doneItem.rx.isEnabled)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
             self?.promptLabelBottomConstraint.constant = keyboardHeight
@@ -202,10 +202,10 @@ final class EditProfileViewController: BaseViewController {
         
         let url = URL.hi.imageURL(withPath: Date().hi.timestamp)
         if let image = avatarImageView.image {
-            CacheService.shared.store(image, forKey: url.absoluteString)
+            ImageCache.shared.store(image, forKey: url.absoluteString)
             return url
         } else {
-            CacheService.shared.removeIfExisting(forKey: url.absoluteString)
+            ImageCache.shared.remove(forKey: url.absoluteString)
             return nil
         }
     }
@@ -262,16 +262,16 @@ extension EditProfileViewController: UITableViewDataSource {
                     self.username = newValue
                     let invalided = ValidationService.validate(username: newValue)
                         .observeOn(MainScheduler.asyncInstance)
-                        .shareReplay(1)
+                        .share(replay: 1)
                     
                     invalided
                         .bind(to: self.promptLabel.rx.validationResult)
-                        .addDisposableTo(cell.rx.prepareForReuseBag)
+                        .disposed(by: cell.rx.prepareForReuseBag)
                     
                     invalided
                         .map { $0.isValid }
                         .bind(to: self.usernameAvailable)
-                        .addDisposableTo(cell.rx.prepareForReuseBag)
+                        .disposed(by: cell.rx.prepareForReuseBag)
                
                 }
                 cell.didEndInputingAction = { [weak self] in
@@ -382,8 +382,8 @@ extension EditProfileViewController: PhotoEditingViewControllerDelegate {
 }
 
 extension Reactive where Base: UILabel {
-    var validationResult: UIBindingObserver<Base, ValidationResult> {
-        return UIBindingObserver(UIElement: base) { label, result in
+    var validationResult: Binder<ValidationResult> {
+        return Binder(self.base) { label, result in
             label.textColor = result.textColor
             label.text = result.description
         }

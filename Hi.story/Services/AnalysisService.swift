@@ -8,6 +8,7 @@
 
 import Foundation
 import Hikit
+import Hicache
 import RealmSwift
 import Proposer
 
@@ -24,9 +25,9 @@ public func analyzing(finish: (([Timetable], URL?) -> Void)? = nil) {
     let feeds: [Feed] = FeedService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { $0.monthDay == today.hi.monthDay }
     datas.append(contentsOf: (feeds.map { $0 as Timetable }))
     
-    let url = (feeds.flatMap { $0.story }.filter { $0.attachment != nil }.first?.attachment?.urlString).flatMap { URL(string: $0) }
+    let url = (feeds.compactMap { $0.story }.filter { $0.attachment != nil }.first?.attachment?.urlString).flatMap { URL(string: $0) }
     
-    let localURL = url.map { CacheService.shared.filePath(forKey: $0.absoluteString) }.flatMap { URL(fileURLWithPath: $0) }
+    let localURL: URL? = url.map { ImageCache.shared.filePath(forKey: $0.absoluteString) }.flatMap { URL(fileURLWithPath: $0) }
     
     // matter
     let matters: [Matter] = MatterService.shared.fetchAll(withPredicate: predicate, fromRealm: realm).filter { $0.monthDay == today.hi.monthDay }
@@ -69,7 +70,7 @@ public func analyzing(finish: (([Timetable], URL?) -> Void)? = nil) {
                         return
                     }
                     let key = UUID().uuidString
-                    PhotoCache.shared.store(image, forKey: key) {
+                    PhotoCache.shared.store(image, forKey: key) { key in
                         let localURL = URL(fileURLWithPath: PhotoCache.shared.filePath(forKey: key))
                         finish?(datas, localURL)
                     }
@@ -87,7 +88,7 @@ public func analyzing(finish: (([Timetable], URL?) -> Void)? = nil) {
                     return
                 }
                 let key = UUID().uuidString
-                PhotoCache.shared.store(image, forKey: key) {
+                PhotoCache.shared.store(image, forKey: key) { key in
                     let localURL = URL(fileURLWithPath: PhotoCache.shared.filePath(forKey: key))
                     finish?(datas, localURL)
                 }

@@ -38,7 +38,7 @@ struct NewMatterViewModel: NewMatterViewModelType {
     let postButtonEnabled: Driver<Bool>
     let dismissViewController: Driver<Void>
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     init() {
      

@@ -43,7 +43,7 @@ final class AboutViewController: BaseViewController {
     
     @IBOutlet private weak var copyrightLabel: UILabel!
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let rowHeight: CGFloat = 60.0
     }
     
@@ -120,7 +120,7 @@ final class AboutViewController: BaseViewController {
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
     
-    fileprivate enum Row: Int {
+    private enum Row: Int {
         //case review
         //case recommend
         //case privacyPolicy

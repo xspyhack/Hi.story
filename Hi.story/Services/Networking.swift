@@ -91,9 +91,9 @@ struct Networking: Authorizable {
         }
     }
     
-    fileprivate let authRequest: NSMutableURLRequest
+    private let authRequest: NSMutableURLRequest
     
-    fileprivate init(authRequest: NSMutableURLRequest) {
+    private init(authRequest: NSMutableURLRequest) {
         self.authRequest = authRequest
     }
     

@@ -8,16 +8,11 @@
 
 import UIKit
 
-struct Symbol {
-    let name: String
-    let image: String
-}
-
 class MarkdownToolbar: UIView {
     
-    private(set) var dataset: [Symbol] = []
+    private(set) var dataset: [TextActionOperation] = []
     
-    var selectedAction: ((Symbol) -> Void)?
+    var selectedAction: ((TextActionOperation) -> Void)?
     
     var isActived: Bool = false {
         didSet {
@@ -29,10 +24,11 @@ class MarkdownToolbar: UIView {
         }
     }
     
-    private var symbolButtons: [UIButton] = []
+    private var operationButtons: [UIButton] = []
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(operations: [TextActionOperation]) {
+        self.dataset = operations
+        super.init(frame: .zero)
         
         setup()
     }
@@ -47,6 +43,7 @@ class MarkdownToolbar: UIView {
         
         UIView.animate(withDuration: 0.3) {
             self.alpha = 1.0
+            self.transform = CGAffineTransform(translationX: 0, y: -20)
         }
     }
     
@@ -54,6 +51,7 @@ class MarkdownToolbar: UIView {
         
         UIView.animate(withDuration: 0.3) {
             self.alpha = 0.0
+            self.transform = .identity
         }
     }
     
@@ -67,36 +65,24 @@ class MarkdownToolbar: UIView {
         layer.shadowRadius  = 6.0
         alpha               = 0.0
         
-        dataset = [
-            Symbol(name: "#", image: ""),
-            Symbol(name: "*", image: ""),
-            Symbol(name: ">", image: ""),
-            Symbol(name: "`", image: ""),
-            Symbol(name: "[", image: ""),
-            Symbol(name: "]", image: ""),
-            Symbol(name: "(", image: ""),
-            Symbol(name: ")", image: ""),
-        ]
-        
         layout()
     }
     
     private func layout() {
         
-        symbolButtons = dataset.map { symbol -> UIButton in
+        operationButtons = dataset.map { operation -> UIButton in
             let button = UIButton(type: .custom)
-            //button.setImage(UIImage(named: symbol.image), for: .normal)
-            button.setTitle(symbol.name, for: .normal)
+            button.setImage(operation.icon, for: .normal)
             button.setTitleColor(UIColor.black, for: .normal)
             button.addTarget(self, action: #selector(tapped(_:)), for: .touchUpInside)
             return button
         }
         
         Array(0..<dataset.count).forEach { index in
-            symbolButtons.safe[index]?.tag = index
+            operationButtons.safe[index]?.tag = index
         }
         
-        let stackView = UIStackView(arrangedSubviews: symbolButtons)
+        let stackView = UIStackView(arrangedSubviews: operationButtons)
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
@@ -104,19 +90,18 @@ class MarkdownToolbar: UIView {
         addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[stackView]-20-|", options: [], metrics: nil, views: ["stackView": stackView])
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[stackView]-14-|", options: [], metrics: nil, views: ["stackView": stackView])
         let v = NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: [], metrics: nil, views: ["stackView": stackView])
         
         NSLayoutConstraint.activate(h)
         NSLayoutConstraint.activate(v)
     }
     
-    
-    @objc private func tapped(_ sender: UIButton) {
+    @objc
+    private func tapped(_ sender: UIButton) {
         
-        guard let symbol = dataset.safe[sender.tag] else { return }
+        guard let operation = dataset.safe[sender.tag] else { return }
         
-        selectedAction?(symbol)
-        
+        selectedAction?(operation)
     }
  }

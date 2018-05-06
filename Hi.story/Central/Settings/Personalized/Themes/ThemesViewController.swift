@@ -18,7 +18,7 @@ final class ThemesViewController: UICollectionViewController {
     private struct Constant {
         static let padding: CGFloat = 32.0
         static let gap: CGFloat = 24.0
-        static let itemSize = CGSize(width: 300.0, height: 200.0)
+        static let itemSize = CGSize(width: 320.0, height: 200.0)
     }
     
     override func viewDidLoad() {

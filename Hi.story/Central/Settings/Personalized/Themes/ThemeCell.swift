@@ -16,8 +16,8 @@ final class ThemeCell: UICollectionViewCell {
         super.awakeFromNib()
         
         layer.shadowRadius = 16.0
-        layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
         layer.masksToBounds = false
         layer.shadowOpacity = 1.0
         

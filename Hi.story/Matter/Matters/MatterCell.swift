@@ -11,14 +11,14 @@ import Hikit
 
 final class MatterCell: UITableViewCell, Reusable {
 
-    fileprivate lazy var daysLabel: UILabel = {
+    private lazy var daysLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 32.0, weight: UIFontWeightMedium)
+        label.font = UIFont.systemFont(ofSize: 32.0, weight: UIFont.Weight.medium)
         label.text = "+333"
         return label
     }()
     
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16.0)
         label.text = "Matter"
@@ -36,7 +36,7 @@ final class MatterCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func setup() {
+    private func setup() {
         
         //selectionStyle = .none
         
@@ -46,7 +46,7 @@ final class MatterCell: UITableViewCell, Reusable {
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
         
         let views = [
             "titleLabel": titleLabel,

@@ -14,7 +14,7 @@ final class StoryViewController: BaseViewController {
     
     var viewModel: StoryViewModel?
     
-    fileprivate var messageHandlerName = "StoryHandler"
+    private var messageHandlerName = "StoryHandler"
     
     private lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
@@ -42,7 +42,7 @@ final class StoryViewController: BaseViewController {
             .subscribe(onNext: { [unowned self] in
                 self.showsDetails()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         setupWebView()
         

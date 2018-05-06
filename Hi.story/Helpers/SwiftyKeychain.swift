@@ -39,14 +39,14 @@ struct Keychain: OptionsType {
     
     var comment: String? { return options.comment }
     
-    fileprivate var options: Options
+    private var options: Options
     
     init(service: String, accessGroup: String? = nil) {
         let options = Options(service: service, accessGroup: accessGroup)
         self.init(opts: options)
     }
     
-    fileprivate init(opts: Options) {
+    private init(opts: Options) {
         self.options = opts
     }
     
@@ -316,7 +316,7 @@ struct KeychainAttributes {
         return attributes[String(kSecAttrDescription)] as? String
     }
     
-    fileprivate let attributes: [String: AnyObject]
+    private let attributes: [String: AnyObject]
     
     init(attrs: [String: AnyObject]) {
         self.attributes = attrs

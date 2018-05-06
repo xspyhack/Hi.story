@@ -22,15 +22,15 @@ struct HistoryHeaderViewModel: HistoryHeaderViewModelType {
 
 class HistoryHeaderView: UICollectionReusableView, Reusable {
     
-    fileprivate lazy var agoLabel: UILabel = {
+    private lazy var agoLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
-        label.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightSemibold)
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
         label.text = "1 YEAR AGO"
         return label
     }()
     
-    fileprivate lazy var weekdayLabel: UILabel = {
+    private lazy var weekdayLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.6)
         label.font = UIFont.systemFont(ofSize: 12.0)

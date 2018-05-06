@@ -11,20 +11,20 @@ import Hikit
 
 final class ProfileCell: UITableViewCell, Reusable {
 
-    fileprivate lazy var avatarImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
-    fileprivate lazy var nicknameLabel: UILabel = {
+    private lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16.0)
         label.textColor = UIColor.hi.title
         return label
     }()
     
-    fileprivate lazy var bioLabel: UILabel = {
+    private lazy var bioLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12.0)
         label.text = "Bio"
@@ -32,7 +32,7 @@ final class ProfileCell: UITableViewCell, Reusable {
         return label
     }()
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let avatarSize = CGSize(width: 60.0, height: 60.0)
     }
     
@@ -65,7 +65,7 @@ final class ProfileCell: UITableViewCell, Reusable {
         }
         
         HiUserDefaults.avatar.bindAndFireListener(with: Listener.avatar) { [weak self] avatarURLString in
-            self?.avatarImageView.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
+            self?.avatarImageView.hi.setImage(with: avatarURLString.flatMap { URL(string: $0) }, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2))
         }
         
         contentView.addSubview(avatarImageView)
@@ -105,6 +105,6 @@ extension ProfileCell: Configurable {
     func configure(withPresenter presenter: ProfileCellModelType) {
         nicknameLabel.text = presenter.nickname
         bioLabel.text = presenter.bio
-        avatarImageView.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2), transformer: .rounded(Constant.avatarSize))
+        avatarImageView.hi.setImage(with: presenter.avatar, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width / 2))
     }
 }

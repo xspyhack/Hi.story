@@ -14,7 +14,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
    
     var deleteAction: (() -> Void)?
     
-    fileprivate lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "album")
@@ -23,14 +23,14 @@ class StorybookCell: UICollectionViewCell, Reusable {
         return imageView
     }()
     
-    fileprivate lazy var overlayView: UIView = {
+    private lazy var overlayView: UIView = {
        let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         view.layer.cornerRadius = 6.0
         return view
     }()
     
-    fileprivate lazy var textLabel: UILabel = {
+    private lazy var textLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "Storybook"
@@ -41,7 +41,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
         return label
     }()
     
-    fileprivate lazy var countLabel: UILabel = {
+    private lazy var countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12.0)
         label.textColor = UIColor.white
@@ -73,7 +73,7 @@ class StorybookCell: UICollectionViewCell, Reusable {
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         layer.shadowRadius = 12.0
         layer.shadowColor = UIColor.black.withAlphaComponent(0.4).cgColor
@@ -151,6 +151,8 @@ extension StorybookCell: Configurable {
     func configure(withPresenter presenter: StorybookCellModelType) {
         textLabel.text = presenter.name.uppercased()
         countLabel.text = "\(presenter.count)"
-        imageView.setImage(with: presenter.coverImageURL, placeholder: UIImage.hi.storybook)
+        imageView.hi.setImage(with: presenter.coverImageURL,
+                              placeholder: UIImage.hi.storybook,
+                              fadeIn: presenter.fadeIn)
     }
 }

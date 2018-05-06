@@ -19,18 +19,20 @@ final class ChooseStorybookViewController: UITableViewController {
     
     var selectedAction: ((Storybook) -> Void)?
     
-    fileprivate var storybooks: [Storybook] = []
+    private var storybooks: [Storybook] = []
     private let disposeBag = DisposeBag()
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let rowHeight: CGFloat = 64.0
         static let bottomInset: CGFloat = 28.0
     }
+    
+    private let generator = UISelectionFeedbackGenerator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
+        generator.prepare()
         self.clearsSelectionOnViewWillAppear = false
 
         let doneItem = UIBarButtonItem()
@@ -40,7 +42,7 @@ final class ChooseStorybookViewController: UITableViewController {
             .subscribe(onNext: { [weak self] in
                 self?.done()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         self.navigationItem.rightBarButtonItem = doneItem
         
@@ -50,7 +52,7 @@ final class ChooseStorybookViewController: UITableViewController {
             .subscribe(onNext: { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         self.navigationItem.leftBarButtonItem = cancelItem
         
@@ -109,6 +111,10 @@ extension ChooseStorybookViewController {
         cell.configure(text: storybook.name, detail: count)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        generator.selectionChanged()
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

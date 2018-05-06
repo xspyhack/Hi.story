@@ -11,7 +11,7 @@ import Hikit
 
 final class CentralViewController: BaseViewController {
 
-    fileprivate struct Constant {
+    private struct Constant {
         static let profileHeight: CGFloat = 100.0
         static let rowHeight: CGFloat = 60.0
         static let gap: CGFloat = 20.0
@@ -52,7 +52,7 @@ final class CentralViewController: BaseViewController {
 
 extension CentralViewController: UITableViewDataSource {
     
-    fileprivate enum Section: Int {
+    private enum Section: Int {
         case profile = 0
         case others
         
@@ -61,7 +61,7 @@ extension CentralViewController: UITableViewDataSource {
         }
     }
     
-    fileprivate enum Row: Int {
+    private enum Row: Int {
         case drafts = 0
         case settings
         case labs

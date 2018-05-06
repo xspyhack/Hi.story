@@ -56,9 +56,9 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
             toViewController.view.frame = finalFrame
             toViewController.view.center.y += Defaults.statusBarHeight
             
-        }) { (finished) -> Void in
+        }, completion: { (finished) -> Void in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-        }
+        })
     }
     
     private func dismissalTransition(using transitionContext: UIViewControllerContextTransitioning) {

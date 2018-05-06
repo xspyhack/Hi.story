@@ -30,13 +30,13 @@ class LoadingView: UIView {
         return gradientLayer
     }()
     
-    lazy var textAttributes: [String: AnyObject] = {
+    lazy var textAttributes: [NSAttributedStringKey: AnyObject] = {
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         
         return [
-            NSFontAttributeName:UIFont(name: "HelveticaNeue-Thin", size: 28.0)!,
-            NSParagraphStyleAttributeName:style
+            NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 28.0)!,
+            NSAttributedStringKey.paragraphStyle: style
         ]
     }()
     

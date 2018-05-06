@@ -27,7 +27,7 @@ final class SelectableCell: UITableViewCell, Reusable {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hi.text
-        label.font = UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightBold)
+        label.font = UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.bold)
         return label
     }()
     

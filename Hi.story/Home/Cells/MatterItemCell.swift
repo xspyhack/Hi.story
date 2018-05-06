@@ -13,7 +13,7 @@ final class MatterItemCell: HistoryItemCell, Reusable {
 
     private static let titleFont = UIFont.systemFont(ofSize: 24.0)
     
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Matter"
         label.font = MatterItemCell.titleFont
@@ -22,7 +22,7 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         return label
     }()
     
-    fileprivate lazy var notesLabel: UILabel = {
+    private lazy var notesLabel: UILabel = {
         let label = UILabel()
         label.text = "飞机穿梭于茫茫星海中逐渐远去，你如猫般，无声靠近，从意想不到的角度玩弄他人，而我只能呆愣在原地，永远只能跟随你的步伐。"
         label.font = UIFont.systemFont(ofSize: 14.0)
@@ -41,17 +41,17 @@ final class MatterItemCell: HistoryItemCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         iconImageView.image = UIImage.hi.matterIcon
         
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .vertical)
        
         contentView.addSubview(notesLabel)
         notesLabel.translatesAutoresizingMaskIntoConstraints = false
-        notesLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
+        notesLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
         
         let views: [String: Any] = [
             "titleLabel": titleLabel,

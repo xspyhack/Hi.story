@@ -16,7 +16,5 @@ class FeedsFlowLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 18.0
         minimumInteritemSpacing = 0.0
         sectionInset.bottom = 12.0
-        
-        sectionHeadersPinToVisibleBounds = true
     }
 }

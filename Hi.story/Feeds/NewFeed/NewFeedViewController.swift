@@ -8,6 +8,7 @@
 
 import UIKit
 import Hikit
+import Hiprelude
 import MobileCoreServices.UTType
 import KeyboardMan
 import CoreLocation
@@ -32,12 +33,14 @@ final class NewFeedViewController: BaseViewController {
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var toolbar: UIView!
     @IBOutlet private weak var separator: UIView!
-    fileprivate lazy var editor: Notepad = {
+    
+    private lazy var editor: Notepad = {
         let notepad = Notepad(CGRect.zero, themeFile: "k-light")
         notepad.isScrollEnabled = false
         notepad.textContainerInset = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
-        notepad.attributedPlaceholder = NSAttributedString(string: self.placeholderOfStory, attributes: [NSForegroundColorAttributeName: UIColor.hi.placeholder, NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)])
+        notepad.attributedPlaceholder = NSAttributedString(string: self.placeholderOfStory, attributes: [NSAttributedStringKey.foregroundColor: UIColor.hi.placeholder, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)])
         return notepad
     }()
     
@@ -48,7 +51,7 @@ final class NewFeedViewController: BaseViewController {
         }
     }
     
-    @IBOutlet fileprivate weak var imageView: UIImageView! {
+    @IBOutlet private weak var imageView: UIImageView! {
         didSet {
             imageView.layer.cornerRadius = 2.0
             imageView.clipsToBounds = true
@@ -73,18 +76,27 @@ final class NewFeedViewController: BaseViewController {
     
     @IBOutlet private weak var postItem: UIBarButtonItem!
     @IBOutlet private weak var cancelItem: UIBarButtonItem!
-    @IBOutlet weak var markdownToolbar: MarkdownToolbar!
+    private lazy var markdownToolbar: MarkdownToolbar = {
+        return MarkdownToolbar(operations: MarkdownCoordinator.defaultOperations)
+    }()
     
     @IBOutlet weak var buttonItemWidthConstraint: NSLayoutConstraint!
+    
+    private lazy var toolbarAccessoryView: InputAccessoryView = {
+        return InputAccessoryView(for: toolbar)
+    }()
+    
     // MARK: Property
     
-    fileprivate lazy var presentationTransitionManager: PresentationTransitionManager = {
+    private lazy var markdownCoordinator = MarkdownCoordinator()
+    
+    private lazy var presentationTransitionManager: PresentationTransitionManager = {
         let manager = PresentationTransitionManager()
         manager.presentedViewHeight = self.view.bounds.height / 2 + Constant.normalNavigationBarHeight
         return manager
     }()
     
-    fileprivate struct Constant {
+    private struct Constant {
         static let scrollViewContentInsetTop: CGFloat = 44.0
         static let footerHeight: CGFloat = 500.0
         static let bottomInset: CGFloat = 20.0
@@ -93,7 +105,9 @@ final class NewFeedViewController: BaseViewController {
     
     private let keyboardMan = KeyboardMan()
     
-    private var canLocate = false
+    private var canLocate: Bool {
+        return locationButton.isSelected
+    }
     private var location: Variable<LocationInfo?> = Variable(nil)
     
     private let placeholderOfStory = NSLocalizedString("I have beer, do you have story?", comment: "")
@@ -112,28 +126,11 @@ final class NewFeedViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.layer.cornerRadius = 8.0
-        view.clipsToBounds = true
-        
-        titleTextField.borderStyle = .none // ⚠️ Fix text offset when inputting
-        
-        scrollView.contentInset.top = Constant.scrollViewContentInsetTop
-       
-        // 简单的调整，暂时不需要 Ruler
-        if let keyWindow = UIApplication.shared.keyWindow, keyWindow.bounds.width < 375.0 {
-            buttonItemWidthConstraint.constant = 35.0
-        }
+        setupSubview()
         
         setupEditor()
         
-        markdownToolbar.selectedAction = { [unowned self] symbol in
-
-            self.editor.insertText(symbol.name)
-            
-            SafeDispatch.async {
-                self.markdownToolbar.isActived = false
-            }
-        }
+        setupMarkdownToolbar()
         
         let viewModel = self.viewModel ?? NewFeedViewModel(token: UUID().uuidString)
        
@@ -144,11 +141,11 @@ final class NewFeedViewController: BaseViewController {
         
         cancelItem.rx.tap
             .bind(to: viewModel.cancelAction)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         postItem.rx.tap
             .bind(to: viewModel.postAction)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         // options
         
@@ -156,53 +153,84 @@ final class NewFeedViewController: BaseViewController {
             .subscribe(onNext: { [unowned self] in
                 self.picksPhoto()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
+        
+        locationButton.rx.tap
+            .do(onNext: { [unowned self] in
+                self.locationButton.isSelected = !self.locationButton.isSelected
+            })
+            .map { [unowned self] in
+                return self.canLocate
+            }
+            .flatMap(tryLocating)
+            .do(onNext: { [weak self] _ in
+                self?.locationButton.isEnabled = false
+            })
+            .flatMap(onLocating)
+            .do(onNext: { [weak self] _ in
+                self?.locationButton.isEnabled = true
+            })
+            .map { result -> LocationInfo? in
+                return result.value.flatMap { $0 }
+            }
+            .bind(to: location)
+            .disposed(by: disposeBag)
+        
+        location.asDriver()
+            .map { $0 != nil }
+            .debug()
+            .drive(onNext: {
+                self.locationButton.isSelected = $0
+            })
+            .disposed(by: disposeBag)
         
         visibleButton.rx.tap
-            .map { [unowned self] () -> Bool in
+            .do(onNext: { [unowned self] in
                 self.visibleButton.isSelected = !self.visibleButton.isSelected
+            })
+            .map { [unowned self] () -> Bool in
                 return self.visibleButton.isSelected
             }
             .bind(to: viewModel.visible)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         markdownButton.rx.tap
             .subscribe(onNext: { [unowned self] in
                 self.markdownToolbar.isActived = !self.markdownToolbar.isActived
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         storybookButton.rx.tap
             .subscribe(onNext: { [unowned self] in
                 self.choosesStorybook()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         detailsButton.rx.tap
             .subscribe(onNext: { [unowned self] in
                 self.showsDetails()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.postButtonEnabled
             .drive(self.postItem.rx.isEnabled)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.dismissViewController
             .drive(onNext: { [weak self] in
                 self?.dismiss()
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
       
         // 2 way binding
         (titleTextField.rx.text.orEmpty <-> viewModel.title)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         (editor.rx.text.orEmpty <-> viewModel.body)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
        
-        (visibleButton.rx.isSelected <-> viewModel.visible)
-            .addDisposableTo(disposeBag)
+        (visibleButton.rx.selected <-> viewModel.visible)
+            .disposed(by: disposeBag)
        
         viewModel.attachmentImage.asDriver()
             .filter { [unowned self] image in
@@ -213,50 +241,43 @@ final class NewFeedViewController: BaseViewController {
                 return image
             }
             .drive(imageView.rx.image)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.storybook.asObservable()
             .take(1)
             .debug()
             .bind(to: storybook)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         location.asObservable()
             .bind(to: viewModel.location)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         storybook.asObservable()
             .skip(1)
             .debug()
             .bind(to: viewModel.storybook)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         attachmentImage.asObservable()
             .skip(1)
             .bind(to: viewModel.attachmentImage)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     
         keyboardButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.view.endEditing(true)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
-            if let sSelf = self {
-                sSelf.toolBarBottom.constant += keyboardHeightIncrement
-                sSelf.view.layoutIfNeeded()
+        tryLocating(true)
+            .take(1)
+            .flatMap(onLocating)
+            .map { result -> LocationInfo? in
+                return result.value.flatMap { $0 }
             }
-        }
-        
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
-            if let sSelf = self {
-                sSelf.toolBarBottom.constant -= keyboardHeight
-                sSelf.view.layoutIfNeeded()
-            }
-        }
-        
-        tryToLocate()
+            .bind(to: location)
+            .disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -275,13 +296,41 @@ final class NewFeedViewController: BaseViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        markdownToolbar.isActived = false
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override var inputAccessoryView: UIView? {
+        return toolbarAccessoryView
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
         view.endEditing(true)
+    }
+    
+    
+    // MARK: - UI setup
+    
+    private func setupSubview() {
+        
+        view.layer.cornerRadius = 8.0
+        view.clipsToBounds = true
+        
+        titleTextField.borderStyle = .none // ⚠️ Fix text offset when inputting
+        
+        scrollView.contentInset.top = Constant.scrollViewContentInsetTop
+        scrollView.keyboardDismissMode = .interactive
+        
+        // 简单的调整，暂时不需要 Ruler
+        if let keyWindow = UIApplication.shared.keyWindow, keyWindow.bounds.width < 375.0 {
+            buttonItemWidthConstraint.constant = 35.0
+        }
     }
     
     private func setupEditor() {
@@ -297,7 +346,22 @@ final class NewFeedViewController: BaseViewController {
         NSLayoutConstraint.activate(h)
     }
     
-    fileprivate func fitsImageView(with image: UIImage?) {
+    private func setupMarkdownToolbar() {
+        let height: CGFloat = 45.0
+        markdownToolbar.layer.cornerRadius = height / 2
+        
+        toolbarAccessoryView.addSubview(markdownToolbar)
+        markdownToolbar.translatesAutoresizingMaskIntoConstraints = false
+        
+        let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[toolbar]-|", options: [], metrics: nil, views: ["toolbar": markdownToolbar])
+        NSLayoutConstraint.activate(h)
+        markdownToolbar.heightAnchor.constraint(equalToConstant: height).isActive = true
+        markdownToolbar.bottomAnchor.constraint(equalTo: toolbarAccessoryView.topAnchor).isActive = true
+        
+        markdownCoordinator.configure(textView: editor, markdownToolbar: markdownToolbar)
+    }
+    
+    private func fitsImageView(with image: UIImage?) {
         
         imageView.isHidden = image == nil
         
@@ -348,6 +412,8 @@ final class NewFeedViewController: BaseViewController {
         }
         
         let nav = UINavigationController(rootViewController: chooser)
+        nav.view.layer.cornerRadius = 8.0
+        nav.view.clipsToBounds = true
         nav.modalPresentationStyle = .custom
         nav.transitioningDelegate = presentationTransitionManager
         
@@ -378,59 +444,49 @@ final class NewFeedViewController: BaseViewController {
         self.present(viewController, animated: true, completion: nil)
     }
     
-    @IBAction func locationButtonTapped(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        
-        canLocate = sender.isSelected
-        if canLocate && location.value == nil {
-            hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
-                self?.startLocating()
-            })
-        } else {
-            location.value = nil
-        }
-    }
-    
-    private func tryToLocate() {
-        hi.propose(for: .location(.whenInUse), agreed: { [weak self] in
-            self?.startLocating()
-        })
-    }
-    
-    private func startLocating() {
-        locationButton.isEnabled = false
-        
-        // Can't location in other thread
-        
-        let service = LocationService.shared
-        service.turnOn()
-        
-        service.didLocateHandler = { [weak self] result in
-            
-            DispatchQueue.main.async {
-                self?.locationButton.isEnabled = true
-                
-                switch result {
-                    
-                case let .success(address, coordinate):
-                    self?.location.value = LocationInfo(address: address, coordinate: coordinate)
-                   
-                    // 由于是异步，所以可能会导致问题，
-                    // 这里应该根据 button 是否认为的 deselect
-                    self?.locationButton.isSelected = true
-                    self?.canLocate = true
-                    
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
-    }
-    
     private func handleDismiss(completion: (() -> Void)? = nil) {
         self.dismiss(animated: true) { [weak self] in
             self?.view.center.y += Defaults.statusBarHeight
             completion?()
+        }
+    }
+}
+
+// MARK: - Locating
+
+extension NewFeedViewController {
+    
+    private func tryLocating(_ locate: Bool) -> Observable<Bool> {
+        if !locate {
+            return Observable.just(false)
+        }
+        
+        return Observable.create { [weak self] observer -> Disposable in
+            self?.hi.propose(for: .location(.whenInUse),
+                             agreed: {
+                                observer.onNext(true)
+            }, rejected: {
+                observer.onNext(false)
+            })
+            return Disposables.create()
+        }
+    }
+    
+    private func onLocating(_ locate: Bool) -> Observable<Result<LocationInfo?>> {
+        if !locate {
+            return Observable.just(.success(nil))
+        }
+        return Observable.create { observer -> Disposable in
+            let service = LocationService.shared
+            service.turnOn()
+            
+            service.didLocateHandler = { result in
+                observer.onNext(result.map { LocationInfo(address: $0, coordinate: $1) })
+            }
+            
+            return Disposables.create {
+                service.turnOff()
+            }
         }
     }
 }

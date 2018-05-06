@@ -12,8 +12,8 @@ import RxCocoa
 
 extension Reactive where Base: UIView {
     
-    public var isVisible: UIBindingObserver<Base, Bool> {
-        return UIBindingObserver(UIElement: self.base) { view, visible in
+    public var isVisible: Binder<Bool> {
+        return Binder(self.base) { view, visible in
             view.isHidden = !visible
         }
     }

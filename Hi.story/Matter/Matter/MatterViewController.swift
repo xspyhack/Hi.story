@@ -71,22 +71,22 @@ final class MatterViewController: BaseViewController {
         
         viewModel.title
             .drive(titleLabel.rx.text)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.when
             .drive(whenLabel.rx.text)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.notes
             .drive(notesTextView.rx.text)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         viewModel.tag
             .drive(onNext: { [weak self] textColor in
                 self?.titleLabel.textColor = textColor
                 self?.whenLabel.textColor = textColor
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     override func restoreUserActivityState(_ activity: NSUserActivity) {

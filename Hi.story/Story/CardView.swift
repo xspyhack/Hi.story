@@ -16,7 +16,7 @@ class CardView: UIView {
         return imageView
     }()
     
-    fileprivate lazy var contentView: UIView = {
+    private lazy var contentView: UIView = {
         return UIView()
     }()
     
@@ -26,7 +26,7 @@ class CardView: UIView {
         configure()
     }
     
-    fileprivate func configure() {
+    private func configure() {
         
         addSubview(imageView)
         addSubview(contentView)

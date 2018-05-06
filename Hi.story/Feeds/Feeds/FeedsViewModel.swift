@@ -71,7 +71,7 @@ struct FeedsViewModel: FeedsViewModelType {
             .subscribe(onNext: { feed in
                 FeedService.shared.synchronize(feed, toRealm: realm)
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
     }
 }

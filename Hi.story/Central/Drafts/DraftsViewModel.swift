@@ -68,7 +68,7 @@ struct DraftsViewModel: DraftsViewModelType {
                     StoryService.shared.remove(story, fromRealm: realm)
                 }
             })
-            .addDisposableTo(self.disposeBag)
+            .disposed(by: self.disposeBag)
       
         self.editDraft = self.itemDidSelect
             .map { indexPath -> NewFeedViewModel in

@@ -53,7 +53,7 @@ enum Storyboard: String {
     case details
     
     var instance: UIStoryboard {
-        return UIStoryboard(name: self.rawValue.capitalized, bundle: nil)
+        return UIStoryboard(name: self.rawValue.hi.uppercased(1), bundle: nil)
     }
     
     func viewController<T: UIViewController>(of viewControllerType: T.Type) -> T {

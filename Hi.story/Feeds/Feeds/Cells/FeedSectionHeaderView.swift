@@ -28,9 +28,9 @@ struct FeedSectionHeaderViewModel: FeedSectionHeaderViewModelType {
 
 class FeedSectionHeaderView: UICollectionReusableView, Reusable {
     
-    var didSelect: ((Void) -> Void)?
+    var didSelect: (() -> Void)?
     
-    fileprivate lazy var avatarButton: UIButton = {
+    private lazy var avatarButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(avatarTapped(_:)), for: .touchUpInside)
         button.contentEdgeInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
@@ -38,7 +38,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
         return button
     }()
     
-    fileprivate lazy var nicknameLabel: UILabel = {
+    private lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.text = "__b233"
         label.font = UIFont.systemFont(ofSize: 14.0)
@@ -46,7 +46,7 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
         return label
     }()
     
-    fileprivate lazy var moreButton: UIButton = {
+    private lazy var moreButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("...", for: .normal)
         return button
@@ -104,6 +104,6 @@ extension FeedSectionHeaderView: Configurable {
     
     func configure(withPresenter presenter: FeedSectionHeaderViewModelType) {
         nicknameLabel.text = presenter.nickname
-        avatarButton.setImage(with: URL(string: presenter.avatar), for: .normal, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width), transformer: .rounded(Constant.avatarSize))
+        avatarButton.hi.setImage(with: URL(string: presenter.avatar), for: .normal, placeholder: UIImage.hi.roundedAvatar(radius: Constant.avatarSize.width))
     }
 }

@@ -37,12 +37,12 @@ final class SwitchCell: UITableViewCell, Reusable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc fileprivate func toggleSwitchStateChanged(_ sender: UISwitch) {
+    @objc private func toggleSwitchStateChanged(_ sender: UISwitch) {
         
         toggleSwitchStateChangedAction?(sender.isOn)
     }
     
-    fileprivate func setup() {
+    private func setup() {
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(toggleSwitch)

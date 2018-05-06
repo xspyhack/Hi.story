@@ -40,7 +40,7 @@ final class DetailsViewController: BaseViewController {
                     self?.showsLocationAction?(location)
                 }
             })
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         if let address = viewModel.address {
             locationButton.isHidden = false

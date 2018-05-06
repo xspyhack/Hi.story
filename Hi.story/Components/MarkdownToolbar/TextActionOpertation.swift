@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+// For bottom toolbar action
+struct TextActionOperation {
+    
+    enum Operation {
+        case line(String)
+        case wrap(String, String)
+        case execute(() -> Void)
+        case multi([Operation])
+    }
+    
+    let icon: UIImage?
+    let operation: Operation
+    let name: String
+}

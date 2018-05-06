@@ -14,7 +14,7 @@ struct Project {
     let urlString: String
 }
 
-class AcknowledgementsViewController: UITableViewController {
+final class AcknowledgementsViewController: UITableViewController {
     
     enum Section: Int {
         case licenses
