@@ -19,7 +19,6 @@ public func id<A>(_ a: A) -> A {
     return a
 }
 
-
 /**
  Constant function
  

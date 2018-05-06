@@ -8,6 +8,18 @@
 
 import Foundation
 
+precedencegroup MonadicPrecedenceRight {
+    associativity: right
+    higherThan: AssignmentPrecedence
+    lowerThan: LogicalDisjunctionPrecedence
+}
+
+precedencegroup MonadicPrecedenceLeft {
+    associativity: left
+    higherThan: AssignmentPrecedence
+    lowerThan: LogicalDisjunctionPrecedence
+}
+
 precedencegroup MonadicPrecedence {
     associativity: left
     higherThan: AssignmentPrecedence
@@ -46,8 +58,17 @@ infix operator <^> : ApplicativePrecedence
 //: apply
 infix operator <*> : ApplicativePrecedence
 
+//: apply sequence
+infix operator <* : ApplicativeSequencePrecedence
+
+//: apply sequence
+infix operator *> : ApplicativeSequencePrecedence
+
 //: flatMap
 infix operator >>- : MonadicPrecedence
+
+//: flatMap
+infix operator -<< : MonadicPrecedenceRight
 
 //: concat
 infix operator <> : CompositionPrecedence

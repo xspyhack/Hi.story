@@ -47,3 +47,29 @@ public func >>- <A, B>(_ x: [A], f: (A) -> [B]) -> [B] {
 public func >>- <A, B>(_ x: A?, f: (A) -> B?) -> B? {
     return x.flatMap(f)
 }
+
+/**
+ Bind an array of `A` to a transform function which is from `A` to array `B`, also call `bind`.
+ If type `A` is a typeof `Sequence`, the result will be flatten.
+ bind = map + join.
+ 
+ - parameter f: A function from `A` to array `B`.
+ - parameter x: An array of `A`.
+ 
+ - returns: An array of `B`.
+ */
+public func -<< <A, B>(f: (A) -> [B], x: [A]) -> [B] {
+    return x.flatMap(f)
+}
+
+/**
+ Bind an optional value of `A` to a transform function that from `A` to optional `B`, also call `bind`.
+ 
+ - parameter f: A function from `A` to optional `B`.
+ - parameter x: An optional value of `A`.
+ 
+ - returns: An optional value of `B`.
+ */
+public func -<< <A, B>(f: (A) -> B?, x: A?) -> B? {
+    return x.flatMap(f)
+}
