@@ -1,5 +1,5 @@
 //
-//  Photography.swift
+//  Photograph.swift
 //  Hi.story
 //
 //  Created by bl4ckra1sond3tre on 06/04/2018.
@@ -9,7 +9,7 @@
 import UIKit
 import Hikit
 
-public struct Photography: Memory {
+public struct Photograph: Memory {
     
     public let date: Date
     

@@ -7,7 +7,8 @@
 //
 
 import UIKit
+import Hikit
 
-class Card: UICollectionViewCell {
+class Card: UICollectionViewCell, Reusable {
     
 }

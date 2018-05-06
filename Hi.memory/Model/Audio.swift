@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+public struct Audio {
+    
+    public let date: Date
+    
+    public let content: MemoryContent
+    
+    public init(date: Date, content: URL) {
+        self.date = date
+        self.content = .audio(content)
+    }
+}

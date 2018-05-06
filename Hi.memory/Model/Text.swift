@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+public struct Text: Memory {
+    
+    public let date: Date
+    
+    public let content: MemoryContent
+    
+    public init(date: Date, content: String) {
+        self.date = date
+        self.content = .text(content)
+    }
+}

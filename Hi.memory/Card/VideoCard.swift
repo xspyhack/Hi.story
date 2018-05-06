@@ -11,3 +11,10 @@ import UIKit
 class VideoCard: Card {
     
 }
+
+extension VideoCard {
+    
+    func configure(withVideo url: URL) {
+        
+    }
+}
