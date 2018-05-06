@@ -6,4 +6,8 @@
 //  Copyright © 2018 blessingsoftware. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+public class Context {
+    public var navigationController: UINavigationController?
+}
