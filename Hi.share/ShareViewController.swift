@@ -106,7 +106,7 @@ class ShareViewController: SLComposeServiceViewController {
     
     // MARK: - Private
     
-    fileprivate enum ShareType {
+    private enum ShareType {
         
         case plainText(title: String, body: String, storybook: String)
         case image(title: String, body: String, image: UIImage, storybook: String)
@@ -182,7 +182,7 @@ class ShareViewController: SLComposeServiceViewController {
 
 extension ShareViewController {
     
-    fileprivate func images(from extensionContext: NSExtensionContext, completion: @escaping (_ images: [UIImage]) -> Void) {
+    private func images(from extensionContext: NSExtensionContext, completion: @escaping (_ images: [UIImage]) -> Void) {
         
         var images: [UIImage] = []
         
