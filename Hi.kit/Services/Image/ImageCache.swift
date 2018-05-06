@@ -9,9 +9,9 @@
 import UIKit
 import Hicache
 
-public class CacheService {
+public class ImageCache {
     
-    public static let shared = CacheService()
+    public static let shared = ImageCache()
     
     private let cache: Cache<UIImage>
     
@@ -21,9 +21,11 @@ public class CacheService {
         self.cache = Cache<UIImage>(directory: cacheDirectory, serializer: ImageCacheSerializer())
     }
     
-    public func store(_ image: UIImage, forKey key: String, completionHandler: (() -> Void)? = nil) {
+    public func store(_ image: UIImage, forKey key: String, completionHandler: ((String) -> Void)? = nil) {
         if let completionHandler = completionHandler {
-            cache.store(image, forKey: key.hi.md5 ?? key, completionHandler: completionHandler)
+            cache.store(image, forKey: key.hi.md5 ?? key) { cacheKey in
+                completionHandler(key)
+            }
         } else {
             cache.store(image, forKey: key.hi.md5 ?? key)
         }
@@ -37,8 +39,10 @@ public class CacheService {
         return cache.retrieve(forKey: key.hi.md5 ?? key)
     }
     
-    public func retrieve(forKey key: String, completionHandler: @escaping ((UIImage?) -> Void)) {
-        return cache.retrieve(forKey: key.hi.md5 ?? key, completionHandler: completionHandler)
+    public func retrieve(forKey key: String, completionHandler: @escaping ((UIImage?, String) -> Void)) {
+        return cache.retrieve(forKey: key.hi.md5 ?? key) { image, cacheKey in
+            completionHandler(image, key)
+        }
     }
     
     public func contains(forKey key: String) -> Bool {
@@ -49,5 +53,5 @@ public class CacheService {
         return cache.fileURL(forKey: key.hi.md5 ?? key).absoluteString
     }
     
-    public static let sharedCache = CacheService.shared.cache
+    public static let sharedCache = ImageCache.shared.cache
 }

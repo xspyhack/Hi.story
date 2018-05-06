@@ -6,7 +6,7 @@
 //  Copyright © 2017 bl4ckra1sond3tre. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public extension UIColor {
     
@@ -21,7 +21,7 @@ public extension UIColor {
             hex = (hex as NSString).substring(from: 1)
         }
         
-        if hex.characters.count != 6 {
+        if hex.count != 6 {
             //fatalError()
             // clear color
             self.init(white: 0.0, alpha: 0.0)

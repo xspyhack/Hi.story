@@ -19,7 +19,7 @@ public extension Sequence where Self.Iterator.Element: Equatable {
 public extension Sequence {
     
     // must be sorted first
-    fileprivate func _grouped(by predicate: (Self.Iterator.Element, Self.Iterator.Element) -> Bool) -> [[Self.Iterator.Element]] {
+    private func _grouped(by predicate: (Self.Iterator.Element, Self.Iterator.Element) -> Bool) -> [[Self.Iterator.Element]] {
         var results = [Array<Iterator.Element>]()
         
         forEach {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let screenScale = UIScreen.main.scale
+private let screenScale = UIScreen.main.scale
 
 extension Hi where Base: UIImage {
    

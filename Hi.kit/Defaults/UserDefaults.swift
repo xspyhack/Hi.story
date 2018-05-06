@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Hiprelude
 
 public struct HiUserDefaults {
     

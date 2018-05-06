@@ -69,12 +69,11 @@ public extension Hi where Base == Date {
     }
 
     public func days(with comparingDate: Date) -> Int {
-        
-        return Date.hi.daysOffset(between: base, and: comparingDate)
+        return Hi.daysOffset(between: base, and: comparingDate)
     }
     
     public func absoluteDays(with comparingDate: Date) -> Int {
-        return Date.hi.absoluteDaysOffset(between: base, and: comparingDate)
+        return Hi.absoluteDaysOffset(between: base, and: comparingDate)
     }
     
     public static func daysOffset(between startDate: Date, and endDate: Date) -> Int {
@@ -111,7 +110,7 @@ public extension Hi where Base == Date {
     }
 }
 
-fileprivate struct _Date {
+private struct _Date {
     static let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US") // No localized string
@@ -121,7 +120,7 @@ fileprivate struct _Date {
 
 public extension Date {
     
-    fileprivate struct _Date {
+    private struct _Date {
         static let formatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.locale = Locale(identifier: "en_US") // No localized string
@@ -129,10 +128,10 @@ public extension Date {
         }()
     }
     
-    fileprivate static let dateFormatString = "yyyy-MM-dd"
-    fileprivate static let mdyDateFormatString = "MMM dd, yyy"
-    fileprivate static let timeFormatString = "HH:mm:ss"
-    fileprivate static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
+    static let dateFormatString = "yyyy-MM-dd"
+    static let mdyDateFormatString = "MMM dd, yyy"
+    static let timeFormatString = "HH:mm:ss"
+    static let timestampFormatString = "yyyy-MM-dd'T'HH:mm:ssZ"
 }
 
 extension Int: HistoryCompatible {

@@ -7,3 +7,17 @@
 //
 
 import Foundation
+
+extension IndexPath: HistoryCompatible {
+}
+
+public extension Hi where Base == IndexPath {
+    
+    public var next: IndexPath {
+        return IndexPath(row: self.base.row + 1, section: self.base.section)
+    }
+    
+    public var previous: IndexPath {
+        return IndexPath(row: self.base.row - 1, section: self.base.section)
+    }
+}

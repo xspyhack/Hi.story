@@ -46,7 +46,7 @@ public extension Hi where Base == String {
             hash.appendFormat("%02x", result[i])
         }
         
-        result.deallocate(capacity: digestLen)
+        result.deallocate()
         
         return String(format: hash as String)
     }
@@ -62,5 +62,16 @@ public extension Hi where Base == String {
         })
         
         return words
+    }
+    
+    public func uppercased(_ maxLength: Int) -> String {
+        let index = self.base.index(self.base.startIndex, offsetBy: maxLength)
+        return self.uppercased(upTo: index)
+    }
+    
+    public func uppercased(upTo index: String.Index) -> String {
+        let prefix = self.base.prefix(upTo: index)
+        let suffix = self.base.suffix(from: index)
+        return prefix.uppercased() + suffix
     }
 }

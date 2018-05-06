@@ -6,4 +6,11 @@
 //  Copyright © 2018 blessingsoftware. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+public extension UIEdgeInsets {
+    
+    public init(all: CGFloat) {
+        self.init(top: all, left: all, bottom: all, right: all)
+    }
+}

@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+/// 糖衣炮弹
+public class Wrapper<T> {
+    public let candy: T
+    
+    public init(bullet: T) {
+        self.candy = bullet
+    }
+}

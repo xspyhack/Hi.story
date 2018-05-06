@@ -9,7 +9,7 @@
 
 import Foundation
 
-public struct Hi<Base> {
+public final class Hi<Base> {
     public let base: Base
     public init(_ base: Base) {
         self.base = base

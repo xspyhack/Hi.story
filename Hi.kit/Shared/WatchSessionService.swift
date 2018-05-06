@@ -16,7 +16,7 @@ public class WatchSessionService: NSObject {
         super.init()
     }
     
-    private lazy var session: WCSession? = WCSession.isSupported() ? WCSession.default() : nil
+    private lazy var session: WCSession? = WCSession.isSupported() ? WCSession.default : nil
     
     public func start(withDelegate delegate: WCSessionDelegate) {
 

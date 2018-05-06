@@ -11,9 +11,9 @@ import RealmSwift
 
 public class Storybook: Object, Timetable {
 
-    public dynamic var id: String = UUID().uuidString
-    public dynamic var name: String = ""
-    public dynamic var creator: User?
+    @objc public dynamic var id: String = UUID().uuidString
+    @objc public dynamic var name: String = ""
+    @objc public dynamic var creator: User?
     public let stories = LinkingObjects(fromType: Story.self, property: "withStorybook")
     public var latestPicturedStory: Story? {
         return stories.filter({
@@ -30,9 +30,9 @@ public class Storybook: Object, Timetable {
             $0.createdAt > $1.createdAt
         }).first
     }
-    public dynamic var visible: Int = Visible.public.rawValue
-    public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
-    public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
+    @objc public dynamic var visible: Int = Visible.public.rawValue
+    @objc public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
+    @objc public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
     
     public override class func primaryKey() -> String? {
         return "id"

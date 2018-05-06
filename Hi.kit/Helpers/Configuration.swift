@@ -45,6 +45,6 @@ public struct Configuration {
     }
     
     public struct Metadata {
-        public static let thumbnailMaxSize: CGFloat = 180
+        public static let thumbnailMaxSize: CGFloat = 180.0
     }
 }

@@ -11,22 +11,22 @@ import RealmSwift
 
 public class Matter: Object, Timetable {
     
-    public dynamic var id: String = UUID().uuidString
+    @objc public dynamic var id: String = UUID().uuidString
     
-    public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
-    public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
+    @objc public dynamic var createdAt: TimeInterval = Date().timeIntervalSince1970
+    @objc public dynamic var updatedAt: TimeInterval = Date().timeIntervalSince1970
    
-    public dynamic var creator: User?
-    public dynamic var title: String = ""
-    public dynamic var body: String = ""
-    public dynamic var happenedAt: TimeInterval = Date().timeIntervalSince1970
+    @objc public dynamic var creator: User?
+    @objc public dynamic var title: String = ""
+    @objc public dynamic var body: String = ""
+    @objc public dynamic var happenedAt: TimeInterval = Date().timeIntervalSince1970
     
-    public dynamic var kind: Int = MatterKind.coming.rawValue
-    public dynamic var location: Location?
+    @objc public dynamic var kind: Int = MatterKind.coming.rawValue
+    @objc public dynamic var location: Location?
     
-    public dynamic var tag: Int = Tag.none.rawValue // MAYBE COLOR
+    @objc public dynamic var tag: Int = Tag.none.rawValue // MAYBE COLOR
 
-    public dynamic var story: Story? //  关联的 Story，在删除的时候需要注意，cascade delete
+    @objc public dynamic var story: Story? //  关联的 Story，在删除的时候需要注意，cascade delete
     
     public func cascadeDelete(inRealm realm: Realm) {
         

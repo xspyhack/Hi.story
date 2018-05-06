@@ -1,5 +1,5 @@
 //
-//  SyncService.swift
+//  SynchronizeService.swift
 //  Hi.kit
 //
 //  Created by bl4ckra1sond3tre on 8/3/16.
