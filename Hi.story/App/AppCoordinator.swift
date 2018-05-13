@@ -79,9 +79,10 @@ extension AppCoordinator {
             } else {
                 nvc = self.rootViewController.selectedNavigationController
             }
-            
-            let transitionManager = PresentationTransitionManager()
-            transitionManager.presentedViewHeight = nvc.view.bounds.height
+
+            let size = nvc.view.bounds.size
+            let context = PresentationContext(presentedContentSize: size, offset: CGPoint(x: 0, y: Defaults.statusBarHeight))
+            let transitionManager = PresentationTransitionManager(context: context)
             
             vc.modalPresentationStyle = .custom
             vc.transitioningDelegate = transitionManager

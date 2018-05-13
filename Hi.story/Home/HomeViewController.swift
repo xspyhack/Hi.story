@@ -24,8 +24,8 @@ final class HomeViewController: UIPageViewController {
     }
     
     private lazy var presentationTransitionManager: PresentationTransitionManager = {
-        let manager = PresentationTransitionManager()
-        manager.presentedViewHeight = self.view.bounds.height
+        let context = PresentationContext(presentedContentSize: self.view.bounds.size, offset: CGPoint(x: 0, y: Defaults.statusBarHeight))
+        let manager = PresentationTransitionManager(context: context)
         return manager
     }()
     

@@ -37,8 +37,8 @@ final class MattersViewController: BaseViewController {
     private var viewModel: MattersViewModel? // Reference it!!
     
     lazy var presentationTransition: PresentationTransitionManager = {
-        let manager = PresentationTransitionManager()
-        manager.presentedViewHeight = self.view.bounds.height
+        let context = PresentationContext(presentedContentSize: CGSize(width: self.view.bounds.width, height: self.view.bounds.height), offset: CGPoint(x: 0, y: Defaults.statusBarHeight))
+        let manager = PresentationTransitionManager(context: context)
         return manager
     }()
     
@@ -116,12 +116,6 @@ final class MattersViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if #available(iOS 11.0, *) {
-//            navigationController?.navigationBar.prefersLargeTitles = true
-        } else {
-            // Fallback on earlier versions
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

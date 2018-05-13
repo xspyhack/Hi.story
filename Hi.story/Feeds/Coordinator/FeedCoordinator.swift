@@ -21,9 +21,10 @@ struct FeedCoordinator {
         Router.add(Route("/feed/new") { params in
             
             let vc = Storyboard.newFeed.viewController(of: NewFeedViewController.self)
-            
-            let transitionManager = PresentationTransitionManager()
-            transitionManager.presentedViewHeight = AppCoordinator.shared.rootViewController.view.bounds.height
+
+            let size = AppCoordinator.shared.rootViewController.view.bounds.size
+            let context = PresentationContext(presentedContentSize: size, offset: CGPoint(x: 0, y: Defaults.statusBarHeight))
+            let transitionManager = PresentationTransitionManager(context: context)
             
             vc.modalPresentationStyle = .custom
             vc.transitioningDelegate = transitionManager

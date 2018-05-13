@@ -91,8 +91,8 @@ final class NewFeedViewController: BaseViewController {
     private lazy var markdownCoordinator = MarkdownCoordinator()
     
     private lazy var presentationTransitionManager: PresentationTransitionManager = {
-        let manager = PresentationTransitionManager()
-        manager.presentedViewHeight = self.view.bounds.height / 2 + Constant.normalNavigationBarHeight
+        let context = PresentationContext(presentedContentSize: CGSize(width: self.view.bounds.width, height: self.view.bounds.height / 2 - 8), contentInset: UIEdgeInsets(top: 0, left: 8, bottom: 8, right: 8))
+        let manager = PresentationTransitionManager(context: context)
         return manager
     }()
     
@@ -412,7 +412,7 @@ final class NewFeedViewController: BaseViewController {
         }
         
         let nav = UINavigationController(rootViewController: chooser)
-        nav.view.layer.cornerRadius = 8.0
+        nav.view.layer.cornerRadius = 12.0
         nav.view.clipsToBounds = true
         nav.modalPresentationStyle = .custom
         nav.transitioningDelegate = presentationTransitionManager
@@ -430,12 +430,12 @@ final class NewFeedViewController: BaseViewController {
        
         let size: CGSize
         if location.value != nil {
-            size = CGSize(width: view.bounds.width - 70.0, height: 300.0)
+            size = CGSize(width: view.bounds.width - 24.0, height: 300.0)
         } else {
-            size = CGSize(width: view.bounds.width - 80.0, height: 250.0)
+            size = CGSize(width: view.bounds.width - 32.0, height: 250.0)
         }
         
-        let shadow = PopoverPresentationShadow(radius: 32.0, color: UIColor.black.withAlphaComponent(0.3))
+        let shadow = PopoverPresentationShadow(radius: 24.0, color: UIColor.black.withAlphaComponent(0.3))
         let context = PopoverPresentationContext(presentedContentSize: size, cornerRadius: 16.0, chromeAlpha: 0.0, shadow: shadow)
         self.popoverTransitioningDelegate = PopoverTransitioningDelegate(presentationContext: context)
         

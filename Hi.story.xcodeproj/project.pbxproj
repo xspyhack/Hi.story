@@ -1795,6 +1795,15 @@
 			path = MarkdownToolbar;
 			sourceTree = "<group>";
 		};
+		78773C2F20A857BB00B0AD11 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				789224F51CFAD16200A44040 /* PresentationController.swift */,
+				789224F61CFAD16200A44040 /* PresentationTransitionManager.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
 		78872969206FD950003AFB43 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -1981,10 +1990,9 @@
 		789224F31CFAD16200A44040 /* Transitions */ = {
 			isa = PBXGroup;
 			children = (
+				78773C2F20A857BB00B0AD11 /* Presentation */,
 				78078EE51E87ABD400991225 /* Popover */,
 				789224F41CFAD16200A44040 /* ImagePreviewTransitionManager.swift */,
-				789224F51CFAD16200A44040 /* PresentationController.swift */,
-				789224F61CFAD16200A44040 /* PresentationTransitionManager.swift */,
 				7838654B1CFC0C7F005E1503 /* NonStatusBarTransitionManager.swift */,
 			);
 			path = Transitions;

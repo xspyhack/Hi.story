@@ -13,17 +13,37 @@ protocol PresentationRepresentation {
     var presentationTransition: PresentationTransitionManager { get }
 }
 
+struct PresentationContext {
+    let presentedContentSize: CGSize
+    let cornerRadius: CGFloat
+    let chromeAlpha: CGFloat
+    let contentInset: UIEdgeInsets
+    let offset: CGPoint
+
+    init(presentedContentSize size: CGSize, cornerRadius: CGFloat = 0.0, chromeAlpha: CGFloat = 0.6, contentInset: UIEdgeInsets = .zero, offset: CGPoint = .zero) {
+        self.presentedContentSize = size
+        self.cornerRadius = cornerRadius
+        self.chromeAlpha = chromeAlpha
+        self.contentInset = contentInset
+        self.offset = offset
+    }
+}
+
 final class PresentationTransitionManager: NSObject {
     
     var duration: TimeInterval = 0.4
+
+    var presentationContext: PresentationContext
     
     enum TransitionType {
         case present, dismiss
     }
-    
-    var presentedViewHeight: CGFloat = Defaults.presentedViewControllerHeight
-    
-    var transitionType: TransitionType?
+
+    private var transitionType: TransitionType?
+
+    init(context: PresentationContext) {
+        self.presentationContext = context
+    }
 }
 
 extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
@@ -54,7 +74,8 @@ extension PresentationTransitionManager: UIViewControllerAnimatedTransitioning {
         toViewController.view.center.y += containerView.bounds.height
         UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .allowUserInteraction, animations: { () -> Void in
             toViewController.view.frame = finalFrame
-            toViewController.view.center.y += Defaults.statusBarHeight
+            toViewController.view.center.y += self.presentationContext.offset.y
+            toViewController.view.center.x += self.presentationContext.offset.x
             
         }, completion: { (finished) -> Void in
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
@@ -81,19 +102,16 @@ extension PresentationTransitionManager: UIViewControllerTransitioningDelegate {
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         
-        let presentedViewController = PresentationController(presentedViewController: presented, presenting: presenting)
-        presentedViewController.presentedViewHeight = presentedViewHeight
-        return presentedViewController
+        let presentationController = PresentationController(presentedViewController: presented, presenting: presenting, context: presentationContext)
+        return presentationController
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
         transitionType = .present
         return self
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
         transitionType = .dismiss
         return self
     }

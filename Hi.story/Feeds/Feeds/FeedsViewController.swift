@@ -25,8 +25,8 @@ final class FeedsViewController: BaseViewController {
     }
     
     private lazy var presentationTransitionManager: PresentationTransitionManager = {
-        let manager = PresentationTransitionManager()
-        manager.presentedViewHeight = self.view.bounds.height
+        let context = PresentationContext(presentedContentSize: CGSize(width: self.view.bounds.width, height: self.view.bounds.height), offset: CGPoint(x: 0, y: Defaults.statusBarHeight))
+        let manager = PresentationTransitionManager(context: context)
         return manager
     }()
     

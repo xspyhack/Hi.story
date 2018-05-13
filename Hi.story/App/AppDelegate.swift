@@ -13,6 +13,7 @@ import WatchConnectivity
 import CoreSpotlight
 import UserNotifications
 import RxSwift
+import Hiroute
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -108,6 +109,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
        
         BackgroundFetchService.shared.fetch(completionHandler: completionHandler)
+    }
+
+    // MARK: Open url
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        guard Router.canRoute(url) else {
+            return false
+        }
+
+        Router.route(url)
+
+        return true
     }
     
     // MARK: Spotlight

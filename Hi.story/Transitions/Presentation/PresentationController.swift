@@ -9,8 +9,8 @@
 import UIKit
 
 class PresentationController: UIPresentationController {
-    
-    var presentedViewHeight: CGFloat = Defaults.presentedViewControllerHeight
+
+    let context: PresentationContext
     
     lazy var dimmingView: UIView = {
         let view = UIView(frame: self.containerView!.bounds)
@@ -18,6 +18,12 @@ class PresentationController: UIPresentationController {
         view.alpha = 0.0
         return view
     }()
+
+    init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?, context: PresentationContext) {
+        self.context = context
+
+        super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
+    }
     
     override func presentationTransitionWillBegin() {
         guard let presentedView = presentedView else { return }
@@ -28,7 +34,7 @@ class PresentationController: UIPresentationController {
         
         let transitionCoordinator = presentingViewController.transitionCoordinator
         transitionCoordinator?.animate(alongsideTransition: { (context) -> Void in
-            self.dimmingView.alpha = 0.6
+            self.dimmingView.alpha = self.context.chromeAlpha
         }, completion: { (context) -> Void in
             //
         })
@@ -62,13 +68,13 @@ class PresentationController: UIPresentationController {
     override var frameOfPresentedViewInContainerView : CGRect {
         guard let containerView = containerView else { return CGRect() }
         
-        return CGRect(x: 0, y: containerView.bounds.height - presentedViewHeight, width: containerView.bounds.width, height: presentedViewHeight)
+        return CGRect(x: context.contentInset.left, y: containerView.bounds.height - context.contentInset.top - context.presentedContentSize.height - context.contentInset.bottom, width: containerView.bounds.width - context.contentInset.left - context.contentInset.right, height: context.presentedContentSize.height)
     }
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         let width = parentSize.width
-        let height = presentedViewHeight
-        return CGSize(width: CGFloat(width), height: CGFloat(height))
+        let height = context.presentedContentSize.height
+        return CGSize(width: width, height: height)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
