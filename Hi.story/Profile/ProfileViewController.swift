@@ -24,8 +24,8 @@ final class ProfileViewController: BaseViewController {
     
     @IBOutlet private weak var storybookCollectionView: UICollectionView! {
         didSet {
-            storybookCollectionView.contentInset.top = maximumHeaderHeight
-            storybookCollectionView.scrollIndicatorInsets.top = maximumHeaderHeight
+            storybookCollectionView.contentInset.top = maximumHeaderHeight - Constant.topInset
+            storybookCollectionView.scrollIndicatorInsets.top = maximumHeaderHeight - Constant.topInset
             storybookCollectionView.contentInset.bottom = Defaults.tabBarHeight
             storybookCollectionView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
             storybookCollectionView.hi.register(reusableCell: StorybookCell.self)
@@ -35,8 +35,8 @@ final class ProfileViewController: BaseViewController {
     
     @IBOutlet private weak var matterTableView: UITableView! {
         didSet {
-            matterTableView.contentInset.top = maximumHeaderHeight
-            matterTableView.scrollIndicatorInsets.top = maximumHeaderHeight
+            matterTableView.contentInset.top = maximumHeaderHeight - Constant.topInset
+            matterTableView.scrollIndicatorInsets.top = maximumHeaderHeight - Constant.topInset
             matterTableView.contentInset.bottom = Defaults.tabBarHeight
             matterTableView.scrollIndicatorInsets.bottom = Defaults.tabBarHeight
             matterTableView.rowHeight = Constant.matterRowHeight
@@ -69,7 +69,14 @@ final class ProfileViewController: BaseViewController {
     @IBOutlet private weak var newItem: UIBarButtonItem! // right item
     @IBOutlet private weak var toolbar: UIToolbar!
     
-    @IBOutlet weak var toolbarTopConstraint: NSLayoutConstraint!
+    private lazy var toolbarTopConstraint: NSLayoutConstraint = {
+        if #available(iOS 11.0, *) {
+            return NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+        } else {
+            return NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+        }
+    }()
+
     private struct Constant {
         static let gap: CGFloat = 24.0
         static let padding: CGFloat = 32.0
@@ -78,6 +85,8 @@ final class ProfileViewController: BaseViewController {
         static let matterRowHeight: CGFloat = 64.0
         static let avatarSize = CGSize(width: 120.0, height: 120.0)
         static let bottomToolbarHeight: CGFloat = 44.0
+
+        static let topInset = 44.0 + UIApplication.shared.statusBarFrame.height
     }
     
     private enum Channel: Int {
@@ -128,8 +137,8 @@ final class ProfileViewController: BaseViewController {
                 let contentOffsetY = storybookCollectionView.contentOffset.y
                 matterTableView.contentOffset.y = min(contentOffsetY, -minimumHeaderHeight)
                 
-                editItem.title = nil
-                newItem.title = nil
+                //editItem.title = ""
+                //newItem.title = ""
             }
             
             showsBottomBarIfIsGod(newValue == .storybook)
@@ -323,18 +332,15 @@ final class ProfileViewController: BaseViewController {
             return
         }
 
-        if #available(iOS 11.0, *) {
-            toolbarTopConstraint = NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: show ? -Constant.bottomToolbarHeight : 0.0)
-        } else {
-            toolbarTopConstraint = NSLayoutConstraint(item: toolbar, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: show ? -Constant.bottomToolbarHeight : 0.0)
-        }
-        
+        toolbarTopConstraint.isActive = false
+        toolbarTopConstraint.constant = show ? -Constant.bottomToolbarHeight : 0.0
         toolbarTopConstraint.isActive = true
-        
+
         if animated {
-            UIView.animate(withDuration: 0.25) {
+            UIView.animate(withDuration: 0.25, animations: {
                 self.view.layoutIfNeeded()
-            }
+            }, completion: { finished in
+            })
         } else {
             view.layoutIfNeeded()
         }
