@@ -21,7 +21,7 @@ public class InputAccessoryView: UIView {
         allLayoutConstraints = []
     }
     
-    public init(for view: UIView) {
+    public init(for view: UIView, contentInset: UIEdgeInsets = .zero) {
         super.init(frame: .zero)
         
         addSubview(view)
@@ -50,10 +50,10 @@ public class InputAccessoryView: UIView {
                 bottomAnchor = self.bottomAnchor
             }
             
-            allLayoutConstraints = [view.leadingAnchor.constraint(equalTo: leadingAnchor),
-                                    view.trailingAnchor.constraint(equalTo: trailingAnchor),
-                                    view.topAnchor.constraint(equalTo: topAnchor),
-                                    view.bottomAnchor.constraint(equalTo: bottomAnchor)]
+            allLayoutConstraints = [view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.left),
+                                    view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.right),
+                                    view.topAnchor.constraint(equalTo: topAnchor, constant: contentInset.top),
+                                    view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -contentInset.bottom)]
         }
     }
     

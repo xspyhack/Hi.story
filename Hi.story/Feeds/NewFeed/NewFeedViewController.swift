@@ -83,7 +83,7 @@ final class NewFeedViewController: BaseViewController {
     @IBOutlet weak var buttonItemWidthConstraint: NSLayoutConstraint!
     
     private lazy var toolbarAccessoryView: InputAccessoryView = {
-        return InputAccessoryView(for: toolbar)
+        return InputAccessoryView(for: toolbar, contentInset: UIEdgeInsets(top: Constant.markdownToolbarHeight, left: 0, bottom: 0, right: 0))
     }()
     
     // MARK: Property
@@ -101,6 +101,7 @@ final class NewFeedViewController: BaseViewController {
         static let footerHeight: CGFloat = 500.0
         static let bottomInset: CGFloat = 20.0
         static let normalNavigationBarHeight: CGFloat = 44.0
+        static let markdownToolbarHeight: CGFloat = 45.0
     }
     
     private let keyboardMan = KeyboardMan()
@@ -118,8 +119,6 @@ final class NewFeedViewController: BaseViewController {
 
     private(set) var attachmentImage: Variable<UIImage?> = Variable(nil)
     private var storybook: Variable<Storybook?> = Variable(nil)
-
-    private var isFristTimeAppear = true
     
     // MARK: Methods 
     
@@ -288,11 +287,12 @@ final class NewFeedViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if isFristTimeAppear {
-            isFristTimeAppear = false
-            afterAppeared?()
-        }
+    }
+
+    override func firstViewDidAppear(_ animated: Bool) {
+        super.firstViewDidAppear(animated)
+
+        afterAppeared?()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -347,7 +347,7 @@ final class NewFeedViewController: BaseViewController {
     }
     
     private func setupMarkdownToolbar() {
-        let height: CGFloat = 45.0
+        let height: CGFloat = Constant.markdownToolbarHeight
         markdownToolbar.layer.cornerRadius = height / 2
         
         toolbarAccessoryView.addSubview(markdownToolbar)
@@ -356,7 +356,7 @@ final class NewFeedViewController: BaseViewController {
         let h = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[toolbar]-|", options: [], metrics: nil, views: ["toolbar": markdownToolbar])
         NSLayoutConstraint.activate(h)
         markdownToolbar.heightAnchor.constraint(equalToConstant: height).isActive = true
-        markdownToolbar.bottomAnchor.constraint(equalTo: toolbarAccessoryView.topAnchor).isActive = true
+        markdownToolbar.topAnchor.constraint(equalTo: toolbarAccessoryView.topAnchor).isActive = true
         
         markdownCoordinator.configure(textView: editor, markdownToolbar: markdownToolbar)
     }
