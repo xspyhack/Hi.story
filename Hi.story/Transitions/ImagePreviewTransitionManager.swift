@@ -8,10 +8,14 @@
 
 import UIKit
 
-@objc protocol PresentingControllerDelegate {
+@objc
+protocol PresentingControllerDelegate {
     func sourceImageView() -> UIImageView
+
     func sourceFrame() -> CGRect
-    @objc optional func transitionDidComplete(_ transitionType: TransitionType)
+
+    @objc
+    optional func transitionDidComplete(_ transitionType: TransitionType)
 }
 
 protocol PresentedControllerDelegate: class {
@@ -19,7 +23,8 @@ protocol PresentedControllerDelegate: class {
     func destinationImage() -> UIImage?
 }
 
-@objc enum TransitionType: Int {
+@objc
+enum TransitionType: Int {
     case present, dismiss
 }
 

@@ -41,7 +41,7 @@ class MarkdownToolbar: UIView {
     
     private func activate() {
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.2) {
             self.alpha = 1.0
             self.transform = CGAffineTransform(translationX: 0, y: -20)
         }
@@ -49,7 +49,7 @@ class MarkdownToolbar: UIView {
     
     private func deactivate() {
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.2) {
             self.alpha = 0.0
             self.transform = .identity
         }

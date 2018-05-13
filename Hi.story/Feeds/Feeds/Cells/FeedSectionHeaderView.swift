@@ -95,7 +95,8 @@ class FeedSectionHeaderView: UICollectionReusableView, Reusable {
         NSLayoutConstraint.activate([centerYConstraint])
     }
     
-    @objc private func avatarTapped(_ sender: UIButton) {
+    @objc
+    private func avatarTapped(_ sender: UIButton) {
         didSelect?()
     }
 }

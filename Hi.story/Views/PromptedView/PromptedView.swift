@@ -72,7 +72,8 @@ final class PromptedView: UIView {
         NSLayoutConstraint.activate(constraintsV)
     }
     
-    @objc private func dismiss(_ sender: UIButton) {
+    @objc
+    private func dismiss(_ sender: UIButton) {
         dismissAction?()
     }
 }

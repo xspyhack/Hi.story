@@ -632,7 +632,8 @@ class CropView: UIView {
     
     // --
     
-    @objc private func gridPanGestureRecognized(_ sender: UIPanGestureRecognizer) {
+    @objc
+    private func gridPanGestureRecognized(_ sender: UIPanGestureRecognizer) {
         
         let point = sender.location(in: self)
         
@@ -954,7 +955,8 @@ class CropView: UIView {
         resetTimer = Timer.scheduledTimer(timeInterval: cropTimerDuration, target: self, selector: #selector(timerTriggered), userInfo: nil, repeats: false)
     }
     
-    @objc private func timerTriggered() {
+    @objc
+    private func timerTriggered() {
         setEditing(false, animated: true)
         resetTimer?.invalidate()
         resetTimer = nil

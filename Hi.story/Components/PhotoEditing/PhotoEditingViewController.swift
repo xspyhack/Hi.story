@@ -99,7 +99,8 @@ enum PhotoEditingViewControllerToolbarPosition {
 /// @name Delegate
 ///------------------------------------------------
 
-@objc protocol PhotoEditingViewControllerDelegate: NSObjectProtocol {
+@objc
+protocol PhotoEditingViewControllerDelegate: NSObjectProtocol {
     
     /**
      Called when the user has committed the crop action, and provides
@@ -108,7 +109,8 @@ enum PhotoEditingViewControllerToolbarPosition {
      @param cropRect A rectangle indicating the crop region of the image the user chose (In the original image's local co-ordinate space)
      @param angle The angle of the image when it was cropped
      */
-    @objc optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropImageToRect cropRect: CGRect, angle: Int)
+    @objc
+    optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropImageToRect cropRect: CGRect, angle: Int)
     
     /**
      Called when the user has committed the crop action, and provides
@@ -118,7 +120,8 @@ enum PhotoEditingViewControllerToolbarPosition {
      @param cropRect A rectangle indicating the crop region of the image the user chose (In the original image's local co-ordinate space)
      @param angle The angle of the image when it was cropped
      */
-    @objc optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int)
+    @objc
+    optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int)
     
     /**
      If the cropping style is set to circular, implementing this delegate will return a circle-cropped version of the selected
@@ -128,15 +131,16 @@ enum PhotoEditingViewControllerToolbarPosition {
      @param cropRect A rectangle indicating the crop region of the image the user chose (In the original image's local co-ordinate space)
      @param angle The angle of the image when it was cropped
      */
-    @objc optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToCircularImage image: UIImage, withRect cropRect: CGRect, angle: Int)
+    @objc
+    optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didCropToCircularImage image: UIImage, withRect cropRect: CGRect, angle: Int)
     
     /**
      If implemented, when the user hits cancel, or completes a
      UIActivityViewController operation, this delegate will be called,
      giving you a chance to manually dismiss the view controller
-     
      */
-    @objc optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didFinishCancelled cancelled: Bool)
+    @objc
+    optional func photoEditingViewController(_ viewController: PhotoEditingViewController, didFinishCancelled cancelled: Bool)
 }
 
 class PhotoEditingViewController: UIViewController {
@@ -751,7 +755,8 @@ class PhotoEditingViewController: UIViewController {
     }
     
     /* Button callback */
-    @objc private func cancelButtonTapped() {
+    @objc
+    private func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     

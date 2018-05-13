@@ -92,7 +92,8 @@ open class NextTextView: UITextView {
         attributed?.draw(in: targetRect)
     }
     
-    @objc private func didChange(_ notification: Foundation.Notification) {
+    @objc
+    private func didChange(_ notification: Foundation.Notification) {
         
         needsDisplayPlaceholder = text.isEmpty
     }

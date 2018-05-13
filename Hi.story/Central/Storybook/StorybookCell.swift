@@ -129,7 +129,8 @@ class StorybookCell: UICollectionViewCell, Reusable {
         deleteButton.centerYAnchor.constraint(equalTo: imageView.topAnchor, constant: 2.0).isActive = true
     }
     
-    @objc private func deleteButtonTapped(_ sender: UIButton) {
+    @objc
+    private func deleteButtonTapped(_ sender: UIButton) {
         deleteAction?()
     }
     

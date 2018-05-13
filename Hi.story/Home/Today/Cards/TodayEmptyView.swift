@@ -80,7 +80,8 @@ final class TodayEmptyView: TodayCardView {
         NSLayoutConstraint.activate(v)
     }
     
-    @objc private func new(_ sender: UIButton) {
+    @objc
+    private func new(_ sender: UIButton) {
         newAction?()
     }
     

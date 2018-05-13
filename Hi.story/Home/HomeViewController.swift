@@ -152,7 +152,8 @@ final class HomeViewController: UIPageViewController {
         segmentedControl.selectedSegmentIndex = channel.index
     }
     
-    @objc private func shareAction(_ sender: UIBarButtonItem) {
+    @objc
+    private func shareAction(_ sender: UIBarButtonItem) {
         guard let shareImage = todayViewController.snapshot() else { return }
         let activityVC = UIActivityViewController(activityItems: [shareImage], applicationActivities: nil)
         

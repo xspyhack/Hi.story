@@ -105,7 +105,8 @@ final class AboutViewController: BaseViewController {
         }
     }
     
-    @objc private func tappedLogo() {
+    @objc
+    private func tappedLogo() {
         
         guard let realm = try? Realm() else { return }
         

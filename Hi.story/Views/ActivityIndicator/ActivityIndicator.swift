@@ -96,7 +96,8 @@ class ActivityIndicator {
         }
     }
     
-    @objc private func forcedHide() {
+    @objc
+    private func forcedHide() {
         hide()
     }
 }

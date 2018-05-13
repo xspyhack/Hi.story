@@ -89,7 +89,8 @@ class PresentationController: UIPresentationController {
     
     // MARK: - Event
     
-    @objc private func handleTapDimmingView(_ sender: UITapGestureRecognizer) {
+    @objc
+    private func handleTapDimmingView(_ sender: UITapGestureRecognizer) {
         presentedViewController.dismiss(animated: true, completion: nil)
     }
 }

@@ -381,7 +381,8 @@ final class PhotoEditingToolbar: UIView {
         NSLayoutConstraint.activate(collectionViewV)
     }
     
-    @objc private func buttonTapped(_ sender: UIButton) {
+    @objc
+    private func buttonTapped(_ sender: UIButton) {
         
         if sender == cancelButton {
             cancelButtonTapped?()

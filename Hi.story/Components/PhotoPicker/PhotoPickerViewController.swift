@@ -210,11 +210,13 @@ final class PhotoPickerViewController: UICollectionViewController, PHPhotoLibrar
     
     // MARK: Actions
     
-    @objc private func back(_ sender: UIBarButtonItem) {
+    @objc
+    private func back(_ sender: UIBarButtonItem) {
         _ = navigationController?.popViewController(animated: true)
     }
     
-    @objc private func cancel(_ sender: UIBarButtonItem) {
+    @objc
+    private func cancel(_ sender: UIBarButtonItem) {
         delegate?.photoPickerControllerDidCancel(self)
     }
     
