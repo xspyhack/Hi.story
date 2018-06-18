@@ -306,6 +306,7 @@
 		7895AEBF1D5251750004B8C3 /* SynchronizeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895AEBD1D524B370004B8C3 /* SynchronizeService.swift */; };
 		7895AEC21D5390980004B8C3 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A501D5222DA00354650 /* RealmSwift.framework */; };
 		7895AEC31D5390A80004B8C3 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78409A4E1D5222C600354650 /* Realm.framework */; };
+		78966F3120D7D2EF00EBBBB8 /* Hicache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7857B8B320837CB000855E52 /* Hicache.framework */; };
 		789C92D71F0A8BE800C7C888 /* Hilambda.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789C92CE1F0A8BE800C7C888 /* Hilambda.framework */; };
 		789C92E01F0A8BE800C7C888 /* Hilambda.h in Headers */ = {isa = PBXBuildFile; fileRef = 789C92D01F0A8BE800C7C888 /* Hilambda.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		789C92E31F0A8BE800C7C888 /* Hilambda.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789C92CE1F0A8BE800C7C888 /* Hilambda.framework */; };
@@ -762,6 +763,7 @@
 		7844AEE41E1405A500D7FA11 /* Labs.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Labs.storyboard; sourceTree = "<group>"; };
 		7844AEE61E1406A200D7FA11 /* ProfileCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCellModel.swift; sourceTree = "<group>"; };
 		7844AEEA1E155F4E00D7FA11 /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
+		784E318C20CEB389007F1D09 /* Hi.story.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Hi.story.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		784E86181CEEB45B00E24B36 /* Hi.story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hi.story.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		784E86201CEEB45B00E24B36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		784E86251CEEB45B00E24B36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -1119,6 +1121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78966F3120D7D2EF00EBBBB8 /* Hicache.framework in Frameworks */,
 				7857B8752081D2C900855E52 /* RxCocoa.framework in Frameworks */,
 				7857B8742081D2A800855E52 /* RxSwift.framework in Frameworks */,
 				782505C3206764980099F7F1 /* Hiprelude.framework in Frameworks */,
@@ -1482,6 +1485,7 @@
 		784E860F1CEEB45B00E24B36 = {
 			isa = PBXGroup;
 			children = (
+				784E318C20CEB389007F1D09 /* Hi.story.playground */,
 				784E861A1CEEB45B00E24B36 /* Hi.story */,
 				78CEFD071D157EF50098516A /* Hi.share */,
 				78CFB2011D563AE1009D7293 /* Hi.watch */,
